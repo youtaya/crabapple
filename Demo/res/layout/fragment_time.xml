@@ -25,15 +25,18 @@
         <EditText
             android:id="@+id/fast_record"
             android:layout_width="wrap_content"
-            android:layout_height="0dp"
+            android:layout_height="match_parent"
             android:layout_weight="1"
-            android:ems="10"
-            android:inputType="textMultiLine" />
+			android:paddingBottom="5dp"
+			android:paddingTop="5dp"
+            android:maxLines="5"
+            android:gravity="center"
+            android:text="fast record" />
 
         <Button
             android:id="@+id/ok_fast_record"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="0.1"
             android:text="OK" />
 

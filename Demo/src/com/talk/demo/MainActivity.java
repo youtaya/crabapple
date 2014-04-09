@@ -47,14 +47,10 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         //add time fragment
         TimeFragment timeFragment = new TimeFragment();
         Bundle args = new Bundle();
-        args.putInt(TimeFragment.ARG_SECTION_NUMBER, 1);
-        timeFragment.setArguments(args);
         fragmentList.add(timeFragment);
         //add record fragment
         RecordFragment recordFragment = new RecordFragment();
         Bundle args2 = new Bundle();
-        args2.putInt(RecordFragment.ARG_SECTION_NUMBER, 2);
-        recordFragment.setArguments(args2);
         fragmentList.add(recordFragment);
         //add statistics fragment
         StatisticsFragment statisticsFragment = new StatisticsFragment();
