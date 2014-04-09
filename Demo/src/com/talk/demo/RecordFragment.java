@@ -1,54 +1,65 @@
 package com.talk.demo;
 
+import android.database.Cursor;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import android.support.v4.app.ListFragment;
+import android.support.v4.app.LoaderManager.LoaderCallbacks;
+import android.support.v4.content.CursorLoader;
+import android.support.v4.content.Loader;
+import android.support.v4.widget.SimpleCursorAdapter;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
-import android.widget.SimpleAdapter;
 
-import com.talk.demo.persistence.DBManager;
+import com.talk.demo.persistence.RecordProvider;
 import com.talk.demo.persistence.TimeRecord;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-public class RecordFragment extends Fragment {
-    private static String TAG="RecordFragment";
-    private DBManager mgr;  
-    private ListView listView;
-    
+public class RecordFragment extends ListFragment {
+    private static String TAG = "RecordFragment";
+ 
     public RecordFragment() {
     }
-
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-            Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_record, container, false);
-        
-        listView = (ListView)rootView.findViewById(R.id.record_list);
-        mgr = new DBManager(getActivity());
-        
-        initDataList();
-        return rootView;
-    }
-    
+ 
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		
+		initDataList();
+	}
+	
+	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+			Bundle savedInstanceState) {
+		return inflater.inflate(R.layout.fragment_record_list, null);
+	}
+	
     public void initDataList() {  
-        List<TimeRecord> trlist = mgr.query();  
-        ArrayList<Map<String, String>> list = new ArrayList<Map<String, String>>();  
-        for (TimeRecord tr : trlist) {  
-            HashMap<String, String> map = new HashMap<String, String>();  
-            map.put("content", tr.content);  
-            map.put("create_time", tr.create_time);  
-            list.add(map);  
-        }  
-        
-        SimpleAdapter adapter = new SimpleAdapter(getActivity(), list, android.R.layout.simple_list_item_2,  
-                    new String[]{"content", "create_time"}, new int[]{android.R.id.text1, android.R.id.text2});  
-        listView.setAdapter(adapter);  
+		setListAdapter(new SimpleCursorAdapter(getActivity(),
+				R.layout.fragment_record_list, null, new String[] {
+						TimeRecord.COL_TITLE, TimeRecord.COL_CONTENT,
+						TimeRecord.COL_CREATE_TIME }, new int[] { R.id.title,
+						R.id.content, R.id.create_time }, 0));
+        // Load the content
+        getLoaderManager().initLoader(0, null, new LoaderCallbacks<Cursor>() {
+            @Override
+            public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+                return new CursorLoader(getActivity(),
+                        RecordProvider.URI_RECORDS, TimeRecord.FIELDS, null, null,
+                        null);
+            }
+
+            @Override
+            public void onLoadFinished(Loader<Cursor> loader, Cursor c) {
+                ((SimpleCursorAdapter) getListAdapter()).swapCursor(c);
+            }
+
+            @Override
+            public void onLoaderReset(Loader<Cursor> arg0) {
+                ((SimpleCursorAdapter) getListAdapter()).swapCursor(null);
+            }
+        });
+ 
     } 
     
     @Override
@@ -67,7 +78,5 @@ public class RecordFragment extends Fragment {
     @Override
     public void onDestroy() {  
         super.onDestroy();  
-        //应用的最后一个Activity关闭时应释放DB  
-        mgr.closeDB();  
     }  
 }

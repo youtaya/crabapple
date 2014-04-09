@@ -11,6 +11,9 @@
         
         <ListView
             android:id="@+id/time_list"
+			android:divider="@android:color/transparent"
+			android:dividerHeight="12dp"
+			android:drawSelectorOnTop="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
     </LinearLayout>
@@ -31,7 +34,7 @@
 			android:paddingTop="5dp"
             android:maxLines="5"
             android:gravity="center"
-            android:text="fast record" />
+            android:hint="fast record" />
 
         <Button
             android:id="@+id/ok_fast_record"
