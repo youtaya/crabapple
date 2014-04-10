@@ -7,14 +7,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-public class StatisticsFragment extends Fragment {
+public class DiscoveryFragment extends Fragment {
     /**
      * The fragment argument representing the section number for this
      * fragment.
      */
     public static final String ARG_SECTION_NUMBER = "section_number";
 
-    public StatisticsFragment() {
+    public DiscoveryFragment() {
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

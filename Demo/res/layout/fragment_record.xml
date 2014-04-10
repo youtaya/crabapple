@@ -10,7 +10,7 @@
         android:layout_height="0dp">
         
         <ListView
-            android:id="@+id/record_list"
+            android:id="@id/android:list"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
     </LinearLayout>

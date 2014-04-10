@@ -9,7 +9,7 @@ public class DBHelper extends SQLiteOpenHelper {
     /**
      * Version constant to increment when the database should be rebuilt
      */
-    private static final int VERSION = 8;
+    private static final int VERSION = 1;
 
     /**
      * Name of database file
@@ -25,7 +25,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(final SQLiteDatabase db) {
-        db.execSQL("CREATE TABLE records (id INTEGER PRIMARY KEY, content TEXT, create_time TEXT);");
+        db.execSQL("CREATE TABLE records (id INTEGER PRIMARY KEY, content TEXT, create_date TEXT, create_time TEXT);");
     }
 
     @Override

@@ -8,14 +8,24 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.Menu;
+
+import com.talk.demo.persistence.DBManager;
 
 import java.util.ArrayList;
 import java.util.Locale;
 
 public class MainActivity extends FragmentActivity implements ActionBar.TabListener {
 
+    private static String TAG = "MainActivity";
+    private DBManager mgr;
+    private TimeFragment timeFragment;
+    private RecordFragment recordFragment;
+    private DiscoveryFragment discoveryFragment;
+    
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
      * fragments for each of the sections. We use a
@@ -40,24 +50,23 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         final ActionBar actionBar = getActionBar();
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 
+        mgr = new DBManager(this);
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the app.
         
         ArrayList<Fragment> fragmentList = new ArrayList<Fragment>();
         //add time fragment
-        TimeFragment timeFragment = new TimeFragment();
-        Bundle args = new Bundle();
+        timeFragment = new TimeFragment(mgr);
         fragmentList.add(timeFragment);
         //add record fragment
-        RecordFragment recordFragment = new RecordFragment();
-        Bundle args2 = new Bundle();
+        recordFragment = RecordFragment.newInstance(mgr);
         fragmentList.add(recordFragment);
         //add statistics fragment
-        StatisticsFragment statisticsFragment = new StatisticsFragment();
+        discoveryFragment = new DiscoveryFragment();
         Bundle args3 = new Bundle();
-        args3.putInt(StatisticsFragment.ARG_SECTION_NUMBER, 3);
-        statisticsFragment.setArguments(args3);
-        fragmentList.add(statisticsFragment);
+        args3.putInt(DiscoveryFragment.ARG_SECTION_NUMBER, 3);
+        discoveryFragment.setArguments(args3);
+        fragmentList.add(discoveryFragment);
         
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager(),fragmentList);
 
@@ -129,13 +138,18 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
             // getItem is called to instantiate the fragment for the given page.
             // Return a DummySectionFragment (defined as a static inner class
             // below) with the page number as its lone argument.
-
+            Log.d(TAG, "getItem");
             return flist.get(position);
+        }
+        
+        @Override
+        public int getItemPosition(Object object) {
+            Log.d(TAG, "getItemPostion");
+            return POSITION_NONE;
         }
 
         @Override
         public int getCount() {
-            // Show 3 total pages.
             return flist.size();
         }
 
@@ -154,4 +168,11 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         }
     }
     
+   
+    @Override
+    public void onDestroy() {  
+        super.onDestroy();  
+        Log.d(TAG, "onDestroy");
+        mgr.closeDB();  
+    }  
 }
