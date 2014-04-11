@@ -1,5 +1,6 @@
 package com.talk.demo;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -16,6 +17,7 @@ import android.widget.SimpleAdapter;
 
 import com.talk.demo.persistence.DBManager;
 import com.talk.demo.persistence.TimeRecord;
+import com.talk.demo.time.TimeAllItem;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -114,6 +116,7 @@ public class TimeFragment extends Fragment implements OnItemClickListener {
         adapter = new SimpleAdapter(getActivity(),time_record, R.layout.record_listitem,
                 new String[]{"content", "create_time"}, new int[]{R.id.content, R.id.create_time});
         lv.setAdapter(adapter);
+        lv.setOnItemClickListener(this);
     }
     
     @Override
@@ -122,8 +125,11 @@ public class TimeFragment extends Fragment implements OnItemClickListener {
         
         String valueContent = parent.getItemAtPosition(position).toString();
         
-        //Intent mIntent = new Intent(getActivity(), VacabPractice.class);
-        //startActivity(mIntent);
+        Intent mIntent = new Intent(getActivity(), TimeAllItem.class);
+        Bundle mBundle = new Bundle();
+        mBundle.putString("content", valueContent);
+        mIntent.putExtras(mBundle);
+        startActivity(mIntent);
         
         
     } 

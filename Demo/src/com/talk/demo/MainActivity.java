@@ -63,9 +63,9 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         fragmentList.add(recordFragment);
         //add statistics fragment
         discoveryFragment = new DiscoveryFragment();
-        Bundle args3 = new Bundle();
-        args3.putInt(DiscoveryFragment.ARG_SECTION_NUMBER, 3);
-        discoveryFragment.setArguments(args3);
+        //Bundle args3 = new Bundle();
+        //args3.putInt(DiscoveryFragment.ARG_SECTION_NUMBER, 3);
+        //discoveryFragment.setArguments(args3);
         fragmentList.add(discoveryFragment);
         
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager(),fragmentList);

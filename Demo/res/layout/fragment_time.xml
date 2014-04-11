@@ -52,8 +52,7 @@
             android:paddingRight="5dip"
             android:paddingBottom="5dip"
             android:hint="fast record ..."
-            android:maxLines="1" >
-            <requestFocus/> 
+            android:maxLines="5" >
         </EditText>
 
         <Button
