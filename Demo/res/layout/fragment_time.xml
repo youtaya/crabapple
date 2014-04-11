@@ -29,8 +29,8 @@
 		    android:id="@+id/tool_spring"
 			android:layout_width="wrap_content"
             android:layout_height="wrap_content" 
-            android:layout_gravity="bottom"
-			android:src="@drawable/new_selected" />
+            android:layout_weight="0.1"
+			android:src="@drawable/ic_dialog_long_click" />
 		
 		 <LinearLayout
 			android:focusable="true"
@@ -40,27 +40,29 @@
 			
         <EditText
             android:id="@+id/fast_record"
+            style="@style/MMEditText"
             android:layout_width="0dip"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:nextFocusRight="@+id/ok_fast_record"
-            android:textSize="15sp"
-            android:capitalize="sentences"
+            android:layout_weight="1.00"
             android:autoText="true"
-            android:paddingLeft="5dip"
-            android:paddingTop="5dip"
-            android:paddingRight="5dip"
-            android:paddingBottom="5dip"
+            android:capitalize="sentences"
             android:hint="fast record ..."
-            android:maxLines="5" >
+            android:maxLines="5"
+            android:nextFocusRight="@+id/ok_fast_record"
+            android:paddingBottom="5dip"
+            android:paddingLeft="5dip"
+            android:paddingRight="5dip"
+            android:paddingTop="5dip"
+            android:textSize="15sp" >
+
         </EditText>
 
-        <Button
+        <ImageView
             android:id="@+id/ok_fast_record"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="0.1"
-            android:text="OK" />
+            android:src="@drawable/btn_check_on_normal" />
 
 	</LinearLayout>
 </LinearLayout>

@@ -21,8 +21,8 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
@@ -41,7 +41,7 @@ public class TimeFragment extends Fragment implements OnItemClickListener {
     private static String TAG = "TimeFragment";
     private ListView lv;
     private EditText et;
-    private Button bt;
+    private ImageView iv;
     private DBManager mgr;
     private List<TimeRecord> trlist;
     private ArrayList<Map<String, String>> time_record;
@@ -67,8 +67,8 @@ public class TimeFragment extends Fragment implements OnItemClickListener {
         lv = (ListView)rootView.findViewById(R.id.time_list);
         
         et = (EditText)rootView.findViewById(R.id.fast_record);
-        bt = (Button)rootView.findViewById(R.id.ok_fast_record);
-        bt.setOnClickListener(new OnClickListener() {
+        iv = (ImageView)rootView.findViewById(R.id.ok_fast_record);
+        iv.setOnClickListener(new OnClickListener() {
 
             @Override
             public void onClick(View v) {
