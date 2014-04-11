@@ -1,21 +1,20 @@
 package com.talk.demo;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
 import com.talk.demo.persistence.DBManager;
 import com.talk.demo.persistence.TimeRecord;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 public class RecordFragment extends ListFragment {
     private static String TAG="RecordFragment";
@@ -47,7 +46,7 @@ public class RecordFragment extends ListFragment {
         
         //mgr = new DBManager(getActivity());
         adapter = new SimpleAdapter(getActivity(), initDataList(), android.R.layout.simple_list_item_2,  
-                new String[]{"content", "create_time"}, new int[]{android.R.id.text1, android.R.id.text2});
+                new String[]{"create_date", "create_time"}, new int[]{android.R.id.text1, android.R.id.text2});
         
     }
     
@@ -73,7 +72,7 @@ public class RecordFragment extends ListFragment {
         
         for (TimeRecord tr : trlist) {  
             HashMap<String, String> map = new HashMap<String, String>();  
-            map.put("content", tr.content);  
+            map.put("create_date", tr.create_date);  
             map.put("create_time", tr.create_time);  
             list.add(map);  
         }  

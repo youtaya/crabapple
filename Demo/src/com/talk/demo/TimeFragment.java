@@ -93,7 +93,7 @@ public class TimeFragment extends Fragment implements OnItemClickListener {
         Log.d(TAG, "init data list");
         
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd"); 
-        Date date = Cal_Days(new Date(), -1);
+        Date date = Cal_Days(new Date(), 0);
         
         trlist = mgr.queryWithParams(dateFormat.format(date)); 
         
@@ -103,7 +103,8 @@ public class TimeFragment extends Fragment implements OnItemClickListener {
         
         for (TimeRecord tr : trlist) {  
             HashMap<String, String> map = new HashMap<String, String>();  
-            map.put("content", tr.content);  
+            map.put("content", tr.content); 
+            map.put("create_date", tr.create_date);
             map.put("create_time", tr.create_time);  
             time_content.add(tr.content);
             time_record.add(map);  
@@ -117,7 +118,7 @@ public class TimeFragment extends Fragment implements OnItemClickListener {
             return;
         initDataList();
         adapter = new SimpleAdapter(getActivity(),time_record, R.layout.record_listitem,
-                new String[]{"content", "create_time"}, new int[]{R.id.content, R.id.create_time});
+                new String[]{"content", "create_date", "create_time"}, new int[]{R.id.content, R.id.create_date, R.id.create_time});
         lv.setAdapter(adapter);
         lv.setOnItemClickListener(this);
     }
@@ -130,7 +131,7 @@ public class TimeFragment extends Fragment implements OnItemClickListener {
         
         Intent mIntent = new Intent(getActivity(), TimeAllItem.class);
         Bundle mBundle = new Bundle();
-        mBundle.putString("content", valueContent.split(",")[0].substring(13));
+        mBundle.putString("content", valueContent.split(",")[1].substring(13));
         mBundle.putStringArrayList("allContent", time_content);
         mIntent.putExtras(mBundle);
         startActivity(mIntent);
