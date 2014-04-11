@@ -2,6 +2,7 @@ package com.talk.demo;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -16,13 +17,17 @@ import android.widget.SimpleAdapter;
 import com.talk.demo.persistence.DBManager;
 import com.talk.demo.persistence.TimeRecord;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class TimeFragment extends Fragment implements OnItemClickListener {
     
+    private static String TAG = "TimeFragment";
     private ListView lv;
     private EditText et;
     private Button bt;
@@ -64,12 +69,29 @@ public class TimeFragment extends Fragment implements OnItemClickListener {
         
         return rootView;
     }
+    /**  
+     * @param   参照日期      
+     * @param   天数(之前为负数,之后为正数)          
+     * @return  参照日期之前或之后days的日期 
+     */  
+    public Date Cal_Days(Date date, int days) { 
+        
+        Calendar calendar = Calendar.getInstance();  
+        calendar.setTime(date);  
+        calendar.set(Calendar.DATE, calendar.get(Calendar.DATE) + days);  
+        return calendar.getTime();  
+    }
     
-    public ArrayList<Map<String, String>> initDataList() {  
+    private ArrayList<Map<String, String>> initDataList() {  
         if(!trlist.isEmpty()) {
              trlist.clear();
         }
-        trlist = mgr.query(); 
+        Log.d(TAG, "init data list");
+        
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd"); 
+        Date date = Cal_Days(new Date(), -1);
+        
+        trlist = mgr.queryWithParams(dateFormat.format(date)); 
         
         if(!time_record.isEmpty()) {
             time_record.clear();

@@ -173,6 +173,6 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
     public void onDestroy() {  
         super.onDestroy();  
         Log.d(TAG, "onDestroy");
-        mgr.closeDB();  
+        //mgr.closeDB();  
     }  
 }

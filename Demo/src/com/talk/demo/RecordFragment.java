@@ -46,7 +46,7 @@ public class RecordFragment extends ListFragment {
         super.onCreate(savedInstanceState);
         
         //mgr = new DBManager(getActivity());
-        adapter = new SimpleAdapter(getActivity(), list, android.R.layout.simple_list_item_2,  
+        adapter = new SimpleAdapter(getActivity(), initDataList(), android.R.layout.simple_list_item_2,  
                 new String[]{"content", "create_time"}, new int[]{android.R.id.text1, android.R.id.text2});
         
     }
@@ -56,13 +56,15 @@ public class RecordFragment extends ListFragment {
         View rootView = inflater.inflate(R.layout.fragment_record, container, false);
         
         setListAdapter(adapter);
+        adapter.notifyDataSetChanged();
         return rootView;
     }
     
-    public ArrayList<Map<String, String>> initDataList() {  
+    private ArrayList<Map<String, String>> initDataList() {  
         if(!trlist.isEmpty()) {
              trlist.clear();
         }
+        Log.d(TAG, "init data list");
         trlist = mgr.query(); 
         
         if(!list.isEmpty()) {
