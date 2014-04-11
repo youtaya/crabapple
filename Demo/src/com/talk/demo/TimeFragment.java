@@ -1,5 +1,14 @@
 package com.talk.demo;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -19,15 +28,13 @@ import com.talk.demo.persistence.DBManager;
 import com.talk.demo.persistence.TimeRecord;
 import com.talk.demo.time.TimeAllItem;
 
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 public class TimeFragment extends Fragment implements OnItemClickListener {
+    OnItemChangedListener mCallback;
+
+    // The container Activity must implement this interface so the frag can deliver messages
+    public interface OnItemChangedListener {
+        public void onItemChanged();
+    }
     
     private static String TAG = "TimeFragment";
     private ListView lv;
@@ -65,6 +72,11 @@ public class TimeFragment extends Fragment implements OnItemClickListener {
                 
                 RecordFragment rFragment = RecordFragment.newInstance(mgr);;
                 rFragment.update();
+                // update time list view
+                initDataList();
+                adapter.notifyDataSetChanged();
+                
+                mCallback.onItemChanged();
             }
             
         });
@@ -72,6 +84,20 @@ public class TimeFragment extends Fragment implements OnItemClickListener {
         initListView();
         
         return rootView;
+    }
+    
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+
+        // This makes sure that the container activity has implemented
+        // the callback interface. If not, it throws an exception.
+        try {
+            mCallback = (OnItemChangedListener) activity;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(activity.toString()
+                    + " must implement OnItemChangedListener");
+        }
     }
     /**  
      * @param   参照日期      

@@ -1,6 +1,9 @@
 
 package com.talk.demo;
 
+import java.util.ArrayList;
+import java.util.Locale;
+
 import android.app.ActionBar;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
@@ -8,24 +11,26 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.Menu;
 
 import com.talk.demo.persistence.DBManager;
 
-import java.util.ArrayList;
-import java.util.Locale;
-
-public class MainActivity extends FragmentActivity implements ActionBar.TabListener {
+public class MainActivity extends FragmentActivity implements ActionBar.TabListener, TimeFragment.OnItemChangedListener {
 
     private static String TAG = "MainActivity";
     private DBManager mgr;
     private TimeFragment timeFragment;
     private RecordFragment recordFragment;
     private DiscoveryFragment discoveryFragment;
+    private ArrayList<Fragment> fragmentList;
     
+	@Override
+	public void onItemChanged() {
+		// change to time fragment
+		getActionBar().setSelectedNavigationItem(1);
+	}  
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
      * fragments for each of the sections. We use a
@@ -54,7 +59,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the app.
         
-        ArrayList<Fragment> fragmentList = new ArrayList<Fragment>();
+        fragmentList = new ArrayList<Fragment>();
         //add time fragment
         timeFragment = new TimeFragment(mgr);
         fragmentList.add(timeFragment);
@@ -174,5 +179,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         super.onDestroy();  
         Log.d(TAG, "onDestroy");
         //mgr.closeDB();  
-    }  
+    }
+
+
 }
