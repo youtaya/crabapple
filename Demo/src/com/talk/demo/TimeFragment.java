@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -17,6 +18,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
@@ -53,6 +55,12 @@ public class TimeFragment extends Fragment implements OnItemClickListener {
         mgr = db;
     }
 
+    private void hideKeyboardAndClearET() {
+        InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(
+      	      Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(et.getWindowToken(), 0);
+        et.setText("");
+    }
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_time, container, false);
@@ -75,6 +83,8 @@ public class TimeFragment extends Fragment implements OnItemClickListener {
                 // update time list view
                 initDataList();
                 adapter.notifyDataSetChanged();
+                
+                hideKeyboardAndClearET();
                 
                 mCallback.onItemChanged();
             }
