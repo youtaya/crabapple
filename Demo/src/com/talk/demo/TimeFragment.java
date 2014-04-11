@@ -13,6 +13,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -60,14 +62,38 @@ public class TimeFragment extends Fragment implements OnItemClickListener {
       	      Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(et.getWindowToken(), 0);
         et.setText("");
+        iv.setImageResource(R.drawable.btn_check_on_disable);
     }
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_time, container, false);
         lv = (ListView)rootView.findViewById(R.id.time_list);
-        
         et = (EditText)rootView.findViewById(R.id.fast_record);
         iv = (ImageView)rootView.findViewById(R.id.ok_fast_record);
+        TextWatcher watcher = new TextWatcher() {
+
+			@Override
+			public void afterTextChanged(Editable s) {
+				// TODO Auto-generated method stub
+			}
+
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int count,
+					int after) {
+				// TODO Auto-generated method stub
+				iv.setImageResource(R.drawable.btn_check_on_normal);
+			}
+
+			@Override
+			public void onTextChanged(CharSequence s, int start, int before,
+					int count) {
+				// TODO Auto-generated method stub
+				
+			}
+        	
+        };
+        et.addTextChangedListener(watcher);
+        
         iv.setOnClickListener(new OnClickListener() {
 
             @Override
