@@ -36,11 +36,13 @@ public class TimeFragment extends Fragment implements OnItemClickListener {
     private DBManager mgr;
     private List<TimeRecord> trlist;
     private ArrayList<Map<String, String>> time_record;
+    private ArrayList<String> time_content;
     private SimpleAdapter adapter;
     
     public TimeFragment(DBManager db) {
         time_record = new ArrayList<Map<String, String>>();
         trlist = new ArrayList<TimeRecord>();
+        time_content = new ArrayList<String>();
         mgr = db;
     }
 
@@ -103,6 +105,7 @@ public class TimeFragment extends Fragment implements OnItemClickListener {
             HashMap<String, String> map = new HashMap<String, String>();  
             map.put("content", tr.content);  
             map.put("create_time", tr.create_time);  
+            time_content.add(tr.content);
             time_record.add(map);  
         }  
   
@@ -127,7 +130,8 @@ public class TimeFragment extends Fragment implements OnItemClickListener {
         
         Intent mIntent = new Intent(getActivity(), TimeAllItem.class);
         Bundle mBundle = new Bundle();
-        mBundle.putString("content", valueContent);
+        mBundle.putString("content", valueContent.split(",")[0].substring(13));
+        mBundle.putStringArrayList("allContent", time_content);
         mIntent.putExtras(mBundle);
         startActivity(mIntent);
         

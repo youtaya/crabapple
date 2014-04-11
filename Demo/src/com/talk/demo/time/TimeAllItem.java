@@ -19,6 +19,7 @@ import java.util.ArrayList;
 public class TimeAllItem extends FragmentActivity {
     private static String TAG = "TimeAllItem";
     private String contentValue;
+    private ArrayList<String> allContent;
     private TextView mTv;
     private ViewPager mPager;
     private ArrayList<Fragment> fragmentsList;
@@ -31,7 +32,7 @@ public class TimeAllItem extends FragmentActivity {
         setContentView(R.layout.time_all_item);
         Bundle bundle = getIntent().getExtras();
         contentValue = bundle.getString("content");
-        
+        allContent = bundle.getStringArrayList("allContent");
         initViewPager();
     }
     
@@ -44,13 +45,13 @@ public class TimeAllItem extends FragmentActivity {
 
         fragmentsList = new ArrayList<Fragment>();
         
-        for(int i=0;i<1;i++) {
-            Fragment activityfragment = TimeItem.newInstance(contentValue);
+        for(int i=0;i<allContent.size();i++) {
+            Fragment activityfragment = TimeItem.newInstance(allContent.get(i));
             fragmentsList.add(activityfragment);
         }
         mMyPagerAdapter =new MyFragmentPagerAdapter(this.getSupportFragmentManager(), fragmentsList);
         mPager.setAdapter(mMyPagerAdapter);
-        mPager.setCurrentItem(1);
+        mPager.setCurrentItem(allContent.indexOf(contentValue));
         mPager.setOnPageChangeListener(new MyOnPageChangeListener());
     }
     
