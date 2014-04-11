@@ -67,7 +67,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         recordFragment = RecordFragment.newInstance(mgr);
         fragmentList.add(recordFragment);
         //add statistics fragment
-        discoveryFragment = new DiscoveryFragment();
+        discoveryFragment = new DiscoveryFragment(mgr);
         //Bundle args3 = new Bundle();
         //args3.putInt(DiscoveryFragment.ARG_SECTION_NUMBER, 3);
         //discoveryFragment.setArguments(args3);

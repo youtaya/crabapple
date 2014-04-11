@@ -31,6 +31,7 @@ import android.widget.SimpleAdapter;
 import com.talk.demo.persistence.DBManager;
 import com.talk.demo.persistence.TimeRecord;
 import com.talk.demo.time.TimeAllItem;
+import com.talk.demo.util.TalkUtil;
 
 public class TimeFragment extends Fragment implements OnItemClickListener {
     OnItemChangedListener mCallback;
@@ -62,7 +63,7 @@ public class TimeFragment extends Fragment implements OnItemClickListener {
       	      Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(et.getWindowToken(), 0);
         et.setText("");
-        iv.setImageResource(R.drawable.btn_check_on_disable);
+        iv.setImageResource(R.drawable.btn_check_off_normal);
     }
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
@@ -135,19 +136,8 @@ public class TimeFragment extends Fragment implements OnItemClickListener {
                     + " must implement OnItemChangedListener");
         }
     }
-    /**  
-     * @param   参照日期      
-     * @param   天数(之前为负数,之后为正数)          
-     * @return  参照日期之前或之后days的日期 
-     */  
-    public Date Cal_Days(Date date, int days) { 
-        
-        Calendar calendar = Calendar.getInstance();  
-        calendar.setTime(date);  
-        calendar.set(Calendar.DATE, calendar.get(Calendar.DATE) + days);  
-        return calendar.getTime();  
-    }
-    
+
+   
     private ArrayList<Map<String, String>> initDataList() {  
         if(!trlist.isEmpty()) {
              trlist.clear();
@@ -155,7 +145,7 @@ public class TimeFragment extends Fragment implements OnItemClickListener {
         Log.d(TAG, "init data list");
         
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd"); 
-        Date date = Cal_Days(new Date(), 0);
+        Date date = TalkUtil.Cal_Days(new Date(), -1);
         
         trlist = mgr.queryWithParams(dateFormat.format(date)); 
         
