@@ -16,37 +16,35 @@
             android:layout_height="wrap_content" />
     </LinearLayout>
     
-    <LinearLayout
+    <RelativeLayout  
         android:id="@+id/fast_record_layout"
         android:layout_width="match_parent"
         android:layout_height="54dp"
-        android:baselineAligned="false"
         android:gravity="bottom"
-        android:orientation="horizontal"
         android:paddingBottom="2dip" >
         
 		<ImageView 
 		    android:id="@+id/tool_spring"
 			android:layout_width="wrap_content"
             android:layout_height="wrap_content" 
-            android:layout_weight="0.1"
 			android:src="@drawable/ic_dialog_long_click" />
 		
 		 <LinearLayout
+		    android:id="@+id/null_empty"
 			android:focusable="true"
 			android:focusableInTouchMode="true" 
+			android:layout_toRightOf="@+id/tool_spring"
 			android:layout_width="0px"
 			android:layout_height="0px" />
 			
         <EditText
             android:id="@+id/fast_record"
             style="@style/MMEditText"
-            android:layout_width="0dip"
-            android:layout_height="wrap_content"
-            android:layout_weight="1.00"
+            android:layout_toRightOf="@+id/null_empty"
+            android:layout_alignParentRight="true"
             android:autoText="true"
             android:capitalize="sentences"
-            android:hint="fast record ..."
+            android:hint="@string/fast_record"
             android:maxLines="5"
             android:nextFocusRight="@+id/ok_fast_record"
             android:paddingBottom="5dip"
@@ -61,8 +59,8 @@
             android:id="@+id/ok_fast_record"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="0.1"
+            android:layout_alignParentRight="true"
             android:src="@drawable/btn_check_off_normal" />
 
-	</LinearLayout>
+	</RelativeLayout  >
 </LinearLayout>

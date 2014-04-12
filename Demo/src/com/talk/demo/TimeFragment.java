@@ -70,6 +70,7 @@ public class TimeFragment extends Fragment implements OnItemClickListener {
         View rootView = inflater.inflate(R.layout.fragment_time, container, false);
         lv = (ListView)rootView.findViewById(R.id.time_list);
         et = (EditText)rootView.findViewById(R.id.fast_record);
+        
         iv = (ImageView)rootView.findViewById(R.id.ok_fast_record);
         TextWatcher watcher = new TextWatcher() {
 			@Override
