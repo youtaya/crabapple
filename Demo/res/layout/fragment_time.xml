@@ -27,6 +27,7 @@
 		    android:id="@+id/tool_spring"
 			android:layout_width="wrap_content"
             android:layout_height="wrap_content" 
+            android:paddingTop="5dp"
 			android:src="@drawable/ic_dialog_long_click" />
 		
 		 <LinearLayout
@@ -59,6 +60,7 @@
             android:id="@+id/ok_fast_record"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:paddingTop="4dp"
             android:layout_alignParentRight="true"
             android:src="@drawable/btn_check_off_normal" />
 
