@@ -72,7 +72,6 @@ public class TimeFragment extends Fragment implements OnItemClickListener {
         et = (EditText)rootView.findViewById(R.id.fast_record);
         iv = (ImageView)rootView.findViewById(R.id.ok_fast_record);
         TextWatcher watcher = new TextWatcher() {
-
 			@Override
 			public void afterTextChanged(Editable s) {
 				// TODO Auto-generated method stub
@@ -89,6 +88,11 @@ public class TimeFragment extends Fragment implements OnItemClickListener {
 			public void onTextChanged(CharSequence s, int start, int before,
 					int count) {
 				// TODO Auto-generated method stub
+				if( s.length() > 0) {
+					iv.setImageResource(R.drawable.btn_check_on_normal);
+				} else {
+					iv.setImageResource(R.drawable.btn_check_off_normal);
+				}
 				
 			}
         	

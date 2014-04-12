@@ -2,7 +2,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    style="@style/NavPage2" >
+    android:background="@drawable/btn_style_alert_dialog_background" >
  
     <LinearLayout
         android:id="@+id/record_list_layout"

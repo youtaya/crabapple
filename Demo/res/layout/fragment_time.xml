@@ -2,7 +2,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    style="@style/NavPage1" >
+    style="@style/NavPage2" >
  
     <LinearLayout
         android:id="@+id/time_list_layout"
@@ -19,12 +19,11 @@
     <LinearLayout
         android:id="@+id/fast_record_layout"
         android:layout_width="match_parent"
-        android:layout_weight="0.1"
-        android:layout_height="wrap_content"
-		android:paddingBottom="2dip"
-        android:gravity="bottom"
+        android:layout_height="54dp"
         android:baselineAligned="false"
-        android:orientation="horizontal" >
+        android:gravity="bottom"
+        android:orientation="horizontal"
+        android:paddingBottom="2dip" >
         
 		<ImageView 
 		    android:id="@+id/tool_spring"
