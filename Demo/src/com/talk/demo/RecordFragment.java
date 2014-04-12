@@ -1,6 +1,8 @@
 package com.talk.demo;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,6 +17,7 @@ import android.widget.SimpleAdapter;
 
 import com.talk.demo.persistence.DBManager;
 import com.talk.demo.persistence.TimeRecord;
+import com.talk.demo.util.TalkUtil;
 
 public class RecordFragment extends ListFragment {
     private static String TAG="RecordFragment";
@@ -45,8 +48,8 @@ public class RecordFragment extends ListFragment {
         super.onCreate(savedInstanceState);
         
         //mgr = new DBManager(getActivity());
-        adapter = new SimpleAdapter(getActivity(), initDataList(), android.R.layout.simple_list_item_2,  
-                new String[]{"create_date", "create_time"}, new int[]{android.R.id.text1, android.R.id.text2});
+        adapter = new SimpleAdapter(getActivity(), initDataList(), R.layout.record_status_listitem,  
+                new String[]{"create_date", "create_time", "status"}, new int[]{R.id.create_date, R.id.create_time, R.id.status});
         
     }
     
@@ -69,11 +72,18 @@ public class RecordFragment extends ListFragment {
         if(!list.isEmpty()) {
             list.clear();
         }
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd"); 
+        Date date = TalkUtil.Cal_Days(new Date(), -1);
+        String revealDate = dateFormat.format(date);
         
         for (TimeRecord tr : trlist) {  
             HashMap<String, String> map = new HashMap<String, String>();  
             map.put("create_date", tr.create_date);  
-            map.put("create_time", tr.create_time);  
+            map.put("create_time", tr.create_time); 
+            if(tr.create_date.equalsIgnoreCase(revealDate))
+            	map.put("status", "解封");
+            else
+            	map.put("status", "封存");
             list.add(map);  
         }  
   

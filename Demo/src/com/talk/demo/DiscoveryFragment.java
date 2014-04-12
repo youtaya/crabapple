@@ -16,8 +16,9 @@ import com.talk.demo.util.TalkUtil;
 
 public class DiscoveryFragment extends Fragment {
 	private static String TAG = "DiscoveryFragment";
-	private TextView tv;
+	private TextView tv, tvDate;
 	private DBManager mgr;
+	private String preDate;
 	private int preNum = 0;
     public static final String ARG_SECTION_NUMBER = "section_number";
 
@@ -29,7 +30,11 @@ public class DiscoveryFragment extends Fragment {
             Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_discovery, container, false);
         tv = (TextView)rootView.findViewById(R.id.preview_number);
+        tvDate = (TextView)rootView.findViewById(R.id.preview_date);
         preNum = getPreviewNumber();
+        
+        tvDate.setText(preDate);
+        
         Log.d(TAG, "num : "+preNum);
         tv.setText(String.valueOf(preNum));
         return rootView;
@@ -37,8 +42,10 @@ public class DiscoveryFragment extends Fragment {
 
     public int getPreviewNumber() {
 	    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd"); 
+	    SimpleDateFormat pDateFormat = new SimpleDateFormat("yyyy/MM/dd"); 
 	    Date date = TalkUtil.Cal_Days(new Date(), 0);
-	    
+	    Date previewDate = TalkUtil.Cal_Days(new Date(), 1);
+	    preDate = pDateFormat.format(previewDate);
 	    return mgr.queryWithParams(dateFormat.format(date)).size(); 
     }
 }

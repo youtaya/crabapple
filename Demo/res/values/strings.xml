@@ -8,7 +8,7 @@
     <string name="title_section3">发现</string>
     <string name="fast_record">快速记录...</string>
     <string name="dis_account">账号状态</string>
-    <string name="dis_preview">时光预览</string>
-    <string name="dis_connection">青石所住</string>
+    <string name="dis_preview">时光预览数</string>
+    <string name="dis_connection">青石所系</string>
 
 </resources>
