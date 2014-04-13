@@ -2,7 +2,6 @@ package com.talk.demo;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -30,6 +29,7 @@ import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
 import com.talk.demo.persistence.DBManager;
+import com.talk.demo.persistence.RecordCache;
 import com.talk.demo.persistence.TimeRecord;
 import com.talk.demo.time.TimeAllItem;
 import com.talk.demo.util.TalkUtil;
@@ -49,14 +49,14 @@ public class TimeFragment extends Fragment implements OnItemClickListener {
     private DBManager mgr;
     private List<TimeRecord> trlist;
     private ArrayList<Map<String, String>> time_record;
-    private ArrayList<String> time_content;
+    private ArrayList<RecordCache> record_cache;
     private SimpleAdapter adapter;
     private LinearLayout take_snap;
     private boolean snap_on = false;
     public TimeFragment(DBManager db) {
         time_record = new ArrayList<Map<String, String>>();
         trlist = new ArrayList<TimeRecord>();
-        time_content = new ArrayList<String>();
+        record_cache = new ArrayList<RecordCache>();
         mgr = db;
     }
 
@@ -179,11 +179,15 @@ public class TimeFragment extends Fragment implements OnItemClickListener {
         }
         
         for (TimeRecord tr : trlist) {  
-            HashMap<String, String> map = new HashMap<String, String>();  
+            HashMap<String, String> map = new HashMap<String, String>(); 
+            RecordCache rc = new RecordCache();
             map.put("content", tr.content); 
+            rc.setContent(tr.content);
             map.put("create_date", tr.create_date);
+            rc.setCreateDate(tr.create_date);
             map.put("create_time", tr.create_time);  
-            time_content.add(tr.content);
+            rc.setCreateTime(tr.create_time);
+            record_cache.add(rc);
             time_record.add(map);  
         }  
   
@@ -208,8 +212,9 @@ public class TimeFragment extends Fragment implements OnItemClickListener {
         
         Intent mIntent = new Intent(getActivity(), TimeAllItem.class);
         Bundle mBundle = new Bundle();
-        mBundle.putString("content", valueContent.split(",")[1].substring(13));
-        mBundle.putStringArrayList("allContent", time_content);
+        mBundle.putString("createdate", valueContent.split(",")[1].substring(13));
+        mBundle.putString("createtime", valueContent.split(",")[0].substring(13));
+        mBundle.putParcelableArrayList("recordcache", record_cache);
         mIntent.putExtras(mBundle);
         startActivity(mIntent);
         
@@ -218,6 +223,15 @@ public class TimeFragment extends Fragment implements OnItemClickListener {
     @Override
     public void onPause() {
     	super.onPause();
+    }
+    
+    @Override
+    public void onResume () {
+        super.onResume();
+        Log.d(TAG, "on Resume");
+        initDataList();
+        adapter.notifyDataSetChanged();
+
     }
     
 }

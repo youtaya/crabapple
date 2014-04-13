@@ -1,5 +1,7 @@
 package com.talk.demo.time;
 
+import java.util.ArrayList;
+
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -11,15 +13,14 @@ import android.util.Log;
 import android.widget.TextView;
 
 import com.talk.demo.R;
-import com.talk.demo.MainActivity.SectionsPagerAdapter;
-
-import java.util.ArrayList;
+import com.talk.demo.persistence.RecordCache;
 
 
 public class TimeAllItem extends FragmentActivity {
     private static String TAG = "TimeAllItem";
-    private String contentValue;
-    private ArrayList<String> allContent;
+    private String create_date;
+    private String create_time;
+    private ArrayList<RecordCache> record_cache;
     private TextView mTv;
     private ViewPager mPager;
     private ArrayList<Fragment> fragmentsList;
@@ -31,27 +32,42 @@ public class TimeAllItem extends FragmentActivity {
         
         setContentView(R.layout.time_all_item);
         Bundle bundle = getIntent().getExtras();
-        contentValue = bundle.getString("content");
-        allContent = bundle.getStringArrayList("allContent");
+        create_date = bundle.getString("createdate");
+        create_time = bundle.getString("createtime");
+        record_cache = bundle.getParcelableArrayList("recordcache");
         initViewPager();
     }
-    
+    private int getIndexOf() {
+    	int i = 0;
+    	Log.d(TAG, "content value : "+create_time);
+    	for(;i<record_cache.size();i++) {
+    		Log.d(TAG, "cache content value : "+record_cache.get(i).getCreateTime());
+    		if(create_time.equalsIgnoreCase(record_cache.get(i).getCreateTime()))
+    			return i;
+    	}
+    	// should not call it.
+    	Log.d(TAG, "Can't found in record cache");
+    	i = 0;
+    	return i;
+    }
     private void initViewPager() {
         mTv = (TextView) findViewById(R.id.time_data);
-        mTv.setText(contentValue);
+        mTv.setText(create_date);
         
         mPager = (ViewPager) findViewById(R.id.vPager);
         
 
         fragmentsList = new ArrayList<Fragment>();
         
-        for(int i=0;i<allContent.size();i++) {
-            Fragment activityfragment = TimeItem.newInstance(allContent.get(i));
+        for(int i=0;i<record_cache.size();i++) {
+            Fragment activityfragment = TimeItem.newInstance(record_cache.get(i));
             fragmentsList.add(activityfragment);
         }
         mMyPagerAdapter =new MyFragmentPagerAdapter(this.getSupportFragmentManager(), fragmentsList);
         mPager.setAdapter(mMyPagerAdapter);
-        mPager.setCurrentItem(allContent.indexOf(contentValue));
+        int index = getIndexOf();
+        Log.d(TAG, "found in record cache :"+index);
+        mPager.setCurrentItem(index);
         mPager.setOnPageChangeListener(new MyOnPageChangeListener());
     }
     
