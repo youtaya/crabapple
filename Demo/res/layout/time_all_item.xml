@@ -15,7 +15,7 @@
             android:layout_height="fill_parent"
             android:layout_weight="1.0"
             android:gravity="center"
-            android:textColor="#FF0000"
+            android:textColor="#669900"
             android:textSize="22.0dip" />
 		
     </LinearLayout>   
@@ -33,7 +33,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_weight="1.0"
-        android:background="#FF0000"
+        android:background="#33B5E5"
         android:flipInterval="30"
         android:persistentDrawingCache="animation" />
     

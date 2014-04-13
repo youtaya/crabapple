@@ -8,7 +8,7 @@
         android:id="@+id/item_layout"
         android:layout_width="fill_parent"
         android:layout_height="60.0dip"
-        android:background="#FFFFFF" >
+        android:background="@color/lightransparent" >
         
 		<TextView
             android:id="@+id/item_date"
@@ -39,7 +39,7 @@
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:layout_weight="1.0"
-            android:textColor="#0000FF"
+            android:textColor="@color/transparent"
             android:textSize="18.0dip" />
 		
 		<TextView
@@ -48,7 +48,7 @@
             android:layout_height="fill_parent"
             android:layout_weight="1.0"
             android:gravity="center"
-            android:textColor="#0000FF"
+            android:textColor="#9933CC"
             android:textSize="18.0dip" />
 	</LinearLayout>
     
