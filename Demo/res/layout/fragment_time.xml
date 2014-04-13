@@ -16,57 +16,88 @@
             android:layout_height="wrap_content" />
     </LinearLayout>
     
-    <RelativeLayout  
-        android:id="@+id/fast_record_layout"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="54dp"
-        android:gravity="bottom"
-        android:paddingBottom="2dip" >
+        android:layout_height="wrap_content"
+        android:gravity="bottom" >
         
-		<ImageView 
-		    android:id="@+id/tool_spring"
-			android:layout_width="wrap_content"
-            android:layout_height="wrap_content" 
-            android:paddingLeft="5dp"
-            android:paddingTop="5dp"
-			android:src="@drawable/ic_dialog_long_click" />
-		
-		 <LinearLayout
-		    android:id="@+id/null_empty"
-			android:focusable="true"
-			android:focusableInTouchMode="true" 
-			android:layout_toRightOf="@+id/tool_spring"
-			android:layout_width="0px"
-			android:layout_height="0px" />
+	    <RelativeLayout  
+	        android:id="@+id/fast_record_layout"
+	        android:layout_width="match_parent"
+	        android:layout_height="54dp"
+	        android:paddingTop="5dp" >
+	        
+			<ImageView 
+			    android:id="@+id/tool_spring"
+				android:layout_width="wrap_content"
+	            android:layout_height="wrap_content" 
+	            android:paddingLeft="5dp"
+	            android:paddingTop="5dp"
+				android:src="@drawable/ic_dialog_long_click" />
 			
-        <EditText
-            android:id="@+id/fast_record"
-            style="@style/MMEditText"
-            android:layout_toRightOf="@+id/null_empty"
-            android:layout_alignParentRight="true"
-            android:autoText="true"
-            android:capitalize="sentences"
-            android:hint="@string/fast_record"
-            android:maxLines="5"
-            android:nextFocusRight="@+id/ok_fast_record"
-            android:paddingBottom="5dip"
-            android:paddingLeft="5dip"
-            android:paddingRight="5dip"
-            android:paddingTop="5dip"
-            android:layout_marginLeft="4dp"
-            android:layout_marginRight="5dp"
-            android:textSize="15sp" >
-
-        </EditText>
-
-        <ImageView
-            android:id="@+id/ok_fast_record"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingTop="4dp"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="5dp"
-            android:src="@drawable/btn_check_off_normal" />
-
-	</RelativeLayout  >
+			 <LinearLayout
+			    android:id="@+id/null_empty"
+				android:focusable="true"
+				android:focusableInTouchMode="true" 
+				android:layout_toRightOf="@+id/tool_spring"
+				android:orientation="horizontal"
+				android:layout_width="0px"
+				android:layout_height="0px" />
+				
+	        <EditText
+	            android:id="@+id/fast_record"
+	            style="@style/MMEditText"
+	            android:layout_toRightOf="@+id/null_empty"
+	            android:layout_alignParentRight="true"
+	            android:autoText="true"
+	            android:capitalize="sentences"
+	            android:hint="@string/fast_record"
+	            android:maxLines="5"
+	            android:nextFocusRight="@+id/ok_fast_record"
+	            android:paddingBottom="5dip"
+	            android:paddingLeft="5dip"
+	            android:paddingRight="5dip"
+	            android:layout_marginLeft="4dp"
+	            android:layout_marginRight="5dp"
+	            android:textSize="15sp" >
+	
+	        </EditText>
+	
+	        <ImageView
+	            android:id="@+id/ok_fast_record"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:paddingTop="4dp"
+	            android:layout_alignParentRight="true"
+	            android:layout_marginRight="6dp"
+	            android:src="@drawable/btn_check_off_normal" />
+	
+		</RelativeLayout>
+		
+	    <LinearLayout
+	        android:id="@+id/take_snap"
+			android:layout_width="match_parent"
+	        android:layout_height="100dp" 
+	        android:visibility="gone"
+	        android:layout_below="@+id/fast_record_layout">
+	        <ImageView 
+	            android:id="@+id/take_photo"
+	            android:layout_width="wrap_content"
+				android:layout_height="100dp" 
+				android:layout_weight="1"
+				android:src="@drawable/take_x" />
+	        <ImageView 
+	            android:id="@+id/take_gallery"
+	            android:layout_width="wrap_content"
+				android:layout_height="100dp" 
+				android:layout_weight="1"
+				android:src="@drawable/take_x" />	        
+	        <ImageView 
+	            android:id="@+id/take_tape"
+	            android:layout_width="wrap_content"
+				android:layout_height="100dp"
+				android:layout_weight="1"
+				android:src="@drawable/take_x" />		            
+	    </LinearLayout>
+	</RelativeLayout>
 </LinearLayout>

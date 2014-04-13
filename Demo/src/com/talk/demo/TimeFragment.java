@@ -25,6 +25,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
@@ -44,13 +45,14 @@ public class TimeFragment extends Fragment implements OnItemClickListener {
     private static String TAG = "TimeFragment";
     private ListView lv;
     private EditText et;
-    private ImageView iv;
+    private ImageView iv,ivSpring;
     private DBManager mgr;
     private List<TimeRecord> trlist;
     private ArrayList<Map<String, String>> time_record;
     private ArrayList<String> time_content;
     private SimpleAdapter adapter;
-    
+    private LinearLayout take_snap;
+    private boolean snap_on = false;
     public TimeFragment(DBManager db) {
         time_record = new ArrayList<Map<String, String>>();
         trlist = new ArrayList<TimeRecord>();
@@ -68,9 +70,27 @@ public class TimeFragment extends Fragment implements OnItemClickListener {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_time, container, false);
+        take_snap = (LinearLayout)rootView.findViewById(R.id.take_snap);
+        
         lv = (ListView)rootView.findViewById(R.id.time_list);
         et = (EditText)rootView.findViewById(R.id.fast_record);
+        ivSpring = (ImageView)rootView.findViewById(R.id.tool_spring);
         
+        ivSpring.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				if(!snap_on) {
+					take_snap.setVisibility(View.VISIBLE);
+					snap_on = true;
+				} else {
+					take_snap.setVisibility(View.GONE);
+					snap_on = false;
+				}
+			}
+        	
+        });
         iv = (ImageView)rootView.findViewById(R.id.ok_fast_record);
         TextWatcher watcher = new TextWatcher() {
 			@Override
