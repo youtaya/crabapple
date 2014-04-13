@@ -11,6 +11,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -41,11 +42,11 @@ public class TimeFragment extends Fragment implements OnItemClickListener {
     public interface OnItemChangedListener {
         public void onItemChanged();
     }
-    
+    static final int REQUEST_IMAGE_CAPTURE = 1;
     private static String TAG = "TimeFragment";
     private ListView lv;
     private EditText et;
-    private ImageView iv,ivSpring;
+    private ImageView iv,ivSpring, ivPhoto;
     private DBManager mgr;
     private List<TimeRecord> trlist;
     private ArrayList<Map<String, String>> time_record;
@@ -67,6 +68,14 @@ public class TimeFragment extends Fragment implements OnItemClickListener {
         et.setText("");
         iv.setImageResource(R.drawable.btn_check_off_normal);
     }
+    
+    private void dispatchTakePictureIntent() {
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if (takePictureIntent.resolveActivity(getActivity().getPackageManager()) != null) {
+        	getActivity().startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+        }
+    }
+    
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_time, container, false);
@@ -75,7 +84,17 @@ public class TimeFragment extends Fragment implements OnItemClickListener {
         lv = (ListView)rootView.findViewById(R.id.time_list);
         et = (EditText)rootView.findViewById(R.id.fast_record);
         ivSpring = (ImageView)rootView.findViewById(R.id.tool_spring);
-        
+        ivPhoto = (ImageView)rootView.findViewById(R.id.take_photo);
+        ivPhoto.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View arg0) {
+				// TODO Auto-generated method stub
+				dispatchTakePictureIntent();
+				take_snap.setVisibility(View.GONE);
+			}
+        	
+        });
         ivSpring.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -233,5 +252,5 @@ public class TimeFragment extends Fragment implements OnItemClickListener {
         adapter.notifyDataSetChanged();
 
     }
-    
+
 }

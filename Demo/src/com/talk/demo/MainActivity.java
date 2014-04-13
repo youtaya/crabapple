@@ -6,6 +6,8 @@ import java.util.Locale;
 
 import android.app.ActionBar;
 import android.app.FragmentTransaction;
+import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -20,6 +22,8 @@ import com.talk.demo.persistence.DBManager;
 public class MainActivity extends FragmentActivity implements ActionBar.TabListener, TimeFragment.OnItemChangedListener {
 
     private static String TAG = "MainActivity";
+    static final int REQUEST_IMAGE_CAPTURE = 1;
+    
     private DBManager mgr;
     private TimeFragment timeFragment;
     private RecordFragment recordFragment;
@@ -180,6 +184,16 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         Log.d(TAG, "onDestroy");
         //mgr.closeDB();  
     }
-
+    
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    	Log.d(TAG, "got the image :"+requestCode+" :"+resultCode);
+        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+            Bundle extras = data.getExtras();
+            Bitmap imageBitmap = (Bitmap) extras.get("data");
+            //mImageView.setImageBitmap(imageBitmap);
+            Log.d(TAG, "got the image!");
+        }
+    }
 
 }
