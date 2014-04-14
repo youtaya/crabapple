@@ -24,11 +24,11 @@ import android.view.Menu;
 
 import com.talk.demo.persistence.DBManager;
 import com.talk.demo.persistence.TimeRecord;
+import com.talk.demo.util.TalkUtil;
 
 public class MainActivity extends FragmentActivity implements ActionBar.TabListener, TimeFragment.OnItemChangedListener {
 
     private static String TAG = "MainActivity";
-    static final int REQUEST_IMAGE_CAPTURE = 1;
     
     private DBManager mgr;
     private TimeFragment timeFragment;
@@ -221,7 +221,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
     	Log.d(TAG, "got the image :"+requestCode+" :"+resultCode);
-        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+        if (requestCode == TalkUtil.REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
             Bundle extras = data.getExtras();
             Bitmap imageBitmap = (Bitmap) extras.get("data");
             //mImageView.setImageBitmap(imageBitmap);
@@ -229,7 +229,8 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
             createDirAndSaveFile(imageBitmap, fileName);
             
             TimeRecord tr = new TimeRecord("/sdcard/Demo/"+fileName);
-            tr.setMediaType(2);;
+            
+            tr.setMediaType(TalkUtil.MEDIA_TYPE_PHOTO);;
 
             mgr.add(tr);
         }

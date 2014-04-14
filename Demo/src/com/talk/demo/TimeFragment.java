@@ -42,7 +42,7 @@ public class TimeFragment extends Fragment implements OnItemClickListener {
     public interface OnItemChangedListener {
         public void onItemChanged();
     }
-    static final int REQUEST_IMAGE_CAPTURE = 1;
+    
     private static String TAG = "TimeFragment";
     private ListView lv;
     private EditText et;
@@ -72,7 +72,7 @@ public class TimeFragment extends Fragment implements OnItemClickListener {
     private void dispatchTakePictureIntent() {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (takePictureIntent.resolveActivity(getActivity().getPackageManager()) != null) {
-        	getActivity().startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+        	getActivity().startActivityForResult(takePictureIntent, TalkUtil.REQUEST_IMAGE_CAPTURE);
         }
     }
     
@@ -146,7 +146,7 @@ public class TimeFragment extends Fragment implements OnItemClickListener {
                 // TODO Auto-generated method stub
                 String content = et.getText().toString();
                 TimeRecord tr = new TimeRecord(content);  
-                tr.setMediaType(1);
+                tr.setMediaType(TalkUtil.MEDIA_TYPE_TEXT);
                 mgr.add(tr);
                 
                 RecordFragment rFragment = RecordFragment.newInstance(mgr);;
@@ -206,6 +206,7 @@ public class TimeFragment extends Fragment implements OnItemClickListener {
             rc.setCreateDate(tr.create_date);
             map.put("create_time", tr.create_time);  
             rc.setCreateTime(tr.create_time);
+            rc.setMediaType(tr.media_type);
             record_cache.add(rc);
             time_record.add(map);  
         }  

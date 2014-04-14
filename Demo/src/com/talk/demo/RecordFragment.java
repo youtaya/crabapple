@@ -20,7 +20,7 @@ import com.talk.demo.persistence.TimeRecord;
 import com.talk.demo.util.TalkUtil;
 
 public class RecordFragment extends ListFragment {
-    private static String TAG="RecordFragment";
+    private static String TAG = "RecordFragment";
     
     private DBManager mgr;  
     private List<TimeRecord> trlist;
@@ -99,7 +99,8 @@ public class RecordFragment extends ListFragment {
     public void onResume () {
         super.onResume();
         Log.d(TAG, "on Resume");
-
+        initDataList();
+        adapter.notifyDataSetChanged();
     }
 
     

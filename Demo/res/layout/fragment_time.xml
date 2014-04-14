@@ -1,14 +1,14 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    style="@style/NavPage2" >
+    android:orientation="vertical" >
  
     <LinearLayout
         android:id="@+id/time_list_layout"
         android:layout_width="match_parent"
         android:layout_weight="1"
-        android:layout_height="0dp">
+        android:layout_height="0dp"
+        android:background="@color/list_view_shadow" >
         
         <ListView
             android:id="@+id/time_list"
@@ -79,25 +79,26 @@
 			android:layout_width="match_parent"
 	        android:layout_height="100dp" 
 	        android:visibility="gone"
+	        android:background="@color/edit_text_background"
 	        android:layout_below="@+id/fast_record_layout">
 	        <ImageView 
 	            android:id="@+id/take_photo"
 	            android:layout_width="wrap_content"
 				android:layout_height="100dp" 
 				android:layout_weight="1"
-				android:src="@drawable/take_x" />
+				android:src="@drawable/take_photo" />
 	        <ImageView 
 	            android:id="@+id/take_gallery"
 	            android:layout_width="wrap_content"
 				android:layout_height="100dp" 
 				android:layout_weight="1"
-				android:src="@drawable/take_x" />	        
+				android:src="@drawable/take_gallery" />	        
 	        <ImageView 
 	            android:id="@+id/take_tape"
 	            android:layout_width="wrap_content"
 				android:layout_height="100dp"
 				android:layout_weight="1"
-				android:src="@drawable/take_x" />		            
+				android:src="@drawable/take_tape" />		            
 	    </LinearLayout>
 	</RelativeLayout>
 </LinearLayout>

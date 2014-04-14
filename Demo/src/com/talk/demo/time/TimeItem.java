@@ -1,22 +1,29 @@
 package com.talk.demo.time;
 
+import java.io.File;
+
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.talk.demo.R;
 import com.talk.demo.persistence.RecordCache;
+import com.talk.demo.util.TalkUtil;
 
 
 public class TimeItem extends Fragment {
     private static String TAG = "TimeItem";
     private String valueContent;
     private String creatTime;
-    private TextView tv, tvTime;
+    private int media_type;
+    private TextView txView;
+    private TextView tvTime;
     
     static TimeItem newInstance(RecordCache content) {
         TimeItem newFragment = new TimeItem(content);
@@ -28,6 +35,7 @@ public class TimeItem extends Fragment {
         // TODO Auto-generated constructor stub
         valueContent = content.getContent();
         creatTime = content.getCreateTime();
+        media_type = content.getMediaType();
     }
     
     @Override
@@ -40,11 +48,23 @@ public class TimeItem extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
         Log.d(TAG, "TestFragment-----onCreateView");
         View view = inflater.inflate(R.layout.time_item, container, false);
-        tv = (TextView) view.findViewById(R.id.item_content);
+        txView = (TextView) view.findViewById(R.id.item_content);
         tvTime = (TextView) view.findViewById(R.id.item_time);
         
         tvTime.setText(creatTime);
-        tv.setText(valueContent);
+        if(media_type == TalkUtil.MEDIA_TYPE_TEXT)
+        	txView.setText(valueContent);
+        else if(media_type == TalkUtil.MEDIA_TYPE_PHOTO) {
+        	loadImageFromSD(valueContent);
+        } else {
+        	Log.d(TAG, "audio type not support!");
+        }
         return view;
+    }
+    
+    private void loadImageFromSD(String fileDirName) {
+    	File imageFile = new File(fileDirName);
+    	BitmapDrawable d = new BitmapDrawable(getResources(), imageFile.getAbsolutePath());
+    	txView.setBackground(d);
     }
 }
