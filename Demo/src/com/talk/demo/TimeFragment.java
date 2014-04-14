@@ -200,7 +200,10 @@ public class TimeFragment extends Fragment implements OnItemClickListener {
         for (TimeRecord tr : trlist) {  
             HashMap<String, String> map = new HashMap<String, String>(); 
             RecordCache rc = new RecordCache();
-            map.put("content", tr.content); 
+            if(tr.media_type == TalkUtil.MEDIA_TYPE_PHOTO)
+            	map.put("content", "惊鸿一瞥"); 
+            else
+            	map.put("content", tr.content); 
             rc.setContent(tr.content);
             map.put("create_date", tr.create_date);
             rc.setCreateDate(tr.create_date);

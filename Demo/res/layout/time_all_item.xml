@@ -7,7 +7,7 @@
         android:id="@+id/time_layout"
         android:layout_width="fill_parent"
         android:layout_height="100.0dip"
-        android:background="#FFFFFF" >
+        android:background="@color/azure" >
         
 		<TextView
             android:id="@+id/time_data"

@@ -17,7 +17,7 @@
             android:layout_weight="0.1"
             android:gravity="center"
             android:textColor="@color/pager_title_background_top_end"
-            android:background="@color/blue"
+            android:background="@color/lemonchiffon"
             android:textSize="18.0dip" />
 		
 		<TextView
@@ -27,7 +27,8 @@
             android:layout_weight="1"
             android:gravity="center"
             android:textColor="#9933CC"
-            android:textSize="18.0dip" />
+            android:background="#FFF5EE"
+            android:textSize="23.0dip" />
 	</LinearLayout>
     
 </LinearLayout>
