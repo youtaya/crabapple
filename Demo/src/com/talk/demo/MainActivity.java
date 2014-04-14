@@ -1,7 +1,11 @@
 
 package com.talk.demo;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Locale;
 
 import android.app.ActionBar;
@@ -9,6 +13,7 @@ import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -18,6 +23,7 @@ import android.util.Log;
 import android.view.Menu;
 
 import com.talk.demo.persistence.DBManager;
+import com.talk.demo.persistence.TimeRecord;
 
 public class MainActivity extends FragmentActivity implements ActionBar.TabListener, TimeFragment.OnItemChangedListener {
 
@@ -185,6 +191,33 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         //mgr.closeDB();  
     }
     
+    private void createDirAndSaveFile(Bitmap imageToSave, String fileName) {
+        File direct = new File(Environment.getExternalStorageDirectory() + "/Demo");
+        
+        if(!direct.exists()) {
+            File fileDirectory = new File("/sdcard/Demo/");
+            fileDirectory.mkdirs();
+        }
+        
+        File file = new File(new File("/sdcard/Demo/"), fileName);
+        
+        if(file.exists())
+            file.delete();
+        
+        try {
+            FileOutputStream out = new FileOutputStream(file);
+            imageToSave.compress(Bitmap.CompressFormat.JPEG, 100, out);
+            out.flush();
+            out.close();
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+    }
+    private String getTimeAsFileName() {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss"); 
+        Date date = new Date();
+        return dateFormat.format(date);
+    }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
     	Log.d(TAG, "got the image :"+requestCode+" :"+resultCode);
@@ -192,7 +225,13 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
             Bundle extras = data.getExtras();
             Bitmap imageBitmap = (Bitmap) extras.get("data");
             //mImageView.setImageBitmap(imageBitmap);
-            Log.d(TAG, "got the image!");
+            String fileName = getTimeAsFileName();
+            createDirAndSaveFile(imageBitmap, fileName);
+            
+            TimeRecord tr = new TimeRecord("/sdcard/Demo/"+fileName);
+            tr.setMediaType(2);;
+
+            mgr.add(tr);
         }
     }
 

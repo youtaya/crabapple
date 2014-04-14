@@ -25,7 +25,9 @@ public class DBHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(final SQLiteDatabase db) {
-        db.execSQL("CREATE TABLE records (id INTEGER PRIMARY KEY, content TEXT, create_date TEXT, create_time TEXT);");
+        db.execSQL("CREATE TABLE records (id INTEGER PRIMARY KEY, "
+                + "content TEXT, create_date TEXT, create_time TEXT, "
+                + "media_type INTEGER);");
     }
 
     @Override

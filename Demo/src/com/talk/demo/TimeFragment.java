@@ -146,7 +146,7 @@ public class TimeFragment extends Fragment implements OnItemClickListener {
                 // TODO Auto-generated method stub
                 String content = et.getText().toString();
                 TimeRecord tr = new TimeRecord(content);  
-
+                tr.setMediaType(1);
                 mgr.add(tr);
                 
                 RecordFragment rFragment = RecordFragment.newInstance(mgr);;
@@ -189,7 +189,7 @@ public class TimeFragment extends Fragment implements OnItemClickListener {
         Log.d(TAG, "init data list");
         
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd"); 
-        Date date = TalkUtil.Cal_Days(new Date(), -1);
+        Date date = TalkUtil.Cal_Days(new Date(), 0);
         
         trlist = mgr.queryWithParams(dateFormat.format(date)); 
         

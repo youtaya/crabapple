@@ -25,7 +25,9 @@ public class DBManager {
     public void add(TimeRecord tr) {  
         db.beginTransaction();  //开始事务  
         try {  
-            db.execSQL("INSERT INTO "+DATABASE_TABLE+" VALUES(null, ?, ?, ?)", new Object[]{tr.content, tr.create_date, tr.create_time});
+            db.execSQL("INSERT INTO "+DATABASE_TABLE+""
+                    + " VALUES(null, ?, ?, ?, ?)", 
+                    new Object[]{tr.content, tr.create_date, tr.create_time ,tr.media_type});
             db.setTransactionSuccessful();  //设置事务成功完成  
         } finally {  
             db.endTransaction();    //结束事务  
@@ -39,14 +41,17 @@ public class DBManager {
         db.beginTransaction();  //开始事务  
         try {  
             for (TimeRecord tr : tRecord) {  
-                db.execSQL("INSERT INTO "+DATABASE_TABLE+" VALUES(null, ?, ?, ?)", new Object[]{tr.content, tr.create_date, tr.create_time});
+                db.execSQL("INSERT INTO "+DATABASE_TABLE+" "
+                        + "VALUES(null, ?, ?, ?, ?)", 
+                        new Object[]{tr.content, tr.create_date, tr.create_time, tr.media_type});
             }  
             db.setTransactionSuccessful();  //设置事务成功完成  
         } finally {  
             db.endTransaction();    //结束事务  
         }  
     }  
-      
+    
+    
     /** 
      * update time record content 
      * @param TimeRecord 
@@ -70,6 +75,7 @@ public class DBManager {
             tr.content = c.getString(c.getColumnIndex("content"));  
             tr.create_date = c.getString(c.getColumnIndex("create_date"));
             tr.create_time = c.getString(c.getColumnIndex("create_time"));  
+            tr.media_type = c.getInt(c.getColumnIndex("media_type"));
             trList.add(tr);  
         }  
         c.close();  
@@ -90,6 +96,7 @@ public class DBManager {
             tr.content = c.getString(c.getColumnIndex("content"));  
             tr.create_date = c.getString(c.getColumnIndex("create_date"));
             tr.create_time = c.getString(c.getColumnIndex("create_time"));  
+            tr.media_type = c.getInt(c.getColumnIndex("media_type"));
             trList.add(tr);  
         }  
         c.close();  
