@@ -8,7 +8,7 @@
         android:layout_width="match_parent"
         android:layout_weight="1"
         android:layout_height="0dp"
-        android:background="@color/list_view_shadow" >
+        android:background="@color/plum" >
         
         <ListView
             android:id="@+id/time_list"
@@ -19,7 +19,8 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="bottom" >
+        android:gravity="bottom" 
+        android:background="@color/peru">
         
 	    <RelativeLayout  
 	        android:id="@+id/fast_record_layout"

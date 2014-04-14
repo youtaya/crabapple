@@ -46,7 +46,7 @@ public class TimeFragment extends Fragment implements OnItemClickListener {
     private static String TAG = "TimeFragment";
     private ListView lv;
     private EditText et;
-    private ImageView iv,ivSpring, ivPhoto;
+    private ImageView iv,ivSpring, ivPhoto, ivGallery;
     private DBManager mgr;
     private List<TimeRecord> trlist;
     private ArrayList<Map<String, String>> time_record;
@@ -76,6 +76,14 @@ public class TimeFragment extends Fragment implements OnItemClickListener {
         }
     }
     
+    private void dispatchTakeGalleryIntent() {
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        getActivity().startActivityForResult(Intent.createChooser(intent,
+                "Select Picture"), TalkUtil.REQUEST_SELECT_PICTURE);
+    }
+    
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_time, container, false);
@@ -95,6 +103,19 @@ public class TimeFragment extends Fragment implements OnItemClickListener {
 			}
         	
         });
+        
+        ivGallery = (ImageView)rootView.findViewById(R.id.take_gallery);
+        ivGallery.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View arg0) {
+				// TODO Auto-generated method stub
+				dispatchTakeGalleryIntent();
+				take_snap.setVisibility(View.GONE);
+			}
+        	
+        });
+        
         ivSpring.setOnClickListener(new OnClickListener() {
 
 			@Override
