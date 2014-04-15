@@ -29,6 +29,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
+import com.talk.demo.audio.FunAudioRecord;
 import com.talk.demo.persistence.DBManager;
 import com.talk.demo.persistence.RecordCache;
 import com.talk.demo.persistence.TimeRecord;
@@ -46,7 +47,7 @@ public class TimeFragment extends Fragment implements OnItemClickListener {
     private static String TAG = "TimeFragment";
     private ListView lv;
     private EditText et;
-    private ImageView iv,ivSpring, ivPhoto, ivGallery;
+    private ImageView iv,ivSpring, ivPhoto, ivGallery, ivTape;
     private DBManager mgr;
     private List<TimeRecord> trlist;
     private ArrayList<Map<String, String>> time_record;
@@ -84,6 +85,10 @@ public class TimeFragment extends Fragment implements OnItemClickListener {
                 "Select Picture"), TalkUtil.REQUEST_SELECT_PICTURE);
     }
     
+    private void dispatchTakeTapeIntent() {
+        Intent intent = new Intent(getActivity(), FunAudioRecord.class);
+        getActivity().startActivityForResult(intent, TalkUtil.REQUEST_AUDIO_CAPTURE);
+    }
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_time, container, false);
@@ -115,7 +120,17 @@ public class TimeFragment extends Fragment implements OnItemClickListener {
 			}
         	
         });
-        
+        ivTape = (ImageView)rootView.findViewById(R.id.take_tape);
+        ivTape.setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(View arg0) {
+                // TODO Auto-generated method stub
+                dispatchTakeTapeIntent();
+                take_snap.setVisibility(View.GONE);
+            }
+            
+        });
         ivSpring.setOnClickListener(new OnClickListener() {
 
 			@Override
