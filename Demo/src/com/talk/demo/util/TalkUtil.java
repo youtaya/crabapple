@@ -1,5 +1,6 @@
 package com.talk.demo.util;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -27,4 +28,22 @@ public class TalkUtil {
         calendar.set(Calendar.DATE, calendar.get(Calendar.DATE) + days);  
         return calendar.getTime();  
     }
+	/*
+	 * get dates for database query
+	 * as ruler: 1, 3, 5, 7...
+	 */
+	public static String[] conditonDates() {
+	    String[] condDate = new String[4];
+	    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd"); 
+	    Date date1 = Cal_Days(new Date(), -1);
+        Date date3 = Cal_Days(new Date(), -3);
+        Date date5 = Cal_Days(new Date(), -5);
+        Date date7 = Cal_Days(new Date(), -7);
+        condDate[0] = dateFormat.format(date1);
+        condDate[1] = dateFormat.format(date3);
+        condDate[2] = dateFormat.format(date5);
+        condDate[3] = dateFormat.format(date7);
+        return condDate;
+        
+	}
 }

@@ -46,6 +46,6 @@ public class DiscoveryFragment extends Fragment {
 	    Date date = TalkUtil.Cal_Days(new Date(), 0);
 	    Date previewDate = TalkUtil.Cal_Days(new Date(), 1);
 	    preDate = pDateFormat.format(previewDate);
-	    return mgr.queryWithParams(dateFormat.format(date)).size(); 
+	    return mgr.queryWithParam(dateFormat.format(date)).size(); 
     }
 }

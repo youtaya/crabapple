@@ -170,6 +170,7 @@ public class TimeFragment extends Fragment implements OnItemClickListener {
                 tr.setMediaType(TalkUtil.MEDIA_TYPE_TEXT);
                 mgr.add(tr);
                 
+                // update record list view
                 RecordFragment rFragment = RecordFragment.newInstance(mgr);;
                 rFragment.update();
                 // update time list view
@@ -208,11 +209,11 @@ public class TimeFragment extends Fragment implements OnItemClickListener {
              trlist.clear();
         }
         Log.d(TAG, "init data list");
-        
+        /*
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd"); 
         Date date = TalkUtil.Cal_Days(new Date(), 0);
-        
-        trlist = mgr.queryWithParams(dateFormat.format(date)); 
+        */
+        trlist = mgr.queryWithMultipleParams(TalkUtil.conditonDates()); 
         
         if(!time_record.isEmpty()) {
             time_record.clear();

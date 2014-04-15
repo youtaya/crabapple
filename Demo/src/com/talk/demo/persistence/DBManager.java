@@ -61,13 +61,34 @@ public class DBManager {
         cv.put("content", tRecord.content);  
         db.update(DATABASE_TABLE, cv, "content = ?", new String[]{tRecord.content});  
     }  
+    
     /** 
      * query all content, return list 
      * @return List<TimeRecord> 
      */  
-    public List<TimeRecord> queryWithParams(String params) {  
+    public List<TimeRecord> queryWithMultipleParams(String[] params) {  
         ArrayList<TimeRecord> trList = new ArrayList<TimeRecord>();  
-        Cursor c = queryCursorWithParams(params);  
+        Cursor c = queryCursorWithMultipleParams(params);  
+        
+        while (c.moveToNext()) {  
+            TimeRecord tr = new TimeRecord();  
+            tr._id = c.getInt(c.getColumnIndex("id"));  
+            tr.content = c.getString(c.getColumnIndex("content"));  
+            tr.create_date = c.getString(c.getColumnIndex("create_date"));
+            tr.create_time = c.getString(c.getColumnIndex("create_time"));  
+            tr.media_type = c.getInt(c.getColumnIndex("media_type"));
+            trList.add(tr);  
+        }  
+        c.close();  
+        return trList;  
+    }  
+    /** 
+     * query all content, return list 
+     * @return List<TimeRecord> 
+     */  
+    public List<TimeRecord> queryWithParam(String param) {  
+        ArrayList<TimeRecord> trList = new ArrayList<TimeRecord>();  
+        Cursor c = queryCursorWithParam(param);  
         
         while (c.moveToNext()) {  
             TimeRecord tr = new TimeRecord();  
@@ -107,9 +128,19 @@ public class DBManager {
      * query all content, return cursor 
      * @return  Cursor 
      */  
-    public Cursor queryCursorWithParams(String params) {  
+    public Cursor queryCursorWithMultipleParams(String[] params) {  
         Cursor c = db.rawQuery("SELECT * FROM "+DATABASE_TABLE+" "
-                + "WHERE create_date=?"+" ORDER BY create_date DESC, create_time DESC", new String[]{params,});  
+                + "WHERE create_date=? OR create_date=? OR create_date=? OR create_date=?"+" "
+                        + "ORDER BY create_date DESC, create_time DESC", params);  
+        return c;  
+    } 
+    /** 
+     * query all content, return cursor 
+     * @return  Cursor 
+     */  
+    public Cursor queryCursorWithParam(String param) {  
+        Cursor c = db.rawQuery("SELECT * FROM "+DATABASE_TABLE+" "
+                + "WHERE create_date=?"+" ORDER BY create_date DESC, create_time DESC", new String[]{param,});  
         return c;  
     }  
     /** 
