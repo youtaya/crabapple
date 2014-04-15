@@ -8,7 +8,7 @@
         android:layout_width="match_parent"
         android:layout_weight="1"
         android:layout_height="0dp"
-        android:background="@color/plum" >
+        android:background="@color/beige" >
         
         <ListView
             android:id="@+id/time_list"

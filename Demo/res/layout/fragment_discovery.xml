@@ -65,7 +65,7 @@
 	            android:layout_height="wrap_content"
 	            android:layout_gravity="center_horizontal"
 	            android:padding="10dp"
-	            android:text="@string/dis_preview"
+	            android:text="@string/dis_preview_hint"
 	            android:textSize="20sp" />			
 			<TextView
 			    android:id="@+id/preview_number"
