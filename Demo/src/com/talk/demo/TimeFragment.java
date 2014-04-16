@@ -181,20 +181,23 @@ public class TimeFragment extends Fragment implements OnItemClickListener {
             public void onClick(View v) {
                 // TODO Auto-generated method stub
                 String content = et.getText().toString();
-                TimeRecord tr = new TimeRecord(content);  
-                tr.setMediaType(TalkUtil.MEDIA_TYPE_TEXT);
-                mgr.add(tr);
-                
-                // update record list view
-                RecordFragment rFragment = RecordFragment.newInstance(mgr);;
-                rFragment.update();
-                // update time list view
-                initDataList();
-                adapter.notifyDataSetChanged();
-                
-                hideKeyboardAndClearET();
-                
-                mCallback.onItemChanged();
+				// Do nothing if content is empty
+                if(content.length() > 0) {
+                    TimeRecord tr = new TimeRecord(content);  
+                    tr.setMediaType(TalkUtil.MEDIA_TYPE_TEXT);
+                    mgr.add(tr);
+                    
+                    // update record list view
+                    RecordFragment rFragment = RecordFragment.newInstance(mgr);;
+                    rFragment.update();
+                    // update time list view
+                    initDataList();
+                    adapter.notifyDataSetChanged();
+                    
+                    hideKeyboardAndClearET();
+                    
+                    mCallback.onItemChanged();
+                }
             }
             
         });
