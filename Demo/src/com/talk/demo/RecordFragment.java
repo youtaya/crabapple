@@ -73,14 +73,21 @@ public class RecordFragment extends ListFragment {
             list.clear();
         }
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd"); 
-        Date date = TalkUtil.Cal_Days(new Date(), -1);
-        String revealDate = dateFormat.format(date);
+        Date date1 = TalkUtil.Cal_Days(new Date(), -1);
+        Date date2 = TalkUtil.Cal_Days(new Date(), -3);
+        Date date3 = TalkUtil.Cal_Days(new Date(), -5);
+        Date date4 = TalkUtil.Cal_Days(new Date(), -7);
+        String revealDate1 = dateFormat.format(date1);
+        String revealDate2 = dateFormat.format(date2);
+        String revealDate3 = dateFormat.format(date3);
+        String revealDate4 = dateFormat.format(date4);
         
         for (TimeRecord tr : trlist) {  
             HashMap<String, String> map = new HashMap<String, String>();  
             map.put("create_date", tr.create_date);  
             map.put("create_time", tr.create_time); 
-            if(tr.create_date.equalsIgnoreCase(revealDate))
+            if(tr.create_date.equalsIgnoreCase(revealDate1)||tr.create_date.equalsIgnoreCase(revealDate2)
+            		||tr.create_date.equalsIgnoreCase(revealDate3)||tr.create_date.equalsIgnoreCase(revealDate4))
             	map.put("status", "解封");
             else
             	map.put("status", "封存");

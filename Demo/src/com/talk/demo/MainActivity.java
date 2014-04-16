@@ -41,6 +41,8 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
     private ArrayList<Fragment> fragmentList;
     private String selectedImagePath;
     
+    private static boolean forTest = true;
+    
 	@Override
 	public void onItemChanged() {
 		// change to time fragment
@@ -73,6 +75,46 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         mgr = new DBManager(this);
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the app.
+        if(forTest) {
+        	SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd"); 
+    	    Date date1 = TalkUtil.Cal_Days(new Date(), -1);
+    	    Date date2 = TalkUtil.Cal_Days(new Date(), -2);
+            Date date3 = TalkUtil.Cal_Days(new Date(), -3);
+            Date date4 = TalkUtil.Cal_Days(new Date(), -4);
+            Date date5 = TalkUtil.Cal_Days(new Date(), -5);
+            Date date6 = TalkUtil.Cal_Days(new Date(), -6);
+            Date date7 = TalkUtil.Cal_Days(new Date(), -7);
+            String c1 = "Hello darkness, my old friend";
+            TimeRecord tr1 = new TimeRecord(c1, dateFormat.format(date1));
+            tr1.setMediaType(TalkUtil.MEDIA_TYPE_TEXT);
+            mgr.add(tr1);
+            String c2 = "I come to talk with you again";
+            TimeRecord tr2 = new TimeRecord(c2, dateFormat.format(date2));
+            tr2.setMediaType(TalkUtil.MEDIA_TYPE_TEXT);
+            mgr.add(tr2);
+            String c3 = "Because a vision softly creeping";
+            TimeRecord tr3 = new TimeRecord(c3, dateFormat.format(date3));
+            tr3.setMediaType(TalkUtil.MEDIA_TYPE_TEXT);
+            mgr.add(tr3);
+            String c4 = "Left its seeds while I was sleeping";
+            TimeRecord tr4 = new TimeRecord(c4, dateFormat.format(date4));
+            tr4.setMediaType(TalkUtil.MEDIA_TYPE_TEXT);
+            mgr.add(tr4);
+            String c5 = "And the vision that was planted in my brain";
+            TimeRecord tr5 = new TimeRecord(c5, dateFormat.format(date5));
+            tr5.setMediaType(TalkUtil.MEDIA_TYPE_TEXT);
+            mgr.add(tr5);
+            String c6 = "Still remains ";
+            TimeRecord tr6 = new TimeRecord(c6, dateFormat.format(date6));
+            tr6.setMediaType(TalkUtil.MEDIA_TYPE_TEXT);
+            mgr.add(tr6);
+            String c7 = "Within the sound of silence";
+            TimeRecord tr7 = new TimeRecord(c7, dateFormat.format(date7));
+            tr7.setMediaType(TalkUtil.MEDIA_TYPE_TEXT);
+            mgr.add(tr7);
+            
+            forTest = false;
+        }
         
         fragmentList = new ArrayList<Fragment>();
         //add time fragment

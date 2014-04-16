@@ -21,6 +21,11 @@ public class TimeRecord {
         create_time = handledTime();
     }
     
+    public TimeRecord(String v1, String date) {
+        content = v1;
+        create_date = date;
+        create_time = handledTime();
+    }
     public void setMediaType(int type) {
         media_type = type;
     }

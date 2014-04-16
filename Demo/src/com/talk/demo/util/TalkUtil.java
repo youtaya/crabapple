@@ -44,6 +44,23 @@ public class TalkUtil {
         condDate[2] = dateFormat.format(date5);
         condDate[3] = dateFormat.format(date7);
         return condDate;
-        
+	}
+	
+	public static String[] preConditonDates(Date d) {
+	    String[] condDate = new String[4];
+	    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd"); 
+	    Date date1 = Cal_Days(d, -1);
+        Date date3 = Cal_Days(d, -3);
+        Date date5 = Cal_Days(d, -5);
+        Date date7 = Cal_Days(d, -7);
+        condDate[0] = dateFormat.format(date1);
+        condDate[1] = dateFormat.format(date3);
+        condDate[2] = dateFormat.format(date5);
+        condDate[3] = dateFormat.format(date7);
+        return condDate;
+	}
+	public static String currentDate() {
+		 SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		 return dateFormat.format(new Date());
 	}
 }

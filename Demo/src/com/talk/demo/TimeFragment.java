@@ -1,8 +1,7 @@
 package com.talk.demo;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -10,6 +9,7 @@ import java.util.Map;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
@@ -221,7 +221,30 @@ public class TimeFragment extends Fragment implements OnItemClickListener {
         }
     }
 
-   
+    // Calculate the difference days after first use time
+    private void CalDiffDays() {
+        Calendar calendar = Calendar.getInstance();
+        Calendar savedCalendar = Calendar.getInstance();
+        SharedPreferences sPreferences = getActivity().getSharedPreferences("first_use_time", Context.MODE_PRIVATE);
+        int sYear = sPreferences.getInt("year", 0);
+        int sMonth = sPreferences.getInt("month", 0);
+        int sDay = sPreferences.getInt("day", 0);
+        savedCalendar.set(sYear, sMonth, sDay);
+        long last = calendar.getTimeInMillis()-savedCalendar.getTimeInMillis();
+        long diffDays = last / (24 * 60 * 60 * 1000);
+        Log.d(TAG, "last day : "+diffDays);
+    }
+    
+    // Calculate whether luck day
+    private int isLuckDay() {
+        Calendar calendar = Calendar.getInstance();
+        Calendar savedCalendar = Calendar.getInstance();
+        SharedPreferences sPreferences = getActivity().getSharedPreferences("luck_day", Context.MODE_PRIVATE);
+        int sMonth = sPreferences.getInt("Month", 0);
+        int sDay = sPreferences.getInt("Day", 0);
+        savedCalendar.set(calendar.get(calendar.YEAR), sMonth, sDay);
+        return calendar.compareTo(savedCalendar);
+    }
     private ArrayList<Map<String, String>> initDataList() {  
         if(!trlist.isEmpty()) {
              trlist.clear();
@@ -231,7 +254,10 @@ public class TimeFragment extends Fragment implements OnItemClickListener {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd"); 
         Date date = TalkUtil.Cal_Days(new Date(), 0);
         */
-        trlist = mgr.queryWithMultipleParams(TalkUtil.conditonDates()); 
+        if(isLuckDay() == 0) {
+        	trlist = mgr.query();
+        } else
+        	trlist = mgr.queryWithMultipleParams(TalkUtil.conditonDates()); 
         
         if(!time_record.isEmpty()) {
             time_record.clear();

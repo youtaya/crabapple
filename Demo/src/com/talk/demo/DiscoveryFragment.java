@@ -41,11 +41,9 @@ public class DiscoveryFragment extends Fragment {
     }
 
     public int getPreviewNumber() {
-	    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd"); 
 	    SimpleDateFormat pDateFormat = new SimpleDateFormat("yyyy/MM/dd"); 
-	    Date date = TalkUtil.Cal_Days(new Date(), 0);
 	    Date previewDate = TalkUtil.Cal_Days(new Date(), 1);
 	    preDate = pDateFormat.format(previewDate);
-	    return mgr.queryWithParam(dateFormat.format(date)).size(); 
+	    return mgr.queryWithMultipleParams(TalkUtil.preConditonDates(previewDate)).size(); 
     }
 }
