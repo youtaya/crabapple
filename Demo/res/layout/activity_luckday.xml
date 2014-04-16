@@ -20,9 +20,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_weight="0.3"
-        android:paddingLeft="1dp"
-        android:paddingRight="1dp"
-        android:paddingTop="30dp" >
+        android:paddingTop="3dp" >
 
         <kankan.wheel.widget.WheelView 
             android:id="@+id/month"
