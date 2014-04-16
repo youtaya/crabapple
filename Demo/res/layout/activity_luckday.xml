@@ -4,7 +4,6 @@
     android:background="@color/salmon"
     android:orientation="vertical">
      <LinearLayout
-		xmlns:android="http://schemas.android.com/apk/res/android"
 		android:layout_weight="1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -14,16 +13,15 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center"
-            android:text="Date Setting"/>
+            android:text="@string/setting_date"/>
      </LinearLayout>   
     <LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_weight="0.3"
-        android:paddingLeft="2dp"
-        android:paddingRight="2dp"
+        android:paddingLeft="1dp"
+        android:paddingRight="1dp"
         android:paddingTop="30dp" >
 
         <kankan.wheel.widget.WheelView 

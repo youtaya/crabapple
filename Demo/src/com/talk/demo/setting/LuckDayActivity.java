@@ -2,12 +2,19 @@ package com.talk.demo.setting;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.talk.demo.MainActivity;
 import com.talk.demo.R;
 
 import java.util.Calendar;
@@ -19,17 +26,32 @@ import kankan.wheel.widget.adapters.NumericWheelAdapter;
 
 
 public class LuckDayActivity extends Activity {
+    private static String TAG = "LuckDayActivity";
     private TextView tv;
+    private WheelView month;
+    private WheelView day;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        
+        //if date has set, go to main activity
+        SharedPreferences sPreferences = getSharedPreferences("luck_day", Context.MODE_PRIVATE);
+        int setMonth = sPreferences.getInt("Month", 0);
+        int setDay = sPreferences.getInt("day", 0);
+        if(setMonth > 0 || setDay > 0) {
+            Log.d(TAG, "month is : "+setMonth+ "day is : "+setDay);
+            Intent mIntent = new Intent();
+            mIntent.setClass(this, MainActivity.class);
+            startActivity(mIntent);
+            finish();
+        }
         setContentView(R.layout.activity_luckday);
 
         tv = (TextView)findViewById(R.id.setting_date);
         Calendar calendar = Calendar.getInstance();
 
-        final WheelView month = (WheelView) findViewById(R.id.month);
-        final WheelView day = (WheelView) findViewById(R.id.day);
+        month = (WheelView) findViewById(R.id.month);
+        day = (WheelView) findViewById(R.id.day);
 
         OnWheelChangedListener listener = new OnWheelChangedListener() {
             @Override
@@ -52,7 +74,38 @@ public class LuckDayActivity extends Activity {
         day.setCurrentItem(calendar.get(Calendar.DAY_OF_MONTH) - 1);
         day.addChangingListener(listener);
     }
-
+    
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.luck_activity_actions, menu);
+        return true;
+    }
+    
+    private void confirmDate() {
+        //save setting date
+        SharedPreferences sp = getSharedPreferences("luck_day", Context.MODE_PRIVATE);
+        Editor editor = sp.edit();
+        editor.putInt("Month", month.getCurrentItem());
+        editor.putInt("day", day.getCurrentItem());
+        editor.commit();
+        //goto main activity
+        Intent mIntent = new Intent();
+        mIntent.setClass(this, MainActivity.class);
+        startActivity(mIntent);
+        finish();
+    }
+    
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch(item.getItemId()) {
+            case R.id.action_confirm:
+                confirmDate();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
     /**
      * Updates day wheel. Sets max days according to selected month and year
      */

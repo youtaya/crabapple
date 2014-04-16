@@ -11,5 +11,9 @@
     <string name="dis_preview">时光预览</string>
     <string name="dis_preview_hint">时光预览数</string>
     <string name="dis_connection">青石所系</string>
+    <string name="action_confirm">确定</string>
+    <string name="setting_date">设定幸运日期，幸运日会将往事时
+        光全部呈现\n如跳过设定，默认为当前日期\n可以在设定菜单中重新设置幸运日期</string>
+    
 
 </resources>
