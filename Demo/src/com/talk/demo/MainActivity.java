@@ -1,22 +1,17 @@
 
 package com.talk.demo;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Locale;
-
 import android.app.ActionBar;
 import android.app.FragmentTransaction;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
-import android.os.Parcelable;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -30,6 +25,13 @@ import com.talk.demo.persistence.DBManager;
 import com.talk.demo.persistence.TimeRecord;
 import com.talk.demo.util.TalkUtil;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
+
 public class MainActivity extends FragmentActivity implements ActionBar.TabListener, TimeFragment.OnItemChangedListener {
 
     private static String TAG = "MainActivity";
@@ -41,7 +43,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
     private ArrayList<Fragment> fragmentList;
     private String selectedImagePath;
     
-    private static boolean forTest = true;
+    private boolean forTest = true;
     
 	@Override
 	public void onItemChanged() {
@@ -75,6 +77,8 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         mgr = new DBManager(this);
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the app.
+        SharedPreferences sPreferences = getSharedPreferences("for_test", Context.MODE_PRIVATE);
+        forTest = sPreferences.getBoolean("test", true);
         if(forTest) {
         	SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd"); 
     	    Date date1 = TalkUtil.Cal_Days(new Date(), -1);
@@ -113,7 +117,10 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
             tr7.setMediaType(TalkUtil.MEDIA_TYPE_TEXT);
             mgr.add(tr7);
             
-            forTest = false;
+            SharedPreferences sp = getSharedPreferences("for_test", Context.MODE_PRIVATE);
+            Editor editor = sp.edit();
+            editor.putBoolean("test", false);
+            editor.commit();
         }
         
         fragmentList = new ArrayList<Fragment>();

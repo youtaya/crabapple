@@ -37,7 +37,7 @@ public class TimeRecord {
     }
     
     public String handledTime() {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss"); 
+        SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss:SSSS"); 
         Date date = new Date();
         return dateFormat.format(date);
     }
