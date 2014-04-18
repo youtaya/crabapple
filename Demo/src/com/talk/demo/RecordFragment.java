@@ -28,6 +28,11 @@ public class RecordFragment extends ListFragment {
     private SimpleAdapter adapter;
     private static RecordFragment instance;
     
+    int[] status = new int[] {
+            R.drawable.lock_status,
+            R.drawable.unlock_status,
+
+        };
     static RecordFragment newInstance(DBManager db) {
         if(instance == null) {
             instance = new RecordFragment(db);
@@ -88,9 +93,9 @@ public class RecordFragment extends ListFragment {
             map.put("create_time", tr.create_time); 
             if(tr.create_date.equalsIgnoreCase(revealDate1)||tr.create_date.equalsIgnoreCase(revealDate2)
             		||tr.create_date.equalsIgnoreCase(revealDate3)||tr.create_date.equalsIgnoreCase(revealDate4))
-            	map.put("status", "解封");
+            	map.put("status", Integer.toString(status[1]));
             else
-            	map.put("status", "封存");
+            	map.put("status", Integer.toString(status[0]));
             list.add(map);  
         }  
   

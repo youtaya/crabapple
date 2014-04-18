@@ -6,53 +6,46 @@
     android:layout_marginTop="6dp"
     android:descendantFocusability="blocksDescendants"
     android:orientation="horizontal"
-    android:background="@color/lightransparent"
+    android:background="@color/darkgoldenrod"
     android:paddingBottom="8dp"
     android:paddingLeft="0dp"
     android:paddingRight="0dp"
     tools:context=".MainActivity" >
 
-    <FrameLayout
-		android:layout_width="match_parent"
-		android:layout_height="match_parent">
-	    <LinearLayout
-	        android:layout_width="wrap_content"
-	        android:layout_height="match_parent"
-	        android:paddingLeft="18dp"
-	        android:orientation="vertical" >
-	
-			<TextView
-		        android:id="@+id/create_date"
-		        android:layout_width="match_parent"
-		        android:layout_height="wrap_content"
-		        android:layout_marginTop="4dp"
-		        android:maxLines="3"
-		        android:paddingLeft="4dp"
-		        android:paddingRight="4dp"
-		        android:textColor="#99CC00"
-		        android:textSize="22sp" />
-		    <TextView
-		        android:id="@+id/create_time"
-		        android:layout_width="match_parent"
-		        android:layout_height="wrap_content"
-		        android:layout_marginTop="4dp"
-		        android:maxLines="3"
-		        android:paddingLeft="12dp"
-		        android:paddingRight="4dp"
-		        android:textColor="@color/mistyrose"
-		        android:textSize="16sp" />
-	    </LinearLayout>
-	    
+    <LinearLayout
+        android:id="@+id/record_ll"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:paddingLeft="18dp"
+        android:orientation="vertical" >
+
+		<TextView
+	        android:id="@+id/create_date"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:layout_marginTop="4dp"
+	        android:maxLines="3"
+	        android:paddingLeft="4dp"
+	        android:paddingRight="4dp"
+	        android:textColor="@color/lightransparent"
+	        android:textSize="22sp" />
 	    <TextView
-	        android:id="@+id/status"
-	        android:layout_width="wrap_content"
-	        android:layout_height="match_parent"
-	        android:gravity="center_vertical"
-	        android:paddingTop="10dp"
-	        android:paddingLeft="176dp"
-	        android:textStyle="bold|italic"
-	        android:alpha="0.7"
-	        android:textColor="@color/ghostwhite"
-	        android:textSize="28sp" />
-    </FrameLayout>
+	        android:id="@+id/create_time"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:layout_marginTop="4dp"
+	        android:maxLines="3"
+	        android:paddingLeft="12dp"
+	        android:paddingRight="4dp"
+	        android:textColor="@color/semitransparent"
+	        android:textSize="16sp" />
+    </LinearLayout>
+    
+    <ImageView
+        android:id="@+id/status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/record_ll"
+        android:layout_marginLeft="30dip"
+        android:background="@drawable/status_bg" />
 </RelativeLayout>
