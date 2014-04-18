@@ -1,5 +1,21 @@
 package com.talk.demo;
 
+import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ListView;
+import android.widget.SimpleAdapter;
+import android.widget.Toast;
+
+import com.talk.demo.persistence.DBManager;
+import com.talk.demo.persistence.TimeRecord;
+import com.talk.demo.util.TalkUtil;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -7,19 +23,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import android.os.Bundle;
-import android.support.v4.app.ListFragment;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.SimpleAdapter;
-
-import com.talk.demo.persistence.DBManager;
-import com.talk.demo.persistence.TimeRecord;
-import com.talk.demo.util.TalkUtil;
-
-public class RecordFragment extends ListFragment {
+public class RecordFragment extends Fragment {
     private static String TAG = "RecordFragment";
     
     private DBManager mgr;  
@@ -61,8 +65,8 @@ public class RecordFragment extends ListFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_record, container, false);
-        
-        setListAdapter(adapter);
+        ListView lv = (ListView)rootView.findViewById(R.id.record_list);
+        lv.setAdapter(adapter);
         adapter.notifyDataSetChanged();
         return rootView;
     }
