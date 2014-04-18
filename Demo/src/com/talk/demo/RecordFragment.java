@@ -35,8 +35,9 @@ public class RecordFragment extends Fragment {
     int[] status = new int[] {
             R.drawable.lock_status,
             R.drawable.unlock_status,
-
-        };
+            R.drawable.send_knows,
+            };
+    
     static RecordFragment newInstance(DBManager db) {
         if(instance == null) {
             instance = new RecordFragment(db);
@@ -58,7 +59,8 @@ public class RecordFragment extends Fragment {
         
         //mgr = new DBManager(getActivity());
         adapter = new SimpleAdapter(getActivity(), initDataList(), R.layout.record_status_listitem,  
-                new String[]{"create_date", "create_time", "status"}, new int[]{R.id.create_date, R.id.create_time, R.id.status});
+                new String[]{"create_date", "create_time", "status", "send_knows"}, 
+                new int[]{R.id.create_date, R.id.create_time, R.id.status, R.id.send_knows});
         
     }
     
@@ -100,6 +102,7 @@ public class RecordFragment extends Fragment {
             	map.put("status", Integer.toString(status[1]));
             else
             	map.put("status", Integer.toString(status[0]));
+            map.put("send_knows", Integer.toString(status[2]));
             list.add(map);  
         }  
   
