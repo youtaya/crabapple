@@ -4,31 +4,20 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
-	<LinearLayout 
-	    android:orientation="vertical" 
-	    android:layout_alignParentTop="true" 
-		android:layout_alignParentLeft="true" 
-		android:layout_width="fill_parent" 
-		android:layout_height="fill_parent" >
-		<TextView
-            android:id="@+id/item_time"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.1"
-            android:gravity="center"
-            android:textColor="@color/pager_title_background_top_end"
-            android:background="@color/lemonchiffon"
-            android:textSize="18.0dip" />
-		
-		<TextView
-            android:id="@+id/item_content"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:textColor="#9933CC"
-            android:background="#FFF5EE"
-            android:textSize="23.0dip" />
-	</LinearLayout>
+	<TextView
+           android:id="@+id/item_time"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:paddingTop="5dip"
+           android:paddingBottom="8dip"
+           android:gravity="center"
+           android:textColor="@color/pager_title_background_top_end"
+           android:background="@color/lemonchiffon"
+           android:textSize="18.0dip" />
+	
+	<WebView
+           android:id="@+id/item_content"
+           android:layout_width="match_parent"
+           android:layout_height="fill_parent" />
     
 </LinearLayout>

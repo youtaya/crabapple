@@ -1,14 +1,12 @@
 package com.talk.demo.time;
 
-import java.io.File;
-
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView;
 import android.widget.TextView;
 
 import com.talk.demo.R;
@@ -21,7 +19,7 @@ public class TimeItem extends Fragment {
     private String valueContent;
     private String creatTime;
     private int media_type;
-    private TextView txView;
+    private WebView wvView;
     private TextView tvTime;
     
     static TimeItem newInstance(RecordCache content) {
@@ -47,23 +45,29 @@ public class TimeItem extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
         Log.d(TAG, "TestFragment-----onCreateView");
         View view = inflater.inflate(R.layout.time_item, container, false);
-        txView = (TextView) view.findViewById(R.id.item_content);
+        wvView = (WebView) view.findViewById(R.id.item_content);
         tvTime = (TextView) view.findViewById(R.id.item_time);
         
         tvTime.setText(creatTime);
-        if(media_type == TalkUtil.MEDIA_TYPE_TEXT)
-        	txView.setText(valueContent);
+        if(media_type == TalkUtil.MEDIA_TYPE_TEXT) {
+        	String textHtml = "<html><body><p style=\"font-family: times, Times New Roman, times-roman, georgia, serif;" +
+        			"color: #444;margin: 0;padding: 0px 0px 6px 0px;" +
+        			"font-size: 51px;line-height: 44px;" +
+        			"letter-spacing: -2px;" +
+        			"font-weight: bold;" +
+        			"text-align:center;font-size:30px\">"+valueContent+"</p></body></html>";
+        	wvView.loadDataWithBaseURL(null, textHtml, "text/html", "UTF-8","");
+        }
         else if(media_type == TalkUtil.MEDIA_TYPE_PHOTO) {
-        	loadImageFromSD(valueContent);
+        	wvView.getSettings().setLoadWithOverviewMode(true);
+        	wvView.getSettings().setUseWideViewPort(true);
+        	String imagePath = "file://"+ valueContent;
+        	String imageHtml = "<html><head></head><body><img src="+ imagePath + " width=\"100%\"></body></html>";
+        	wvView.loadDataWithBaseURL(null, imageHtml, "text/html", "UTF-8","");
         } else {
         	Log.d(TAG, "audio type not support!");
         }
         return view;
     }
     
-    private void loadImageFromSD(String fileDirName) {
-    	File imageFile = new File(fileDirName);
-    	BitmapDrawable d = new BitmapDrawable(getResources(), imageFile.getAbsolutePath());
-    	txView.setBackground(d);
-    }
 }

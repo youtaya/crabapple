@@ -372,8 +372,7 @@ public class TimeFragment extends Fragment implements OnItemClickListener {
             String[] projection = { MediaStore.Images.Media.DATA };
             Cursor cursor = getActivity().managedQuery(uri, projection, null, null, null);
             if( cursor != null ){
-                int column_index = cursor
-                .getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+                int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
                 cursor.moveToFirst();
                 return cursor.getString(column_index);
             }
