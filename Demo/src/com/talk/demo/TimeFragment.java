@@ -1,7 +1,11 @@
 package com.talk.demo;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -10,7 +14,11 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
@@ -55,6 +63,8 @@ public class TimeFragment extends Fragment implements OnItemClickListener {
     private SimpleAdapter adapter;
     private LinearLayout take_snap;
     private boolean snap_on = false;
+    private String selectedImagePath;
+    
     public TimeFragment(DBManager db) {
         time_record = new ArrayList<Map<String, String>>();
         trlist = new ArrayList<TimeRecord>();
@@ -73,7 +83,7 @@ public class TimeFragment extends Fragment implements OnItemClickListener {
     private void dispatchTakePictureIntent() {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (takePictureIntent.resolveActivity(getActivity().getPackageManager()) != null) {
-        	getActivity().startActivityForResult(takePictureIntent, TalkUtil.REQUEST_IMAGE_CAPTURE);
+        	startActivityForResult(takePictureIntent, TalkUtil.REQUEST_IMAGE_CAPTURE);
         }
     }
     
@@ -81,13 +91,13 @@ public class TimeFragment extends Fragment implements OnItemClickListener {
         Intent intent = new Intent();
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
-        getActivity().startActivityForResult(Intent.createChooser(intent,
+        startActivityForResult(Intent.createChooser(intent,
                 "Select Picture"), TalkUtil.REQUEST_SELECT_PICTURE);
     }
     
     private void dispatchTakeTapeIntent() {
         Intent intent = new Intent(getActivity(), FunAudioRecord.class);
-        getActivity().startActivityForResult(intent, TalkUtil.REQUEST_AUDIO_CAPTURE);
+        startActivityForResult(intent, TalkUtil.REQUEST_AUDIO_CAPTURE);
     }
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
@@ -250,10 +260,7 @@ public class TimeFragment extends Fragment implements OnItemClickListener {
              trlist.clear();
         }
         Log.d(TAG, "init data list");
-        /*
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd"); 
-        Date date = TalkUtil.Cal_Days(new Date(), 0);
-        */
+
         if(isLuckDay() == 0) {
         	trlist = mgr.query();
         } else
@@ -321,6 +328,92 @@ public class TimeFragment extends Fragment implements OnItemClickListener {
         initDataList();
         adapter.notifyDataSetChanged();
 
+    }
+    
+    private void createDirAndSaveFile(Bitmap imageToSave, String fileName) {
+        File direct = new File(Environment.getExternalStorageDirectory() + "/Demo");
+        
+        if(!direct.exists()) {
+            File fileDirectory = new File("/sdcard/Demo/");
+            fileDirectory.mkdirs();
+        }
+        
+        File file = new File(new File("/sdcard/Demo/"), fileName);
+        
+        if(file.exists())
+            file.delete();
+        
+        try {
+            FileOutputStream out = new FileOutputStream(file);
+            imageToSave.compress(Bitmap.CompressFormat.JPEG, 100, out);
+            out.flush();
+            out.close();
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+    }
+    private String getTimeAsFileName() {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss"); 
+        Date date = new Date();
+        return dateFormat.format(date);
+    }
+    
+    /**
+     * helper to retrieve the path of an image URI
+     */
+    public String getPath(Uri uri) {
+            // just some safety built in 
+            if( uri == null ) {
+                // TODO perform some logging or show user feedback
+                return null;
+            }
+            // try to retrieve the image from the media store first
+            // this will only work for images selected from gallery
+            String[] projection = { MediaStore.Images.Media.DATA };
+            Cursor cursor = getActivity().managedQuery(uri, projection, null, null, null);
+            if( cursor != null ){
+                int column_index = cursor
+                .getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+                cursor.moveToFirst();
+                return cursor.getString(column_index);
+            }
+            // this is our fallback here
+            return uri.getPath();
+    }
+    
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Log.d(TAG, "got the return :"+requestCode+" :"+resultCode);
+        switch(requestCode) {
+            case TalkUtil.REQUEST_IMAGE_CAPTURE:
+                if (resultCode == getActivity().RESULT_OK) {
+                    Bundle extras = data.getExtras();
+                    Bitmap imageBitmap = (Bitmap) extras.get("data");
+                    //mImageView.setImageBitmap(imageBitmap);
+                    String fileName = getTimeAsFileName();
+                    createDirAndSaveFile(imageBitmap, fileName);
+                    
+                    TimeRecord tr = new TimeRecord("/sdcard/Demo/"+fileName);
+                    
+                    tr.setMediaType(TalkUtil.MEDIA_TYPE_PHOTO);;
+
+                    mgr.add(tr);
+                }
+                break;
+            case TalkUtil.REQUEST_SELECT_PICTURE:
+                if (resultCode == getActivity().RESULT_OK) {
+
+                    Uri selectedImageUri = data.getData();
+                    selectedImagePath = getPath(selectedImageUri);
+                    TimeRecord tr = new TimeRecord(selectedImagePath);
+                    tr.setMediaType(TalkUtil.MEDIA_TYPE_PHOTO);;
+                    mgr.add(tr);
+                }
+                break;
+            default:
+                Log.d(TAG, "unknown type!!");
+                break;
+        }
     }
 
 }

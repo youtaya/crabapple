@@ -41,7 +41,6 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
     private RecordFragment recordFragment;
     private DiscoveryFragment discoveryFragment;
     private ArrayList<Fragment> fragmentList;
-    private String selectedImagePath;
     
     private boolean forTest = true;
     
@@ -245,82 +244,4 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         //mgr.closeDB();  
     }
     
-    private void createDirAndSaveFile(Bitmap imageToSave, String fileName) {
-        File direct = new File(Environment.getExternalStorageDirectory() + "/Demo");
-        
-        if(!direct.exists()) {
-            File fileDirectory = new File("/sdcard/Demo/");
-            fileDirectory.mkdirs();
-        }
-        
-        File file = new File(new File("/sdcard/Demo/"), fileName);
-        
-        if(file.exists())
-            file.delete();
-        
-        try {
-            FileOutputStream out = new FileOutputStream(file);
-            imageToSave.compress(Bitmap.CompressFormat.JPEG, 100, out);
-            out.flush();
-            out.close();
-        } catch(Exception e) {
-            e.printStackTrace();
-        }
-    }
-    private String getTimeAsFileName() {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss"); 
-        Date date = new Date();
-        return dateFormat.format(date);
-    }
-    
-    /**
-     * helper to retrieve the path of an image URI
-     */
-    public String getPath(Uri uri) {
-            // just some safety built in 
-            if( uri == null ) {
-                // TODO perform some logging or show user feedback
-                return null;
-            }
-            // try to retrieve the image from the media store first
-            // this will only work for images selected from gallery
-            String[] projection = { MediaStore.Images.Media.DATA };
-            Cursor cursor = managedQuery(uri, projection, null, null, null);
-            if( cursor != null ){
-                int column_index = cursor
-                .getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-                cursor.moveToFirst();
-                return cursor.getString(column_index);
-            }
-            // this is our fallback here
-            return uri.getPath();
-    }
-    
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-    	Log.d(TAG, "got the return :"+requestCode+" :"+resultCode);
-        if (requestCode == TalkUtil.REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
-            Bundle extras = data.getExtras();
-            Bitmap imageBitmap = (Bitmap) extras.get("data");
-            //mImageView.setImageBitmap(imageBitmap);
-            String fileName = getTimeAsFileName();
-            createDirAndSaveFile(imageBitmap, fileName);
-            
-            TimeRecord tr = new TimeRecord("/sdcard/Demo/"+fileName);
-            
-            tr.setMediaType(TalkUtil.MEDIA_TYPE_PHOTO);;
-
-            mgr.add(tr);
-        }
-        
-        if (requestCode == TalkUtil.REQUEST_SELECT_PICTURE && resultCode == RESULT_OK) {
-
-            Uri selectedImageUri = data.getData();
-            selectedImagePath = getPath(selectedImageUri);
-		    TimeRecord tr = new TimeRecord(selectedImagePath);
-		    tr.setMediaType(TalkUtil.MEDIA_TYPE_PHOTO);;
-		    mgr.add(tr);
-        }
-    }
-
 }
