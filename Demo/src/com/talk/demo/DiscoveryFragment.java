@@ -1,8 +1,6 @@
 package com.talk.demo;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -13,6 +11,9 @@ import android.widget.TextView;
 
 import com.talk.demo.persistence.DBManager;
 import com.talk.demo.util.TalkUtil;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class DiscoveryFragment extends Fragment {
 	private static String TAG = "DiscoveryFragment";
@@ -34,9 +35,11 @@ public class DiscoveryFragment extends Fragment {
         preNum = getPreviewNumber();
         
         tvDate.setText(preDate);
+        tvDate.setTextColor(Color.parseColor("cyan"));
         
         Log.d(TAG, "num : "+preNum);
         tv.setText(String.valueOf(preNum));
+        tv.setTextColor(Color.parseColor("magenta"));
         return rootView;
     }
 

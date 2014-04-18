@@ -42,12 +42,7 @@
 	            android:padding="10dp"
 	            android:text="@string/dis_preview"
 	            android:textSize="20sp" />
-	        
-	        <ImageView
-	            android:layout_width="wrap_content"
-	            android:layout_height="wrap_content"
-	            android:layout_gravity="center_horizontal"
-	            android:src="@drawable/new_selected" />
+
 		</LinearLayout>
 		
         <LinearLayout
@@ -59,7 +54,7 @@
 	            android:layout_height="wrap_content"
 	            android:layout_gravity="center_horizontal"
 	            android:padding="10dp"
-	            android:textSize="20sp" />
+	            android:textSize="22sp" />
 			<TextView
 	            android:layout_width="wrap_content"
 	            android:layout_height="wrap_content"
@@ -73,7 +68,13 @@
 	            android:layout_height="wrap_content"
 	            android:layout_gravity="center_horizontal"
 	            android:padding="10dp"
-	            android:textSize="20sp" />
+	            android:textSize="22sp" />
+			<ImageView
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:paddingTop="5dp"
+	            android:layout_gravity="center_horizontal"
+	            android:src="@drawable/new_selected" />
 	    </LinearLayout>
     </LinearLayout>  
        
