@@ -37,7 +37,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
-import com.talk.demo.audio.FunAudioRecord;
+import com.talk.demo.audio.AudioRecorderActivity;
 import com.talk.demo.persistence.DBManager;
 import com.talk.demo.persistence.RecordCache;
 import com.talk.demo.persistence.TimeRecord;
@@ -96,9 +96,10 @@ public class TimeFragment extends Fragment implements OnItemClickListener {
     }
     
     private void dispatchTakeTapeIntent() {
-        Intent intent = new Intent(getActivity(), FunAudioRecord.class);
+        Intent intent = new Intent(getActivity(), AudioRecorderActivity.class);
         startActivityForResult(intent, TalkUtil.REQUEST_AUDIO_CAPTURE);
     }
+    
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_time, container, false);
@@ -160,16 +161,13 @@ public class TimeFragment extends Fragment implements OnItemClickListener {
         TextWatcher watcher = new TextWatcher() {
 			@Override
 			public void afterTextChanged(Editable s) {
-				// TODO Auto-generated method stub
 			}
-
 			@Override
 			public void beforeTextChanged(CharSequence s, int start, int count,
 					int after) {
 				// TODO Auto-generated method stub
 				iv.setImageResource(R.drawable.btn_check_on_normal);
 			}
-
 			@Override
 			public void onTextChanged(CharSequence s, int start, int before,
 					int count) {
@@ -179,17 +177,13 @@ public class TimeFragment extends Fragment implements OnItemClickListener {
 				} else {
 					iv.setImageResource(R.drawable.btn_check_off_normal);
 				}
-				
 			}
-        	
         };
         et.addTextChangedListener(watcher);
         
         iv.setOnClickListener(new OnClickListener() {
-
             @Override
             public void onClick(View v) {
-                // TODO Auto-generated method stub
                 String content = et.getText().toString();
 				// Do nothing if content is empty
                 if(content.length() > 0) {
@@ -209,7 +203,6 @@ public class TimeFragment extends Fragment implements OnItemClickListener {
                     mCallback.onItemChanged();
                 }
             }
-            
         });
         
         initListView();
@@ -264,7 +257,7 @@ public class TimeFragment extends Fragment implements OnItemClickListener {
         if(isLuckDay() == 0) {
         	trlist = mgr.query();
         } else
-        	trlist = mgr.queryWithMultipleParams(TalkUtil.conditonDates()); 
+        	trlist = mgr.queryWithMultipleParams(TalkUtil.conditonDates());
         
         if(!time_record.isEmpty()) {
             time_record.clear();
@@ -275,8 +268,11 @@ public class TimeFragment extends Fragment implements OnItemClickListener {
             RecordCache rc = new RecordCache();
             if(tr.media_type == TalkUtil.MEDIA_TYPE_PHOTO)
             	map.put("content", "惊鸿一瞥"); 
+            else if(tr.media_type == TalkUtil.MEDIA_TYPE_AUDIO)
+            	map.put("content", "口若兰花"); 
             else
             	map.put("content", tr.content); 
+
             rc.setContent(tr.content);
             map.put("create_date", tr.create_date);
             rc.setCreateDate(tr.create_date);
@@ -381,27 +377,23 @@ public class TimeFragment extends Fragment implements OnItemClickListener {
     }
     
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
         Log.d(TAG, "got the return :"+requestCode+" :"+resultCode);
         switch(requestCode) {
             case TalkUtil.REQUEST_IMAGE_CAPTURE:
                 if (resultCode == getActivity().RESULT_OK) {
                     Bundle extras = data.getExtras();
                     Bitmap imageBitmap = (Bitmap) extras.get("data");
-                    //mImageView.setImageBitmap(imageBitmap);
                     String fileName = getTimeAsFileName();
                     createDirAndSaveFile(imageBitmap, fileName);
                     
                     TimeRecord tr = new TimeRecord("/sdcard/Demo/"+fileName);
-                    
                     tr.setMediaType(TalkUtil.MEDIA_TYPE_PHOTO);;
-
                     mgr.add(tr);
                 }
                 break;
             case TalkUtil.REQUEST_SELECT_PICTURE:
                 if (resultCode == getActivity().RESULT_OK) {
-
                     Uri selectedImageUri = data.getData();
                     selectedImagePath = getPath(selectedImageUri);
                     TimeRecord tr = new TimeRecord(selectedImagePath);
@@ -409,6 +401,15 @@ public class TimeFragment extends Fragment implements OnItemClickListener {
                     mgr.add(tr);
                 }
                 break;
+            case TalkUtil.MEDIA_TYPE_AUDIO:
+            	if (resultCode == getActivity().RESULT_OK) {
+            		Bundle extras = data.getExtras();
+            		String audioFileName = (String)extras.get("audio_file_name");
+                    TimeRecord tr = new TimeRecord(audioFileName);
+                    tr.setMediaType(TalkUtil.MEDIA_TYPE_AUDIO);;
+                    mgr.add(tr);
+            	}
+            	break;
             default:
                 Log.d(TAG, "unknown type!!");
                 break;

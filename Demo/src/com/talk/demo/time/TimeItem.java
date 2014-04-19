@@ -57,15 +57,22 @@ public class TimeItem extends Fragment {
         			"font-weight: bold;" +
         			"text-align:center;font-size:30px\">"+valueContent+"</p></body></html>";
         	wvView.loadDataWithBaseURL(null, textHtml, "text/html", "UTF-8","");
-        }
-        else if(media_type == TalkUtil.MEDIA_TYPE_PHOTO) {
+        } else if(media_type == TalkUtil.MEDIA_TYPE_PHOTO) {
         	wvView.getSettings().setLoadWithOverviewMode(true);
         	wvView.getSettings().setUseWideViewPort(true);
         	String imagePath = "file://"+ valueContent;
         	String imageHtml = "<html><head></head><body><img src="+ imagePath + " width=\"100%\"></body></html>";
         	wvView.loadDataWithBaseURL(null, imageHtml, "text/html", "UTF-8","");
+        } else if(media_type == TalkUtil.MEDIA_TYPE_PHOTO) {
+        	String audioPath = "file://"+ valueContent;
+        	String testH = "<video width=\"100%\" height=\"48\" controls>" +
+        			"<source src="+audioPath+" type=\"video/mp4\"></video>";
+
+        	String audioHtml = "<html><head></head><body>"+testH+"</body></html>";
+        	wvView.loadDataWithBaseURL(null, audioHtml, "text/html", "UTF-8","");
+        	Log.d(TAG, "audio type support!");
         } else {
-        	Log.d(TAG, "audio type not support!");
+        	Log.d(TAG, "unknown type not support!");
         }
         return view;
     }
