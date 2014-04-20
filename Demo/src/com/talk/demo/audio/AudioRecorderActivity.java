@@ -14,6 +14,8 @@ import android.media.MediaRecorder;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageButton;
@@ -66,7 +68,7 @@ public class AudioRecorderActivity extends Activity
     }
 
     private void startRecording() {
-        mRecorder = new MediaRecorder();
+        
         mRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
         mRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
         mRecorder.setOutputFile(getTimeAsFileName());
@@ -86,14 +88,6 @@ public class AudioRecorderActivity extends Activity
         mRecorder.release();
         mRecorder = null;
         
-        //save record audio file
-        saveFile(mFileName);
-        
-        //pass result to previous activity
-        Intent resultIntent = new Intent();
-        resultIntent.putExtra("audio_file_name", mFileName);
-        setResult(RESULT_OK, resultIntent);
-        finish();
     }
   
     private void createDir(String fileName) {
@@ -126,7 +120,6 @@ public class AudioRecorderActivity extends Activity
         
         createDir(dateFormat.format(date));
         String fileName = "/sdcard/Demo/"+ dateFormat.format(date);
-        fileName = fileName+".3gp";
         mFileName = fileName;
         return fileName;
     }
@@ -158,8 +151,33 @@ public class AudioRecorderActivity extends Activity
 			}
         	
         });
+        
+        mRecorder = new MediaRecorder();
     }
     
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.confirm_actions, menu);
+        return true;
+    }  
+    
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch(item.getItemId()) {
+            case R.id.action_confirm:
+                //save record audio file
+                saveFile(mFileName);
+                //pass result to previous activity
+                Intent resultIntent = new Intent();
+                resultIntent.putExtra("audio_file_name", mFileName);
+                setResult(RESULT_OK, resultIntent);
+                finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
     @Override
     public void onPause() {
         super.onPause();
@@ -172,7 +190,6 @@ public class AudioRecorderActivity extends Activity
             mPlayer.release();
             mPlayer = null;
         }
-
     }
 
 }

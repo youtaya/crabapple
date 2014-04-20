@@ -82,7 +82,7 @@ public class LuckDayActivity extends Activity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.luck_activity_actions, menu);
+        getMenuInflater().inflate(R.menu.confirm_actions, menu);
         return true;
     }
     
