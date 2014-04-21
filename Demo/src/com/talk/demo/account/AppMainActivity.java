@@ -8,6 +8,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 
 import com.talk.demo.R;
+import com.talk.demo.setting.LuckDayActivity;
 
 public class AppMainActivity extends Activity {
 	
@@ -26,14 +27,19 @@ public class AppMainActivity extends Activity {
 		        Intent intent = new Intent();
 		        intent.setClass(v.getContext(), LoginActivity.class);
 		        startActivity(intent);
+		        finish();
 			}
 		});
 		
 		signup_btn.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				
+				// TODO 
+				// 4 test: jump to mainActivity
+		        Intent intent = new Intent();
+		        intent.setClass(v.getContext(), LuckDayActivity.class);
+		        startActivity(intent);
+		        finish();
 			}
 		});
 	}

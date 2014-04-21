@@ -35,7 +35,7 @@ public class DiscoveryFragment extends Fragment {
         preNum = getPreviewNumber();
         
         tvDate.setText(preDate);
-        tvDate.setTextColor(Color.parseColor("cyan"));
+        tvDate.setTextColor(Color.parseColor("blue"));
         
         Log.d(TAG, "num : "+preNum);
         tv.setText(String.valueOf(preNum));
