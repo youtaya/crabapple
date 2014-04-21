@@ -11,14 +11,18 @@
 		android:layout_weight="1" >
         <TextView 
             android:id="@+id/recorder_time_tick"
-			android:layout_width="match_parent"
-			android:layout_height="match_parent"/>
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="112dip"
+            android:layout_gravity="center"
+            android:gravity="center"
+            style="@android:style/TextAppearance.Large" />
     </LinearLayout>
     <LinearLayout 
         android:id="@+id/recoder_control"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content" 
-		android:layout_weight="1" >
+		android:layout_weight="0.1" >
         <ImageButton 
             android:id="@+id/recorder_btn"
 			android:layout_width="wrap_content"

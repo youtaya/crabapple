@@ -9,16 +9,19 @@ import java.util.Date;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 import com.talk.demo.R;
 
@@ -27,6 +30,7 @@ public class AudioRecorderActivity extends Activity
     private static final String LOG_TAG = "AudioRecorderActivity";
     private String mFileName = null;
 
+    private TextView timeView = null;
     private MediaRecorder mRecorder = null;
     private ImageButton mRecorderBtn = null;
     private MediaPlayer mPlayer = null;
@@ -34,6 +38,16 @@ public class AudioRecorderActivity extends Activity
     
     private boolean mStartRecording = true;
     private boolean mStartPlaying = true;
+    // time at which latest record or play operation started
+    private long mSampleStart = 0;
+    // length of current sample
+    private int mSampleLength = 0;      
+    private boolean isRecording = false;
+    private String mTimerFormat;
+    final Handler mHandler = new Handler();
+    Runnable mUpdateTimer = new Runnable() {
+        public void run() { updateTimerView(); }
+    };
     
     private void onRecord(boolean start) {
         if (start) {
@@ -68,6 +82,7 @@ public class AudioRecorderActivity extends Activity
     }
 
     private void startRecording() {
+        isRecording = true;
         
         mRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
         mRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
@@ -81,6 +96,8 @@ public class AudioRecorderActivity extends Activity
         }
 
         mRecorder.start();
+        mSampleStart = System.currentTimeMillis();
+        updateTimerView();
     }
 
     private void stopRecording() {
@@ -88,6 +105,9 @@ public class AudioRecorderActivity extends Activity
         mRecorder.release();
         mRecorder = null;
         
+        isRecording = false;
+        mSampleLength = (int)( (System.currentTimeMillis() - mSampleStart)/1000 );
+        updateTimerView();
     }
   
     private void createDir(String fileName) {
@@ -128,6 +148,7 @@ public class AudioRecorderActivity extends Activity
         super.onCreate(icicle);
         setContentView(R.layout.activity_audio_recorder);
         
+        timeView = (TextView)findViewById(R.id.recorder_time_tick);
         mRecorderBtn = (ImageButton)findViewById(R.id.recorder_btn);
         mPlayerBtn = (ImageButton)findViewById(R.id.player_btn);
         
@@ -153,6 +174,8 @@ public class AudioRecorderActivity extends Activity
         });
         
         mRecorder = new MediaRecorder();
+        mTimerFormat = getResources().getString(R.string.timer_format);
+        
     }
     
     @Override
@@ -178,6 +201,23 @@ public class AudioRecorderActivity extends Activity
                 return super.onOptionsItemSelected(item);
         }
     }
+    
+    public int progress() {
+        return (int) ((System.currentTimeMillis() - mSampleStart)/1000);
+    }
+    /**
+     * Update the big MM:SS timer. If we are in playback, also update the
+     * progress bar.
+     */
+    private void updateTimerView() {
+        long time = isRecording?progress():mSampleLength;
+        String timeStr = String.format(mTimerFormat, time/60, time%60);
+        timeView.setText(timeStr);
+        
+        if(isRecording)
+            mHandler.postDelayed(mUpdateTimer, 1000);
+    }
+    
     @Override
     public void onPause() {
         super.onPause();
