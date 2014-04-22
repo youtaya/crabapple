@@ -31,67 +31,74 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white" >
-
-        <LinearLayout
+        android:layout_marginLeft="14dip"
+        android:layout_marginRight="14dip" >
+		<LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:paddingBottom="10dp"
-            android:paddingLeft="15dp"
-            android:paddingRight="15dp"
-            android:paddingTop="5dp" >
-
-            <AutoCompleteTextView
-                android:id="@+id/et_login"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:autoText="false"
-                android:capitalize="none"
-                android:textSize="20sp"
-                android:singleLine="true"
-                android:scrollHorizontally="true"
-                android:completionThreshold="1"
-                android:imeOptions="actionNext"
-                android:inputType="textEmailAddress"
-                android:hint="username_or_email"
-                android:nextFocusDown="@+id/et_password" />
-
-
-            <EditText
-                android:id="@+id/et_password"
-                android:layout_width="match_parent"
-        		android:layout_height="wrap_content"
-       			android:autoText="false"
-        		android:capitalize="none"
-        		android:scrollHorizontally="true"
-        		android:singleLine="true"
-        		android:textSize="20sp"
-                android:imeOptions="actionDone"
-                android:inputType="textPassword"
-                android:hint="password"
-                android:typeface="monospace" />
-
-            <CheckBox
-                android:id="@+id/cb_show_password"
-               	android:textSize="14sp"
-        		android:layout_height="wrap_content"
-        		android:layout_width="wrap_content"
-                android:layout_marginTop="2dp"
-                android:singleLine="true"
-                android:text="show_password" />
-
-            <Button
-                android:id="@+id/bt_login"
-                android:layout_width="match_parent"
-                android:layout_height="62dip"
-                android:layout_marginTop="2dp"
-                android:textSize="30sp"
-                android:textStyle="bold"
-                android:textColor="@color/white"
-                android:text="@string/login" />
-
-        </LinearLayout>
+            android:layout_height="match_parent" 
+            android:orientation="vertical" >
+	        <LinearLayout
+	            android:layout_width="match_parent"
+	            android:layout_height="wrap_content"
+	            android:orientation="vertical"
+	            android:paddingBottom="10dp"
+	            android:paddingLeft="15dp"
+	            android:paddingRight="15dp"
+	            android:paddingTop="5dp" 
+	            android:background="@color/white" >
+	
+	            <AutoCompleteTextView
+	                android:id="@+id/et_login"
+	                android:layout_width="match_parent"
+	                android:layout_height="wrap_content"
+	                android:autoText="false"
+	                android:capitalize="none"
+	                android:textSize="20sp"
+	                android:singleLine="true"
+	                android:scrollHorizontally="true"
+	                android:completionThreshold="1"
+	                android:imeOptions="actionNext"
+	                android:inputType="textEmailAddress"
+	                android:hint="username_or_email"
+	                android:nextFocusDown="@+id/et_password" />
+	
+	
+	            <EditText
+	                android:id="@+id/et_password"
+	                android:layout_width="match_parent"
+	        		android:layout_height="wrap_content"
+	       			android:autoText="false"
+	        		android:capitalize="none"
+	        		android:scrollHorizontally="true"
+	        		android:singleLine="true"
+	        		android:textSize="20sp"
+	                android:imeOptions="actionDone"
+	                android:inputType="textPassword"
+	                android:hint="password"
+	                android:typeface="monospace" />
+	
+	            <CheckBox
+	                android:id="@+id/cb_show_password"
+	               	android:textSize="14sp"
+	        		android:layout_height="wrap_content"
+	        		android:layout_width="wrap_content"
+	                android:layout_marginTop="2dp"
+	                android:singleLine="true"
+	                android:text="show_password" />
+	
+	        </LinearLayout>
+		
+			<Button
+	           android:id="@+id/bt_login"
+	           android:layout_width="fill_parent"
+	           android:layout_height="fill_parent"
+	           android:layout_gravity="center_horizontal"
+	           android:background="@color/grey"
+	           android:minHeight="50dip"
+	           android:text="@string/login"
+	           android:textColor="@color/white"
+	           android:textSize="30sp"
+	           android:textStyle="bold" />
+		</LinearLayout>
     </ScrollView>
-
 </LinearLayout>
