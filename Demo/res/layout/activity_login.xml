@@ -17,6 +17,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/yellow"
     android:orientation="vertical" >
 
     <TextView
@@ -25,12 +26,12 @@
         android:layout_width="match_parent"
         android:textSize="14sp"
         android:gravity="center"
-        android:padding="5dp" />
+        android:padding="15dp" />
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1" >
+        android:layout_height="wrap_content"
+        android:background="@color/white" >
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -40,13 +41,6 @@
             android:paddingLeft="15dp"
             android:paddingRight="15dp"
             android:paddingTop="5dp" >
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingLeft="10dp"
-                android:singleLine="true"
-                android:text="username_or_email" />
 
             <AutoCompleteTextView
                 android:id="@+id/et_login"
@@ -60,19 +54,9 @@
                 android:completionThreshold="1"
                 android:imeOptions="actionNext"
                 android:inputType="textEmailAddress"
+                android:hint="username_or_email"
                 android:nextFocusDown="@+id/et_password" />
 
-            <TextView
-                android:layout_height="wrap_content"
-                android:layout_width="wrap_content"
-                android:textStyle="bold"
-                android:paddingBottom="2dp"
-                android:textSize="17sp"
-                android:paddingLeft="10dp"
-                android:singleLine="true"
-                android:paddingRight="5dp"
-                android:paddingTop="10dp"
-                android:text="password" />
 
             <EditText
                 android:id="@+id/et_password"
@@ -85,6 +69,7 @@
         		android:textSize="20sp"
                 android:imeOptions="actionDone"
                 android:inputType="textPassword"
+                android:hint="password"
                 android:typeface="monospace" />
 
             <CheckBox
@@ -99,10 +84,12 @@
             <Button
                 android:id="@+id/bt_login"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="62dip"
                 android:layout_marginTop="2dp"
-                android:textSize="20sp"
-                android:text="Login_in" />
+                android:textSize="30sp"
+                android:textStyle="bold"
+                android:textColor="@color/white"
+                android:text="@string/login" />
 
         </LinearLayout>
     </ScrollView>
