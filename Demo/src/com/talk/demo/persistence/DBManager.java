@@ -26,8 +26,18 @@ public class DBManager {
         db.beginTransaction();  //开始事务  
         try {  
             db.execSQL("INSERT INTO "+DATABASE_TABLE+""
-                    + " VALUES(null, ?, ?, ?, ?)", 
-                    new Object[]{tr.content, tr.create_date, tr.create_time ,tr.media_type});
+                    + " VALUES(null, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", 
+                    new Object[]{
+                        tr.userName, 
+                        tr.title, 
+                        tr.content, 
+                        tr.create_date, 
+                        tr.create_time,
+                        tr.content_type,
+                        tr.photo,
+                        tr.audio,
+                        tr.status,
+                        tr.deleted});
             db.setTransactionSuccessful();  //设置事务成功完成  
         } finally {  
             db.endTransaction();    //结束事务  
@@ -43,7 +53,7 @@ public class DBManager {
             for (TimeRecord tr : tRecord) {  
                 db.execSQL("INSERT INTO "+DATABASE_TABLE+" "
                         + "VALUES(null, ?, ?, ?, ?)", 
-                        new Object[]{tr.content, tr.create_date, tr.create_time, tr.media_type});
+                        new Object[]{tr.content, tr.create_date, tr.create_time, tr.content_type});
             }  
             db.setTransactionSuccessful();  //设置事务成功完成  
         } finally {  
@@ -76,7 +86,7 @@ public class DBManager {
             tr.content = c.getString(c.getColumnIndex("content"));  
             tr.create_date = c.getString(c.getColumnIndex("create_date"));
             tr.create_time = c.getString(c.getColumnIndex("create_time"));  
-            tr.media_type = c.getInt(c.getColumnIndex("media_type"));
+            tr.content_type = c.getInt(c.getColumnIndex("content_type"));
             trList.add(tr);  
         }  
         c.close();  
@@ -96,7 +106,7 @@ public class DBManager {
             tr.content = c.getString(c.getColumnIndex("content"));  
             tr.create_date = c.getString(c.getColumnIndex("create_date"));
             tr.create_time = c.getString(c.getColumnIndex("create_time"));  
-            tr.media_type = c.getInt(c.getColumnIndex("media_type"));
+            tr.content_type = c.getInt(c.getColumnIndex("content_type"));
             trList.add(tr);  
         }  
         c.close();  
@@ -117,7 +127,7 @@ public class DBManager {
             tr.content = c.getString(c.getColumnIndex("content"));  
             tr.create_date = c.getString(c.getColumnIndex("create_date"));
             tr.create_time = c.getString(c.getColumnIndex("create_time"));  
-            tr.media_type = c.getInt(c.getColumnIndex("media_type"));
+            tr.content_type = c.getInt(c.getColumnIndex("content_type"));
             trList.add(tr);  
         }  
         c.close();  

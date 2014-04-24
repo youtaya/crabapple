@@ -9,7 +9,14 @@ public class TimeRecord {
     public String content;
     public String create_date;
     public String create_time;
-    public int media_type;
+    public int content_type;
+    
+    public String userName;
+    public String title;
+    public String photo;
+    public String audio;
+    public String status;
+    public int deleted;
     
     public TimeRecord() {
     }
@@ -19,6 +26,7 @@ public class TimeRecord {
         content = v1;
         create_date = handledDate();
         create_time = handledTime();
+       
     }
     
     public TimeRecord(String v1, String date) {
@@ -27,7 +35,7 @@ public class TimeRecord {
         create_time = handledTime();
     }
     public void setMediaType(int type) {
-        media_type = type;
+        content_type = type;
     }
     
     public String handledDate() {

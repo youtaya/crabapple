@@ -8,7 +8,7 @@ public class RecordCache implements Parcelable {
 	private String content;
 	private String create_date;
 	private String create_time;
-	private int media_type;
+	private int content_type;
 	
 	public void setContent(String v) {
 		content = v;
@@ -35,11 +35,11 @@ public class RecordCache implements Parcelable {
 	}
 	
 	public void setMediaType(int v) {
-		media_type = v;
+		content_type = v;
 	}
 	
 	public int getMediaType() {
-		return media_type;
+		return content_type;
 	}
 	
     // 用来创建自定义的Parcelable的对象
@@ -50,7 +50,7 @@ public class RecordCache implements Parcelable {
             rc.content = in.readString();
             rc.create_date = in.readString();
             rc.create_time = in.readString();
-            rc.media_type = in.readInt();
+            rc.content_type = in.readInt();
             return rc;
         }
 
@@ -71,7 +71,7 @@ public class RecordCache implements Parcelable {
 		parcel.writeString(content);
 		parcel.writeString(create_date);
 		parcel.writeString(create_time);
-		parcel.writeInt(media_type);
+		parcel.writeInt(content_type);
 		
 	}
 

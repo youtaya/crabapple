@@ -9,12 +9,13 @@ public class DBHelper extends SQLiteOpenHelper {
     /**
      * Version constant to increment when the database should be rebuilt
      */
-    private static final int VERSION = 2;
+    private static final int VERSION = 3;
 
     /**
      * Name of database file
      */
     private static final String NAME = "test.db";
+    private final String DATABASE_TABLE = "records";
 
     /**
      * @param context
@@ -25,15 +26,24 @@ public class DBHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(final SQLiteDatabase db) {
-        db.execSQL("CREATE TABLE records (id INTEGER PRIMARY KEY, "
-                + "content TEXT, create_date TEXT, create_time TEXT, "
-                + "media_type INTEGER);");
+        db.execSQL("CREATE TABLE " + DATABASE_TABLE
+                + " (id INTEGER PRIMARY KEY,"
+                + " username TEXT,"
+                + " title TEXT default '',"
+                + " content TEXT default '',"
+                + " create_date TEXT,"
+                + " create_time TEXT,"
+                + " content_type INTEGER default 0,"
+                + " photo TEXT default '',"
+                + " audio TEXT default '',"
+                + " status TEXT default '',"
+                + " deleted INTEGER);");
     }
 
     @Override
     public void onUpgrade(final SQLiteDatabase db, final int oldVersion,
             final int newVersion) {
-        db.execSQL("DROP TABLE IF EXISTS records");
+        db.execSQL("DROP TABLE IF EXISTS "+DATABASE_TABLE);
         onCreate(db);
     }
 }

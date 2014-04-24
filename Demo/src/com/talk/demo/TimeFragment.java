@@ -268,9 +268,9 @@ public class TimeFragment extends Fragment implements OnItemClickListener {
         for (TimeRecord tr : trlist) {  
             HashMap<String, String> map = new HashMap<String, String>(); 
             RecordCache rc = new RecordCache();
-            if(tr.media_type == TalkUtil.MEDIA_TYPE_PHOTO)
+            if(tr.content_type == TalkUtil.MEDIA_TYPE_PHOTO)
             	map.put("content", "惊鸿一瞥"); 
-            else if(tr.media_type == TalkUtil.MEDIA_TYPE_AUDIO)
+            else if(tr.content_type == TalkUtil.MEDIA_TYPE_AUDIO)
             	map.put("content", "口若兰花"); 
             else
             	map.put("content", tr.content); 
@@ -280,7 +280,7 @@ public class TimeFragment extends Fragment implements OnItemClickListener {
             rc.setCreateDate(tr.create_date);
             map.put("create_time", tr.create_time);  
             rc.setCreateTime(tr.create_time);
-            rc.setMediaType(tr.media_type);
+            rc.setMediaType(tr.content_type);
             record_cache.add(rc);
             time_record.add(map);  
         }  
@@ -403,7 +403,7 @@ public class TimeFragment extends Fragment implements OnItemClickListener {
                     mgr.add(tr);
                 }
                 break;
-            case TalkUtil.MEDIA_TYPE_AUDIO:
+            case TalkUtil.REQUEST_AUDIO_CAPTURE:
             	if (resultCode == getActivity().RESULT_OK) {
             		Bundle extras = data.getExtras();
             		String audioFileName = (String)extras.get("audio_file_name");

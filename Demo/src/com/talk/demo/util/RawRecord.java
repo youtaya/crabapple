@@ -101,34 +101,34 @@ final public class RawRecord {
 
         try {
             if (!TextUtils.isEmpty(mUserName)) {
-                json.put("u", mUserName);
+                json.put("user", mUserName);
             }
             if (!TextUtils.isEmpty(mTitle)) {
-                json.put("t", mTitle);
+                json.put("title", mTitle);
             }
             if (!TextUtils.isEmpty(mContent)) {
-                json.put("c", mContent);
+                json.put("ct", mContent);
             }
             if (!TextUtils.isEmpty(mCreateDate)) {
-                json.put("d", mCreateDate);
+                json.put("date", mCreateDate);
             }
             if (!TextUtils.isEmpty(mCreateTime)) {
-                json.put("i", mCreateTime);
+                json.put("time", mCreateTime);
             }
             if (!TextUtils.isEmpty(mPhoto)) {
-                json.put("p", mPhoto);
+                json.put("po", mPhoto);
             }
             if (!TextUtils.isEmpty(mAudio)) {
-                json.put("a", mAudio);
+                json.put("ao", mAudio);
             }
             if (mServerRecordId > 0) {
-                json.put("s", mServerRecordId);
+                json.put("sid", mServerRecordId);
             }
             if (mRawRecordId > 0) {
-                json.put("r", mRawRecordId);
+                json.put("rid", mRawRecordId);
             }
             if (mDeleted) {
-                json.put("x", mDeleted);
+                json.put("del", mDeleted);
             }
             } catch (final Exception ex) {
             Log.i(TAG, "Error converting RawContact to JSONObject" + ex.toString());
@@ -142,31 +142,31 @@ final public class RawRecord {
      * @param user The JSONObject containing user data
      * @return user The new instance of Sample RawRecord created from the JSON data.
      */
-    public static RawRecord valueOf(JSONObject contact) {
+    public static RawRecord valueOf(JSONObject Record) {
 
         try {
-            final String userName = !contact.isNull("u") ? contact.getString("u") : null;
-            final int serverRecordId = !contact.isNull("s") ? contact.getInt("s") : -1;
-            // If we didn't get either a username or serverId for the contact, then
+            final String userName = !Record.isNull("user") ? Record.getString("user") : null;
+            final int serverRecordId = !Record.isNull("sid") ? Record.getInt("sid") : -1;
+            // If we didn't get either a username or serverId for the record, then
             // we can't do anything with it locally...
             if ((userName == null) && (serverRecordId <= 0)) {
                 throw new JSONException("JSON contact missing required 'u' or 's' fields");
             }
 
-            final int rawContactId = !contact.isNull("r") ? contact.getInt("r") : -1;
-            final String title = !contact.isNull("t")  ? contact.getString("t") : null;
-            final String content = !contact.isNull("c") ? contact.getString("c") : null;
-            final String createDate = !contact.isNull("d") ? contact.getString("d") : null;
-            final String createTime = !contact.isNull("i") ? contact.getString("i") : null;
-            final int contentType = !contact.isNull("y") ? contact.getInt("y") : null;
-            final String photo = !contact.isNull("p") ? contact.getString("p") : null;
-            final String audio = !contact.isNull("a") ? contact.getString("a") : null;
-            final String status = !contact.isNull("s") ? contact.getString("s") : null;
-            final boolean deleted = !contact.isNull("x") ? contact.getBoolean("x") : false;
-            final long syncState = !contact.isNull("ss") ? contact.getLong("ss") : 0;
+            final int rawRecordId = !Record.isNull("rid") ? Record.getInt("rid") : -1;
+            final String title = !Record.isNull("title")  ? Record.getString("title") : null;
+            final String content = !Record.isNull("ct") ? Record.getString("ct") : null;
+            final String createDate = !Record.isNull("date") ? Record.getString("date") : null;
+            final String createTime = !Record.isNull("time") ? Record.getString("time") : null;
+            final int contentType = !Record.isNull("ctx") ? Record.getInt("ctx") : null;
+            final String photo = !Record.isNull("po") ? Record.getString("po") : null;
+            final String audio = !Record.isNull("ao") ? Record.getString("ao") : null;
+            final String status = !Record.isNull("status") ? Record.getString("status") : null;
+            final boolean deleted = !Record.isNull("del") ? Record.getBoolean("del") : false;
+            final long syncState = !Record.isNull("ss") ? Record.getLong("ss") : 0;
             return new RawRecord(userName, title, content, createDate,
             		createTime, contentType, photo, audio, status, deleted,
-            		serverRecordId, rawContactId, syncState, false);
+            		serverRecordId, rawRecordId, syncState, false);
         } catch (final Exception ex) {
             Log.i(TAG, "Error parsing JSON contact object" + ex.toString());
         }
@@ -184,6 +184,7 @@ final public class RawRecord {
         		createTime, contentType, photo, audio, status, deleted,
         		serverRecordId, rawRecordId, syncState, dirty);
     }
+    
     /**
      * Creates and returns a User instance that represents a deleted user.
      * Since the user is deleted, all we need are the client/server IDs.
