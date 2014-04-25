@@ -17,8 +17,10 @@ public class DBManager {
       
     public DBManager(Context context) {  
         helper = new DBHelper(context);  
-        //因为getWritableDatabase内部调用了mContext.openOrCreateDatabase(mName, 0, mFactory);  
-        //所以要确保context已初始化,我们可以把实例化DBManager的步骤放在Activity的onCreate里  
+        /*
+         * 因为getWritableDatabase内部调用了mContext.openOrCreateDatabase(mName, 0, mFactory);  
+         * 所以要确保context已初始化,我们可以把实例化DBManager的步骤放在Activity的onCreate里  
+         */
         db = helper.getWritableDatabase();  
     }  
       
@@ -51,9 +53,19 @@ public class DBManager {
         db.beginTransaction();  //开始事务  
         try {  
             for (TimeRecord tr : tRecord) {  
-                db.execSQL("INSERT INTO "+DATABASE_TABLE+" "
-                        + "VALUES(null, ?, ?, ?, ?)", 
-                        new Object[]{tr.content, tr.create_date, tr.create_time, tr.content_type});
+                db.execSQL("INSERT INTO "+DATABASE_TABLE+""
+                        + " VALUES(null, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", 
+                        new Object[]{
+                            tr.userName, 
+                            tr.title, 
+                            tr.content, 
+                            tr.create_date, 
+                            tr.create_time,
+                            tr.content_type,
+                            tr.photo,
+                            tr.audio,
+                            tr.status,
+                            tr.deleted});
             }  
             db.setTransactionSuccessful();  //设置事务成功完成  
         } finally {  
@@ -139,9 +151,9 @@ public class DBManager {
      * @return  Cursor 
      */  
     public Cursor queryCursorWithMultipleParams(String[] params) {  
-        Cursor c = db.rawQuery("SELECT * FROM "+DATABASE_TABLE+" "
-                + "WHERE create_date=? OR create_date=? OR create_date=? OR create_date=?"+" "
-                        + "ORDER BY create_date DESC, create_time DESC", params);  
+        Cursor c = db.rawQuery("SELECT * FROM "+DATABASE_TABLE
+        		+" WHERE create_date=? OR create_date=? OR create_date=? OR create_date=?"
+        		+" ORDER BY create_date DESC, create_time DESC", params);  
         return c;  
     } 
     /** 
@@ -149,8 +161,9 @@ public class DBManager {
      * @return  Cursor 
      */  
     public Cursor queryCursorWithParam(String param) {  
-        Cursor c = db.rawQuery("SELECT * FROM "+DATABASE_TABLE+" "
-                + "WHERE create_date=?"+" ORDER BY create_date DESC, create_time DESC", new String[]{param,});  
+        Cursor c = db.rawQuery("SELECT * FROM "+DATABASE_TABLE
+                +" WHERE create_date=?"
+        		+" ORDER BY create_date DESC, create_time DESC", new String[]{param,});  
         return c;  
     }  
     /** 
@@ -158,7 +171,8 @@ public class DBManager {
      * @return  Cursor 
      */  
     public Cursor queryTheCursor() {  
-        Cursor c = db.rawQuery("SELECT * FROM "+DATABASE_TABLE+" ORDER BY create_date DESC, create_time DESC", null);  
+        Cursor c = db.rawQuery("SELECT * FROM "+DATABASE_TABLE
+        		+" ORDER BY create_date DESC, create_time DESC", null);  
         return c;  
     }  
       

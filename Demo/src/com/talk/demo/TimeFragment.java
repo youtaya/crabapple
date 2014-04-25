@@ -188,7 +188,7 @@ public class TimeFragment extends Fragment implements OnItemClickListener {
 				// Do nothing if content is empty
                 if(content.length() > 0) {
                     TimeRecord tr = new TimeRecord(content);  
-                    tr.setMediaType(TalkUtil.MEDIA_TYPE_TEXT);
+                    tr.setContentType(TalkUtil.MEDIA_TYPE_TEXT);
                     mgr.add(tr);
                     
                     // update record list view
@@ -390,7 +390,7 @@ public class TimeFragment extends Fragment implements OnItemClickListener {
                     createDirAndSaveFile(imageBitmap, fileName);
                     
                     TimeRecord tr = new TimeRecord("/sdcard/Demo/"+fileName);
-                    tr.setMediaType(TalkUtil.MEDIA_TYPE_PHOTO);;
+                    tr.setContentType(TalkUtil.MEDIA_TYPE_PHOTO);;
                     mgr.add(tr);
                 }
                 break;
@@ -399,7 +399,7 @@ public class TimeFragment extends Fragment implements OnItemClickListener {
                     Uri selectedImageUri = data.getData();
                     selectedImagePath = getPath(selectedImageUri);
                     TimeRecord tr = new TimeRecord(selectedImagePath);
-                    tr.setMediaType(TalkUtil.MEDIA_TYPE_PHOTO);;
+                    tr.setContentType(TalkUtil.MEDIA_TYPE_PHOTO);;
                     mgr.add(tr);
                 }
                 break;
@@ -408,7 +408,7 @@ public class TimeFragment extends Fragment implements OnItemClickListener {
             		Bundle extras = data.getExtras();
             		String audioFileName = (String)extras.get("audio_file_name");
                     TimeRecord tr = new TimeRecord(audioFileName);
-                    tr.setMediaType(TalkUtil.MEDIA_TYPE_AUDIO);;
+                    tr.setContentType(TalkUtil.MEDIA_TYPE_AUDIO);;
                     mgr.add(tr);
             	}
             	break;

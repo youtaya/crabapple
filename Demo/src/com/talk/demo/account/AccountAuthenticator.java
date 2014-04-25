@@ -3,15 +3,17 @@ package com.talk.demo.account;
 import android.accounts.AbstractAccountAuthenticator;
 import android.accounts.Account;
 import android.accounts.AccountAuthenticatorResponse;
+import android.accounts.AccountManager;
 import android.accounts.NetworkErrorException;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 
 public class AccountAuthenticator extends AbstractAccountAuthenticator {
-
+	private Context mContext;
     public AccountAuthenticator(Context context) {
         super(context);
-        // TODO Auto-generated constructor stub
+        mContext = context;
     }
 
     @Override
@@ -24,8 +26,11 @@ public class AccountAuthenticator extends AbstractAccountAuthenticator {
     public Bundle addAccount(AccountAuthenticatorResponse response, String accountType,
             String authTokenType, String[] requiredFeatures, Bundle options)
             throws NetworkErrorException {
-        // TODO Auto-generated method stub
-        return null;
+		Bundle result = new Bundle();
+		Intent i = new Intent(mContext, LoginActivity.class);
+		i.putExtra(AccountManager.KEY_ACCOUNT_AUTHENTICATOR_RESPONSE, response);
+		result.putParcelable(AccountManager.KEY_INTENT, i);
+		return result;
     }
 
     @Override

@@ -34,7 +34,7 @@ public class TimeRecord {
         create_date = date;
         create_time = handledTime();
     }
-    public void setMediaType(int type) {
+    public void setContentType(int type) {
         content_type = type;
     }
     
