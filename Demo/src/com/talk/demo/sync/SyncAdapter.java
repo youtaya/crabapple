@@ -23,11 +23,20 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter  {
 		mContext = context;
 		mAccountManager = AccountManager.get(context);
 	}
+	
+    public SyncAdapter(Context context, boolean autoInitialize, boolean allowParallelSyncs) {
+        super(context, autoInitialize, allowParallelSyncs);
+        mContext = context;
+        mAccountManager = AccountManager.get(context);
+    }
 
 	@Override
 	public void onPerformSync(Account account, Bundle extras, String authority,
 			ContentProviderClient provider, SyncResult syncResult) {
-		// TODO Auto-generated method stub
+		// Connecting to server
+	    // Downloading and uploading data
+	    // Handling data conflicts or determining how current data is
+	    // Clean up
 		
 	}
 	

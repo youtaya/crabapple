@@ -10,6 +10,10 @@
     
 	<uses-feature android:name="android.hardware.camera" 
 	    android:required="true" />
+	<uses-permission android:name="android.permission.INTERNET" />
+	<uses-permission android:name="android.permission.READ_SYNC_SETTINGS" />
+	<uses-permission android:name="android.permission.WRITE_SYNC_SETTINGS" />
+	<uses-permission android:name="android.permission.AUTHENTICATE_ACCOUNTS" />
 	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 	<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
 	<uses-permission android:name="android.permission.RECORD_AUDIO" />
@@ -48,7 +52,34 @@
             android:name="com.talk.demo.audio.AudioRecorderActivity"
             android:label="@string/app_name" >
         </activity>        
+        <service 
+            android:name="com.talk.demo.account.AccountAuthenticatorService">
+			<intent-filter >
+			    <action android:name="android.accounts.AccountAuthenticator" />
+			</intent-filter>
+            <meta-data 
+                android:name="android.accounts.AccountAuthenticator"
+                android:resource="@xml/authenticator"/>
+        </service>
         
+		<provider
+            android:name="com.talk.demo.sync.ContentProviderAdapter"
+            android:authorities="com.talk.sync"
+            android:exported="false"
+            android:label="Talk"
+            android:syncable="true" />
+		<service
+		    android:name="com.talk.demo.sync.SyncService"
+		    android:exported="true"
+		    android:process=":sync" >
+			<intent-filter>
+                <action android:name="android.content.SyncAdapter" />
+            </intent-filter>
+            <meta-data
+                android:name="android.content.SyncAdapter"
+                android:resource="@xml/syncadapter" />
+		</service>
+		
     </application>
 
 </manifest>
