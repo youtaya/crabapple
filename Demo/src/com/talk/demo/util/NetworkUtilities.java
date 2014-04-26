@@ -65,6 +65,8 @@ final public class NetworkUtilities {
     public static final String PARAM_PASSWORD = "password";
     /** POST parameter name for the user's authentication token */
     public static final String PARAM_AUTH_TOKEN = "authtoken";
+    /** POST parameter name for the crsf token */
+    public static final String PARAM_CSRF_TOKEN = "csrftoken";    
     /** POST parameter name for the client's last-known sync state */
     public static final String PARAM_SYNC_STATE = "syncstate";
     /** POST parameter name for the sending client-edited contact info */
@@ -72,11 +74,11 @@ final public class NetworkUtilities {
     /** Timeout (in ms) we specify for each http request */
     public static final int HTTP_REQUEST_TIMEOUT_MS = 30 * 1000;
     /** Base URL for the v2 Sample Sync Service */
-    public static final String BASE_URL = "http://192.168.1.104/";
+    public static final String BASE_URL = "http://192.168.1.104/times";
     /** URI for authentication service */
-    public static final String AUTH_URI = BASE_URL + "/auth";
+    public static final String AUTH_URI = BASE_URL + "/auth/";
     /** URI for sync service */
-    public static final String SYNC_RECORDS_URI = BASE_URL + "/sync";
+    public static final String SYNC_RECORDS_URI = BASE_URL + "/sync/";
 
     private NetworkUtilities() {
     }
@@ -178,6 +180,9 @@ final public class NetworkUtilities {
         params.add(new BasicNameValuePair(PARAM_USERNAME, account.name));
         params.add(new BasicNameValuePair(PARAM_AUTH_TOKEN, authtoken));
         params.add(new BasicNameValuePair(PARAM_RECORDS_DATA, buffer.toString()));
+        //for test
+        params.add(new BasicNameValuePair("Cookie", NetData.getCsrfToken()+";"+NetData.getSessionId()));
+        
         if (serverSyncState > 0) {
             params.add(new BasicNameValuePair(PARAM_SYNC_STATE, Long.toString(serverSyncState)));
         }
