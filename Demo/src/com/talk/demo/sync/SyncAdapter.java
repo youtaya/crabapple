@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.SyncResult;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 
 public class SyncAdapter extends AbstractThreadedSyncAdapter  {
 	private static final String TAG = "SyncAdapter";
@@ -37,7 +38,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter  {
 	    // Downloading and uploading data
 	    // Handling data conflicts or determining how current data is
 	    // Clean up
-		
+		Log.d(TAG, "onPerformSync");
 	}
 	
     /**

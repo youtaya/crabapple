@@ -68,7 +68,7 @@ final public class NetworkUtilities {
     /** POST parameter name for the client's last-known sync state */
     public static final String PARAM_SYNC_STATE = "syncstate";
     /** POST parameter name for the sending client-edited contact info */
-    public static final String PARAM_CONTACTS_DATA = "records";
+    public static final String PARAM_RECORDS_DATA = "records";
     /** Timeout (in ms) we specify for each http request */
     public static final int HTTP_REQUEST_TIMEOUT_MS = 30 * 1000;
     /** Base URL for the v2 Sample Sync Service */
@@ -76,7 +76,7 @@ final public class NetworkUtilities {
     /** URI for authentication service */
     public static final String AUTH_URI = BASE_URL + "/auth";
     /** URI for sync service */
-    public static final String SYNC_CONTACTS_URI = BASE_URL + "/sync";
+    public static final String SYNC_RECORDS_URI = BASE_URL + "/sync";
 
     private NetworkUtilities() {
     }
@@ -177,7 +177,7 @@ final public class NetworkUtilities {
         final ArrayList<NameValuePair> params = new ArrayList<NameValuePair>();
         params.add(new BasicNameValuePair(PARAM_USERNAME, account.name));
         params.add(new BasicNameValuePair(PARAM_AUTH_TOKEN, authtoken));
-        params.add(new BasicNameValuePair(PARAM_CONTACTS_DATA, buffer.toString()));
+        params.add(new BasicNameValuePair(PARAM_RECORDS_DATA, buffer.toString()));
         if (serverSyncState > 0) {
             params.add(new BasicNameValuePair(PARAM_SYNC_STATE, Long.toString(serverSyncState)));
         }
@@ -185,8 +185,8 @@ final public class NetworkUtilities {
         HttpEntity entity = new UrlEncodedFormEntity(params);
 
         // Send the updated friends data to the server
-        Log.i(TAG, "Syncing to: " + SYNC_CONTACTS_URI);
-        final HttpPost post = new HttpPost(SYNC_CONTACTS_URI);
+        Log.i(TAG, "Syncing to: " + SYNC_RECORDS_URI);
+        final HttpPost post = new HttpPost(SYNC_RECORDS_URI);
         post.addHeader(entity.getContentType());
         post.setEntity(entity);
         final HttpResponse resp = getHttpClient().execute(post);
