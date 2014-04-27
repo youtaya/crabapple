@@ -256,6 +256,7 @@ final public class NetworkUtilities {
         params.add(new BasicNameValuePair(PARAM_USERNAME, account.name));
         //params.add(new BasicNameValuePair(PARAM_AUTH_TOKEN, authtoken));
         params.add(new BasicNameValuePair(PARAM_RECORDS_DATA, buffer.toString()));
+        params.add(new BasicNameValuePair("csrfmiddlewaretoken", authtoken.split(";")[1].substring(10)));
         Log.d(TAG, "auth toke: "+authtoken);
         
         if (serverSyncState > 0) {
@@ -269,6 +270,7 @@ final public class NetworkUtilities {
         final HttpPost post = new HttpPost(SYNC_RECORDS_URI);
         post.addHeader(entity.getContentType());
         post.addHeader("Cookie", authtoken);
+        
         post.setEntity(entity);
         final HttpResponse resp = getHttpClient().execute(post);
         final String response = EntityUtils.toString(resp.getEntity());
