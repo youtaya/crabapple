@@ -4,18 +4,14 @@ package com.talk.demo.account;
 import static android.view.KeyEvent.ACTION_DOWN;
 import static android.view.KeyEvent.KEYCODE_ENTER;
 import static android.view.inputmethod.EditorInfo.IME_ACTION_DONE;
-import static com.talk.demo.util.NetData.serverURL;
 
 import android.accounts.Account;
 import android.accounts.AccountAuthenticatorActivity;
 import android.accounts.AccountManager;
-import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.provider.ContactsContract;
-import android.provider.SyncStateContract.Constants;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -31,15 +27,7 @@ import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 
 import com.talk.demo.R;
-import com.talk.demo.util.HttpRequest;
-import com.talk.demo.util.HttpRequest.HttpRequestException;
-import com.talk.demo.util.NetData;
-
-import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import com.talk.demo.util.NetworkUtilities;
 
 public class LoginActivity extends AccountAuthenticatorActivity {
 
@@ -68,8 +56,6 @@ public class LoginActivity extends AccountAuthenticatorActivity {
 	private Button loginButton;
 	private String password;
 	private String username;
-	// ToDo: modify according our url
-	private static String myUrl = serverURL+"account/login/";
     /** Was the original caller asking for an entirely new account? */
     protected boolean mRequestNewAccount = false;
     
@@ -156,80 +142,6 @@ public class LoginActivity extends AccountAuthenticatorActivity {
 				&& !TextUtils.isEmpty(passwordText.getText());
 	}
 
-	private String authenticate() {
-		String authToken = null;
-		try {
-			HttpURLConnection conn = HttpRequest.get(myUrl)
-					.getConnection();
-
-			String cookieHeader = conn.getHeaderFields().get("Set-Cookie")
-					.get(0);
-
-			Log.d(TAG, "cookie: " + cookieHeader);
-
-			String csrfToken = cookieHeader.split(";")[0];
-			Log.d(TAG, "csrf token : " + csrfToken);
-
-			HttpRequest request = HttpRequest.post(myUrl);
-			String name = username;
-			String passwd = password;
-			Map<String, String> data = new HashMap<String, String>();
-			data.put("username", name);
-			data.put("password", passwd);
-			data.put("csrfmiddlewaretoken", csrfToken.substring(10));
-			Log.d(TAG, "name: " + username + " passwd: " + password);
-			// X-CSRFToken
-			Map<String, String> headers = new HashMap<String, String>();
-			headers.put("Content-Type", "text/html");
-			headers.put("Cookie", csrfToken);
-
-			request.headers(headers);
-			request.followRedirects(false);
-			HttpRequest conn4Session = request.form(data);
-			conn4Session.code();
-			HttpURLConnection sessionConnection = conn4Session.getConnection();
-			try {
-				int result = sessionConnection.getResponseCode();
-				Log.e(TAG, "get response code : "+result);
-                List<String> responseList = sessionConnection.getHeaderFields().get("Set-Cookie");
-                
-                for(String resItem : responseList) {
-                	Log.d(TAG, "cookie session: " + resItem);
-                    if(resItem.contains("sessionid")) {
-                    	authToken = resItem.split(";")[0];
-                        Log.d(TAG, "session :" + authToken);
-                        NetData.setSessionId(authToken);
-                    }
-                    
-                    if(resItem.contains("csrftoken")) {
-                        String csrfToken2 = resItem.split(";")[0];
-                        Log.d(TAG, "csrf token :" + csrfToken2);
-                        NetData.setCsrfToken(csrfToken2);
-                    }
-                    
-                }
-                
-            } catch (IOException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-			
-		} catch (HttpRequestException exception) {
-			Log.d(TAG, "exception : " + exception.toString());
-			return null;
-		} finally {
-            Log.v(TAG, "getAuthtoken completing");
-        }
-		
-        if ((authToken != null) && (authToken.length() > 0)) {
-            Log.v(TAG, "Successful authentication");
-            return authToken;
-        } else {
-            Log.e(TAG, "Error authenticating");
-            return null;
-        }
-		
-	}
     /**
      * Called when response is received from the server for confirm credentials
      * request. See onAuthenticationResult(). Sets the
@@ -309,7 +221,7 @@ public class LoginActivity extends AccountAuthenticatorActivity {
 	private class UserLoginTask extends AsyncTask<Void, Void, String> {
 		@Override
 		protected String doInBackground(Void... params) {
-			return authenticate();
+			return NetworkUtilities.authenticate(username, password);
 		}
 		
 		@Override

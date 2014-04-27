@@ -16,6 +16,14 @@
 
 package com.talk.demo.util;
 
+import android.accounts.Account;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.text.TextUtils;
+import android.util.Log;
+
+import com.talk.demo.util.HttpRequest.HttpRequestException;
+
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
@@ -35,23 +43,15 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.accounts.Account;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.text.TextUtils;
-import android.util.Log;
-
-import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Provides utility methods for communicating with the server.
@@ -74,11 +74,11 @@ final public class NetworkUtilities {
     /** Timeout (in ms) we specify for each http request */
     public static final int HTTP_REQUEST_TIMEOUT_MS = 30 * 1000;
     /** Base URL for the v2 Sample Sync Service */
-    public static final String BASE_URL = "http://192.168.1.104/times";
+    public static final String BASE_URL = "http://192.168.1.104/";
     /** URI for authentication service */
-    public static final String AUTH_URI = BASE_URL + "/auth/";
+    public static final String AUTH_URI = BASE_URL + "account/login/";
     /** URI for sync service */
-    public static final String SYNC_RECORDS_URI = BASE_URL + "/sync/";
+    public static final String SYNC_RECORDS_URI = BASE_URL + "times/sync/";
 
     private NetworkUtilities() {
     }
@@ -103,6 +103,7 @@ final public class NetworkUtilities {
      * @param password The server account password
      * @return String The authentication token returned by the server (or null)
      */
+    /*
     public static String authenticate(String username, String password) {
 
         final HttpResponse resp;
@@ -145,7 +146,82 @@ final public class NetworkUtilities {
             Log.v(TAG, "getAuthtoken completing");
         }
     }
+    */
+    public static String authenticate(String username, String password) {
+		String authToken = null;
+		String csrfToken2 = null;
+		try {
+			HttpURLConnection conn = HttpRequest.get(AUTH_URI)
+					.getConnection();
 
+			String cookieHeader = conn.getHeaderFields().get("Set-Cookie")
+					.get(0);
+
+			Log.d(TAG, "cookie: " + cookieHeader);
+
+			String csrfToken = cookieHeader.split(";")[0];
+			Log.d(TAG, "csrf token : " + csrfToken);
+
+			HttpRequest request = HttpRequest.post(AUTH_URI);
+			String name = username;
+			String passwd = password;
+			Map<String, String> data = new HashMap<String, String>();
+			data.put("username", name);
+			data.put("password", passwd);
+			data.put("csrfmiddlewaretoken", csrfToken.substring(10));
+			Log.d(TAG, "name: " + username + " passwd: " + password);
+			// X-CSRFToken
+			Map<String, String> headers = new HashMap<String, String>();
+			headers.put("Content-Type", "text/html");
+			headers.put("Cookie", csrfToken);
+
+			request.headers(headers);
+			request.followRedirects(false);
+			HttpRequest conn4Session = request.form(data);
+			conn4Session.code();
+			HttpURLConnection sessionConnection = conn4Session.getConnection();
+			try {
+				int result = sessionConnection.getResponseCode();
+				Log.e(TAG, "get response code : "+result);
+                List<String> responseList = sessionConnection.getHeaderFields().get("Set-Cookie");
+                
+                for(String resItem : responseList) {
+                	Log.d(TAG, "cookie session: " + resItem);
+                    if(resItem.contains("sessionid")) {
+                    	authToken = resItem.split(";")[0];
+                        Log.d(TAG, "session :" + authToken);
+                        NetData.setSessionId(authToken);
+                    }
+                    
+                    if(resItem.contains("csrftoken")) {
+                        csrfToken2 = resItem.split(";")[0];
+                        Log.d(TAG, "csrf token :" + csrfToken2);
+                        NetData.setCsrfToken(csrfToken2);
+                    }
+                    
+                }
+                
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+			
+		} catch (HttpRequestException exception) {
+			Log.d(TAG, "exception : " + exception.toString());
+			return null;
+		} finally {
+            Log.v(TAG, "getAuthtoken completing");
+        }
+		
+        if ((authToken != null) && (authToken.length() > 0)) {
+            Log.v(TAG, "Successful authentication");
+            return authToken+";"+csrfToken2;
+        } else {
+            Log.e(TAG, "Error authenticating");
+            return null;
+        }
+		
+	}
     /**
      * Perform 2-way sync with the server-side contacts. We send a request that
      * includes all the locally-dirty contacts so that the server can process
@@ -178,10 +254,9 @@ final public class NetworkUtilities {
         // Prepare our POST data
         final ArrayList<NameValuePair> params = new ArrayList<NameValuePair>();
         params.add(new BasicNameValuePair(PARAM_USERNAME, account.name));
-        params.add(new BasicNameValuePair(PARAM_AUTH_TOKEN, authtoken));
+        //params.add(new BasicNameValuePair(PARAM_AUTH_TOKEN, authtoken));
         params.add(new BasicNameValuePair(PARAM_RECORDS_DATA, buffer.toString()));
-        //for test
-        params.add(new BasicNameValuePair("Cookie", NetData.getCsrfToken()+";"+NetData.getSessionId()));
+        Log.d(TAG, "auth toke: "+authtoken);
         
         if (serverSyncState > 0) {
             params.add(new BasicNameValuePair(PARAM_SYNC_STATE, Long.toString(serverSyncState)));
@@ -193,6 +268,7 @@ final public class NetworkUtilities {
         Log.i(TAG, "Syncing to: " + SYNC_RECORDS_URI);
         final HttpPost post = new HttpPost(SYNC_RECORDS_URI);
         post.addHeader(entity.getContentType());
+        post.addHeader("Cookie", authtoken);
         post.setEntity(entity);
         final HttpResponse resp = getHttpClient().execute(post);
         final String response = EntityUtils.toString(resp.getEntity());
