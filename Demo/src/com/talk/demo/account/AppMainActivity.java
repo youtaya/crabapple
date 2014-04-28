@@ -29,19 +29,19 @@ public class AppMainActivity extends Activity {
         Account existing = AccountUtils.getPasswordAccessibleAccount(this);
         if (existing != null && !TextUtils.isEmpty(existing.name)) {
             accountExist = true;
+            Intent mIntent = new Intent();
+            mIntent.setClass(this, LuckDayActivity.class);
+            startActivity(mIntent);
+            
+            finish();
         }
+        
 		login_btn.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-	            if (accountExist) {
-			        Intent mIntent = new Intent();
-			        mIntent.setClass(v.getContext(), LuckDayActivity.class);
-			        startActivity(mIntent);
-			    } else {
-    		        Intent intent = new Intent();
-    		        intent.setClass(v.getContext(), LoginActivity.class);
-    		        startActivity(intent);
-			    }
+		        Intent intent = new Intent();
+		        intent.setClass(v.getContext(), LoginActivity.class);
+		        startActivity(intent);
 		        finish();
 			}
 		});
