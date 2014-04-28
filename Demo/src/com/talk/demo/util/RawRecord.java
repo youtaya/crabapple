@@ -115,6 +115,9 @@ final public class RawRecord {
             if (!TextUtils.isEmpty(mCreateTime)) {
                 json.put("time", mCreateTime);
             }
+            if (mContentType != 0) {
+                json.put("ctx", mContentType);
+            }
             if (!TextUtils.isEmpty(mPhoto)) {
                 json.put("po", mPhoto);
             }

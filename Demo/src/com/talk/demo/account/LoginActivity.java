@@ -26,7 +26,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 
+import com.talk.demo.MainActivity;
 import com.talk.demo.R;
+import com.talk.demo.setting.LuckDayActivity;
 import com.talk.demo.util.NetworkUtilities;
 
 public class LoginActivity extends AccountAuthenticatorActivity {
@@ -157,6 +159,11 @@ public class LoginActivity extends AccountAuthenticatorActivity {
         intent.putExtra(AccountManager.KEY_BOOLEAN_RESULT, result);
         setAccountAuthenticatorResult(intent.getExtras());
         setResult(RESULT_OK, intent);
+        
+		// auth done, go to set lucky day.
+        Intent mIntent = new Intent();
+        mIntent.setClass(this, LuckDayActivity.class);
+        startActivity(mIntent);
         finish();
     }
 
@@ -185,6 +192,11 @@ public class LoginActivity extends AccountAuthenticatorActivity {
         intent.putExtra(AccountManager.KEY_ACCOUNT_TYPE, AccountConstants.ACCOUNT_TYPE);
         setAccountAuthenticatorResult(intent.getExtras());
         setResult(RESULT_OK, intent);
+        
+		// auth done, go to set lucky day.
+        Intent mIntent = new Intent();
+        mIntent.setClass(this, LuckDayActivity.class);
+        startActivity(mIntent);
         finish();
     }
     /**
