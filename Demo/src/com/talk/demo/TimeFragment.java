@@ -1,48 +1,32 @@
 package com.talk.demo;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
-import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
-import com.talk.demo.audio.AudioRecorderActivity;
 import com.talk.demo.persistence.DBManager;
 import com.talk.demo.persistence.RecordCache;
 import com.talk.demo.persistence.TimeRecord;
 import com.talk.demo.time.TimeAllItem;
 import com.talk.demo.util.TalkUtil;
+
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class TimeFragment extends Fragment implements OnItemClickListener {
     
@@ -53,9 +37,7 @@ public class TimeFragment extends Fragment implements OnItemClickListener {
     private ArrayList<Map<String, String>> time_record;
     private ArrayList<RecordCache> record_cache;
     private SimpleAdapter adapter;
-    private LinearLayout take_snap;
-    private boolean snap_on = false;
-    private String selectedImagePath;
+
     
     public TimeFragment(DBManager db) {
         time_record = new ArrayList<Map<String, String>>();
@@ -68,7 +50,6 @@ public class TimeFragment extends Fragment implements OnItemClickListener {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_time, container, false);
-        take_snap = (LinearLayout)rootView.findViewById(R.id.take_snap);
         
         lv = (ListView)rootView.findViewById(R.id.time_list);
                
