@@ -25,11 +25,12 @@ import com.talk.demo.persistence.DBManager;
 import com.talk.demo.persistence.TimeRecord;
 import com.talk.demo.util.TalkUtil;
 
-public class MainActivity extends FragmentActivity implements ActionBar.TabListener, TimeFragment.OnItemChangedListener {
+public class MainActivity extends FragmentActivity implements ActionBar.TabListener, DailyFragment.OnItemChangedListener {
 
     private static String TAG = "MainActivity";
     
     private DBManager mgr;
+    private DailyFragment guideFragment;
     private TimeFragment timeFragment;
     private RecordFragment recordFragment;
     private DiscoveryFragment discoveryFragment;
@@ -39,8 +40,8 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
     
 	@Override
 	public void onItemChanged() {
-		// change to time fragment
-		getActionBar().setSelectedNavigationItem(1);
+		// change to record fragment
+		getActionBar().setSelectedNavigationItem(2);
 	}  
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -116,6 +117,9 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         }
         
         fragmentList = new ArrayList<Fragment>();
+        //add guide fragment
+        guideFragment = new DailyFragment(mgr);
+        fragmentList.add(guideFragment);
         //add time fragment
         timeFragment = new TimeFragment(mgr);
         fragmentList.add(timeFragment);
@@ -219,10 +223,12 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
             Locale l = Locale.getDefault();
             switch (position) {
                 case 0:
-                    return getString(R.string.title_section1).toUpperCase(l);
+                    return getString(R.string.title_section0).toUpperCase(l);
                 case 1:
-                    return getString(R.string.title_section2).toUpperCase(l);
+                    return getString(R.string.title_section1).toUpperCase(l);
                 case 2:
+                    return getString(R.string.title_section2).toUpperCase(l);
+                case 3:
                     return getString(R.string.title_section3).toUpperCase(l);
             }
             return null;
