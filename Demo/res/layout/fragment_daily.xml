@@ -7,13 +7,13 @@
         android:id="@+id/time_list_layout"
         android:layout_width="match_parent"
         android:layout_weight="1"
-        android:layout_height="0dp"
+        android:layout_height="0dip"
         android:background="@color/beige" >
         
         <ListView
             android:id="@+id/daily_list"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent" />
     </LinearLayout>
     
     <RelativeLayout

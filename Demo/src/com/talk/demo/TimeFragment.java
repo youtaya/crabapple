@@ -93,10 +93,13 @@ public class TimeFragment extends Fragment implements OnItemClickListener {
         }
         Log.d(TAG, "init data list");
 
+        /*
         if(isLuckDay() == 0) {
-        	trlist = mgr.query();
+            trlist = mgr.query();
         } else
-        	trlist = mgr.queryWithMultipleParams(TalkUtil.conditonDates());
+            trlist = mgr.queryWithMultipleParams(TalkUtil.conditonDates());
+        */
+        trlist = mgr.query();
         
         if(!time_record.isEmpty()) {
             time_record.clear();

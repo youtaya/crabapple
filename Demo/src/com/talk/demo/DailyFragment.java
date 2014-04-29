@@ -31,6 +31,7 @@ import com.talk.demo.audio.AudioRecorderActivity;
 import com.talk.demo.persistence.DBManager;
 import com.talk.demo.persistence.RecordCache;
 import com.talk.demo.persistence.TimeRecord;
+import com.talk.demo.prewrite.PreWrite;
 import com.talk.demo.time.TimeAllItem;
 import com.talk.demo.util.TalkUtil;
 
@@ -57,19 +58,19 @@ public class DailyFragment extends Fragment implements OnItemClickListener {
     private EditText et;
     private ImageView iv,ivSpring, ivPhoto, ivGallery, ivTape;
     private DBManager mgr;
-    private List<TimeRecord> trlist;
-    private ArrayList<Map<String, String>> time_record;
+    private List<String> daily_record;
     private ArrayList<RecordCache> record_cache;
-    private SimpleAdapter adapter;
+    private DailyListAdapter adapter;
     private LinearLayout take_snap;
     private boolean snap_on = false;
     private String selectedImagePath;
+    private PreWrite pw;
     
     public DailyFragment(DBManager db) {
-        time_record = new ArrayList<Map<String, String>>();
-        trlist = new ArrayList<TimeRecord>();
+        daily_record = new ArrayList<String>();
         record_cache = new ArrayList<RecordCache>();
         mgr = db;
+        
     }
 
     private void hideKeyboardAndClearET() {
@@ -103,6 +104,9 @@ public class DailyFragment extends Fragment implements OnItemClickListener {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_daily, container, false);
+        
+        pw = new PreWrite();
+        
         take_snap = (LinearLayout)rootView.findViewById(R.id.take_snap);
         
         lv = (ListView)rootView.findViewById(R.id.daily_list);
@@ -225,76 +229,24 @@ public class DailyFragment extends Fragment implements OnItemClickListener {
         }
     }
 
-    // Calculate the difference days after first use time
-    private void CalDiffDays() {
-        Calendar calendar = Calendar.getInstance();
-        Calendar savedCalendar = Calendar.getInstance();
-        SharedPreferences sPreferences = getActivity().getSharedPreferences("first_use_time", Context.MODE_PRIVATE);
-        int sYear = sPreferences.getInt("year", 0);
-        int sMonth = sPreferences.getInt("month", 0);
-        int sDay = sPreferences.getInt("day", 0);
-        savedCalendar.set(sYear, sMonth, sDay);
-        long last = calendar.getTimeInMillis()-savedCalendar.getTimeInMillis();
-        long diffDays = last / (24 * 60 * 60 * 1000);
-        Log.d(TAG, "last day : "+diffDays);
-    }
-    
-    // Calculate whether luck day
-    private int isLuckDay() {
-        Calendar calendar = Calendar.getInstance();
-        Calendar savedCalendar = Calendar.getInstance();
-        SharedPreferences sPreferences = getActivity().getSharedPreferences("luck_day", Context.MODE_PRIVATE);
-        int sMonth = sPreferences.getInt("Month", 0);
-        int sDay = sPreferences.getInt("Day", 0);
-        savedCalendar.set(calendar.get(calendar.YEAR), sMonth, sDay);
-        return calendar.compareTo(savedCalendar);
-    }
-    private ArrayList<Map<String, String>> initDataList() {  
-        if(!trlist.isEmpty()) {
-             trlist.clear();
-        }
+    private List<String> initDataList() {  
         Log.d(TAG, "init data list");
 
-        /*
-        if(isLuckDay() == 0) {
-        	trlist = mgr.query();
-        } else
-        	trlist = mgr.queryWithMultipleParams(TalkUtil.conditonDates());
-        */
-        trlist = mgr.query();
-        if(!time_record.isEmpty()) {
-            time_record.clear();
+        if(!daily_record.isEmpty()) {
+            daily_record.clear();
         }
         
-        for (TimeRecord tr : trlist) {  
-            HashMap<String, String> map = new HashMap<String, String>(); 
-            RecordCache rc = new RecordCache();
-            if(tr.content_type == TalkUtil.MEDIA_TYPE_PHOTO)
-            	map.put("content", "惊鸿一瞥"); 
-            else if(tr.content_type == TalkUtil.MEDIA_TYPE_AUDIO)
-            	map.put("content", "口若兰花"); 
-            else
-            	map.put("content", tr.content); 
-
-            rc.setContent(tr.content);
-            map.put("create_date", tr.create_date);
-            rc.setCreateDate(tr.create_date);
-            map.put("create_time", tr.create_time);  
-            rc.setCreateTime(tr.create_time);
-            rc.setMediaType(tr.content_type);
-            record_cache.add(rc);
-            time_record.add(map);  
-        }  
-  
-        return time_record;
+        // Get where, when and weather
+        daily_record = pw.getPreWriteData();
+        return daily_record;
     }
     
     private void initListView() {
         if(lv == null)
             return;
         initDataList();
-        adapter = new SimpleAdapter(getActivity(),time_record, R.layout.record_listitem,
-                new String[]{"content", "create_date", "create_time"}, new int[]{R.id.content, R.id.create_date, R.id.create_time});
+        
+        adapter = new DailyListAdapter(getActivity(),initDataList());
         lv.setAdapter(adapter);
         lv.setOnItemClickListener(this);
     }
