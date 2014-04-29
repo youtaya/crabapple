@@ -105,7 +105,7 @@ public class DailyFragment extends Fragment implements OnItemClickListener {
             Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_daily, container, false);
         
-        pw = new PreWrite();
+        pw = new PreWrite(this.getActivity(), this);
         
         take_snap = (LinearLayout)rootView.findViewById(R.id.take_snap);
         
@@ -210,7 +210,9 @@ public class DailyFragment extends Fragment implements OnItemClickListener {
             }
         });
         
-        initListView();
+        pw.startPosition();
+        
+        //initListView();
         
         return rootView;
     }
@@ -241,7 +243,7 @@ public class DailyFragment extends Fragment implements OnItemClickListener {
         return daily_record;
     }
     
-    private void initListView() {
+    public void initListView() {
         if(lv == null)
             return;
         initDataList();
