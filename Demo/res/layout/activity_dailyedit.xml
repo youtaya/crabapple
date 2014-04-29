@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <ScrollView
+        android:id="@+id/scrollView1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true" >
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical" >
+			<EditText
+		        android:id="@+id/edit_content"
+		        android:layout_width="match_parent"
+		        android:layout_height="match_parent"
+		        android:layout_below="@+id/add_media"
+				android:layout_centerInParent="true"
+				android:gravity="center" 
+				android:hint="留下这段时光"
+				android:layout_marginBottom="54dp"/>
+        </FrameLayout>
+    </ScrollView>
+
+    <RelativeLayout
+        android:id="@+id/add_media"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/scrollView1" >
+        <ImageView 
+            android:id="@+id/add_photo"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true" 
+            android:src="@drawable/take_photo" />
+		<ImageView 
+            android:id="@+id/add_audio"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/take_tape" />
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/bluestone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_below="@+id/add_media"
+        android:layout_marginBottom="50dp"
+        android:layout_centerInParent="true"
+        android:gravity="center"
+        android:text="@string/bluestone" />
+
+</RelativeLayout>

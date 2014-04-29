@@ -66,6 +66,11 @@
             android:windowSoftInputMode="adjustResize" >
         </activity>
 		<activity
+            android:name="com.talk.demo.daily.DailyEditActivity"
+            android:label="@string/app_name" >
+        </activity>
+        
+		<activity
             android:name="com.talk.demo.time.TimeAllItem"
             android:label="@string/app_name" >
         </activity>

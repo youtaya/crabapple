@@ -3,7 +3,6 @@ package com.talk.demo;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -25,25 +24,21 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.SimpleAdapter;
 
 import com.talk.demo.audio.AudioRecorderActivity;
+import com.talk.demo.daily.DailyEditActivity;
 import com.talk.demo.persistence.DBManager;
 import com.talk.demo.persistence.RecordCache;
 import com.talk.demo.persistence.TimeRecord;
 import com.talk.demo.prewrite.PreWrite;
-import com.talk.demo.time.TimeAllItem;
 import com.talk.demo.util.TalkUtil;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class DailyFragment extends Fragment implements OnItemClickListener {
     OnItemChangedListener mCallback;
@@ -253,20 +248,17 @@ public class DailyFragment extends Fragment implements OnItemClickListener {
     
     @Override
     public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-        // TODO Auto-generated method stub
         
         String valueContent = parent.getItemAtPosition(position).toString();
         
-        Intent mIntent = new Intent(getActivity(), TimeAllItem.class);
+        Intent mIntent = new Intent(getActivity(), DailyEditActivity.class);
         Bundle mBundle = new Bundle();
-        mBundle.putString("createdate", valueContent.split(",")[1].substring(13));
-        mBundle.putString("createtime", valueContent.split(",")[0].substring(13));
-        mBundle.putParcelableArrayList("recordcache", record_cache);
+        mBundle.putString("precontent", valueContent);
         mIntent.putExtras(mBundle);
         startActivity(mIntent);
         
-        
     } 
+    
     @Override
     public void onPause() {
     	super.onPause();

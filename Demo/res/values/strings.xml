@@ -23,5 +23,5 @@
         光全部呈现\n如跳过设定，默认为当前日期\n可以在设定菜单中重新设置幸运日期</string>
 	<!-- Do not translate. Format of the timer that shows how much has been recorded so far -->
     <string name="timer_format" translatable="false"><xliff:g id="format">%02d:%02d</xliff:g></string>
-
+    <string name="bluestone">谁会看到这段时光\n</string>
 </resources>
