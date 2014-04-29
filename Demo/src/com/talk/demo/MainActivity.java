@@ -23,12 +23,13 @@ import android.view.Menu;
 
 import com.talk.demo.persistence.DBManager;
 import com.talk.demo.persistence.TimeRecord;
+import com.talk.demo.prewrite.PreWrite;
 import com.talk.demo.util.TalkUtil;
 
 public class MainActivity extends FragmentActivity implements ActionBar.TabListener, DailyFragment.OnItemChangedListener {
 
     private static String TAG = "MainActivity";
-    
+    private PreWrite pw;
     private DBManager mgr;
     private DailyFragment guideFragment;
     private TimeFragment timeFragment;
@@ -68,6 +69,8 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 
         mgr = new DBManager(this);
+        pw = new PreWrite(this.getApplicationContext());
+        pw.startPosition();
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the app.
         SharedPreferences sPreferences = getSharedPreferences("for_test", Context.MODE_PRIVATE);
@@ -118,7 +121,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         
         fragmentList = new ArrayList<Fragment>();
         //add guide fragment
-        guideFragment = new DailyFragment(mgr);
+        guideFragment = new DailyFragment(mgr, pw);
         fragmentList.add(guideFragment);
         //add time fragment
         timeFragment = new TimeFragment(mgr);

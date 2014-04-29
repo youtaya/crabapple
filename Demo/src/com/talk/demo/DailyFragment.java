@@ -66,10 +66,11 @@ public class DailyFragment extends Fragment implements OnItemClickListener {
     private String selectedImagePath;
     private PreWrite pw;
     
-    public DailyFragment(DBManager db) {
+    public DailyFragment(DBManager db, PreWrite prewrite) {
         daily_record = new ArrayList<String>();
         record_cache = new ArrayList<RecordCache>();
         mgr = db;
+        pw = prewrite;
         
     }
 
@@ -105,7 +106,6 @@ public class DailyFragment extends Fragment implements OnItemClickListener {
             Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_daily, container, false);
         
-        pw = new PreWrite(this.getActivity(), this);
         
         take_snap = (LinearLayout)rootView.findViewById(R.id.take_snap);
         
@@ -210,9 +210,7 @@ public class DailyFragment extends Fragment implements OnItemClickListener {
             }
         });
         
-        pw.startPosition();
-        
-        //initListView();
+        initListView();
         
         return rootView;
     }
@@ -231,7 +229,7 @@ public class DailyFragment extends Fragment implements OnItemClickListener {
         }
     }
 
-    private List<String> initDataList() {  
+    public List<String> initDataList() {  
         Log.d(TAG, "init data list");
 
         if(!daily_record.isEmpty()) {
@@ -246,7 +244,7 @@ public class DailyFragment extends Fragment implements OnItemClickListener {
     public void initListView() {
         if(lv == null)
             return;
-        initDataList();
+        //initDataList();
         
         adapter = new DailyListAdapter(getActivity(),initDataList());
         lv.setAdapter(adapter);
