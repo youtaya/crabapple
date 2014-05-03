@@ -59,16 +59,15 @@ public class DailyFragment extends Fragment implements OnItemClickListener {
     private ImageView iv,ivSpring, ivPhoto, ivGallery, ivTape;
     private DBManager mgr;
     private List<String> daily_record;
-    private ArrayList<RecordCache> record_cache;
     private DailyListAdapter adapter;
     private LinearLayout take_snap;
     private boolean snap_on = false;
     private String selectedImagePath;
     private PreWrite pw;
+    private List<String> mListItems;
     
     public DailyFragment(DBManager db, PreWrite prewrite) {
         daily_record = new ArrayList<String>();
-        record_cache = new ArrayList<RecordCache>();
         mgr = db;
         pw = prewrite;
         
@@ -205,8 +204,6 @@ public class DailyFragment extends Fragment implements OnItemClickListener {
                     adapter.notifyDataSetChanged();
                     
                     hideKeyboardAndClearET();
-                    
-                    
                 }
             }
         });
@@ -254,8 +251,8 @@ public class DailyFragment extends Fragment implements OnItemClickListener {
     	
         if(pullToRefreshView == null)
             return;
-        
-        adapter = new DailyListAdapter(getActivity(),initDataList());
+        mListItems = initDataList();
+        adapter = new DailyListAdapter(getActivity(), mListItems);
         pullToRefreshView.setAdapter(adapter);
         pullToRefreshView.setOnItemClickListener(this);
 
@@ -264,6 +261,8 @@ public class DailyFragment extends Fragment implements OnItemClickListener {
     private class GetDataTask extends AsyncTask<Void, Void, String[]> {
         @Override
         protected void onPostExecute(String[] result) {
+        	mListItems.add("Added after refresh...");
+        	adapter.notifyDataSetChanged();
             // Call onRefreshComplete when the list has been refreshed.
             pullToRefreshView.onRefreshComplete();
             super.onPostExecute(result);
