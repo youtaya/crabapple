@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -25,6 +26,9 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
+import com.handmark.pulltorefresh.library.PullToRefreshBase;
+import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
+import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.talk.demo.audio.AudioRecorderActivity;
 import com.talk.demo.daily.DailyEditActivity;
 import com.talk.demo.persistence.DBManager;
@@ -49,7 +53,8 @@ public class DailyFragment extends Fragment implements OnItemClickListener {
     }
     
     private static String TAG = "TimeFragment";
-    private ListView lv;
+    //private ListView lv;
+    private PullToRefreshListView pullToRefreshView;
     private EditText et;
     private ImageView iv,ivSpring, ivPhoto, ivGallery, ivTape;
     private DBManager mgr;
@@ -103,8 +108,9 @@ public class DailyFragment extends Fragment implements OnItemClickListener {
         
         
         take_snap = (LinearLayout)rootView.findViewById(R.id.take_snap);
-        
-        lv = (ListView)rootView.findViewById(R.id.daily_list);
+        // Set a listener to be invoked when the list should be refreshed.
+        pullToRefreshView = (PullToRefreshListView)rootView.findViewById(R.id.daily_list);
+        //lv = (ListView)rootView.findViewById(R.id.daily_list);
         et = (EditText)rootView.findViewById(R.id.fast_record);
         ivSpring = (ImageView)rootView.findViewById(R.id.tool_spring);
         ivPhoto = (ImageView)rootView.findViewById(R.id.take_photo);
@@ -205,6 +211,14 @@ public class DailyFragment extends Fragment implements OnItemClickListener {
             }
         });
         
+        pullToRefreshView.setOnRefreshListener(new OnRefreshListener<ListView>() {
+            @Override
+            public void onRefresh(PullToRefreshBase<ListView> refreshView) {
+                // Do work to refresh the list here.
+                new GetDataTask().execute();
+            }
+        });
+        
         initListView();
         
         return rootView;
@@ -237,13 +251,29 @@ public class DailyFragment extends Fragment implements OnItemClickListener {
     }
     
     public void initListView() {
-        if(lv == null)
+    	
+        if(pullToRefreshView == null)
             return;
-        //initDataList();
         
         adapter = new DailyListAdapter(getActivity(),initDataList());
-        lv.setAdapter(adapter);
-        lv.setOnItemClickListener(this);
+        pullToRefreshView.setAdapter(adapter);
+        pullToRefreshView.setOnItemClickListener(this);
+
+    }
+    
+    private class GetDataTask extends AsyncTask<Void, Void, String[]> {
+        @Override
+        protected void onPostExecute(String[] result) {
+            // Call onRefreshComplete when the list has been refreshed.
+            pullToRefreshView.onRefreshComplete();
+            super.onPostExecute(result);
+        }
+
+		@Override
+		protected String[] doInBackground(Void... params) {
+			// TODO Auto-generated method stub
+			return null;
+		}
     }
     
     @Override

@@ -10,7 +10,7 @@
         android:layout_height="0dip"
         android:background="@color/beige" >
         
-        <ListView
+        <com.handmark.pulltorefresh.library.PullToRefreshListView
             android:id="@+id/daily_list"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent" />
