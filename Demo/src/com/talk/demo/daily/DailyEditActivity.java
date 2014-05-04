@@ -5,18 +5,23 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.talk.demo.MainActivity;
 import com.talk.demo.R;
 import com.talk.demo.persistence.DBManager;
 import com.talk.demo.persistence.TimeRecord;
+import com.talk.demo.share.FriendsActivity;
 import com.talk.demo.util.TalkUtil;
 
 public class DailyEditActivity extends Activity {
 	private static String TAG = "DailyEditActivity";
 	private EditText edit_content;
 	private String pre_content;
+	private TextView tv;
 	private DBManager mgr;
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -29,6 +34,16 @@ public class DailyEditActivity extends Activity {
         edit_content.setText(pre_content);
         edit_content.setSelection(pre_content.length());
         
+        tv = (TextView)findViewById(R.id.bluestone);
+        tv.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				// call friends, and choose one
+		        Intent mIntent = new Intent(v.getContext(), FriendsActivity.class);
+		        startActivity(mIntent);
+			}
+        	
+        });
         mgr = new DBManager(this);
     }
     
