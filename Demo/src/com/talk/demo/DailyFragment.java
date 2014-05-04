@@ -34,7 +34,10 @@ import com.talk.demo.daily.DailyEditActivity;
 import com.talk.demo.persistence.DBManager;
 import com.talk.demo.persistence.TimeRecord;
 import com.talk.demo.prewrite.PreWrite;
+import com.talk.demo.util.NetworkUtilities;
 import com.talk.demo.util.TalkUtil;
+
+import org.json.JSONException;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -258,24 +261,24 @@ public class DailyFragment extends Fragment implements OnItemClickListener {
 
     }
     
-    private class GetDataTask extends AsyncTask<Void, Void, String[]> {
-		private String[] temps = new String[2];
-
+    private class GetDataTask extends AsyncTask<Void, Void, List<String>> {
+        List<String> getDataList = new ArrayList<String>();
         @Override
-		protected String[] doInBackground(Void... params) {
+		protected List<String> doInBackground(Void... params) {
             // Simulates a background job.
             try {
-                Thread.sleep(2000);
-            } catch (InterruptedException e) {
+                getDataList = NetworkUtilities.syncNews();
+            } catch (JSONException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
             }
-            temps[0] = pw.getWhere();
-            String test2 = "add for test";
-            temps[1] = test2;
-            return temps;
+            
+            return getDataList;
+            
 		}
 		
         @Override
-        protected void onPostExecute(String[] result) {
+        protected void onPostExecute(List<String> result) {
             for(String temp: result) {
                 Log.d(TAG, "temp is "+temp);
                 mListItems.addFirst(temp);

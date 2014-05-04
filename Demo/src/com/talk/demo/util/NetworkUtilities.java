@@ -50,6 +50,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -77,6 +78,7 @@ final public class NetworkUtilities {
     public static final String BASE_URL = "http://192.168.1.104/";
     /** URI for authentication service */
     public static final String AUTH_URI = BASE_URL + "account/login/";
+    public static final String SYNC_NEWS_URI = BASE_URL + "news/latest/";
     /** URI for sync service */
     public static final String SYNC_RECORDS_URI = BASE_URL + "times/sync/";
 
@@ -147,6 +149,8 @@ final public class NetworkUtilities {
         }
     }
     */
+    
+
     public static String authenticate(String username, String password) {
 		String authToken = null;
 		String csrfToken2 = null;
@@ -222,6 +226,32 @@ final public class NetworkUtilities {
         }
 		
 	}
+    
+    public static List<String> syncNews() throws JSONException {
+        List<String> mItems = new LinkedList<String>();
+        try {
+            
+            HttpRequest request = HttpRequest.get(SYNC_NEWS_URI);
+            request.followRedirects(false);
+            String response = request.body();
+            int result = request.code();
+            Log.d(TAG,"Response was: " + response);
+            final JSONArray serverNews = new JSONArray(response);
+            Log.d(TAG, response);
+            for (int i = 0; i < serverNews.length(); i++) {
+                String test = serverNews.getJSONObject(i).getString("news");
+                if (test != null) {
+                    mItems.add(test);
+                }
+            }
+            
+            
+        } catch (HttpRequestException exception) {
+            Log.d(TAG, "exception : " + exception.toString());
+        }
+
+        return mItems;
+    }
     /**
      * Perform 2-way sync with the server-side contacts. We send a request that
      * includes all the locally-dirty contacts so that the server can process
@@ -279,10 +309,10 @@ final public class NetworkUtilities {
             // that they accepted all the changes we sent up, and
             // that the response includes the contacts that we need
             // to update on our side...
-            final JSONArray serverContacts = new JSONArray(response);
+            final JSONArray serverRecords = new JSONArray(response);
             Log.d(TAG, response);
-            for (int i = 0; i < serverContacts.length(); i++) {
-            	RawRecord rawRecord = RawRecord.valueOf(serverContacts.getJSONObject(i));
+            for (int i = 0; i < serverRecords.length(); i++) {
+            	RawRecord rawRecord = RawRecord.valueOf(serverRecords.getJSONObject(i));
                 if (rawRecord != null) {
                     serverDirtyList.add(rawRecord);
                 }
