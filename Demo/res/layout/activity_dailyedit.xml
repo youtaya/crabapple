@@ -8,54 +8,76 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:layout_centerVertical="true" >
+        android:layout_alignParentTop="true"
+        android:background="@color/yellow" >
 
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+			android:focusable="true"  
+			android:focusableInTouchMode="true"
             android:orientation="vertical" >
-			<EditText
-		        android:id="@+id/edit_content"
-		        android:layout_width="match_parent"
-		        android:layout_height="match_parent"
-		        android:layout_below="@+id/add_media"
-				android:layout_centerInParent="true"
-				android:background="@null"
-				android:gravity="center" 
-				android:hint="留下这段时光"
-				android:layout_marginBottom="54dp"/>
+
+            <EditText
+                android:id="@+id/edit_content"
+                android:layout_width="match_parent"
+                android:layout_height="226dp"
+                android:layout_below="@+id/add_media"
+                android:layout_centerInParent="true"
+                android:layout_marginBottom="54dp"
+                android:background="@null"
+                android:gravity="center"
+                android:hint="留下这段时光" />
         </FrameLayout>
     </ScrollView>
+
+    <ImageView
+        android:id="@+id/tab1"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_below="@+id/scrollView1"
+        android:background="@drawable/tab_bg" />
 
     <RelativeLayout
         android:id="@+id/add_media"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/red"
         android:layout_alignParentRight="true"
-        android:layout_below="@+id/scrollView1" >
-        <ImageView 
+        android:layout_below="@+id/tab1" >
+
+        <ImageView
             android:id="@+id/add_photo"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true" 
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:paddingBottom="5dp"
+            android:paddingTop="5dp"
             android:src="@drawable/take_photo" />
-		<ImageView 
+
+        <ImageView
             android:id="@+id/add_audio"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
+            android:paddingBottom="5dp"
+            android:paddingTop="5dp"
             android:src="@drawable/take_tape" />
     </RelativeLayout>
+
+    <ImageView
+        android:id="@+id/tab2"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_below="@+id/add_media"
+        android:background="@drawable/tab_bg" />
 
     <TextView
         android:id="@+id/bluestone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/yellow"
         android:layout_alignParentBottom="true"
-        android:layout_below="@+id/add_media"
-        android:layout_centerInParent="true"
+        android:layout_below="@+id/tab2"
+        android:layout_centerHorizontal="true"
         android:gravity="center"
         android:text="@string/bluestone" />
 
