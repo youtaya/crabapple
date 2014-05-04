@@ -14,12 +14,12 @@ import com.baidu.location.LocationClientOption.LocationMode;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
+import java.util.LinkedList;
 
 public class PreWrite {
 
 	private static String TAG = "PreWrite";
-    private List<String> preData;
+    private LinkedList<String> preData;
     private Context context;
     private String when;
     private String where;
@@ -29,9 +29,9 @@ public class PreWrite {
     
     public PreWrite(Context ctx) {
         context = ctx;
-        preData = new ArrayList<String>();
+        preData = new LinkedList<String>();
     }
-    public List<String> getPreWriteData() {
+    public LinkedList<String> getPreWriteData() {
         
         preData.add(getWhen());
         preData.add(getWhere());
@@ -50,6 +50,7 @@ public class PreWrite {
 	        String cacheWhere = sp.getString("where", "");
 	        where = cacheWhere;
     	}
+
         return where;
     }
     
@@ -103,14 +104,16 @@ public class PreWrite {
             }
             
             where = location.getAddrStr();
-            Log.d(TAG, "where : "+where);
             //save for cache
-            SharedPreferences sp = context.getSharedPreferences("current_where", Context.MODE_PRIVATE);
-            Editor editor = sp.edit();
-            editor.putString("where", where);
-            editor.commit();
-            //stop position
-            mLocationClient.stop();
+            if(where != null) {
+                Log.d(TAG, "where : "+where);
+                SharedPreferences sp = context.getSharedPreferences("current_where", Context.MODE_PRIVATE);
+                Editor editor = sp.edit();
+                editor.putString("where", where);
+                editor.commit();
+                //stop position
+                mLocationClient.stop();
+            }
         }
 
         @Override

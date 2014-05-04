@@ -20,6 +20,7 @@
 		        android:layout_height="match_parent"
 		        android:layout_below="@+id/add_media"
 				android:layout_centerInParent="true"
+				android:background="@null"
 				android:gravity="center" 
 				android:hint="留下这段时光"
 				android:layout_marginBottom="54dp"/>
@@ -30,6 +31,7 @@
         android:id="@+id/add_media"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/red"
         android:layout_alignParentRight="true"
         android:layout_below="@+id/scrollView1" >
         <ImageView 
@@ -50,9 +52,9 @@
         android:id="@+id/bluestone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/yellow"
         android:layout_alignParentBottom="true"
         android:layout_below="@+id/add_media"
-        android:layout_marginBottom="50dp"
         android:layout_centerInParent="true"
         android:gravity="center"
         android:text="@string/bluestone" />

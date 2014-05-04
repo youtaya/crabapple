@@ -32,7 +32,6 @@ import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.talk.demo.audio.AudioRecorderActivity;
 import com.talk.demo.daily.DailyEditActivity;
 import com.talk.demo.persistence.DBManager;
-import com.talk.demo.persistence.RecordCache;
 import com.talk.demo.persistence.TimeRecord;
 import com.talk.demo.prewrite.PreWrite;
 import com.talk.demo.util.TalkUtil;
@@ -42,6 +41,7 @@ import java.io.FileOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 
 public class DailyFragment extends Fragment implements OnItemClickListener {
@@ -52,22 +52,22 @@ public class DailyFragment extends Fragment implements OnItemClickListener {
         public void onItemChanged();
     }
     
-    private static String TAG = "TimeFragment";
+    private static String TAG = "DailyFragment";
     //private ListView lv;
     private PullToRefreshListView pullToRefreshView;
     private EditText et;
     private ImageView iv,ivSpring, ivPhoto, ivGallery, ivTape;
     private DBManager mgr;
-    private List<String> daily_record;
+    private LinkedList<String> daily_record;
     private DailyListAdapter adapter;
     private LinearLayout take_snap;
     private boolean snap_on = false;
     private String selectedImagePath;
     private PreWrite pw;
-    private List<String> mListItems;
+    private LinkedList<String> mListItems;
     
     public DailyFragment(DBManager db, PreWrite prewrite) {
-        daily_record = new ArrayList<String>();
+        daily_record = new LinkedList<String>();
         mgr = db;
         pw = prewrite;
         
@@ -235,7 +235,7 @@ public class DailyFragment extends Fragment implements OnItemClickListener {
         }
     }
 
-    public List<String> initDataList() {  
+    public LinkedList<String> initDataList() {  
         Log.d(TAG, "init data list");
 
         if(!daily_record.isEmpty()) {
@@ -259,20 +259,32 @@ public class DailyFragment extends Fragment implements OnItemClickListener {
     }
     
     private class GetDataTask extends AsyncTask<Void, Void, String[]> {
+		private String[] temps = new String[2];
+
+        @Override
+		protected String[] doInBackground(Void... params) {
+            // Simulates a background job.
+            try {
+                Thread.sleep(2000);
+            } catch (InterruptedException e) {
+            }
+            temps[0] = pw.getWhere();
+            String test2 = "add for test";
+            temps[1] = test2;
+            return temps;
+		}
+		
         @Override
         protected void onPostExecute(String[] result) {
-        	mListItems.add("Added after refresh...");
-        	adapter.notifyDataSetChanged();
+            for(String temp: result) {
+                Log.d(TAG, "temp is "+temp);
+                mListItems.addFirst(temp);
+            }
+            adapter.notifyDataSetChanged();
             // Call onRefreshComplete when the list has been refreshed.
             pullToRefreshView.onRefreshComplete();
             super.onPostExecute(result);
-        }
-
-		@Override
-		protected String[] doInBackground(Void... params) {
-			// TODO Auto-generated method stub
-			return null;
-		}
+        }		
     }
     
     @Override

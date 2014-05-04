@@ -27,6 +27,7 @@ public class DailyEditActivity extends Activity {
         pre_content = bundle.getString("precontent");
         edit_content = (EditText)findViewById(R.id.edit_content);
         edit_content.setText(pre_content);
+        edit_content.setSelection(pre_content.length());
         
         mgr = new DBManager(this);
     }
