@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
 	<string name="label">Talk</string>
-    <string name="app_name">山涧</string>
+    <string name="app_name">情书</string>
+    <string name="love_letter">在时光中留下自己\n\n在岁月中省视自己\n\n
+        在流逝中面对自己\n\n</string>
     <string name="login">LOG IN</string>
     <string name="signup">SIGN UP</string>
     <string name="action_settings">Settings</string>
