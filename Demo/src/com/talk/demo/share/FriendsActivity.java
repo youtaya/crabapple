@@ -7,7 +7,10 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
 import com.talk.demo.R;
@@ -19,7 +22,7 @@ import java.util.List;
 import java.util.Map;
 
 public class FriendsActivity extends Activity {
-
+	private static String TAG = "FriendsActivity";
 	private ContactListAdapter adapter;
 	private ListView contactList;
 	private List<ContactBean> list;
@@ -34,7 +37,17 @@ public class FriendsActivity extends Activity {
 		setContentView(R.layout.activity_friends);
 		contactList = (ListView) findViewById(R.id.contact_list);
 		alphabeticBar = (QuickAlphabeticBar) findViewById(R.id.fast_scroller);
+		contactList.setOnItemClickListener(new OnItemClickListener() {
 
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view,
+					int position, long id) {
+				ContactBean valueContent = (ContactBean)parent.getItemAtPosition(position);
+				Log.d(TAG, "content : "+valueContent.getDesplayName());
+				
+			}
+			
+		});
 		asyncQueryHandler = new MyAsyncQueryHandler(getContentResolver());
 		init();
 

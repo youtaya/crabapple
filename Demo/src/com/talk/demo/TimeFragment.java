@@ -140,7 +140,6 @@ public class TimeFragment extends Fragment implements OnItemClickListener {
     
     @Override
     public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-        // TODO Auto-generated method stub
         
         String valueContent = parent.getItemAtPosition(position).toString();
         
