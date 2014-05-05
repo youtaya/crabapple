@@ -53,11 +53,6 @@ public class FriendsActivity extends Activity {
 
 	}
 
-	/**
-	 * 
-	 * @author Administrator
-	 * 
-	 */
 	private class MyAsyncQueryHandler extends AsyncQueryHandler {
 
 		public MyAsyncQueryHandler(ContentResolver cr) {

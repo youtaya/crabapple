@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.provider.ContactsContract;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,6 +26,7 @@ import java.util.Set;
 import java.util.regex.Pattern;
 
 public class ContactListAdapter extends BaseAdapter {
+	private static String TAG="ContactListAdapter";
 	private LayoutInflater inflater;
 	private List<ContactBean> list;
 	private HashMap<String, Integer> alphaIndexer; 
@@ -96,7 +98,7 @@ public class ContactListAdapter extends BaseAdapter {
 		holder.name.setText(name);
 		holder.number.setText(number);
 		if (0 == contact.getPhotoId()) {
-			holder.contactPhoto.setImageResource(R.drawable.new_selected);
+			holder.contactPhoto.setImageResource(R.drawable.ic_contacts_holo_dark);
 		} else {
 			Uri uri = ContentUris.withAppendedId(
 					ContactsContract.Contacts.CONTENT_URI,
@@ -104,6 +106,7 @@ public class ContactListAdapter extends BaseAdapter {
 			InputStream input = ContactsContract.Contacts
 					.openContactPhotoInputStream(ctx.getContentResolver(), uri);
 			Bitmap contactPhoto = BitmapFactory.decodeStream(input);
+			Log.d(TAG, "contact photo: "+contactPhoto);
 			holder.contactPhoto.setImageBitmap(contactPhoto);
 		}
 		String currentStr = getAlpha(contact.getSortKey());

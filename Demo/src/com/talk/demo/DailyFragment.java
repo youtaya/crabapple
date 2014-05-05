@@ -120,7 +120,6 @@ public class DailyFragment extends Fragment implements OnItemClickListener {
 
 			@Override
 			public void onClick(View arg0) {
-				// TODO Auto-generated method stub
 				dispatchTakePictureIntent();
 				take_snap.setVisibility(View.GONE);
 			}
@@ -132,7 +131,6 @@ public class DailyFragment extends Fragment implements OnItemClickListener {
 
 			@Override
 			public void onClick(View arg0) {
-				// TODO Auto-generated method stub
 				dispatchTakeGalleryIntent();
 				take_snap.setVisibility(View.GONE);
 			}
@@ -143,7 +141,6 @@ public class DailyFragment extends Fragment implements OnItemClickListener {
 
             @Override
             public void onClick(View arg0) {
-                // TODO Auto-generated method stub
                 dispatchTakeTapeIntent();
                 take_snap.setVisibility(View.GONE);
             }
@@ -153,7 +150,6 @@ public class DailyFragment extends Fragment implements OnItemClickListener {
 
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
 				if(!snap_on) {
 					take_snap.setVisibility(View.VISIBLE);
 					snap_on = true;
@@ -172,13 +168,11 @@ public class DailyFragment extends Fragment implements OnItemClickListener {
 			@Override
 			public void beforeTextChanged(CharSequence s, int start, int count,
 					int after) {
-				// TODO Auto-generated method stub
 				iv.setImageResource(R.drawable.btn_check_on_normal);
 			}
 			@Override
 			public void onTextChanged(CharSequence s, int start, int before,
 					int count) {
-				// TODO Auto-generated method stub
 				if( s.length() > 0) {
 					iv.setImageResource(R.drawable.btn_check_on_normal);
 				} else {
