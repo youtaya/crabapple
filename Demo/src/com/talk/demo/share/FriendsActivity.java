@@ -69,7 +69,7 @@ public class FriendsActivity extends Activity {
 			if (cursor != null && cursor.getCount() > 0) {
 				contactIdMap = new HashMap<Integer, ContactBean>();
 				list = new ArrayList<ContactBean>();
-				cursor.moveToFirst(); // �α��ƶ�����һ��
+				cursor.moveToFirst();
 				for (int i = 0; i < cursor.getCount(); i++) {
 					cursor.moveToPosition(i);
 					String name = cursor.getString(1);

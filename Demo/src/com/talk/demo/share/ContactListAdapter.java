@@ -6,12 +6,11 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.provider.ContactsContract;
-import android.provider.ContactsContract.Contacts;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.QuickContactBadge;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.talk.demo.R;
@@ -82,8 +81,7 @@ public class ContactListAdapter extends BaseAdapter {
 		if (convertView == null) {
 			convertView = inflater.inflate(R.layout.contact_list_item, null);
 			holder = new ViewHolder();
-			holder.quickContactBadge = (QuickContactBadge) convertView
-					.findViewById(R.id.qcb);
+			holder.contactPhoto = (ImageView) convertView.findViewById(R.id.qcb);
 			holder.alpha = (TextView) convertView.findViewById(R.id.alpha);
 			holder.name = (TextView) convertView.findViewById(R.id.name);
 			holder.number = (TextView) convertView.findViewById(R.id.number);
@@ -97,10 +95,8 @@ public class ContactListAdapter extends BaseAdapter {
 		String number = contact.getPhoneNum();
 		holder.name.setText(name);
 		holder.number.setText(number);
-		holder.quickContactBadge.assignContactUri(Contacts.getLookupUri(
-				contact.getContactId(), contact.getLookUpKey()));
 		if (0 == contact.getPhotoId()) {
-			//holder.quickContactBadge.setImageResource(R.drawable.touxiang);
+			holder.contactPhoto.setImageResource(R.drawable.new_selected);
 		} else {
 			Uri uri = ContentUris.withAppendedId(
 					ContactsContract.Contacts.CONTENT_URI,
@@ -108,7 +104,7 @@ public class ContactListAdapter extends BaseAdapter {
 			InputStream input = ContactsContract.Contacts
 					.openContactPhotoInputStream(ctx.getContentResolver(), uri);
 			Bitmap contactPhoto = BitmapFactory.decodeStream(input);
-			holder.quickContactBadge.setImageBitmap(contactPhoto);
+			holder.contactPhoto.setImageBitmap(contactPhoto);
 		}
 		String currentStr = getAlpha(contact.getSortKey());
 		String previewStr = (position - 1) >= 0 ? getAlpha(list.get(
@@ -124,7 +120,7 @@ public class ContactListAdapter extends BaseAdapter {
 	}
 
 	private static class ViewHolder {
-		QuickContactBadge quickContactBadge;
+		ImageView contactPhoto;
 		TextView alpha;
 		TextView name;
 		TextView number;
