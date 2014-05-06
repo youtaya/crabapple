@@ -81,6 +81,7 @@ final public class NetworkUtilities {
     public static final String SYNC_NEWS_URI = BASE_URL + "news/today/";
     /** URI for sync service */
     public static final String SYNC_RECORDS_URI = BASE_URL + "times/sync/";
+    public static final String SHARE_RECORDS_URI = BASE_URL + "times/share/";
 
     private NetworkUtilities() {
     }
@@ -251,6 +252,9 @@ final public class NetworkUtilities {
         }
 
         return mItems;
+    }
+    public static void shareRecord(RawRecord raw, String target) {
+    	//ToDo 
     }
     /**
      * Perform 2-way sync with the server-side contacts. We send a request that

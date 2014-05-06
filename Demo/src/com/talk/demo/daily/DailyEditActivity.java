@@ -17,6 +17,8 @@ import com.talk.demo.R;
 import com.talk.demo.persistence.DBManager;
 import com.talk.demo.persistence.TimeRecord;
 import com.talk.demo.share.FriendsActivity;
+import com.talk.demo.util.NetworkUtilities;
+import com.talk.demo.util.RawRecord;
 import com.talk.demo.util.TalkUtil;
 
 public class DailyEditActivity extends Activity {
@@ -26,6 +28,7 @@ public class DailyEditActivity extends Activity {
 	private TextView tv;
 	private DBManager mgr;
     private static final int GET_FRIEND = 101;
+    private String friend = null;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,15 +64,32 @@ public class DailyEditActivity extends Activity {
         return true;
     }
     
+    private void shareToFriend(TimeRecord time, String name) {
+    	/*
+    	(String name, String title, String content, String createDate,
+            String createTime, int contentType, String photo, String audio,
+            String status, boolean deleted, long serverRecordId,
+            long rawRecordId, long syncState, boolean dirty)
+    	 */
+    	RawRecord raw = RawRecord.create("jinxp", null, time.content, time.create_date, time.create_time,
+    			time.content_type, null, null, null, false, 11, 12, -1, true);
+    	NetworkUtilities.shareRecord(raw, name);
+    
+    }
+    
     private void confirmDone() {
     	//save to db
         String content = edit_content.getText().toString();
         // Do nothing if content is empty
+        TimeRecord tr = null;
         if(content.length() > 0) {
-        	TimeRecord tr = new TimeRecord(content);  
+        	tr = new TimeRecord(content);  
         	tr.setContentType(TalkUtil.MEDIA_TYPE_TEXT);
         	mgr.add(tr);
 	    }
+        
+        // share to friend
+        shareToFriend(tr, friend);
         //goto main activity
         Intent mIntent = new Intent();
         mIntent.setClass(this, MainActivity.class);
@@ -96,6 +116,7 @@ public class DailyEditActivity extends Activity {
                 if(resultCode == RESULT_OK) {
                     String name = data.getStringExtra("friend_name").toString();
                     tv.setText("Choose Friends: " + name);
+                    friend = name;
                 }
                 break;
         }
