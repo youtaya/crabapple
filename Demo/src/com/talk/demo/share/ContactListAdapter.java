@@ -87,6 +87,7 @@ public class ContactListAdapter extends BaseAdapter {
 			holder.alpha = (TextView) convertView.findViewById(R.id.alpha);
 			holder.name = (TextView) convertView.findViewById(R.id.name);
 			holder.number = (TextView) convertView.findViewById(R.id.number);
+			holder.choose = (ImageView) convertView.findViewById(R.id.choose);
 			convertView.setTag(holder);
 		} else {
 			holder = (ViewHolder) convertView.getTag();
@@ -127,6 +128,7 @@ public class ContactListAdapter extends BaseAdapter {
 		TextView alpha;
 		TextView name;
 		TextView number;
+		ImageView choose;
 	}
 
 

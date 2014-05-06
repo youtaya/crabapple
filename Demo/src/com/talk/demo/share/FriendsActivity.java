@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ImageView;
 import android.widget.ListView;
 
 import com.talk.demo.R;
@@ -44,6 +45,8 @@ public class FriendsActivity extends Activity {
 					int position, long id) {
 				ContactBean valueContent = (ContactBean)parent.getItemAtPosition(position);
 				Log.d(TAG, "content : "+valueContent.getDesplayName());
+				ImageView choose = (ImageView)view.findViewById(R.id.choose);
+				choose.setImageResource(R.drawable.ic_menu_done_holo_dark);
 				
 			}
 			
