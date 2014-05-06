@@ -3,6 +3,7 @@ package com.talk.demo.share;
 import android.app.Activity;
 import android.content.AsyncQueryHandler;
 import android.content.ContentResolver;
+import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -13,6 +14,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.talk.demo.R;
 import com.talk.demo.ui.QuickAlphabeticBar;
@@ -32,6 +34,7 @@ public class FriendsActivity extends Activity {
 
 	private Map<Integer, ContactBean> contactIdMap = null;
 
+	private String friendName = null;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -46,8 +49,11 @@ public class FriendsActivity extends Activity {
 				ContactBean valueContent = (ContactBean)parent.getItemAtPosition(position);
 				Log.d(TAG, "content : "+valueContent.getDesplayName());
 				ImageView choose = (ImageView)view.findViewById(R.id.choose);
+				TextView name = (TextView)view.findViewById(R.id.name);
 				choose.setImageResource(R.drawable.ic_menu_done_holo_dark);
-				
+				friendName = name.getText().toString();
+				passChooseName(friendName);
+
 			}
 			
 		});
@@ -55,7 +61,24 @@ public class FriendsActivity extends Activity {
 		init();
 
 	}
+	
+	@Override
+	protected void onPause() {
+	    super.onPause();
 
+	}
+
+	private void passChooseName(String name) {
+	    Log.d(TAG, "pass choose name");
+        if(name != null) {
+            Intent resultIntent = new Intent();
+            Log.d(TAG, "friend name : "+name);
+            resultIntent.putExtra("friend_name", name);
+            this.setResult(Activity.RESULT_OK, resultIntent);
+            finish();
+        }
+	}
+	
 	private void init() {
 		Uri uri = ContactsContract.CommonDataKinds.Phone.CONTENT_URI;
 		String[] projection = { ContactsContract.CommonDataKinds.Phone._ID,

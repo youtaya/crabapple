@@ -1,8 +1,10 @@
 package com.talk.demo.daily;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -23,6 +25,7 @@ public class DailyEditActivity extends Activity {
 	private String pre_content;
 	private TextView tv;
 	private DBManager mgr;
+    private static final int GET_FRIEND = 101;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,12 +42,16 @@ public class DailyEditActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				// call friends, and choose one
-		        Intent mIntent = new Intent(v.getContext(), FriendsActivity.class);
-		        startActivity(mIntent);
+			    startFriendActivity();
 			}
         	
         });
         mgr = new DBManager(this);
+    }
+    
+    private void startFriendActivity() {
+        Intent mIntent = new Intent(this, FriendsActivity.class);
+        this.startActivityForResult(mIntent,GET_FRIEND);
     }
     
     @Override
@@ -78,6 +85,19 @@ public class DailyEditActivity extends Activity {
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
+        }
+    }
+    
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Log.d(TAG, "got the return :"+requestCode+" :"+resultCode);
+        switch(requestCode) {
+            case GET_FRIEND:
+                if(resultCode == RESULT_OK) {
+                    String name = data.getStringExtra("friend_name").toString();
+                    tv.setText("Choose Friends: " + name);
+                }
+                break;
         }
     }
 }
