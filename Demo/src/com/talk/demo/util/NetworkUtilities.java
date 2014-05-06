@@ -78,7 +78,7 @@ final public class NetworkUtilities {
     public static final String BASE_URL = "http://192.168.1.104/";
     /** URI for authentication service */
     public static final String AUTH_URI = BASE_URL + "account/login/";
-    public static final String SYNC_NEWS_URI = BASE_URL + "news/latest/";
+    public static final String SYNC_NEWS_URI = BASE_URL + "news/today/";
     /** URI for sync service */
     public static final String SYNC_RECORDS_URI = BASE_URL + "times/sync/";
 
