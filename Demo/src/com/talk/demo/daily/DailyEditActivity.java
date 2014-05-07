@@ -3,6 +3,7 @@ package com.talk.demo.daily;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -21,6 +22,12 @@ import com.talk.demo.util.NetworkUtilities;
 import com.talk.demo.util.RawRecord;
 import com.talk.demo.util.TalkUtil;
 
+import org.apache.http.ParseException;
+import org.json.JSONException;
+
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+
 public class DailyEditActivity extends Activity {
 	private static String TAG = "DailyEditActivity";
 	private EditText edit_content;
@@ -29,6 +36,7 @@ public class DailyEditActivity extends Activity {
 	private DBManager mgr;
     private static final int GET_FRIEND = 101;
     private String friend = null;
+    private TimeRecord tr = null;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,16 +72,24 @@ public class DailyEditActivity extends Activity {
         return true;
     }
     
-    private void shareToFriend(TimeRecord time, String name) {
-    	/*
-    	(String name, String title, String content, String createDate,
-            String createTime, int contentType, String photo, String audio,
-            String status, boolean deleted, long serverRecordId,
-            long rawRecordId, long syncState, boolean dirty)
-    	 */
+    private String shareToFriend(TimeRecord time, String name) {
+        String result = "ok";
     	RawRecord raw = RawRecord.create("jinxp", null, time.content, time.create_date, time.create_time,
     			time.content_type, null, null, null, false, 11, 12, -1, true);
-    	NetworkUtilities.shareRecord(raw, name);
+        try {
+            NetworkUtilities.shareRecord(raw, name);
+        } catch (ParseException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (JSONException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        
+        return result;
     
     }
     
@@ -81,7 +97,7 @@ public class DailyEditActivity extends Activity {
     	//save to db
         String content = edit_content.getText().toString();
         // Do nothing if content is empty
-        TimeRecord tr = null;
+        
         if(content.length() > 0) {
         	tr = new TimeRecord(content);  
         	tr.setContentType(TalkUtil.MEDIA_TYPE_TEXT);
@@ -89,13 +105,28 @@ public class DailyEditActivity extends Activity {
 	    }
         
         // share to friend
-        shareToFriend(tr, friend);
+        //shareToFriend(tr, friend);
+        new ShareRecordTask().execute();
         //goto main activity
         Intent mIntent = new Intent();
         mIntent.setClass(this, MainActivity.class);
         startActivity(mIntent);
         finish();
     }
+    
+    private class ShareRecordTask extends AsyncTask<Void, Void, String> {
+        @Override
+        protected String doInBackground(Void... params) {
+            return shareToFriend(tr, friend);
+        }
+        
+        @Override
+        protected void onPostExecute(final String authToken) {
+        }
+        @Override
+        protected void onCancelled() {
+        }
+    } 
     
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

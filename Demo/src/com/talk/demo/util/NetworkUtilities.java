@@ -253,8 +253,35 @@ final public class NetworkUtilities {
 
         return mItems;
     }
-    public static void shareRecord(RawRecord raw, String target) {
-    	//ToDo 
+    public static void shareRecord(RawRecord raw, String target) 
+            throws JSONException, ParseException, IOException {
+        HttpURLConnection conn = HttpRequest.get(AUTH_URI)
+                .getConnection();
+
+        String cookieHeader = conn.getHeaderFields().get("Set-Cookie")
+                .get(0);
+
+        Log.d(TAG, "cookie: " + cookieHeader);
+
+        String csrfToken = cookieHeader.split(";")[0];
+        
+        Log.d(TAG, "csrf token : " + csrfToken);
+        JSONObject jsonRecord = raw.toJSONObject();
+        // Prepare our POST data
+        final ArrayList<NameValuePair> params = new ArrayList<NameValuePair>();
+        params.add(new BasicNameValuePair("record", jsonRecord.toString()));
+        params.add(new BasicNameValuePair("target", target));
+        params.add(new BasicNameValuePair("csrfmiddlewaretoken", csrfToken.substring(10)));
+        HttpEntity entity = new UrlEncodedFormEntity(params);
+        final HttpPost post = new HttpPost(SHARE_RECORDS_URI);
+        post.addHeader(entity.getContentType());
+        post.addHeader("Cookie", csrfToken);
+        post.setEntity(entity);
+        final HttpResponse resp = getHttpClient().execute(post);
+        final String response = EntityUtils.toString(resp.getEntity());
+        if (resp.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
+            Log.d(TAG, "finish!!");
+        } 
     }
     /**
      * Perform 2-way sync with the server-side contacts. We send a request that
