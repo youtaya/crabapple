@@ -269,7 +269,7 @@ final public class NetworkUtilities {
         JSONObject jsonRecord = raw.toJSONObject();
         // Prepare our POST data
         final ArrayList<NameValuePair> params = new ArrayList<NameValuePair>();
-        params.add(new BasicNameValuePair("record", jsonRecord.toString()));
+        params.add(new BasicNameValuePair("records", jsonRecord.toString()));
         params.add(new BasicNameValuePair("target", target));
         params.add(new BasicNameValuePair("csrfmiddlewaretoken", csrfToken.substring(10)));
         HttpEntity entity = new UrlEncodedFormEntity(params);
