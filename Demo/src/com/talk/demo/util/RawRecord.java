@@ -107,7 +107,7 @@ final public class RawRecord {
                 json.put("title", mTitle);
             }
             if (!TextUtils.isEmpty(mContent)) {
-                json.put("ct", mContent);
+                json.put("content", mContent);
             }
             if (!TextUtils.isEmpty(mCreateDate)) {
                 json.put("date", mCreateDate);
@@ -158,7 +158,7 @@ final public class RawRecord {
 
             final int rawRecordId = !Record.isNull("rid") ? Record.getInt("rid") : -1;
             final String title = !Record.isNull("title")  ? Record.getString("title") : null;
-            final String content = !Record.isNull("ct") ? Record.getString("ct") : null;
+            final String content = !Record.isNull("content") ? Record.getString("content") : null;
             final String createDate = !Record.isNull("date") ? Record.getString("date") : null;
             final String createTime = !Record.isNull("time") ? Record.getString("time") : null;
             final int contentType = !Record.isNull("ctx") ? Record.getInt("ctx") : null;
