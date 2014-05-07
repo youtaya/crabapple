@@ -42,9 +42,16 @@
         android:layout_height="wrap_content" >
 	    <EditText 
 	        android:id="@+id/time_comment"
-			android:layout_width="fill_parent"
+			android:layout_width="wrap_content"
 	        android:layout_height="wrap_content" 
+	        android:layout_weight="1"
 	        android:hint="@string/fast_comment" />
+	    <ImageView 
+	        android:id="@+id/comment_send"
+			android:layout_width="wrap_content"
+	        android:layout_height="wrap_content" 
+	        android:layout_weight="0.1"
+	        android:src="@drawable/send_knows" />
     </LinearLayout>
     
 </LinearLayout>

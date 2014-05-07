@@ -108,9 +108,11 @@ public class DailyEditActivity extends Activity {
         //shareToFriend(tr, friend);
         new ShareRecordTask().execute();
         //goto main activity
+        /*
         Intent mIntent = new Intent();
         mIntent.setClass(this, MainActivity.class);
         startActivity(mIntent);
+        */
         finish();
     }
     

@@ -21,6 +21,12 @@ public class TimeRecord {
     public TimeRecord() {
     }
     
+    public TimeRecord(RecordCache rc) {
+    	content = rc.getContent();
+    	create_date = rc.getCreateDate();
+    	create_time = rc.getCreateTime();
+    	content_type = rc.getMediaType();
+    }
     
     public TimeRecord(String v1) {
         content = v1;
@@ -33,6 +39,9 @@ public class TimeRecord {
         content = v1;
         create_date = date;
         create_time = handledTime();
+    }
+    public void setContent(String v) {
+    	content = v;
     }
     public void setContentType(int type) {
         content_type = type;
