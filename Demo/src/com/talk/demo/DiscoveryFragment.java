@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.talk.demo.persistence.DBManager;
+import com.talk.demo.setting.RichMeasure;
 import com.talk.demo.util.TalkUtil;
 
 import java.text.SimpleDateFormat;
@@ -17,12 +18,13 @@ import java.util.Date;
 
 public class DiscoveryFragment extends Fragment {
 	private static String TAG = "DiscoveryFragment";
-	private TextView tv, tvDate;
+	private TextView tv, tvDate, tv_rich;
 	private DBManager mgr;
 	private String preDate;
 	private int preNum = 0;
     public static final String ARG_SECTION_NUMBER = "section_number";
-
+    // Get rich values
+    private RichMeasure rm;
     public DiscoveryFragment(DBManager db) {
     	mgr = db;
     }
@@ -32,6 +34,10 @@ public class DiscoveryFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_discovery, container, false);
         tv = (TextView)rootView.findViewById(R.id.preview_number);
         tvDate = (TextView)rootView.findViewById(R.id.preview_date);
+        tv_rich = (TextView)rootView.findViewById(R.id.rich_number);
+        // Get values
+        rm = (RichMeasure)this.getActivity().getApplication();
+        tv_rich.setText(String.valueOf(rm.getRich()));
         preNum = getPreviewNumber();
         
         tvDate.setText(preDate);
@@ -48,5 +54,11 @@ public class DiscoveryFragment extends Fragment {
 	    Date previewDate = TalkUtil.Cal_Days(new Date(), 1);
 	    preDate = pDateFormat.format(previewDate);
 	    return mgr.queryWithMultipleParams(TalkUtil.preConditonDates(previewDate)).size(); 
+    }
+    
+    @Override
+    public void onResume() {
+        super.onResume();
+        tv_rich.setText(String.valueOf(rm.getRich()));
     }
 }
