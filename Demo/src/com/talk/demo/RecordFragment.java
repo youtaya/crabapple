@@ -1,16 +1,20 @@
 package com.talk.demo;
 
+import android.app.AlertDialog;
+import android.app.AlertDialog.Builder;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
-import android.widget.Toast;
 
 import com.talk.demo.persistence.DBManager;
 import com.talk.demo.persistence.TimeRecord;
@@ -31,7 +35,7 @@ public class RecordFragment extends Fragment {
     private ArrayList<Map<String, String>> list;
     private SimpleAdapter adapter;
     private static RecordFragment instance;
-    
+    private OnItemClickListener listener;
     int[] status = new int[] {
             R.drawable.lock_status,
             R.drawable.unlock_status,
@@ -69,8 +73,46 @@ public class RecordFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_record, container, false);
         ListView lv = (ListView)rootView.findViewById(R.id.record_list);
         lv.setAdapter(adapter);
+        listener = new MyItemClickListener();
+        lv.setOnItemClickListener(listener);
         adapter.notifyDataSetChanged();
         return rootView;
+    }
+    
+    public class MyItemClickListener implements OnItemClickListener {
+        private ImageButton buy;
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            buy = (ImageButton)view.findViewById(R.id.status);
+            buy.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dialog();
+                }
+            });
+            
+        }
+        
+    }
+    
+    protected void dialog() {
+        AlertDialog.Builder builder = new Builder(this.getActivity());
+        builder.setMessage("Sure to Use Diamand");
+        builder.setTitle("Buy Hint");
+        builder.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
+
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+                
+            }
+        });
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+                
+            }
+        });
+        builder.create().show();
     }
     
     private ArrayList<Map<String, String>> initDataList() {  
