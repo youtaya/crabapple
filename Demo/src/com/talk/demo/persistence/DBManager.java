@@ -81,7 +81,7 @@ public class DBManager {
     public void updateContent(TimeRecord tRecord) {  
         ContentValues cv = new ContentValues();  
         cv.put("content", tRecord.content);  
-        db.update(DATABASE_TABLE, cv, "content = ?", new String[]{tRecord.content});  
+        db.update(DATABASE_TABLE, cv, "create_time = ?", new String[]{tRecord.create_time});  
     }  
     
     /** 
