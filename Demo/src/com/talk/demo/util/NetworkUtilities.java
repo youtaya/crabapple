@@ -75,7 +75,7 @@ final public class NetworkUtilities {
     /** Timeout (in ms) we specify for each http request */
     public static final int HTTP_REQUEST_TIMEOUT_MS = 30 * 1000;
     /** Base URL for the v2 Sample Sync Service */
-    public static final String BASE_URL = "http://192.168.1.104/";
+    public static final String BASE_URL = "http://192.168.1.106/";
     /** URI for authentication service */
     public static final String AUTH_URI = BASE_URL + "account/login/";
     public static final String SYNC_NEWS_URI = BASE_URL + "news/today/";
@@ -258,6 +258,10 @@ final public class NetworkUtilities {
         HttpURLConnection conn = HttpRequest.get(AUTH_URI)
                 .getConnection();
 
+        /*
+         * cookieHeader may be null cause NullPointerException
+         * ToDo: write the whole code completely
+         */
         String cookieHeader = conn.getHeaderFields().get("Set-Cookie")
                 .get(0);
 

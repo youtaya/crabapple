@@ -39,8 +39,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
     private ArrayList<Fragment> fragmentList;
     
     private boolean forTest = true;
-    // Get rich values
-    private RichMeasure rm;
+
 	@Override
 	public void onItemChanged() {
 		// change to record fragment
@@ -70,11 +69,10 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         final ActionBar actionBar = getActionBar();
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 
-        mgr = new DBManager(this);
+        mgr = new DBManager(this, this.getApplication());
         pw = new PreWrite(this.getApplicationContext());
         pw.startPosition();
         
-        rm = (RichMeasure)getApplication();
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the app.
         SharedPreferences sPreferences = getSharedPreferences("for_test", Context.MODE_PRIVATE);
@@ -92,43 +90,36 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
             TimeRecord tr1 = new TimeRecord(c1, dateFormat.format(date1));
             tr1.setContentType(TalkUtil.MEDIA_TYPE_TEXT);
             mgr.add(tr1);
-            rm.addRich(2);
             
             String c2 = "I come to talk with you again";
             TimeRecord tr2 = new TimeRecord(c2, dateFormat.format(date2));
             tr2.setContentType(TalkUtil.MEDIA_TYPE_TEXT);
             mgr.add(tr2);
-            rm.addRich(2);
             
             String c3 = "Because a vision softly creeping";
             TimeRecord tr3 = new TimeRecord(c3, dateFormat.format(date3));
             tr3.setContentType(TalkUtil.MEDIA_TYPE_TEXT);
             mgr.add(tr3);
-            rm.addRich(2);
             
             String c4 = "Left its seeds while I was sleeping";
             TimeRecord tr4 = new TimeRecord(c4, dateFormat.format(date4));
             tr4.setContentType(TalkUtil.MEDIA_TYPE_TEXT);
             mgr.add(tr4);
-            rm.addRich(2);
             
             String c5 = "And the vision that was planted in my brain";
             TimeRecord tr5 = new TimeRecord(c5, dateFormat.format(date5));
             tr5.setContentType(TalkUtil.MEDIA_TYPE_TEXT);
             mgr.add(tr5);
-            rm.addRich(2);
             
             String c6 = "Still remains ";
             TimeRecord tr6 = new TimeRecord(c6, dateFormat.format(date6));
             tr6.setContentType(TalkUtil.MEDIA_TYPE_TEXT);
             mgr.add(tr6);
-            rm.addRich(2);
             
             String c7 = "Within the sound of silence";
             TimeRecord tr7 = new TimeRecord(c7, dateFormat.format(date7));
             tr7.setContentType(TalkUtil.MEDIA_TYPE_TEXT);
             mgr.add(tr7);
-            rm.addRich(2);
             
             SharedPreferences sp = getSharedPreferences("for_test", Context.MODE_PRIVATE);
             Editor editor = sp.edit();

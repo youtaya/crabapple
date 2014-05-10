@@ -47,7 +47,7 @@ public class TimeAllItem extends FragmentActivity {
         record_cache = bundle.getParcelableArrayList("recordcache");
         initViewPager();
         
-        mgr = new DBManager(this);
+        mgr = new DBManager(this, this.getApplication());
         time_comment = (EditText)findViewById(R.id.time_comment);
         comment_save = (ImageView)findViewById(R.id.comment_send);
         comment_save.setOnClickListener(new OnClickListener() {

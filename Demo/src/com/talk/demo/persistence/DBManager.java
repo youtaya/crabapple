@@ -1,10 +1,12 @@
 package com.talk.demo.persistence;
 
+import android.app.Application;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
+
+import com.talk.demo.setting.RichMeasure;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,14 +16,17 @@ public class DBManager {
     private DBHelper helper;  
     private SQLiteDatabase db;  
     private String DATABASE_TABLE = "records";
-      
-    public DBManager(Context context) {  
+    // Get rich values
+    private RichMeasure rm;
+    
+    public DBManager(Context context, Application rich) {  
         helper = new DBHelper(context);  
         /*
          * 因为getWritableDatabase内部调用了mContext.openOrCreateDatabase(mName, 0, mFactory);  
          * 所以要确保context已初始化,我们可以把实例化DBManager的步骤放在Activity的onCreate里  
          */
         db = helper.getWritableDatabase();  
+        rm = (RichMeasure)rich;
     }  
       
     public void add(TimeRecord tr) {  
@@ -43,7 +48,9 @@ public class DBManager {
             db.setTransactionSuccessful();  //设置事务成功完成  
         } finally {  
             db.endTransaction();    //结束事务  
-        }  
+        }
+        
+        rm.addRich(2);
     }  
     /** 
      * add record 
@@ -81,7 +88,8 @@ public class DBManager {
     public void updateContent(TimeRecord tRecord) {  
         ContentValues cv = new ContentValues();  
         cv.put("content", tRecord.content);  
-        db.update(DATABASE_TABLE, cv, "create_time = ?", new String[]{tRecord.create_time});  
+        db.update(DATABASE_TABLE, cv, "create_time = ?", new String[]{tRecord.create_time});
+        rm.addRich(1);
     }  
     
     /** 

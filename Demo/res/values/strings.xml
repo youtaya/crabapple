@@ -11,8 +11,8 @@
     <string name="title_section1">时光</string>
     <string name="title_section2">记录</string>
     <string name="title_section3">发现</string>
-    <string name="fast_record">快速记录...</string>
-    <string name="fast_comment">添加评论...</string>
+    <string name="fast_record">&#160; 快速记录...</string>
+    <string name="fast_comment">&#160; 添加评论...</string>
     <string name="take_photo">Take Photo</string>
     <string name="take_gallery">Take Gallery</string>
     <string name="take_tape">Take Tape</string>

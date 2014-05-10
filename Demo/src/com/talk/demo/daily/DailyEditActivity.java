@@ -57,7 +57,7 @@ public class DailyEditActivity extends Activity {
 			}
         	
         });
-        mgr = new DBManager(this);
+        mgr = new DBManager(this, this.getApplication());
     }
     
     private void startFriendActivity() {
