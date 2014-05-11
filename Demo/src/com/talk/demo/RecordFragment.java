@@ -18,7 +18,7 @@ import android.widget.SimpleAdapter;
 
 import com.talk.demo.persistence.DBManager;
 import com.talk.demo.persistence.TimeRecord;
-import com.talk.demo.setting.RichMeasure;
+import com.talk.demo.setting.RichPresent;
 import com.talk.demo.util.TalkUtil;
 
 import java.text.SimpleDateFormat;
@@ -35,7 +35,7 @@ public class RecordFragment extends Fragment {
     private List<TimeRecord> trlist;
     private ArrayList<Map<String, String>> list;
     private SimpleAdapter adapter;
-    private RichMeasure rm;
+    private RichPresent rp;
     private static RecordFragment instance;
     private OnItemClickListener listener;
     int[] status = new int[] {
@@ -68,7 +68,7 @@ public class RecordFragment extends Fragment {
                 new String[]{"create_date", "create_time", "status", "send_knows"}, 
                 new int[]{R.id.create_date, R.id.create_time, R.id.status, R.id.send_knows});
         
-        rm = (RichMeasure)this.getActivity().getApplication();
+        rp = RichPresent.getInstance(this.getActivity().getApplicationContext());
     }
     
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -105,7 +105,7 @@ public class RecordFragment extends Fragment {
         builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
 
             public void onClick(DialogInterface dialog, int which) {
-            	rm.minusRich(2);
+            	rp.minusRich(2);
                 dialog.dismiss();
                 
             }

@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.talk.demo.persistence.DBManager;
-import com.talk.demo.setting.RichMeasure;
+import com.talk.demo.setting.RichPresent;
 import com.talk.demo.util.TalkUtil;
 
 import java.text.SimpleDateFormat;
@@ -24,7 +24,7 @@ public class DiscoveryFragment extends Fragment {
 	private int preNum = 0;
     public static final String ARG_SECTION_NUMBER = "section_number";
     // Get rich values
-    private RichMeasure rm;
+    private RichPresent rp;
     public DiscoveryFragment(DBManager db) {
     	mgr = db;
     }
@@ -36,8 +36,8 @@ public class DiscoveryFragment extends Fragment {
         tvDate = (TextView)rootView.findViewById(R.id.preview_date);
         tv_rich = (TextView)rootView.findViewById(R.id.rich_number);
         // Get values
-        rm = (RichMeasure)this.getActivity().getApplication();
-        tv_rich.setText(String.valueOf(rm.getRich()));
+        rp = RichPresent.getInstance(this.getActivity().getApplicationContext());
+        tv_rich.setText(String.valueOf(rp.getRich()));
         preNum = getPreviewNumber();
         
         tvDate.setText(preDate);
@@ -59,6 +59,6 @@ public class DiscoveryFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        tv_rich.setText(String.valueOf(rm.getRich()));
+        tv_rich.setText(String.valueOf(rp.getRich()));
     }
 }
