@@ -45,25 +45,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter  {
         mAccountManager = AccountManager.get(context);
     }
 
-    private List<RawRecord> getDirtyRecords() {
-    	List<RawRecord> dirtyTimes = new ArrayList<RawRecord>() ;
-    	String name = "jinxp";
-    	String title = "hw";
-    	String content = "ok,just it";
-    	String createDate = "2014-4-26";
-    	String createTime = "2014-4-26";
-    	int contentType = 1;
-    	boolean deleted = false;
-    	
-    	RawRecord rr = new RawRecord(name, title, content, createDate,
-                createTime, contentType, null, null,
-                null, deleted, 1,
-                1, -1, true);
-    	dirtyTimes.add(rr);
-    	
-    	return dirtyTimes;
-    }
-    
+   
 	@Override
 	public void onPerformSync(Account account, Bundle extras, String authority,
 			ContentProviderClient provider, SyncResult syncResult) {
@@ -81,9 +63,10 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter  {
 	        // and AuthToken.
 	        String authtoken = mAccountManager.blockingGetAuthToken(account,
 			        AccountConstants.AUTHTOKEN_TYPE, NOTIFY_AUTH_FAILURE);
-	        dirtyRecords = getDirtyRecords();
+	        dirtyRecords = SyncCompaign.getDirtyRecords();
 	        Log.d(TAG, "sync record start");
 			updatedRecords = NetworkUtilities.syncRecords(account, authtoken, lastSyncMarker, dirtyRecords);
+			SyncCompaign.updateRecords(updatedRecords);
 		} catch (final AuthenticatorException e) {
             Log.e(TAG, "AuthenticatorException", e);
             syncResult.stats.numParseExceptions++;
