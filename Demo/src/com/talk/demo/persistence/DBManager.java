@@ -16,6 +16,7 @@ public class DBManager {
     private DBHelper helper;  
     private SQLiteDatabase db;  
     private String DATABASE_TABLE = "records";
+    private String TABLE_FRIEND = "friends";
     // Get rich values
     private RichPresent rp;
     
@@ -52,6 +53,23 @@ public class DBManager {
         
         rp.addRich(2);
     }  
+    
+    public void addFriend(FriendRecord fr) {  
+        db.beginTransaction();  //开始事务  
+        try {  
+            db.execSQL("INSERT INTO "+TABLE_FRIEND+""
+                    + " VALUES(null, ?, ?, ?)", 
+                    new Object[]{
+                        fr.userName, 
+                        fr.phoneMobile, 
+                        fr.deleted});
+            db.setTransactionSuccessful();  //设置事务成功完成  
+        } finally {  
+            db.endTransaction();    //结束事务  
+        }
+        
+    }  
+    
     /** 
      * add record 
      * @param TimeRecord 
@@ -90,6 +108,12 @@ public class DBManager {
         cv.put("content", tRecord.content);  
         db.update(DATABASE_TABLE, cv, "create_time = ?", new String[]{tRecord.create_time});
         rp.addRich(1);
+    }  
+    
+    public void updateFriendInfo(FriendRecord fRecord) {  
+        ContentValues cv = new ContentValues();  
+        cv.put("phone_mobile", fRecord.phoneMobile);  
+        db.update(TABLE_FRIEND, cv, "id" + "='" +fRecord._id+"'", null);
     }  
     
     /** 
@@ -154,6 +178,20 @@ public class DBManager {
         return trList;  
     }  
     
+    public List<FriendRecord> queryFriend() {  
+        ArrayList<FriendRecord> frList = new ArrayList<FriendRecord>();  
+        Cursor c = queryFriendCursor();  
+        
+        while (c.moveToNext()) {  
+            FriendRecord fr = new FriendRecord();  
+            fr._id = c.getInt(c.getColumnIndex("id"));  
+            fr.userName = c.getString(c.getColumnIndex("username"));  
+            fr.phoneMobile = c.getString(c.getColumnIndex("phone_mobile"));
+            frList.add(fr);  
+        }  
+        c.close();  
+        return frList;  
+    } 
     /** 
      * query all content, return cursor 
      * @return  Cursor 
@@ -181,6 +219,12 @@ public class DBManager {
     public Cursor queryTheCursor() {  
         Cursor c = db.rawQuery("SELECT * FROM "+DATABASE_TABLE
         		+" ORDER BY create_date DESC, create_time DESC", null);  
+        return c;  
+    }
+    
+    public Cursor queryFriendCursor() {  
+        Cursor c = db.rawQuery("SELECT * FROM "+TABLE_FRIEND
+                +" ORDER BY username DESC", null);  
         return c;  
     }  
       

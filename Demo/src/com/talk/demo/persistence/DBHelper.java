@@ -15,7 +15,8 @@ public class DBHelper extends SQLiteOpenHelper {
      * Name of database file
      */
     private static final String NAME = "test.db";
-    private final String DATABASE_TABLE = "records";
+    private final String TABLE_RECORD = "records";
+    private final String TABLE_FRIEND = "friends";
 
     /**
      * @param context
@@ -26,7 +27,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(final SQLiteDatabase db) {
-        db.execSQL("CREATE TABLE " + DATABASE_TABLE
+        db.execSQL("CREATE TABLE " + TABLE_RECORD
                 + " (id INTEGER PRIMARY KEY,"
                 + " username TEXT,"
                 + " title TEXT default '',"
@@ -38,12 +39,19 @@ public class DBHelper extends SQLiteOpenHelper {
                 + " audio TEXT default '',"
                 + " status TEXT default '',"
                 + " deleted INTEGER);");
+
+        db.execSQL("CREATE TABLE " + TABLE_FRIEND
+                + " (id INTEGER PRIMARY KEY,"
+                + " username TEXT,"
+                + " phone_mobile TEXT,"
+                + " deleted INTEGER);");
     }
 
     @Override
     public void onUpgrade(final SQLiteDatabase db, final int oldVersion,
             final int newVersion) {
-        db.execSQL("DROP TABLE IF EXISTS "+DATABASE_TABLE);
+        db.execSQL("DROP TABLE IF EXISTS "+TABLE_RECORD);
+        db.execSQL("DROP TABLE IF EXISTS "+TABLE_FRIEND);
         onCreate(db);
     }
 }

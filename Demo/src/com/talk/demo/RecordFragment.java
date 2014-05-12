@@ -98,6 +98,9 @@ public class RecordFragment extends Fragment {
         
     }
     
+    /*
+     * ToDo: change to support DialogFragment
+     */
     protected void dialog() {
         AlertDialog.Builder builder = new Builder(this.getActivity());
         builder.setMessage("确定适用蓝宝石");
