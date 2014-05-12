@@ -5,10 +5,20 @@ import android.os.Parcelable;
 
 public class RecordCache implements Parcelable {
 	
+	private int id;
 	private String content;
 	private String create_date;
 	private String create_time;
 	private int content_type;
+	
+	
+	public void setId(int v) {
+		id = v;
+	}
+	
+	public int getId() {
+		return id;
+	}
 	
 	public void setContent(String v) {
 		content = v;
@@ -47,6 +57,7 @@ public class RecordCache implements Parcelable {
             = new Parcelable.Creator<RecordCache>() {
         public RecordCache createFromParcel(Parcel in) {
             RecordCache rc = new RecordCache();
+            rc.id = in.readInt();
             rc.content = in.readString();
             rc.create_date = in.readString();
             rc.create_time = in.readString();
@@ -67,7 +78,7 @@ public class RecordCache implements Parcelable {
 
 	@Override
 	public void writeToParcel(Parcel parcel, int arg1) {
-		// TODO Auto-generated method stub
+		parcel.writeInt(id);
 		parcel.writeString(content);
 		parcel.writeString(create_date);
 		parcel.writeString(create_time);

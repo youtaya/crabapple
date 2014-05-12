@@ -10,8 +10,10 @@ public class SyncCompaign {
 	/*
 	 *  add for get dirty records
 	 */
-	
     public static List<RawRecord> getDirtyRecords() {
+    	/*
+    	 *  get dirty records from db
+    	 */
     	List<RawRecord> dirtyTimes = new ArrayList<RawRecord>() ;
     	String name = "jinxp";
     	String title = "hw";
@@ -34,6 +36,8 @@ public class SyncCompaign {
      * update records from server
      */
     public static void updateRecords(List<RawRecord> updateRecords) {
-    	
+    	/*
+    	 * clear dirty flag
+    	 */
     }
 }

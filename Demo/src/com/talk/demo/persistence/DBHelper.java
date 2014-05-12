@@ -28,7 +28,7 @@ public class DBHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(final SQLiteDatabase db) {
         db.execSQL("CREATE TABLE " + TABLE_RECORD
-                + " (id INTEGER PRIMARY KEY,"
+                + " (id INTEGER PRIMARY KEY AUTOINCREMENT,"
                 + " username TEXT,"
                 + " title TEXT default '',"
                 + " content TEXT default '',"
@@ -41,7 +41,7 @@ public class DBHelper extends SQLiteOpenHelper {
                 + " deleted INTEGER);");
 
         db.execSQL("CREATE TABLE " + TABLE_FRIEND
-                + " (id INTEGER PRIMARY KEY,"
+                + " (id INTEGER PRIMARY KEY AUTOINCREMENT,"
                 + " username TEXT,"
                 + " phone_mobile TEXT,"
                 + " deleted INTEGER);");

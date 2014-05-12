@@ -56,10 +56,12 @@ public class TimeAllItem extends FragmentActivity {
 			public void onClick(View v) {
 				String comment = time_comment.getText().toString();
 				if(comment.length() > 0) {
-					int index = pageListener.getCurrentPageIndex();
+					int index = mMyPagerAdapter.getCurrentPageIndex();
 					Log.d(TAG, "page index: "+index);
-					String origStr = record_cache.get(index).getContent();
-					TimeRecord tr = new TimeRecord(record_cache.get(index));
+					RecordCache rc = record_cache.get(index-1);
+					String origStr = rc.getContent();
+				
+					TimeRecord tr = new TimeRecord(rc);
 					tr.setContent(origStr+comment);
 					Log.d(TAG, "content: "+tr.content);
 					mgr.updateContent(tr);
@@ -83,6 +85,7 @@ public class TimeAllItem extends FragmentActivity {
     	i = 0;
     	return i;
     }
+    
     private void initViewPager() {
         mTv = (TextView) findViewById(R.id.time_data);
         mTv.setText(create_date);
@@ -107,7 +110,7 @@ public class TimeAllItem extends FragmentActivity {
     
     public class MyFragmentPagerAdapter extends FragmentPagerAdapter {
         private ArrayList<Fragment> fragmentsList;
-
+        private int current;
         public MyFragmentPagerAdapter(FragmentManager fm) {
             super(fm);
         }
@@ -124,9 +127,14 @@ public class TimeAllItem extends FragmentActivity {
 
         @Override
         public Fragment getItem(int arg0) {
+        	current = arg0;
             return fragmentsList.get(arg0);
         }
-
+        
+        public int getCurrentPageIndex() {
+        	return current;
+        }
+        
         @Override
         public int getItemPosition(Object object) {
             return super.getItemPosition(object);
@@ -143,9 +151,10 @@ public class TimeAllItem extends FragmentActivity {
             current = arg0;
         }
 
-        public int getCurrentPageIndex() {
+        public int getSelectedPageIndex() {
         	return current;
         }
+        
         @Override
         public void onPageScrolled(int arg0, float arg1, int arg2) {
         }

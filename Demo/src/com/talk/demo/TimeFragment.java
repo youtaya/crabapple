@@ -115,6 +115,7 @@ public class TimeFragment extends Fragment implements OnItemClickListener {
             else
             	map.put("content", tr.content); 
 
+            rc.setId(tr._id);
             rc.setContent(tr.content);
             map.put("create_date", tr.create_date);
             rc.setCreateDate(tr.create_date);

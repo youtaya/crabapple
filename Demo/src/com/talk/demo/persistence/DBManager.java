@@ -5,6 +5,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import com.talk.demo.setting.RichPresent;
 
@@ -12,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
   
 public class DBManager {  
-    
+    private static String TAG = "DBManager";
     private DBHelper helper;  
     private SQLiteDatabase db;  
     private String DATABASE_TABLE = "records";
@@ -106,7 +107,8 @@ public class DBManager {
     public void updateContent(TimeRecord tRecord) {  
         ContentValues cv = new ContentValues();  
         cv.put("content", tRecord.content);  
-        db.update(DATABASE_TABLE, cv, "create_time = ?", new String[]{tRecord.create_time});
+        Log.d(TAG,"update id: "+tRecord._id);
+        db.update(DATABASE_TABLE, cv, "id" + "='" +tRecord._id+"'", null);
         rp.addRich(1);
     }  
     
@@ -167,7 +169,7 @@ public class DBManager {
         
         while (c.moveToNext()) {  
             TimeRecord tr = new TimeRecord();  
-            tr._id = c.getInt(c.getColumnIndex("id"));  
+            tr._id = c.getInt(c.getColumnIndex("id"));
             tr.content = c.getString(c.getColumnIndex("content"));  
             tr.create_date = c.getString(c.getColumnIndex("create_date"));
             tr.create_time = c.getString(c.getColumnIndex("create_time"));  

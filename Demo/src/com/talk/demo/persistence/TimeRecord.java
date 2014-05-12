@@ -22,6 +22,7 @@ public class TimeRecord {
     }
     
     public TimeRecord(RecordCache rc) {
+    	_id = rc.getId();
     	content = rc.getContent();
     	create_date = rc.getCreateDate();
     	create_time = rc.getCreateTime();

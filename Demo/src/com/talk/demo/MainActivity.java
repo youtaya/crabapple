@@ -14,10 +14,12 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuItem;
 
 import com.talk.demo.persistence.DBManager;
 import com.talk.demo.persistence.TimeRecord;
 import com.talk.demo.prewrite.PreWrite;
+import com.talk.demo.setting.SettingDialog;
 import com.talk.demo.util.TalkUtil;
 
 import java.text.SimpleDateFormat;
@@ -174,10 +176,21 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
+        getMenuInflater().inflate(R.menu.main_actions, menu);
         return true;
     }
-
+    
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch(item.getItemId()) {
+            case R.id.action_setting:
+                SettingDialog sd = new SettingDialog();
+                sd.show(getSupportFragmentManager(), "");
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
     @Override
     public void onTabSelected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
         // When the given tab is selected, switch to the corresponding page in
