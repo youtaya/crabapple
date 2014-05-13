@@ -29,6 +29,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public void onCreate(final SQLiteDatabase db) {
         db.execSQL("CREATE TABLE " + TABLE_RECORD
                 + " (id INTEGER PRIMARY KEY AUTOINCREMENT,"
+                + " server_id INTEGER,"
                 + " username TEXT,"
                 + " title TEXT default '',"
                 + " content TEXT default '',"
@@ -38,12 +39,18 @@ public class DBHelper extends SQLiteOpenHelper {
                 + " photo TEXT default '',"
                 + " audio TEXT default '',"
                 + " status TEXT default '',"
+                + " sync_time TEXT,"
+                + " dirty INTEGER,"
                 + " deleted INTEGER);");
 
         db.execSQL("CREATE TABLE " + TABLE_FRIEND
                 + " (id INTEGER PRIMARY KEY AUTOINCREMENT,"
+                + " server_id INTEGER,"
+                + " handle TEXT,"
                 + " username TEXT,"
                 + " phone_mobile TEXT,"
+                + " sync_time TEXT,"
+                + " dirty INTEGER,"
                 + " deleted INTEGER);");
     }
 

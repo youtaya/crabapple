@@ -1,11 +1,14 @@
 package com.talk.demo.persistence;
 
+import com.talk.demo.util.RawRecord;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.StringTokenizer;
 
 public class TimeRecord {
     public int _id;
+    public int server_id;
     public String content;
     public String create_date;
     public String create_time;
@@ -16,9 +19,20 @@ public class TimeRecord {
     public String photo;
     public String audio;
     public String status;
+    public String sync_time;
     public int deleted;
+    public int dirty;
     
     public TimeRecord() {
+    }
+    
+    public TimeRecord(RawRecord rr) {
+        _id = (int)rr.getRawContactId();
+        server_id = (int)rr.getServerContactId();
+        content = rr.getContent();
+        create_date = rr.getCreateDate();
+        create_time = rr.getCreateTime();
+        content_type = rr.getContentType();
     }
     
     public TimeRecord(RecordCache rc) {

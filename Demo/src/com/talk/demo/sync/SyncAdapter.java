@@ -13,6 +13,8 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.talk.demo.account.AccountConstants;
+import com.talk.demo.persistence.DBManager;
+import com.talk.demo.setting.RichPresent;
 import com.talk.demo.util.NetworkUtilities;
 import com.talk.demo.util.RawRecord;
 
@@ -21,7 +23,6 @@ import org.apache.http.auth.AuthenticationException;
 import org.json.JSONException;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 public class SyncAdapter extends AbstractThreadedSyncAdapter  {
@@ -63,10 +64,11 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter  {
 	        // and AuthToken.
 	        String authtoken = mAccountManager.blockingGetAuthToken(account,
 			        AccountConstants.AUTHTOKEN_TYPE, NOTIFY_AUTH_FAILURE);
-	        dirtyRecords = SyncCompaign.getDirtyRecords();
+	        DBManager db = new DBManager(mContext);
+	        dirtyRecords = SyncCompaign.getDirtyRecords(db);
 	        Log.d(TAG, "sync record start");
 			updatedRecords = NetworkUtilities.syncRecords(account, authtoken, lastSyncMarker, dirtyRecords);
-			SyncCompaign.updateRecords(updatedRecords);
+			SyncCompaign.updateRecords(db, updatedRecords);
 		} catch (final AuthenticatorException e) {
             Log.e(TAG, "AuthenticatorException", e);
             syncResult.stats.numParseExceptions++;

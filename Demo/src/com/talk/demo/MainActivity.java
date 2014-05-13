@@ -69,7 +69,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         final ActionBar actionBar = getActionBar();
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 
-        mgr = new DBManager(this, this.getApplication());
+        mgr = new DBManager(this);
         pw = new PreWrite(this.getApplicationContext());
         pw.startPosition();
         

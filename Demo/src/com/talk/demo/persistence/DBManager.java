@@ -1,6 +1,5 @@
 package com.talk.demo.persistence;
 
-import android.app.Application;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -21,7 +20,7 @@ public class DBManager {
     // Get rich values
     private RichPresent rp;
     
-    public DBManager(Context context, Application rich) {  
+    public DBManager(Context context) {  
         helper = new DBHelper(context);  
         /*
          * 因为getWritableDatabase内部调用了mContext.openOrCreateDatabase(mName, 0, mFactory);  
@@ -35,9 +34,10 @@ public class DBManager {
         db.beginTransaction();  //开始事务  
         try {  
             db.execSQL("INSERT INTO "+DATABASE_TABLE+""
-                    + " VALUES(null, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", 
+                    + " VALUES(null, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", 
                     new Object[]{
                         tr.userName, 
+                        tr.server_id,
                         tr.title, 
                         tr.content, 
                         tr.create_date, 
@@ -46,6 +46,8 @@ public class DBManager {
                         tr.photo,
                         tr.audio,
                         tr.status,
+                        tr.sync_time,
+                        tr.dirty,
                         tr.deleted});
             db.setTransactionSuccessful();  //设置事务成功完成  
         } finally {  
@@ -59,10 +61,14 @@ public class DBManager {
         db.beginTransaction();  //开始事务  
         try {  
             db.execSQL("INSERT INTO "+TABLE_FRIEND+""
-                    + " VALUES(null, ?, ?, ?)", 
+                    + " VALUES(null, ?, ?, ?, ?, ?, ?, ?)", 
                     new Object[]{
-                        fr.userName, 
+                        fr.server_id,
+                        fr.handle,
+                        fr.userName,
                         fr.phoneMobile, 
+                        fr.sync_time,
+                        fr.dirty,
                         fr.deleted});
             db.setTransactionSuccessful();  //设置事务成功完成  
         } finally {  
@@ -80,9 +86,10 @@ public class DBManager {
         try {  
             for (TimeRecord tr : tRecord) {  
                 db.execSQL("INSERT INTO "+DATABASE_TABLE+""
-                        + " VALUES(null, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", 
+                        + " VALUES(null, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", 
                         new Object[]{
                             tr.userName, 
+                            tr.server_id,
                             tr.title, 
                             tr.content, 
                             tr.create_date, 
@@ -91,6 +98,8 @@ public class DBManager {
                             tr.photo,
                             tr.audio,
                             tr.status,
+                            tr.sync_time,
+                            tr.dirty,
                             tr.deleted});
             }  
             db.setTransactionSuccessful();  //设置事务成功完成  
@@ -110,6 +119,13 @@ public class DBManager {
         Log.d(TAG,"update id: "+tRecord._id);
         db.update(DATABASE_TABLE, cv, "id" + "='" +tRecord._id+"'", null);
         rp.addRich(1);
+    } 
+    
+    public void updateServerId(TimeRecord tRecord) {  
+        ContentValues cv = new ContentValues();  
+        cv.put("server_id", tRecord.server_id);  
+        Log.d(TAG,"update id: "+tRecord._id);
+        db.update(DATABASE_TABLE, cv, "id" + "='" +tRecord._id+"'", null);
     }  
     
     public void updateFriendInfo(FriendRecord fRecord) {  
@@ -157,8 +173,22 @@ public class DBManager {
         }  
         c.close();  
         return trList;  
-    }    
-     
+    }   
+    
+    public TimeRecord queryTheParam(int param) {  
+        Cursor c = queryCursorWithId(param); 
+        
+        TimeRecord tr = new TimeRecord();
+        if((c != null) && c.moveToFirst()) {
+            tr._id = c.getInt(c.getColumnIndex("id"));  
+            tr.content = c.getString(c.getColumnIndex("content"));  
+            tr.create_date = c.getString(c.getColumnIndex("create_date"));
+            tr.create_time = c.getString(c.getColumnIndex("create_time"));  
+            tr.content_type = c.getInt(c.getColumnIndex("content_type"));
+        }
+        c.close();  
+        return tr;  
+    }  
     /** 
      * query all content, return list 
      * @return List<TimeRecord> 
@@ -212,6 +242,12 @@ public class DBManager {
         Cursor c = db.rawQuery("SELECT * FROM "+DATABASE_TABLE
                 +" WHERE create_date=?"
         		+" ORDER BY create_date DESC, create_time DESC", new String[]{param,});  
+        return c;  
+    }  
+    
+    public Cursor queryCursorWithId(int param) {  
+        Cursor c = db.rawQuery("SELECT * FROM "+DATABASE_TABLE
+                +" WHERE "+"id" + "='" +param+"'", null);
         return c;  
     }  
     /** 
