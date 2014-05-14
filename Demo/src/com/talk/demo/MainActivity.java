@@ -27,6 +27,7 @@ import com.talk.demo.setting.UserActivity;
 import com.talk.demo.setting.PreviewActivity;
 import com.talk.demo.util.TalkUtil;
 
+import java.lang.reflect.Method;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -176,10 +177,29 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
     }
 
     @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        Log.d(TAG, "hardware button!!");
+        return super.onPrepareOptionsMenu(menu);
+    }
+    
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main_actions, menu);
         return true;
+    }
+    
+    private void setMenuIconEnable(Menu menu, boolean enabled) {
+        Log.d(TAG, "setMenuIconEnable");
+        try {
+            Class<?> clazz = Class.forName("com.android.internal.view.menu.MenuBuilder");
+            Method m = clazz.getDeclaredMethod("setOptionalIconsVisible", boolean.class);
+            m.setAccessible(true);
+            m.invoke(menu, enabled);
+        } catch (Exception e) {
+            Log.d(TAG, "get method fail!!");
+            e.printStackTrace();
+        }
     }
     
     private void callUserActivity() {
@@ -191,12 +211,10 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         startActivity(intent);
     } 
     
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         View menuItemView = null;
         switch(item.getItemId()) {
-            
             case R.id.action_overflow:
                 menuItemView = findViewById(R.id.action_overflow);
                 PopupMenu popup = new PopupMenu(this, menuItemView);
@@ -217,6 +235,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
                         }
                     }
                 });
+                setMenuIconEnable(popup.getMenu(), true);
                 MenuInflater inflater = popup.getMenuInflater();
                 inflater.inflate(R.menu.setting_actions, popup.getMenu());
                 popup.show();
