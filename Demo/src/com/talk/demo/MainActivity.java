@@ -4,6 +4,7 @@ package com.talk.demo;
 import android.app.ActionBar;
 import android.app.FragmentTransaction;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
@@ -22,6 +23,8 @@ import android.widget.PopupMenu;
 import com.talk.demo.persistence.DBManager;
 import com.talk.demo.persistence.TimeRecord;
 import com.talk.demo.prewrite.PreWrite;
+import com.talk.demo.setting.UserActivity;
+import com.talk.demo.setting.PreviewActivity;
 import com.talk.demo.util.TalkUtil;
 
 import java.text.SimpleDateFormat;
@@ -37,7 +40,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
     private DailyFragment guideFragment;
     private TimeFragment timeFragment;
     private RecordFragment recordFragment;
-    private DiscoveryFragment discoveryFragment;
+    private TalkFragment talkFragment;
     private ArrayList<Fragment> fragmentList;
     
     private boolean forTest = true;
@@ -45,7 +48,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 	@Override
 	public void onItemChanged() {
 		// change to record fragment
-		getActionBar().setSelectedNavigationItem(2);
+		getActionBar().setSelectedNavigationItem(3);
 	}  
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -136,15 +139,12 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         //add time fragment
         timeFragment = new TimeFragment(mgr);
         fragmentList.add(timeFragment);
+        //add talk fragment
+        talkFragment = new TalkFragment(mgr);
+        fragmentList.add(talkFragment);        
         //add record fragment
         recordFragment = RecordFragment.newInstance(mgr);
         fragmentList.add(recordFragment);
-        //add statistics fragment
-        discoveryFragment = new DiscoveryFragment(mgr);
-        //Bundle args3 = new Bundle();
-        //args3.putInt(DiscoveryFragment.ARG_SECTION_NUMBER, 3);
-        //discoveryFragment.setArguments(args3);
-        fragmentList.add(discoveryFragment);
         
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager(),fragmentList);
 
@@ -183,15 +183,24 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
     }
     
     private void callUserActivity() {
-        getActionBar().setSelectedNavigationItem(3);
+        Intent intent = new Intent(this, UserActivity.class);
+        startActivity(intent);
     }
+    private void callDiscoveryActivity() {
+        Intent intent = new Intent(this, PreviewActivity.class);
+        startActivity(intent);
+    } 
     
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        View menuItemView = null;
         switch(item.getItemId()) {
+            
             case R.id.action_overflow:
-                View menuItemView = findViewById(R.id.action_overflow);
+                menuItemView = findViewById(R.id.action_overflow);
                 PopupMenu popup = new PopupMenu(this, menuItemView);
+                
                 popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     
                     @Override
@@ -200,6 +209,9 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
                             case R.id.action_user:
                                 callUserActivity();
                                 return true;
+                            case R.id.action_preview:
+                                callDiscoveryActivity();
+                                return true;    
                             default:
                                 return false;
                         }

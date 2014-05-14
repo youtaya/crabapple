@@ -1,0 +1,83 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" 
+    style="@style/NavPage">
+
+    <LinearLayout
+        android:id="@+id/preview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="vertical">
+        
+        <LinearLayout
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content">
+	        <TextView
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:layout_gravity="center_horizontal"
+	            android:padding="10dp"
+	            android:text="@string/dis_preview"
+	            android:textSize="20sp" />
+
+		</LinearLayout>
+		
+        <LinearLayout
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content">
+			<TextView
+			    android:id="@+id/preview_date"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:layout_gravity="center_horizontal"
+	            android:padding="10dp"
+	            android:textSize="22sp" />
+			<TextView
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:layout_gravity="center_horizontal"
+	            android:padding="10dp"
+	            android:text="@string/dis_preview_hint"
+	            android:textSize="20sp" />			
+			<TextView
+			    android:id="@+id/preview_number"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:layout_gravity="center_horizontal"
+	            android:padding="10dp"
+	            android:textSize="22sp" />
+			<ImageView
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:paddingTop="5dp"
+	            android:layout_gravity="center_horizontal"
+	            android:src="@drawable/new_selected" />
+	    </LinearLayout>
+    </LinearLayout> 
+
+       
+    <LinearLayout
+        android:id="@+id/discovery"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_weight="1">
+        
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:text="@string/dis_connection"
+            android:textSize="20sp" />
+        
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:src="@drawable/new_selected" />
+
+    </LinearLayout> 
+
+</LinearLayout>

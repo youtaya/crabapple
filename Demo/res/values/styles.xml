@@ -16,7 +16,14 @@
     <style name="AppTheme" parent="AppBaseTheme">
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
     </style>
-        
+    
+	<style name="PopupMenu" parent="@android:style/Widget.Holo.ListPopupWindow">
+	    <item name="android:popupBackground">@color/grey</item>    
+	</style>
+	<style name="Theme.PopupMenu" parent="AppTheme">
+		<item name="android:popupMenuStyle">@style/PopupMenu</item>
+	</style>
+	
 	<style name="NavPage">
         <item name="android:layout_width">fill_parent</item>
         <item name="android:layout_height">fill_parent</item>

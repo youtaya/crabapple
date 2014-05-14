@@ -6,6 +6,11 @@
         android:showAsAction="never"
         android:title="@string/user"/>
     <item
+        android:id="@+id/action_preview"
+        android:orderInCategory="100"
+        android:showAsAction="never"
+        android:title="@string/dis_preview"/>    
+    <item
         android:id="@+id/action_friend"
         android:orderInCategory="100"
         android:showAsAction="never"
