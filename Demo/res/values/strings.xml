@@ -28,4 +28,9 @@
 	<!-- Do not translate. Format of the timer that shows how much has been recorded so far -->
     <string name="timer_format" translatable="false"><xliff:g id="format">%02d:%02d</xliff:g></string>
     <string name="bluestone">谁会看到这段时光?\n</string>
+    <string name="user">我</string>
+    <string name="friend">好友</string>
+    <string name="add_friend">查找好友</string>
+    <string name="store">商店</string>
+    <string name="setting">设置</string>
 </resources>

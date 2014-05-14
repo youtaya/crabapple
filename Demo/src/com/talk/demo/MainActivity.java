@@ -14,12 +14,14 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.PopupMenu;
 
 import com.talk.demo.persistence.DBManager;
 import com.talk.demo.persistence.TimeRecord;
 import com.talk.demo.prewrite.PreWrite;
-import com.talk.demo.setting.SettingDialog;
 import com.talk.demo.util.TalkUtil;
 
 import java.text.SimpleDateFormat;
@@ -180,12 +182,32 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         return true;
     }
     
+    private void callUserActivity() {
+        getActionBar().setSelectedNavigationItem(3);
+    }
+    
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch(item.getItemId()) {
-            case R.id.action_setting:
-                SettingDialog sd = new SettingDialog();
-                sd.show(getSupportFragmentManager(), "");
+            case R.id.action_overflow:
+                View menuItemView = findViewById(R.id.action_overflow);
+                PopupMenu popup = new PopupMenu(this, menuItemView);
+                popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        switch (item.getItemId()) {
+                            case R.id.action_user:
+                                callUserActivity();
+                                return true;
+                            default:
+                                return false;
+                        }
+                    }
+                });
+                MenuInflater inflater = popup.getMenuInflater();
+                inflater.inflate(R.menu.setting_actions, popup.getMenu());
+                popup.show();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

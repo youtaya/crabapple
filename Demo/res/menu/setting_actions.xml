@@ -1,0 +1,29 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <item
+        android:id="@+id/action_user"
+        android:orderInCategory="100"
+        android:showAsAction="never"
+        android:title="@string/user"/>
+    <item
+        android:id="@+id/action_friend"
+        android:orderInCategory="100"
+        android:showAsAction="never"
+        android:title="@string/friend"/>
+    <item
+        android:id="@+id/action_add_friend"
+        android:orderInCategory="100"
+        android:showAsAction="never"
+        android:title="@string/add_friend"/>      
+	<item
+        android:id="@+id/action_store"
+        android:orderInCategory="100"
+        android:showAsAction="never"
+        android:title="@string/store"/>
+	<item
+        android:id="@+id/action_setting"
+        android:orderInCategory="100"
+        android:showAsAction="never"
+        android:title="@string/setting"/>	
+
+</menu>

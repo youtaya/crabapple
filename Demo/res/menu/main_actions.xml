@@ -2,7 +2,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
     
     <!-- Confirm, should appear as action button -->
-    <item android:id="@+id/action_setting"
+    <item android:id="@+id/action_overflow"
           android:icon="@drawable/ic_overflow_normal"
           android:showAsAction="ifRoom" />
 </menu>
