@@ -2,32 +2,32 @@
 
     <item
         android:id="@+id/action_user"
-        android:showAsAction="never"
+        android:showAsAction="ifRoom|withText"
         android:icon="@drawable/newbie"
         android:title="@string/user"/>
     <item
         android:id="@+id/action_preview"
-        android:showAsAction="never"
+        android:showAsAction="ifRoom|withText"
         android:icon="@android:drawable/ic_popup_reminder"
         android:title="@string/dis_preview"/>    
     <item
         android:id="@+id/action_friend"
-        android:showAsAction="never"
+        android:showAsAction="ifRoom|withText"
         android:icon="@drawable/ic_popup_menu"
         android:title="@string/friend"/>
     <item
         android:id="@+id/action_add_friend"
-        android:showAsAction="never"
+        android:showAsAction="ifRoom|withText"
         android:icon="@drawable/ic_popup_menu"
         android:title="@string/add_friend"/>      
 	<item
         android:id="@+id/action_store"
-        android:showAsAction="never"
+        android:showAsAction="ifRoom|withText"
         android:icon="@drawable/ic_popup_menu"
         android:title="@string/store"/>
 	<item
         android:id="@+id/action_setting"
-        android:showAsAction="never"
+        android:showAsAction="ifRoom|withText"
         android:icon="@drawable/ic_popup_menu"
         android:title="@string/setting"/>	
 

@@ -17,16 +17,16 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.PopupMenu;
+import android.view.ViewConfiguration;
 
 import com.talk.demo.persistence.DBManager;
 import com.talk.demo.persistence.TimeRecord;
 import com.talk.demo.prewrite.PreWrite;
-import com.talk.demo.setting.UserActivity;
 import com.talk.demo.setting.PreviewActivity;
+import com.talk.demo.setting.UserActivity;
 import com.talk.demo.util.TalkUtil;
 
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -70,8 +70,9 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        // Set up the action bar.
+        
+        getOverflowMenu();
+       // Set up the action bar.
         final ActionBar actionBar = getActionBar();
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 
@@ -178,14 +179,29 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-        Log.d(TAG, "hardware button!!");
+        setMenuIconEnable(menu,true);
         return super.onPrepareOptionsMenu(menu);
     }
     
+    // fake hardware menu
+    private void getOverflowMenu() {
+        try {
+           ViewConfiguration config = ViewConfiguration.get(this);
+           Field menuKeyField = ViewConfiguration.class.getDeclaredField("sHasPermanentMenuKey");
+           if(menuKeyField != null) {
+               menuKeyField.setAccessible(true);
+               menuKeyField.setBoolean(config, false);
+           }
+       } catch (Exception e) {
+           e.printStackTrace();
+       }
+   }  
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main_actions, menu);
+    	MenuInflater inflater = getMenuInflater();
+    	//inflater.inflate(R.menu.main_actions, menu);
+    	inflater.inflate(R.menu.setting_actions, menu);
         return true;
     }
     
@@ -213,35 +229,15 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
     
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        View menuItemView = null;
-        switch(item.getItemId()) {
-            case R.id.action_overflow:
-                menuItemView = findViewById(R.id.action_overflow);
-                PopupMenu popup = new PopupMenu(this, menuItemView);
-                
-                popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                    
-                    @Override
-                    public boolean onMenuItemClick(MenuItem item) {
-                        switch (item.getItemId()) {
-                            case R.id.action_user:
-                                callUserActivity();
-                                return true;
-                            case R.id.action_preview:
-                                callDiscoveryActivity();
-                                return true;    
-                            default:
-                                return false;
-                        }
-                    }
-                });
-                setMenuIconEnable(popup.getMenu(), true);
-                MenuInflater inflater = popup.getMenuInflater();
-                inflater.inflate(R.menu.setting_actions, popup.getMenu());
-                popup.show();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
+        switch (item.getItemId()) {
+        case R.id.action_user:
+            callUserActivity();
+            return true;
+        case R.id.action_preview:
+            callDiscoveryActivity();
+            return true;    
+        default:
+            return super.onOptionsItemSelected(item);
         }
     }
     @Override
