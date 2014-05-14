@@ -84,7 +84,7 @@ public class TimeFragment extends Fragment implements OnItemClickListener {
         SharedPreferences sPreferences = getActivity().getSharedPreferences("luck_day", Context.MODE_PRIVATE);
         int sMonth = sPreferences.getInt("Month", 0);
         int sDay = sPreferences.getInt("Day", 0);
-        savedCalendar.set(calendar.get(calendar.YEAR), sMonth, sDay);
+        savedCalendar.set(calendar.get(Calendar.YEAR), sMonth, sDay);
         return calendar.compareTo(savedCalendar);
     }
     private ArrayList<Map<String, String>> initDataList() {  
@@ -93,13 +93,10 @@ public class TimeFragment extends Fragment implements OnItemClickListener {
         }
         Log.d(TAG, "init data list");
 
-        /*
         if(isLuckDay() == 0) {
             trlist = mgr.query();
         } else
             trlist = mgr.queryWithMultipleParams(TalkUtil.conditonDates());
-        */
-        trlist = mgr.query();
         
         if(!time_record.isEmpty()) {
             time_record.clear();

@@ -1,9 +1,7 @@
 package com.talk.demo;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -12,7 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
@@ -23,7 +20,6 @@ import com.talk.demo.time.TimeAllItem;
 import com.talk.demo.util.TalkUtil;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -49,9 +45,9 @@ public class TalkFragment extends Fragment implements OnItemClickListener {
      
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_time, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_talk, container, false);
         
-        lv = (ListView)rootView.findViewById(R.id.time_list);
+        lv = (ListView)rootView.findViewById(R.id.talk_list);
                
         initListView();
         
@@ -63,30 +59,6 @@ public class TalkFragment extends Fragment implements OnItemClickListener {
         super.onAttach(activity);
     }
 
-    // Calculate the difference days after first use time
-    private void CalDiffDays() {
-        Calendar calendar = Calendar.getInstance();
-        Calendar savedCalendar = Calendar.getInstance();
-        SharedPreferences sPreferences = getActivity().getSharedPreferences("first_use_time", Context.MODE_PRIVATE);
-        int sYear = sPreferences.getInt("year", 0);
-        int sMonth = sPreferences.getInt("month", 0);
-        int sDay = sPreferences.getInt("day", 0);
-        savedCalendar.set(sYear, sMonth, sDay);
-        long last = calendar.getTimeInMillis()-savedCalendar.getTimeInMillis();
-        long diffDays = last / (24 * 60 * 60 * 1000);
-        Log.d(TAG, "last day : "+diffDays);
-    }
-    
-    // Calculate whether luck day
-    private int isLuckDay() {
-        Calendar calendar = Calendar.getInstance();
-        Calendar savedCalendar = Calendar.getInstance();
-        SharedPreferences sPreferences = getActivity().getSharedPreferences("luck_day", Context.MODE_PRIVATE);
-        int sMonth = sPreferences.getInt("Month", 0);
-        int sDay = sPreferences.getInt("Day", 0);
-        savedCalendar.set(calendar.get(calendar.YEAR), sMonth, sDay);
-        return calendar.compareTo(savedCalendar);
-    }
     private ArrayList<Map<String, String>> initDataList() {  
         if(!trlist.isEmpty()) {
              trlist.clear();
@@ -133,7 +105,7 @@ public class TalkFragment extends Fragment implements OnItemClickListener {
         if(lv == null)
             return;
         initDataList();
-        adapter = new SimpleAdapter(getActivity(),time_record, R.layout.record_listitem,
+        adapter = new SimpleAdapter(getActivity(),time_record, R.layout.talk_listitem,
                 new String[]{"content", "create_date", "create_time"}, new int[]{R.id.content, R.id.create_date, R.id.create_time});
         lv.setAdapter(adapter);
         lv.setOnItemClickListener(this);
