@@ -7,8 +7,16 @@ public class FriendRecord {
     public String handle;
     public String phoneMobile;
     public String sync_time;
-    public int dirty;
-    public int deleted;
+ 	/*
+ 	 * deleted flag :
+ 	 * default : 0 mean don't delete, other: 1 mean need to delete
+ 	 */
+    public int deleted = 0; 
+ 	/*
+ 	 * dirty flag :
+ 	 * default : 1 mean dirty and need to sync, other: 0 mean not need sync
+ 	 */
+    public int dirty = 1;
     
     public FriendRecord() {
     }

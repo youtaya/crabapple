@@ -15,13 +15,21 @@ public class TimeRecord {
     public int content_type;
     
     public String userName;
-    public String title;
+    public String title = "time";
     public String photo;
     public String audio;
     public String status;
     public String sync_time;
-    public int deleted;
-    public int dirty;
+ 	/*
+ 	 * deleted flag :
+ 	 * default : 0 mean don't delete, other: 1 mean need to delete
+ 	 */
+    public int deleted = 0; 
+ 	/*
+ 	 * dirty flag :
+ 	 * default : 1 mean dirty and need to sync, other: 0 mean not need sync
+ 	 */
+    public int dirty = 1;
     
     public TimeRecord() {
     }
