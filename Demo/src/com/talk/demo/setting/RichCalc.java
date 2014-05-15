@@ -7,9 +7,13 @@ import android.content.SharedPreferences.Editor;
 public class RichCalc implements RichOpt {
 	private int rich = 0;
 	private Context context;
+	
 	public RichCalc(Context ctx) {
 		context = ctx;
+	    SharedPreferences sPreferences = context.getSharedPreferences("rich", Context.MODE_PRIVATE);
+	    rich = sPreferences.getInt("measure", 0);
 	}
+	
 	@Override
 	public void setRich(int param) {
     	this.rich = param;
