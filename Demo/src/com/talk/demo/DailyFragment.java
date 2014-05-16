@@ -30,8 +30,8 @@ import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.talk.demo.audio.AudioRecorderActivity;
+import com.talk.demo.core.RecordManager;
 import com.talk.demo.daily.DailyEditActivity;
-import com.talk.demo.persistence.DBManager;
 import com.talk.demo.persistence.TimeRecord;
 import com.talk.demo.prewrite.PreWrite;
 import com.talk.demo.util.NetworkUtilities;
@@ -60,7 +60,7 @@ public class DailyFragment extends Fragment implements OnItemClickListener {
     private PullToRefreshListView pullToRefreshView;
     private EditText et;
     private ImageView iv,ivSpring, ivPhoto, ivGallery, ivTape;
-    private DBManager mgr;
+    private RecordManager recordManager;
     private LinkedList<String> daily_record;
     private DailyListAdapter adapter;
     private LinearLayout take_snap;
@@ -69,9 +69,9 @@ public class DailyFragment extends Fragment implements OnItemClickListener {
     private PreWrite pw;
     private LinkedList<String> mListItems;
     
-    public DailyFragment(DBManager db, PreWrite prewrite) {
+    public DailyFragment(RecordManager recordMgr, PreWrite prewrite) {
         daily_record = new LinkedList<String>();
-        mgr = db;
+        recordManager = recordMgr;
         pw = prewrite;
         
     }
@@ -190,11 +190,11 @@ public class DailyFragment extends Fragment implements OnItemClickListener {
                 if(content.length() > 0) {
                     TimeRecord tr = new TimeRecord(content);  
                     tr.setContentType(TalkUtil.MEDIA_TYPE_TEXT);
-                    mgr.add(tr);
+                    recordManager.addRecord(tr);
                     
                     mCallback.onItemChanged();
                     // update record list view
-                    RecordFragment rFragment = RecordFragment.newInstance(mgr);;
+                    RecordFragment rFragment = RecordFragment.newInstance(recordManager);;
                     rFragment.update();
                     // update time list view
                     initDataList();
@@ -374,7 +374,7 @@ public class DailyFragment extends Fragment implements OnItemClickListener {
                     
                     TimeRecord tr = new TimeRecord("/sdcard/Demo/"+fileName);
                     tr.setContentType(TalkUtil.MEDIA_TYPE_PHOTO);;
-                    mgr.add(tr);
+                    recordManager.addRecord(tr);
                 }
                 break;
             case TalkUtil.REQUEST_SELECT_PICTURE:
@@ -383,7 +383,7 @@ public class DailyFragment extends Fragment implements OnItemClickListener {
                     selectedImagePath = getPath(selectedImageUri);
                     TimeRecord tr = new TimeRecord(selectedImagePath);
                     tr.setContentType(TalkUtil.MEDIA_TYPE_PHOTO);;
-                    mgr.add(tr);
+                    recordManager.addRecord(tr);
                 }
                 break;
             case TalkUtil.REQUEST_AUDIO_CAPTURE:
@@ -392,7 +392,7 @@ public class DailyFragment extends Fragment implements OnItemClickListener {
             		String audioFileName = (String)extras.get("audio_file_name");
                     TimeRecord tr = new TimeRecord(audioFileName);
                     tr.setContentType(TalkUtil.MEDIA_TYPE_AUDIO);;
-                    mgr.add(tr);
+                    recordManager.addRecord(tr);
             	}
             	break;
             default:

@@ -33,7 +33,7 @@ public class DBHelper extends SQLiteOpenHelper {
                 + " username TEXT,"
                 + " title TEXT default '',"
                 + " content TEXT default '',"
-                + " create_date TEXT,"
+                + " calc_date TEXT,"
                 + " create_time TEXT,"
                 + " content_type INTEGER default 0,"
                 + " photo TEXT default '',"

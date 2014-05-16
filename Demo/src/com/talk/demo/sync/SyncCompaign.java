@@ -80,7 +80,7 @@ public class SyncCompaign {
         name = tr.userName;
         title = tr.title;
         content = tr.content;
-        createDate = tr.create_date;
+        createDate = tr.calc_date;
         createTime = tr.create_time;
         contentType = tr.content_type;
         photo = tr.photo;

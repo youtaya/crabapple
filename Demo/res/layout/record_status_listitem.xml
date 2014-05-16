@@ -15,28 +15,16 @@
         android:id="@+id/record_ll"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:paddingLeft="18dp"
         android:orientation="vertical" >
 
-		<TextView
-	        android:id="@+id/create_date"
-	        android:layout_width="match_parent"
-	        android:layout_height="wrap_content"
-	        android:layout_marginTop="4dp"
-	        android:maxLines="3"
-	        android:paddingLeft="4dp"
-	        android:paddingRight="4dp"
-	        android:textStyle="bold|italic"
-	        android:textColor="@color/lightransparent"
-	        android:textSize="22sp" />
 	    <TextView
 	        android:id="@+id/create_time"
 	        android:layout_width="match_parent"
 	        android:layout_height="wrap_content"
-	        android:layout_marginTop="4dp"
 	        android:maxLines="3"
-	        android:paddingLeft="4dp"
-	        android:paddingRight="4dp"
+	        android:paddingLeft="8dp"
+	        android:paddingTop="18dp"
+	        android:paddingRight="2dp"
 	        android:textColor="@color/semitransparent"
 	        android:textSize="16sp" />
     </LinearLayout>
@@ -46,8 +34,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_toRightOf="@+id/record_ll"
-        android:layout_marginTop="5dip"
-        android:layout_marginLeft="30dip"
+        android:layout_marginLeft="15dip"
         android:focusable="false" />
     
 	<ImageButton
@@ -55,7 +42,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_toRightOf="@+id/status"
-        android:layout_marginTop="5dip"
-        android:layout_marginLeft="30dip"
+        android:layout_marginLeft="15dip"
         android:focusable="false" />
 </RelativeLayout>

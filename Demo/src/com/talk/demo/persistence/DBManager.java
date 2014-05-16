@@ -40,7 +40,7 @@ public class DBManager {
                         tr.server_id,
                         tr.title, 
                         tr.content, 
-                        tr.create_date, 
+                        tr.calc_date, 
                         tr.create_time,
                         tr.content_type,
                         tr.photo,
@@ -92,7 +92,7 @@ public class DBManager {
                             tr.server_id,
                             tr.title, 
                             tr.content, 
-                            tr.create_date, 
+                            tr.calc_date, 
                             tr.create_time,
                             tr.content_type,
                             tr.photo,
@@ -146,7 +146,7 @@ public class DBManager {
             TimeRecord tr = new TimeRecord();  
             tr._id = c.getInt(c.getColumnIndex("id"));  
             tr.content = c.getString(c.getColumnIndex("content"));  
-            tr.create_date = c.getString(c.getColumnIndex("create_date"));
+            tr.calc_date = c.getString(c.getColumnIndex("calc_date"));
             tr.create_time = c.getString(c.getColumnIndex("create_time"));  
             tr.content_type = c.getInt(c.getColumnIndex("content_type"));
             trList.add(tr);  
@@ -166,7 +166,7 @@ public class DBManager {
             TimeRecord tr = new TimeRecord();  
             tr._id = c.getInt(c.getColumnIndex("id"));  
             tr.content = c.getString(c.getColumnIndex("content"));  
-            tr.create_date = c.getString(c.getColumnIndex("create_date"));
+            tr.calc_date = c.getString(c.getColumnIndex("calc_date"));
             tr.create_time = c.getString(c.getColumnIndex("create_time"));  
             tr.content_type = c.getInt(c.getColumnIndex("content_type"));
             trList.add(tr);  
@@ -182,7 +182,7 @@ public class DBManager {
         if((c != null) && c.moveToFirst()) {
             tr._id = c.getInt(c.getColumnIndex("id"));  
             tr.content = c.getString(c.getColumnIndex("content"));  
-            tr.create_date = c.getString(c.getColumnIndex("create_date"));
+            tr.calc_date = c.getString(c.getColumnIndex("calc_date"));
             tr.create_time = c.getString(c.getColumnIndex("create_time"));  
             tr.content_type = c.getInt(c.getColumnIndex("content_type"));
         }
@@ -201,7 +201,7 @@ public class DBManager {
             TimeRecord tr = new TimeRecord();  
             tr._id = c.getInt(c.getColumnIndex("id"));
             tr.content = c.getString(c.getColumnIndex("content"));  
-            tr.create_date = c.getString(c.getColumnIndex("create_date"));
+            tr.calc_date = c.getString(c.getColumnIndex("calc_date"));
             tr.create_time = c.getString(c.getColumnIndex("create_time"));  
             tr.content_type = c.getInt(c.getColumnIndex("content_type"));
             trList.add(tr);  
@@ -230,8 +230,8 @@ public class DBManager {
      */  
     public Cursor queryCursorWithMultipleParams(String[] params) {  
         Cursor c = db.rawQuery("SELECT * FROM "+DATABASE_TABLE
-        		+" WHERE create_date=? OR create_date=? OR create_date=? OR create_date=?"
-        		+" ORDER BY create_date DESC, create_time DESC", params);  
+        		+" WHERE calc_date=? OR calc_date=? OR calc_date=? OR calc_date=?"
+        		+" ORDER BY calc_date DESC, create_time DESC", params);  
         return c;  
     } 
     /** 
@@ -240,8 +240,8 @@ public class DBManager {
      */  
     public Cursor queryCursorWithParam(String param) {  
         Cursor c = db.rawQuery("SELECT * FROM "+DATABASE_TABLE
-                +" WHERE create_date=?"
-        		+" ORDER BY create_date DESC, create_time DESC", new String[]{param,});  
+                +" WHERE calc_date=?"
+        		+" ORDER BY calc_date DESC, create_time DESC", new String[]{param,});  
         return c;  
     }  
     
@@ -256,7 +256,7 @@ public class DBManager {
      */  
     public Cursor queryTheCursor() {  
         Cursor c = db.rawQuery("SELECT * FROM "+DATABASE_TABLE
-        		+" ORDER BY create_date DESC, create_time DESC", null);  
+        		+" ORDER BY calc_date DESC, create_time DESC", null);  
         return c;  
     }
     

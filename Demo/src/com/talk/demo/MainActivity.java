@@ -19,6 +19,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.ViewConfiguration;
 
+import com.talk.demo.core.RecordManager;
 import com.talk.demo.persistence.DBManager;
 import com.talk.demo.persistence.TimeRecord;
 import com.talk.demo.prewrite.PreWrite;
@@ -38,6 +39,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
     private static String TAG = "MainActivity";
     private PreWrite pw;
     private DBManager mgr;
+    private RecordManager recordManager;
     private DailyFragment guideFragment;
     private TimeFragment timeFragment;
     private RecordFragment recordFragment;
@@ -77,6 +79,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 
         mgr = new DBManager(this);
+        recordManager = new RecordManager(mgr);
         pw = new PreWrite(this.getApplicationContext());
         pw.startPosition();
         
@@ -136,16 +139,16 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         
         fragmentList = new ArrayList<Fragment>();
         //add guide fragment
-        guideFragment = new DailyFragment(mgr, pw);
+        guideFragment = new DailyFragment(recordManager, pw);
         fragmentList.add(guideFragment);
         //add time fragment
-        timeFragment = new TimeFragment(mgr);
+        timeFragment = new TimeFragment(recordManager);
         fragmentList.add(timeFragment);
         //add talk fragment
-        talkFragment = new TalkFragment(mgr);
+        talkFragment = new TalkFragment(recordManager);
         fragmentList.add(talkFragment);        
         //add record fragment
-        recordFragment = RecordFragment.newInstance(mgr);
+        recordFragment = RecordFragment.newInstance(recordManager);
         fragmentList.add(recordFragment);
         
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager(),fragmentList);

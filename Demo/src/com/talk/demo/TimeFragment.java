@@ -12,38 +12,30 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
-import com.talk.demo.persistence.DBManager;
+import com.talk.demo.core.RecordManager;
 import com.talk.demo.persistence.RecordCache;
-import com.talk.demo.persistence.TimeRecord;
 import com.talk.demo.time.TimeAllItem;
-import com.talk.demo.util.TalkUtil;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class TimeFragment extends Fragment implements OnItemClickListener {
     
     private static String TAG = "TimeFragment";
     private ListView lv;
-    private DBManager mgr;
-    private List<TimeRecord> trlist;
     private ArrayList<Map<String, String>> time_record;
     private ArrayList<RecordCache> record_cache;
     private SimpleAdapter adapter;
-
+    private RecordManager recordManager;
     
-    public TimeFragment(DBManager db) {
+    public TimeFragment(RecordManager recordMgr) {
         time_record = new ArrayList<Map<String, String>>();
-        trlist = new ArrayList<TimeRecord>();
         record_cache = new ArrayList<RecordCache>();
-        mgr = db;
+        recordManager = recordMgr;
     }
 
      
@@ -78,60 +70,23 @@ public class TimeFragment extends Fragment implements OnItemClickListener {
     }
     
     // Calculate whether luck day
-    private int isLuckDay() {
+    private boolean isLuckDay() {
         Calendar calendar = Calendar.getInstance();
         Calendar savedCalendar = Calendar.getInstance();
         SharedPreferences sPreferences = getActivity().getSharedPreferences("luck_day", Context.MODE_PRIVATE);
         int sMonth = sPreferences.getInt("Month", 0);
         int sDay = sPreferences.getInt("Day", 0);
         savedCalendar.set(calendar.get(Calendar.YEAR), sMonth, sDay);
-        return calendar.compareTo(savedCalendar);
+        int result = calendar.compareTo(savedCalendar);
+        return  (result == 0)?true:false;
     }
-    private ArrayList<Map<String, String>> initDataList() {  
-        if(!trlist.isEmpty()) {
-             trlist.clear();
-        }
-        Log.d(TAG, "init data list");
-
-        if(isLuckDay() == 0) {
-            trlist = mgr.query();
-        } else
-            trlist = mgr.queryWithMultipleParams(TalkUtil.conditonDates());
-        
-        if(!time_record.isEmpty()) {
-            time_record.clear();
-        }
-        
-        for (TimeRecord tr : trlist) {  
-            HashMap<String, String> map = new HashMap<String, String>(); 
-            RecordCache rc = new RecordCache();
-            if(tr.content_type == TalkUtil.MEDIA_TYPE_PHOTO)
-            	map.put("content", "惊鸿一瞥"); 
-            else if(tr.content_type == TalkUtil.MEDIA_TYPE_AUDIO)
-            	map.put("content", "口若兰花"); 
-            else
-            	map.put("content", tr.content); 
-
-            rc.setId(tr._id);
-            rc.setContent(tr.content);
-            map.put("create_date", tr.create_date);
-            rc.setCreateDate(tr.create_date);
-            map.put("create_time", tr.create_time);  
-            rc.setCreateTime(tr.create_time);
-            rc.setMediaType(tr.content_type);
-            record_cache.add(rc);
-            time_record.add(map);  
-        }  
-  
-        return time_record;
-    }
-    
+ 
     private void initListView() {
         if(lv == null)
             return;
-        initDataList();
+        time_record = recordManager.initDataListTime(record_cache, isLuckDay());
         adapter = new SimpleAdapter(getActivity(),time_record, R.layout.record_listitem,
-                new String[]{"content", "create_date", "create_time"}, new int[]{R.id.content, R.id.create_date, R.id.create_time});
+                new String[]{"content", "create_time"}, new int[]{R.id.content, R.id.create_time});
         lv.setAdapter(adapter);
         lv.setOnItemClickListener(this);
     }
@@ -139,12 +94,10 @@ public class TimeFragment extends Fragment implements OnItemClickListener {
     @Override
     public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
         
-        String valueContent = parent.getItemAtPosition(position).toString();
-        
         Intent mIntent = new Intent(getActivity(), TimeAllItem.class);
         Bundle mBundle = new Bundle();
-        mBundle.putString("createdate", valueContent.split(",")[1].substring(13));
-        mBundle.putString("createtime", valueContent.split(",")[0].substring(13));
+        mBundle.putString("createdate", time_record.get(position).get("calc_date"));
+        mBundle.putString("createtime", time_record.get(position).get("create_time"));
         mBundle.putParcelableArrayList("recordcache", record_cache);
         mIntent.putExtras(mBundle);
         startActivity(mIntent);
@@ -160,7 +113,7 @@ public class TimeFragment extends Fragment implements OnItemClickListener {
     public void onResume () {
         super.onResume();
         Log.d(TAG, "on Resume");
-        initDataList();
+        time_record = recordManager.initDataListTime(record_cache, isLuckDay());
         adapter.notifyDataSetChanged();
 
     }
