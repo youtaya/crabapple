@@ -121,9 +121,11 @@ public class DBManager {
         rp.addRich(1);
     } 
     
-    public void updateServerId(TimeRecord tRecord) {  
+    public void updateServerInfo(TimeRecord tRecord) {  
         ContentValues cv = new ContentValues();  
-        cv.put("server_id", tRecord.server_id);  
+        cv.put("server_id", tRecord.server_id); 
+        //set dirty flag : 0
+        cv.put("dirty", 0);
         Log.d(TAG,"update id: "+tRecord._id);
         db.update(DATABASE_TABLE, cv, "id" + "='" +tRecord._id+"'", null);
     }  
