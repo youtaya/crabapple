@@ -23,6 +23,8 @@ import com.talk.demo.core.RecordManager;
 import com.talk.demo.persistence.DBManager;
 import com.talk.demo.persistence.TimeRecord;
 import com.talk.demo.prewrite.PreWrite;
+import com.talk.demo.setting.FindIntimateActivity;
+import com.talk.demo.setting.IntimateActivity;
 import com.talk.demo.setting.PreviewActivity;
 import com.talk.demo.setting.UserActivity;
 import com.talk.demo.util.TalkUtil;
@@ -229,6 +231,14 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         Intent intent = new Intent(this, PreviewActivity.class);
         startActivity(intent);
     } 
+    private void callIntimateActivity() {
+        Intent intent = new Intent(this, IntimateActivity.class);
+        startActivity(intent);
+    } 
+    private void callFindIntimateActivity() {
+        Intent intent = new Intent(this, FindIntimateActivity.class);
+        startActivity(intent);
+    } 
     
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -238,7 +248,13 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
             return true;
         case R.id.action_preview:
             callDiscoveryActivity();
-            return true;    
+            return true;
+        case R.id.action_friend:
+            callIntimateActivity();
+            return true;  
+        case R.id.action_add_friend:
+            callFindIntimateActivity();
+            return true;              
         default:
             return super.onOptionsItemSelected(item);
         }

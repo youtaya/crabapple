@@ -80,6 +80,22 @@
 			    android:name="android.support.PARENT_ACTIVITY"
 			    android:value=".MainActivity"/>
 		</activity>		
+		<activity
+            android:name=".setting.IntimateActivity"
+            android:label="@string/app_name"
+            android:parentActivityName=".MainActivity">
+			<meta-data
+			    android:name="android.support.PARENT_ACTIVITY"
+			    android:value=".MainActivity"/>
+		</activity>
+		<activity
+            android:name=".setting.FindIntimateActivity"
+            android:label="@string/app_name"
+            android:parentActivityName=".MainActivity">
+			<meta-data
+			    android:name="android.support.PARENT_ACTIVITY"
+			    android:value=".MainActivity"/>
+		</activity>				
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name" 

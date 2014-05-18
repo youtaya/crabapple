@@ -6,7 +6,7 @@ public class FriendRecord {
     public String userName;
     public String handle;
     public String phoneMobile;
-    public String sync_time;
+    public long sync_time;
  	/*
  	 * deleted flag :
  	 * default : 0 mean don't delete, other: 1 mean need to delete

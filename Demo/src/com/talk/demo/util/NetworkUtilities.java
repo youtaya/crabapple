@@ -345,7 +345,7 @@ final public class NetworkUtilities {
             // that the response includes the contacts that we need
             // to update on our side...
             final JSONArray serverRecords = new JSONArray(response);
-            Log.d(TAG, response);
+            Log.d(TAG, serverRecords.toString());
             for (int i = 0; i < serverRecords.length(); i++) {
             	RawRecord rawRecord = RawRecord.valueOf(serverRecords.getJSONObject(i));
                 if (rawRecord != null) {

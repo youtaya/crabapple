@@ -4,7 +4,6 @@ import com.talk.demo.util.RawRecord;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.StringTokenizer;
 
 public class TimeRecord {
     public int _id;
@@ -19,7 +18,7 @@ public class TimeRecord {
     public String photo;
     public String audio;
     public String status;
-    public String sync_time;
+    public long sync_time;
  	/*
  	 * deleted flag :
  	 * default : 0 mean don't delete, other: 1 mean need to delete
@@ -41,6 +40,8 @@ public class TimeRecord {
         calc_date = rr.getCreateDate();
         create_time = rr.getCreateTime();
         content_type = rr.getContentType();
+        title = rr.getTitle();
+        sync_time = rr.getSyncState();
     }
     
     public TimeRecord(RecordCache rc) {

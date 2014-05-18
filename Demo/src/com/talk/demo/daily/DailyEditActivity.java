@@ -1,7 +1,6 @@
 package com.talk.demo.daily;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -13,8 +12,8 @@ import android.view.View.OnClickListener;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.talk.demo.MainActivity;
 import com.talk.demo.R;
+import com.talk.demo.core.RecordManager;
 import com.talk.demo.persistence.DBManager;
 import com.talk.demo.persistence.TimeRecord;
 import com.talk.demo.share.FriendsActivity;
@@ -26,7 +25,6 @@ import org.apache.http.ParseException;
 import org.json.JSONException;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 
 public class DailyEditActivity extends Activity {
 	private static String TAG = "DailyEditActivity";
@@ -34,6 +32,7 @@ public class DailyEditActivity extends Activity {
 	private String pre_content;
 	private TextView tv;
 	private DBManager mgr;
+	private RecordManager rMgr;
     private static final int GET_FRIEND = 101;
     private String friend = null;
     private TimeRecord tr = null;
@@ -58,6 +57,7 @@ public class DailyEditActivity extends Activity {
         	
         });
         mgr = new DBManager(this);
+        rMgr = new RecordManager(mgr);
     }
     
     private void startFriendActivity() {
@@ -101,7 +101,7 @@ public class DailyEditActivity extends Activity {
         if(content.length() > 0) {
         	tr = new TimeRecord(content);  
         	tr.setContentType(TalkUtil.MEDIA_TYPE_TEXT);
-        	mgr.add(tr);
+        	rMgr.addRecord(tr);;
 	    }
         
         // share to friend

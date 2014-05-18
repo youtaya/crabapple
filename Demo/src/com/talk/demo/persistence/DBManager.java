@@ -56,6 +56,30 @@ public class DBManager {
         
         rp.addRich(2);
     }  
+    public void addFromServer(TimeRecord tr) {  
+        db.beginTransaction();  //开始事务  
+        try {  
+            db.execSQL("INSERT INTO "+DATABASE_TABLE+""
+                    + " VALUES(null, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", 
+                    new Object[]{
+                        tr.userName, 
+                        tr.server_id,
+                        tr.title, 
+                        tr.content, 
+                        tr.calc_date, 
+                        tr.create_time,
+                        tr.content_type,
+                        tr.photo,
+                        tr.audio,
+                        tr.status,
+                        tr.sync_time,
+                        0,//not dirty
+                        tr.deleted});
+            db.setTransactionSuccessful();  //设置事务成功完成  
+        } finally {  
+            db.endTransaction();    //结束事务  
+        }
+    }  
     
     public void addFriend(FriendRecord fr) {  
         db.beginTransaction();  //开始事务  
@@ -126,6 +150,7 @@ public class DBManager {
         cv.put("server_id", tRecord.server_id); 
         //set dirty flag : 0
         cv.put("dirty", 0);
+        cv.put("sync_time", tRecord.sync_time);
         Log.d(TAG,"update id: "+tRecord._id);
         db.update(DATABASE_TABLE, cv, "id" + "='" +tRecord._id+"'", null);
     }  

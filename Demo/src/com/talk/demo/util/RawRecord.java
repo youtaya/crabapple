@@ -128,7 +128,7 @@ final public class RawRecord {
                 json.put("sid", mServerRecordId);
             }
             if (mRawRecordId > 0) {
-                json.put("rid", mRawRecordId);
+                json.put("cid", mRawRecordId);
             }
             if (mDeleted) {
                 json.put("del", mDeleted);
@@ -156,7 +156,7 @@ final public class RawRecord {
                 throw new JSONException("JSON contact missing required 'u' or 's' fields");
             }
 
-            final int rawRecordId = !Record.isNull("rid") ? Record.getInt("rid") : -1;
+            final int rawRecordId = !Record.isNull("cid") ? Record.getInt("cid") : -1;
             final String title = !Record.isNull("title")  ? Record.getString("title") : null;
             final String content = !Record.isNull("content") ? Record.getString("content") : null;
             final String createDate = !Record.isNull("date") ? Record.getString("date") : null;
@@ -166,7 +166,7 @@ final public class RawRecord {
             final String audio = !Record.isNull("ao") ? Record.getString("ao") : null;
             final String status = !Record.isNull("status") ? Record.getString("status") : null;
             final boolean deleted = !Record.isNull("del") ? Record.getBoolean("del") : false;
-            final long syncState = !Record.isNull("ss") ? Record.getLong("ss") : 0;
+            final long syncState = !Record.isNull("x") ? Record.getLong("x") : 0;
             return new RawRecord(userName, title, content, createDate,
             		createTime, contentType, photo, audio, status, deleted,
             		serverRecordId, rawRecordId, syncState, false);

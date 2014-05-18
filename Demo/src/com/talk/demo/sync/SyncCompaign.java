@@ -54,7 +54,14 @@ public class SyncCompaign {
         for(RawRecord rr: updateRecords) {
             TimeRecord tr = new TimeRecord(rr);
             Log.d(TAG, "server id: " + rr.getServerContactId());
-            db.updateServerInfo(tr);
+            Log.d(TAG, "client id: " + rr.getRawContactId());
+            Log.d(TAG, "content: " + rr.getContent());
+            
+            if(rr.getRawContactId() == -1) {
+            	db.addFromServer(tr);
+            } else {
+            	db.updateServerInfo(tr);
+            }
         }
         
     }
