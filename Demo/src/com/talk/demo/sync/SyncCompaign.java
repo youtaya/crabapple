@@ -69,7 +69,7 @@ public class SyncCompaign {
             Log.d(TAG, "content: " + rr.getContent());
             
             if(rr.getRawContactId() == -1) {
-            	Log.d(TAG, "[add] server id: " + tr.server_id);
+            	Log.d(TAG, "[need add] server id: " + tr.server_id);
             	db.addFromServer(tr);
             } else {
             	Log.d(TAG, "[update] server id: " + tr.server_id);

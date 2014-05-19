@@ -56,17 +56,22 @@ public class DBManager {
         } finally {  
             db.endTransaction();    //结束事务  
         }
-        
         rp.addRich(2);
     }  
-    public void addFromServer(TimeRecord tr) {  
-        db.beginTransaction();  //开始事务  
-        try {  
-        	recordExecSQL(tr, false);
-            db.setTransactionSuccessful();  //设置事务成功完成  
-        } finally {  
-            db.endTransaction();    //结束事务  
-        }
+    public void addFromServer(TimeRecord tr) {
+    	Cursor c = queryCursorWithServerId(tr.server_id);
+    	if(c != null && c.moveToFirst()) {
+    		Log.d(TAG, "No need to creat new record!");
+    		updateServerInfo(tr);
+    	} else {
+	        db.beginTransaction();  //开始事务  
+	        try {  
+	        	recordExecSQL(tr, false);
+	            db.setTransactionSuccessful();  //设置事务成功完成  
+	        } finally {  
+	            db.endTransaction();    //结束事务  
+	        }
+    	}
     }  
     
     public void friendExecSQL(FriendRecord fr) {
@@ -138,6 +143,17 @@ public class DBManager {
         db.update(TABLE_FRIEND, cv, "id" + "='" +fRecord._id+"'", null);
     }  
     
+    public void dumpRecord(TimeRecord tr, Cursor c) {
+        tr._id = c.getInt(c.getColumnIndex("id"));
+        tr.server_id = c.getInt(c.getColumnIndex("server_id"));
+        tr.userName = c.getString(c.getColumnIndex("username"));
+        tr.content = c.getString(c.getColumnIndex("content"));  
+        tr.calc_date = c.getString(c.getColumnIndex("calc_date"));
+        tr.create_time = c.getString(c.getColumnIndex("create_time"));  
+        tr.content_type = c.getInt(c.getColumnIndex("content_type"));
+        tr.sync_time = c.getLong(c.getColumnIndex("sync_time"));
+    }
+    
     /** 
      * query all content, return list 
      * @return List<TimeRecord> 
@@ -148,11 +164,7 @@ public class DBManager {
         
         while (c.moveToNext()) {  
             TimeRecord tr = new TimeRecord();  
-            tr._id = c.getInt(c.getColumnIndex("id"));  
-            tr.content = c.getString(c.getColumnIndex("content"));  
-            tr.calc_date = c.getString(c.getColumnIndex("calc_date"));
-            tr.create_time = c.getString(c.getColumnIndex("create_time"));  
-            tr.content_type = c.getInt(c.getColumnIndex("content_type"));
+            dumpRecord(tr, c);
             trList.add(tr);  
         }  
         c.close();  
@@ -168,11 +180,7 @@ public class DBManager {
         
         while (c.moveToNext()) {  
             TimeRecord tr = new TimeRecord();  
-            tr._id = c.getInt(c.getColumnIndex("id"));  
-            tr.content = c.getString(c.getColumnIndex("content"));  
-            tr.calc_date = c.getString(c.getColumnIndex("calc_date"));
-            tr.create_time = c.getString(c.getColumnIndex("create_time"));  
-            tr.content_type = c.getInt(c.getColumnIndex("content_type"));
+            dumpRecord(tr, c);
             trList.add(tr);  
         }  
         c.close();  
@@ -184,14 +192,7 @@ public class DBManager {
         
         TimeRecord tr = new TimeRecord();
         if((c != null) && c.moveToFirst()) {
-            tr._id = c.getInt(c.getColumnIndex("id"));
-            tr.server_id = c.getInt(c.getColumnIndex("server_id"));
-            tr.userName = c.getString(c.getColumnIndex("username"));
-            tr.content = c.getString(c.getColumnIndex("content"));  
-            tr.calc_date = c.getString(c.getColumnIndex("calc_date"));
-            tr.create_time = c.getString(c.getColumnIndex("create_time"));  
-            tr.content_type = c.getInt(c.getColumnIndex("content_type"));
-            tr.sync_time = c.getLong(c.getColumnIndex("sync_time"));
+        	dumpRecord(tr, c);
         }
         c.close();  
         return tr;  
@@ -206,13 +207,7 @@ public class DBManager {
         
         while (c.moveToNext()) {  
             TimeRecord tr = new TimeRecord();  
-            tr._id = c.getInt(c.getColumnIndex("id"));
-            tr.server_id = c.getInt(c.getColumnIndex("server_id"));
-            tr.content = c.getString(c.getColumnIndex("content"));  
-            tr.calc_date = c.getString(c.getColumnIndex("calc_date"));
-            tr.create_time = c.getString(c.getColumnIndex("create_time"));  
-            tr.content_type = c.getInt(c.getColumnIndex("content_type"));
-            tr.sync_time = c.getLong(c.getColumnIndex("sync_time"));
+            dumpRecord(tr, c);
             trList.add(tr);  
         }  
         c.close();  
@@ -258,7 +253,13 @@ public class DBManager {
         Cursor c = db.rawQuery("SELECT * FROM "+DATABASE_TABLE
                 +" WHERE "+"id" + "='" +param+"'", null);
         return c;  
-    }  
+    }
+    
+    public Cursor queryCursorWithServerId(int param) {  
+        Cursor c = db.rawQuery("SELECT * FROM "+DATABASE_TABLE
+                +" WHERE "+"server_id" + "='" +param+"'", null);
+        return c;  
+    }
     /** 
      * query all content, return cursor 
      * @return  Cursor 
