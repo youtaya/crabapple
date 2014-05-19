@@ -149,6 +149,7 @@ final public class RawRecord {
 
         try {
             final String userName = !Record.isNull("user") ? Record.getString("user") : null;
+            Log.d(TAG, "user name: "+userName);
             final int serverRecordId = !Record.isNull("sid") ? Record.getInt("sid") : -1;
             // If we didn't get either a username or serverId for the record, then
             // we can't do anything with it locally...

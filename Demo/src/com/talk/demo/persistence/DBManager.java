@@ -29,26 +29,29 @@ public class DBManager {
         db = helper.getWritableDatabase();  
         rp = RichPresent.getInstance(context);
     }  
-      
+   
+    public void recordExecSQL(TimeRecord tr, boolean isDirty) {
+        db.execSQL("INSERT INTO "+DATABASE_TABLE+""
+                + " VALUES(null, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", 
+                new Object[]{
+        			tr.server_id,
+                    tr.userName, 
+                    tr.title, 
+                    tr.content, 
+                    tr.calc_date, 
+                    tr.create_time,
+                    tr.content_type,
+                    tr.photo,
+                    tr.audio,
+                    tr.status,
+                    tr.sync_time,
+                    isDirty?tr.dirty:0,
+                    tr.deleted});
+    }
     public void add(TimeRecord tr) {  
         db.beginTransaction();  //开始事务  
         try {  
-            db.execSQL("INSERT INTO "+DATABASE_TABLE+""
-                    + " VALUES(null, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", 
-                    new Object[]{
-                        tr.userName, 
-                        tr.server_id,
-                        tr.title, 
-                        tr.content, 
-                        tr.calc_date, 
-                        tr.create_time,
-                        tr.content_type,
-                        tr.photo,
-                        tr.audio,
-                        tr.status,
-                        tr.sync_time,
-                        tr.dirty,
-                        tr.deleted});
+        	recordExecSQL(tr, true);
             db.setTransactionSuccessful();  //设置事务成功完成  
         } finally {  
             db.endTransaction();    //结束事务  
@@ -59,41 +62,30 @@ public class DBManager {
     public void addFromServer(TimeRecord tr) {  
         db.beginTransaction();  //开始事务  
         try {  
-            db.execSQL("INSERT INTO "+DATABASE_TABLE+""
-                    + " VALUES(null, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", 
-                    new Object[]{
-                        tr.userName, 
-                        tr.server_id,
-                        tr.title, 
-                        tr.content, 
-                        tr.calc_date, 
-                        tr.create_time,
-                        tr.content_type,
-                        tr.photo,
-                        tr.audio,
-                        tr.status,
-                        tr.sync_time,
-                        0,//not dirty
-                        tr.deleted});
+        	recordExecSQL(tr, false);
             db.setTransactionSuccessful();  //设置事务成功完成  
         } finally {  
             db.endTransaction();    //结束事务  
         }
     }  
     
+    public void friendExecSQL(FriendRecord fr) {
+        db.execSQL("INSERT INTO "+TABLE_FRIEND+""
+                + " VALUES(null, ?, ?, ?, ?, ?, ?, ?)", 
+                new Object[]{
+                    fr.server_id,
+                    fr.handle,
+                    fr.userName,
+                    fr.phoneMobile, 
+                    fr.sync_time,
+                    fr.dirty,
+                    fr.deleted});
+    }
+    
     public void addFriend(FriendRecord fr) {  
         db.beginTransaction();  //开始事务  
         try {  
-            db.execSQL("INSERT INTO "+TABLE_FRIEND+""
-                    + " VALUES(null, ?, ?, ?, ?, ?, ?, ?)", 
-                    new Object[]{
-                        fr.server_id,
-                        fr.handle,
-                        fr.userName,
-                        fr.phoneMobile, 
-                        fr.sync_time,
-                        fr.dirty,
-                        fr.deleted});
+        	friendExecSQL(fr);
             db.setTransactionSuccessful();  //设置事务成功完成  
         } finally {  
             db.endTransaction();    //结束事务  
@@ -109,22 +101,7 @@ public class DBManager {
         db.beginTransaction();  //开始事务  
         try {  
             for (TimeRecord tr : tRecord) {  
-                db.execSQL("INSERT INTO "+DATABASE_TABLE+""
-                        + " VALUES(null, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", 
-                        new Object[]{
-                            tr.userName, 
-                            tr.server_id,
-                            tr.title, 
-                            tr.content, 
-                            tr.calc_date, 
-                            tr.create_time,
-                            tr.content_type,
-                            tr.photo,
-                            tr.audio,
-                            tr.status,
-                            tr.sync_time,
-                            tr.dirty,
-                            tr.deleted});
+            	recordExecSQL(tr, true);
             }  
             db.setTransactionSuccessful();  //设置事务成功完成  
         } finally {  
@@ -207,11 +184,14 @@ public class DBManager {
         
         TimeRecord tr = new TimeRecord();
         if((c != null) && c.moveToFirst()) {
-            tr._id = c.getInt(c.getColumnIndex("id"));  
+            tr._id = c.getInt(c.getColumnIndex("id"));
+            tr.server_id = c.getInt(c.getColumnIndex("server_id"));
+            tr.userName = c.getString(c.getColumnIndex("username"));
             tr.content = c.getString(c.getColumnIndex("content"));  
             tr.calc_date = c.getString(c.getColumnIndex("calc_date"));
             tr.create_time = c.getString(c.getColumnIndex("create_time"));  
             tr.content_type = c.getInt(c.getColumnIndex("content_type"));
+            tr.sync_time = c.getLong(c.getColumnIndex("sync_time"));
         }
         c.close();  
         return tr;  
@@ -227,10 +207,12 @@ public class DBManager {
         while (c.moveToNext()) {  
             TimeRecord tr = new TimeRecord();  
             tr._id = c.getInt(c.getColumnIndex("id"));
+            tr.server_id = c.getInt(c.getColumnIndex("server_id"));
             tr.content = c.getString(c.getColumnIndex("content"));  
             tr.calc_date = c.getString(c.getColumnIndex("calc_date"));
             tr.create_time = c.getString(c.getColumnIndex("create_time"));  
             tr.content_type = c.getInt(c.getColumnIndex("content_type"));
+            tr.sync_time = c.getLong(c.getColumnIndex("sync_time"));
             trList.add(tr);  
         }  
         c.close();  

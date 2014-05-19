@@ -12,6 +12,16 @@ import java.util.List;
 public class SyncCompaign {
 
     private static String TAG = "SyncCompaign";
+    
+    private static String myLog(TimeRecord tr) {
+    	
+    	String isDirty = (tr.dirty ==1)?"yes":"no";
+    	String info = " id: "+String.valueOf(tr._id)+
+    			" server id: "+String.valueOf(tr.server_id)+
+    			" user name: "+tr.userName+
+    			" dirty: " +isDirty;
+    	return info;
+    }
 	/*
 	 *  add for get dirty records
 	 */
@@ -23,6 +33,7 @@ public class SyncCompaign {
          */
     	List<TimeRecord> trlist = db.query();
     	for(TimeRecord tr: trlist) {
+    		Log.d(TAG, "time record: "+myLog(tr));
     	    //check the dirty and deleted flag
     	    final boolean isDeleted = (1 == tr.deleted);
     	    final boolean isDirty = (1 == tr.dirty);
@@ -58,8 +69,10 @@ public class SyncCompaign {
             Log.d(TAG, "content: " + rr.getContent());
             
             if(rr.getRawContactId() == -1) {
+            	Log.d(TAG, "[add] server id: " + tr.server_id);
             	db.addFromServer(tr);
             } else {
+            	Log.d(TAG, "[update] server id: " + tr.server_id);
             	db.updateServerInfo(tr);
             }
         }
