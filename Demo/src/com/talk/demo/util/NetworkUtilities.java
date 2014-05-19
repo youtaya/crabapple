@@ -79,6 +79,7 @@ final public class NetworkUtilities {
     /** URI for authentication service */
     public static final String AUTH_URI = BASE_URL + "account/login/";
     public static final String SYNC_NEWS_URI = BASE_URL + "news/today/";
+    public static final String SYNC_FRIENDS_URI = BASE_URL + "friends/recommend";
     /** URI for sync service */
     public static final String SYNC_RECORDS_URI = BASE_URL + "times/sync/";
     public static final String SHARE_RECORDS_URI = BASE_URL + "times/share/";
@@ -253,6 +254,33 @@ final public class NetworkUtilities {
 
         return mItems;
     }
+    
+    public static List<String> syncFriends() throws JSONException {
+        List<String> mItems = new LinkedList<String>();
+        try {
+            
+            HttpRequest request = HttpRequest.get(SYNC_FRIENDS_URI);
+            request.followRedirects(false);
+            String response = request.body();
+            int result = request.code();
+            Log.d(TAG,"Response was: " + response);
+            final JSONArray serverFriends = new JSONArray(response);
+            Log.d(TAG, response);
+            for (int i = 0; i < serverFriends.length(); i++) {
+                String test = serverFriends.getJSONObject(i).getString("friends");
+                if (test != null) {
+                    mItems.add(test);
+                }
+            }
+            
+            
+        } catch (HttpRequestException exception) {
+            Log.d(TAG, "exception : " + exception.toString());
+        }
+
+        return mItems;
+    }
+    
     public static void shareRecord(RawRecord raw, String target) 
             throws JSONException, ParseException, IOException {
         HttpURLConnection conn = HttpRequest.get(AUTH_URI)
