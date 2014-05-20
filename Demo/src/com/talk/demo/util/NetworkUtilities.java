@@ -260,7 +260,7 @@ final public class NetworkUtilities {
         try {
             
             HttpRequest request = HttpRequest.get(SYNC_FRIENDS_URI);
-            request.followRedirects(false);
+            //request.followRedirects(false);
             String response = request.body();
             int result = request.code();
             Log.d(TAG,"Response was: " + response);

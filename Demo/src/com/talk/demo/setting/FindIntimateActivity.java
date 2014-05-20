@@ -38,7 +38,7 @@ public class FindIntimateActivity extends Activity {
         });
         
         friends = new ArrayList<String>();
-        new loadListFromHtml().execute();
+        new loadFriendList().execute();
     }
     
     public void initData() {
@@ -47,7 +47,7 @@ public class FindIntimateActivity extends Activity {
         view.setAdapter(adapter);
     }
     
-	private class loadListFromHtml extends AsyncTask<Void, Void, List<String>> {
+	private class loadFriendList extends AsyncTask<Void, Void, List<String>> {
 		protected List<String> doInBackground(Void... params) {
 			try {
 				friends = NetworkUtilities.syncFriends();
