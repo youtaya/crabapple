@@ -2,20 +2,75 @@ package com.talk.demo.share;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.ListView;
 
 import com.talk.demo.R;
 import com.talk.demo.persistence.RecordCache;
+import com.talk.demo.util.TalkUtil;
+
+import java.util.ArrayList;
 
 public class ShareTalkActivity extends Activity {
     private String create_time;
     private RecordCache record_cache;
+    
+    private ListView lv;
+    private ShareListAdapter adapter;
+    private ArrayList<ShareEntity> share_record;
+    
+    private EditText share_comment;
+    private ImageView share_save;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         
         setContentView(R.layout.activity_share_talk);
+        
+        share_record = new ArrayList<ShareEntity>();
         Bundle bundle = getIntent().getExtras();
         create_time = bundle.getString("createtime");
         record_cache = bundle.getParcelable("recordcache");
+        
+        lv = (ListView)findViewById(R.id.share_list);
+        initListView();
+        
+        share_comment = (EditText)findViewById(R.id.share_comment);
+        share_save = (ImageView)findViewById(R.id.share_send);
+        share_save.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				String comment = share_comment.getText().toString();
+				if(comment.length() > 0) {
+					ShareEntity chatEntity = new ShareEntity();
+					chatEntity.setChatTime(TalkUtil.currentDate());
+					chatEntity.setContent(comment);
+					chatEntity.setComeMsg(false);
+			    	share_record.add(chatEntity);
+			    	adapter.notifyDataSetChanged();
+			    	lv.setSelection(share_record.size() - 1);
+			    	share_comment.setText("");
+				}
+			}
+        	
+        });
+    }
+    
+    private void initListView() {
+        if(lv == null)
+            return;
+        
+        ShareEntity map = new ShareEntity();
+        map.setChatTime(create_time);
+        map.setContent(record_cache.getContent());
+        map.setComeMsg(true);;
+        share_record.add(map);
+        
+        adapter = new ShareListAdapter(this,share_record);
+        lv.setAdapter(adapter);
     }
 }
