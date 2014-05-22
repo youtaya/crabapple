@@ -15,7 +15,7 @@ import android.widget.SimpleAdapter;
 
 import com.talk.demo.core.RecordManager;
 import com.talk.demo.persistence.RecordCache;
-import com.talk.demo.time.TimeAllItem;
+import com.talk.demo.share.ShareTalkActivity;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -68,11 +68,10 @@ public class TalkFragment extends Fragment implements OnItemClickListener {
         String valueContent = parent.getItemAtPosition(position).toString();
         Log.d(TAG, "value content: "+valueContent);
         Log.d(TAG, "time record: "+time_record.get(position).values().toString());
-        Intent mIntent = new Intent(getActivity(), TimeAllItem.class);
+        Intent mIntent = new Intent(getActivity(), ShareTalkActivity.class);
         Bundle mBundle = new Bundle();
-        mBundle.putString("createdate", time_record.get(position).get("calc_date"));
         mBundle.putString("createtime", time_record.get(position).get("create_time"));
-        mBundle.putParcelableArrayList("recordcache", record_cache);
+        mBundle.putParcelable("recordcache", record_cache.get(position));
         mIntent.putExtras(mBundle);
         startActivity(mIntent);
         

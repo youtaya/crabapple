@@ -110,6 +110,13 @@
 			    android:value=".MainActivity"/>
         </activity>
 		<activity
+            android:name=".share.ShareTalkActivity"
+            android:parentActivityName=".MainActivity">
+			<meta-data
+			    android:name="android.support.PARENT_ACTIVITY"
+			    android:value=".MainActivity"/>
+        </activity>        
+		<activity
             android:name=".share.FriendsActivity" >
         </activity>       
 		<activity
