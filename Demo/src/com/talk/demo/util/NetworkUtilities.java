@@ -38,6 +38,7 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
+import org.apache.http.protocol.HTTP;
 import org.apache.http.util.EntityUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -304,7 +305,7 @@ final public class NetworkUtilities {
         params.add(new BasicNameValuePair("records", jsonRecord.toString()));
         params.add(new BasicNameValuePair("target", target));
         params.add(new BasicNameValuePair("csrfmiddlewaretoken", csrfToken.substring(10)));
-        HttpEntity entity = new UrlEncodedFormEntity(params);
+        HttpEntity entity = new UrlEncodedFormEntity(params, HTTP.UTF_8);
         final HttpPost post = new HttpPost(SHARE_RECORDS_URI);
         post.addHeader(entity.getContentType());
         post.addHeader("Cookie", csrfToken);
@@ -356,14 +357,13 @@ final public class NetworkUtilities {
             params.add(new BasicNameValuePair(PARAM_SYNC_STATE, Long.toString(serverSyncState)));
         }
         Log.i(TAG, params.toString());
-        HttpEntity entity = new UrlEncodedFormEntity(params);
+        HttpEntity entity = new UrlEncodedFormEntity(params, HTTP.UTF_8);
 
         // Send the updated friends data to the server
         Log.i(TAG, "Syncing to: " + SYNC_RECORDS_URI);
         final HttpPost post = new HttpPost(SYNC_RECORDS_URI);
         post.addHeader(entity.getContentType());
         post.addHeader("Cookie", authtoken);
-        
         post.setEntity(entity);
         final HttpResponse resp = getHttpClient().execute(post);
         final String response = EntityUtils.toString(resp.getEntity());
