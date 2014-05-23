@@ -23,8 +23,8 @@ public class RecordManager {
 		dbMgr = mgr;
 	}
 
-	public ArrayList<Map<String, String>> initDataListRecord(int[] status) {
-		ArrayList<Map<String, String>> time_record = new ArrayList<Map<String, String>>();
+	public ArrayList<HashMap<String, Object>> initDataListRecord(int[] status) {
+		ArrayList<HashMap<String, Object>> time_record = new ArrayList<HashMap<String, Object>>();
 		if (!trlist.isEmpty()) {
 			trlist.clear();
 		}
@@ -46,16 +46,16 @@ public class RecordManager {
 		String revealDate4 = dateFormat.format(date4);
 
 		for (TimeRecord tr : trlist) {
-			HashMap<String, String> map = new HashMap<String, String>();
+			HashMap<String, Object> map = new HashMap<String, Object>();
 			map.put("create_time", tr.create_time);
 			if (tr.calc_date.equalsIgnoreCase(revealDate1)
 					|| tr.calc_date.equalsIgnoreCase(revealDate2)
 					|| tr.calc_date.equalsIgnoreCase(revealDate3)
 					|| tr.calc_date.equalsIgnoreCase(revealDate4))
-				map.put("status", Integer.toString(status[1]));
+				map.put("status", status[1]);
 			else
-				map.put("status", Integer.toString(status[0]));
-			map.put("send_knows", Integer.toString(status[2]));
+				map.put("status", status[0]);
+			map.put("send_knows", status[2]);
 			time_record.add(map);
 		}
 
