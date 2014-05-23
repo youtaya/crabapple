@@ -85,7 +85,9 @@ public class RecordListAdapter extends BaseAdapter {
             int shareIcon = (Integer)recordInfo.get(keyString[2]);
             holder.create_time.setText(cTime);
             holder.buy.setImageDrawable(holder.buy.getResources().getDrawable(buyIcon));
-            holder.buy.setOnClickListener(new lvButtonListener(position));
+            //if it's unlock, no need to set listener
+            if(buyIcon == R.drawable.lock_status)
+            	holder.buy.setOnClickListener(new lvButtonListener(position));
             holder.share.setImageDrawable(holder.share.getResources().getDrawable(shareIcon));
             holder.share.setOnClickListener(new lvButtonListener(position));
         }        
