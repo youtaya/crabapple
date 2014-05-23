@@ -3,7 +3,7 @@ package com.talk.demo.share;
 public class ShareEntity {
 	private int userImage;
 	private String content;
-	private String chatTime;
+	private String shareTime;
 	private boolean isComeMsg;
 
 	public int getUserImage() {
@@ -18,11 +18,11 @@ public class ShareEntity {
 	public void setContent(String content) {
 		this.content = content;
 	}
-	public String getChatTime() {
-		return chatTime;
+	public String getShareTime() {
+		return shareTime;
 	}
-	public void setChatTime(String chatTime) {
-		this.chatTime = chatTime;
+	public void setShareTime(String chatTime) {
+		this.shareTime = chatTime;
 	}
 	public boolean isComeMsg() {
 		return isComeMsg;

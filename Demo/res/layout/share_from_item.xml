@@ -15,8 +15,8 @@
             android:paddingBottom="2dp"
             android:paddingLeft="4dp"
             android:paddingRight="4dp"
-            android:textColor="#ffffff"
-            android:textSize="12sp" />
+            android:textColor="#ff8d8d8d"
+            android:textSize="14sp" />
     
     <RelativeLayout
         android:layout_width="fill_parent"
@@ -44,8 +44,8 @@
             android:focusable="true"
             android:lineSpacingExtra="2dp"
             android:minHeight="50dp"
-            android:textColor="#ff000000"
-            android:textSize="14sp" />
+            android:textColor="#ff707070"
+            android:textSize="18sp" />
         
     </RelativeLayout>
     

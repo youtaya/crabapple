@@ -46,11 +46,11 @@ public class ShareTalkActivity extends Activity {
 			public void onClick(View v) {
 				String comment = share_comment.getText().toString();
 				if(comment.length() > 0) {
-					ShareEntity chatEntity = new ShareEntity();
-					chatEntity.setChatTime(TalkUtil.currentDate());
-					chatEntity.setContent(comment);
-					chatEntity.setComeMsg(false);
-			    	share_record.add(chatEntity);
+					ShareEntity shareEntity = new ShareEntity();
+					shareEntity.setShareTime(TalkUtil.currentDate());
+					shareEntity.setContent(comment);
+					shareEntity.setComeMsg(false);
+			    	share_record.add(shareEntity);
 			    	adapter.notifyDataSetChanged();
 			    	lv.setSelection(share_record.size() - 1);
 			    	share_comment.setText("");
@@ -65,7 +65,7 @@ public class ShareTalkActivity extends Activity {
             return;
         
         ShareEntity map = new ShareEntity();
-        map.setChatTime(create_time);
+        map.setShareTime(create_time);
         map.setContent(record_cache.getContent());
         map.setComeMsg(true);;
         share_record.add(map);
