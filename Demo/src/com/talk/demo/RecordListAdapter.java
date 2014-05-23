@@ -24,7 +24,7 @@ public class RecordListAdapter extends BaseAdapter {
         ImageButton share;
     }
     
-    private ArrayList<HashMap<String, Object>> mAppList;
+    private ArrayList<HashMap<String, Object>> mRecordList;
     private LayoutInflater mInflater;
     private Context mContext;
     private String[] keyString;
@@ -32,9 +32,9 @@ public class RecordListAdapter extends BaseAdapter {
     private ViewHolder holder;
     private RichPresent rp;
     
-    public RecordListAdapter(Context c, ArrayList<HashMap<String, Object>> appList, int resource,
+    public RecordListAdapter(Context c, ArrayList<HashMap<String, Object>> recordList, int resource,
             String[] from, int[] to) {
-        mAppList = appList;
+        mRecordList = recordList;
         mContext = c;
         mInflater = (LayoutInflater)mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         keyString = new String[from.length];
@@ -47,12 +47,12 @@ public class RecordListAdapter extends BaseAdapter {
     
     @Override
     public int getCount() {
-        return mAppList.size();
+        return mRecordList.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return mAppList.get(position);
+        return mRecordList.get(position);
     }
 
     @Override
@@ -61,7 +61,7 @@ public class RecordListAdapter extends BaseAdapter {
     }
 
     public void removeItem(int position){
-        mAppList.remove(position);
+        mRecordList.remove(position);
         this.notifyDataSetChanged();
     }
     
@@ -78,11 +78,11 @@ public class RecordListAdapter extends BaseAdapter {
             convertView.setTag(holder);
         }
         
-        HashMap<String, Object> appInfo = mAppList.get(position);
-        if (appInfo != null) {
-            String cTime = (String) appInfo.get(keyString[0]);
-            int buyIcon = (Integer)appInfo.get(keyString[1]);
-            int shareIcon = (Integer)appInfo.get(keyString[2]);
+        HashMap<String, Object> recordInfo = mRecordList.get(position);
+        if (recordInfo != null) {
+            String cTime = (String) recordInfo.get(keyString[0]);
+            int buyIcon = (Integer)recordInfo.get(keyString[1]);
+            int shareIcon = (Integer)recordInfo.get(keyString[2]);
             holder.create_time.setText(cTime);
             holder.buy.setImageDrawable(holder.buy.getResources().getDrawable(buyIcon));
             holder.buy.setOnClickListener(new lvButtonListener(position));
