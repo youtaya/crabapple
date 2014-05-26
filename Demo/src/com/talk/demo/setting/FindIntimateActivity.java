@@ -16,12 +16,13 @@ import com.talk.demo.util.NetworkUtilities;
 import org.json.JSONException;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class FindIntimateActivity extends Activity {
 	private static String TAG = "FindIntimateActivity";
-	List<String> friends;
-    ArrayAdapter<String> adapter;
+	ArrayList<HashMap<String, Object>> friends;
+    FindIntimateListAdapter adapter;
     ListView view;
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -37,28 +38,39 @@ public class FindIntimateActivity extends Activity {
             }
         });
         
-        friends = new ArrayList<String>();
+        friends = new ArrayList<HashMap<String, Object>>();
         new loadFriendList().execute();
     }
     
     public void initData() {
         
-        adapter= new ArrayAdapter<String>(this, R.layout.friend_find_listitem, R.id.friend_find_name, friends);
+        adapter= new FindIntimateListAdapter(this, friends, R.layout.friend_find_listitem,
+        		new String[]{"avatar", "friend_name", "selected"}, 
+                new int[]{R.id.friend_avatar, R.id.friend_find_name, R.id.decrator});
         view.setAdapter(adapter);
     }
     
 	private class loadFriendList extends AsyncTask<Void, Void, List<String>> {
+		private List<String> getFriendList;
 		protected List<String> doInBackground(Void... params) {
 			try {
-				friends = NetworkUtilities.syncFriends();
+				getFriendList = new ArrayList<String>();
+				getFriendList = NetworkUtilities.syncFriends();
 			} catch (JSONException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			return friends;
+			return getFriendList;
 		}
 
 		protected void onPostExecute(List<String> result) {
+			for(String name: getFriendList) {
+				HashMap<String, Object> map = new HashMap<String, Object>();
+				map.put("avatar", R.drawable.tab_main_nav_me_boy_off);
+				map.put("friend_name", name);
+				map.put("selected", R.drawable.new_selected);
+				friends.add(map);
+			}
 			initData();
 		}
 

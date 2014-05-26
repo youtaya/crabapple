@@ -10,6 +10,9 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.talk.demo.R;
+import com.talk.demo.persistence.DBManager;
+import com.talk.demo.persistence.FriendRecord;
+import com.talk.demo.persistence.TimeRecord;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,6 +22,9 @@ public class IntimateActivity extends Activity {
 	List<String> friends;
     ArrayAdapter<String> adapter;
     ListView view;
+    
+    private DBManager mgr;
+    private List<FriendRecord> frList;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,16 +38,14 @@ public class IntimateActivity extends Activity {
                 Log.d(TAG, "position : "+position+"id : "+id);
             }
         });
-        
+        mgr = new DBManager(this);
+        frList = new ArrayList<FriendRecord>();
         friends = new ArrayList<String>();
-        // for test
-        String r1 = "wanghaia";
-        friends.add(r1);
-        String r2 = "test1";
-        friends.add(r2);
-        String r3 = "test2";
-        friends.add(r3);
         
+        frList = mgr.queryFriend();
+        for (FriendRecord fr : frList) {
+        	friends.add(fr.getUserName());
+        }
         initData();
     }
     
