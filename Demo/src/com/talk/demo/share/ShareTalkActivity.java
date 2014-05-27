@@ -9,14 +9,14 @@ import android.widget.ImageView;
 import android.widget.ListView;
 
 import com.talk.demo.R;
-import com.talk.demo.persistence.RecordCache;
+import com.talk.demo.persistence.TalkCache;
 import com.talk.demo.util.TalkUtil;
 
 import java.util.ArrayList;
 
 public class ShareTalkActivity extends Activity {
     private String create_time;
-    private RecordCache record_cache;
+    private ArrayList<TalkCache> talk_cache;
     
     private ListView lv;
     private ShareListAdapter adapter;
@@ -33,7 +33,7 @@ public class ShareTalkActivity extends Activity {
         share_record = new ArrayList<ShareEntity>();
         Bundle bundle = getIntent().getExtras();
         create_time = bundle.getString("createtime");
-        record_cache = bundle.getParcelable("recordcache");
+        talk_cache = bundle.getParcelableArrayList("recordcache");
         
         lv = (ListView)findViewById(R.id.share_list);
         initListView();
@@ -64,11 +64,16 @@ public class ShareTalkActivity extends Activity {
         if(lv == null)
             return;
         
-        ShareEntity map = new ShareEntity();
-        map.setShareTime(create_time);
-        map.setContent(record_cache.getContent());
-        map.setComeMsg(true);;
-        share_record.add(map);
+        for(TalkCache tc : talk_cache) {
+	        ShareEntity map = new ShareEntity();
+	        map.setShareTime(tc.getCreateDate());
+	        map.setContent(tc.getContent());
+	        if(tc.getFrom().equals("bob"))
+	        	map.setComeMsg(true);
+	        else
+	        	map.setComeMsg(false);
+	        share_record.add(map);
+        }
         
         adapter = new ShareListAdapter(this,share_record);
         lv.setAdapter(adapter);

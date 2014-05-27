@@ -15,9 +15,11 @@ import android.widget.SimpleAdapter;
 
 import com.talk.demo.core.RecordManager;
 import com.talk.demo.persistence.RecordCache;
+import com.talk.demo.persistence.TalkCache;
 import com.talk.demo.share.ShareTalkActivity;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 public class TalkFragment extends Fragment implements OnItemClickListener {
@@ -25,14 +27,14 @@ public class TalkFragment extends Fragment implements OnItemClickListener {
     private static String TAG = "TalkFragment";
     private ListView lv;
     private ArrayList<Map<String, String>> time_record;
-    private ArrayList<RecordCache> record_cache;
+    private ArrayList<TalkCache> talk_cache;
     private SimpleAdapter adapter;
     private RecordManager recordManager;
     
     public TalkFragment(RecordManager recordMgr) {
         time_record = new ArrayList<Map<String, String>>();
         recordManager = recordMgr;
-        record_cache = new ArrayList<RecordCache>();
+        talk_cache = new ArrayList<TalkCache>();
     }
 
      
@@ -51,11 +53,52 @@ public class TalkFragment extends Fragment implements OnItemClickListener {
     public void onAttach(Activity activity) {
         super.onAttach(activity);
     }
+    
+    public ArrayList<Map<String, String>> test4test() {
+    	ArrayList<Map<String, String>> test = new ArrayList<Map<String, String>>();
+    	/*
+    	 <content
+    	 	time=20120514
+    	 	title=hello>
+    	 	<item
+    	 		from=bob
+    	 		to=alice>
+    	 		<time>20120514</time>
+    	 		<content>how are you</content>
+    	 	</item>
+    	 	<item
+    	 		from=alice
+    	 		to=bob>
+    	 		<time>20120515</time>
+    	 		<content>I am ok</content>
+			</item>
+    	 </content>
+    	 */
+    	HashMap<String,String> map = new HashMap<String, String>();
+    	map.put("create_time", "20120514");
+    	map.put("content", "hello");
+    	test.add(map);
+    	
+    	TalkCache tc1 = new TalkCache();
+    	tc1.setContent("how are you");
+    	tc1.setCreateDate("20120514");
+    	tc1.setFrom("bob");
+    	tc1.setTo("alice");
+    	talk_cache.add(tc1);
+    	TalkCache tc2 = new TalkCache();
+    	tc2.setContent("i am ok");
+    	tc2.setCreateDate("20120515");
+    	tc2.setFrom("alice");
+    	tc2.setTo("bob");
+    	talk_cache.add(tc2);
+    	return test;
+    }
 
     private void initListView() {
         if(lv == null)
             return;
-        time_record = recordManager.initDataListTalk(record_cache);
+        //time_record = recordManager.initDataListTalk(record_cache);
+        time_record = test4test();
         adapter = new SimpleAdapter(getActivity(),time_record, R.layout.talk_listitem,
                 new String[]{"content", "create_time"}, new int[]{R.id.content, R.id.create_time});
         lv.setAdapter(adapter);
@@ -71,7 +114,7 @@ public class TalkFragment extends Fragment implements OnItemClickListener {
         Intent mIntent = new Intent(getActivity(), ShareTalkActivity.class);
         Bundle mBundle = new Bundle();
         mBundle.putString("createtime", time_record.get(position).get("create_time"));
-        mBundle.putParcelable("recordcache", record_cache.get(position));
+        mBundle.putParcelableArrayList("recordcache", talk_cache);
         mIntent.putExtras(mBundle);
         startActivity(mIntent);
         
@@ -86,7 +129,7 @@ public class TalkFragment extends Fragment implements OnItemClickListener {
     public void onResume () {
         super.onResume();
         Log.d(TAG, "on Resume");
-        time_record = recordManager.initDataListTalk(record_cache);
+        //time_record = recordManager.initDataListTalk(talk_cache);
         adapter.notifyDataSetChanged();
 
     }
