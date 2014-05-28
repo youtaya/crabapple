@@ -14,9 +14,12 @@ import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
 import com.talk.demo.core.RecordManager;
-import com.talk.demo.persistence.RecordCache;
 import com.talk.demo.persistence.TalkCache;
+import com.talk.demo.share.OptJsonData;
 import com.talk.demo.share.ShareTalkActivity;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -30,6 +33,7 @@ public class TalkFragment extends Fragment implements OnItemClickListener {
     private ArrayList<TalkCache> talk_cache;
     private SimpleAdapter adapter;
     private RecordManager recordManager;
+    private OptJsonData ojd;
     
     public TalkFragment(RecordManager recordMgr) {
         time_record = new ArrayList<Map<String, String>>();
@@ -43,9 +47,11 @@ public class TalkFragment extends Fragment implements OnItemClickListener {
         View rootView = inflater.inflate(R.layout.fragment_talk, container, false);
         
         lv = (ListView)rootView.findViewById(R.id.talk_list);
-               
-        initListView();
+        ojd = new OptJsonData(this.getActivity().getApplicationContext());
         
+        initListView();
+        	
+        ojd.saveLocalFile(fakeJsonData());
         return rootView;
     }
     
@@ -54,45 +60,68 @@ public class TalkFragment extends Fragment implements OnItemClickListener {
         super.onAttach(activity);
     }
     
+    public String fakeJsonData() {
+        try { 
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("content", "hello");
+            jsonObject.put("create_time", "20120514");
+            
+            JSONArray array = new JSONArray(); 
+            for (int i = 0; i < 2; i++) { 
+                JSONObject talk = new JSONObject(); 
+                if(i == 0) {
+	                talk.put("from", "alice"); 
+	                talk.put("to", "bob"); 
+	                talk.put("content", "hello"); 
+	                talk.put("time", "20120514"); 
+                }
+                
+                if (i == 1) {
+	                talk.put("from", "bob"); 
+	                talk.put("to", "alice"); 
+	                talk.put("content", "i'm ok"); 
+	                talk.put("time", "20120515");        	
+                }
+                array.put(talk); 
+            } 
+            jsonObject.put("talk", array); 
+            Log.d(TAG, jsonObject.toString()); 
+            return jsonObject.toString(); 
+        } catch (Exception e) { 
+            // TODO Auto-generated catch block 
+            e.printStackTrace(); 
+        } 
+        return "";
+    }
+    
+
     public ArrayList<Map<String, String>> test4test() {
     	ArrayList<Map<String, String>> test = new ArrayList<Map<String, String>>();
-    	/*
-    	 <content
-    	 	time=20120514
-    	 	title=hello>
-    	 	<item
-    	 		from=bob
-    	 		to=alice>
-    	 		<time>20120514</time>
-    	 		<content>how are you</content>
-    	 	</item>
-    	 	<item
-    	 		from=alice
-    	 		to=bob>
-    	 		<time>20120515</time>
-    	 		<content>I am ok</content>
-			</item>
-    	 </content>
-    	 */
-    	HashMap<String,String> map = new HashMap<String, String>();
-    	map.put("create_time", "20120514");
-    	map.put("content", "hello");
-    	test.add(map);
-    	
-    	TalkCache tc1 = new TalkCache();
-    	tc1.setContent("how are you");
-    	tc1.setCreateDate("20120514");
-    	tc1.setFrom("bob");
-    	tc1.setTo("alice");
-    	talk_cache.add(tc1);
-    	TalkCache tc2 = new TalkCache();
-    	tc2.setContent("i am ok");
-    	tc2.setCreateDate("20120515");
-    	tc2.setFrom("alice");
-    	tc2.setTo("bob");
-    	talk_cache.add(tc2);
+
+    	try {
+    		JSONObject jsonObject = new JSONObject(ojd.readLocalFile("test"));
+        	HashMap<String,String> map = new HashMap<String, String>();
+        	map.put("create_time", jsonObject.getString("create_time"));
+        	map.put("content", jsonObject.getString("content"));
+        	test.add(map);
+        	JSONArray talkArray = jsonObject.getJSONArray("talk");
+        	for(int i = 0; i < talkArray.length(); i++) {
+        		JSONObject talkObject = talkArray.getJSONObject(i);
+	        	TalkCache tc = new TalkCache();
+	        	tc.setContent(talkObject.getString("content"));
+	        	tc.setCreateDate(talkObject.getString("time"));
+	        	tc.setFrom(talkObject.getString("from"));
+	        	tc.setTo(talkObject.getString("to"));
+	        	talk_cache.add(tc);
+        	}
+    	} catch(Exception e) {
+    		e.printStackTrace();
+    	}
+
     	return test;
     }
+    
+
 
     private void initListView() {
         if(lv == null)
@@ -129,9 +158,8 @@ public class TalkFragment extends Fragment implements OnItemClickListener {
     public void onResume () {
         super.onResume();
         Log.d(TAG, "on Resume");
-        //time_record = recordManager.initDataListTalk(talk_cache);
+        time_record = test4test();
         adapter.notifyDataSetChanged();
-
     }
 
 }

@@ -1,7 +1,9 @@
 package com.talk.demo.share;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.EditText;
@@ -12,12 +14,19 @@ import com.talk.demo.R;
 import com.talk.demo.persistence.TalkCache;
 import com.talk.demo.util.TalkUtil;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class ShareTalkActivity extends Activity {
+	private static String TAG = "ShareTalkActivity";
     private String create_time;
     private ArrayList<TalkCache> talk_cache;
-    
+    private OptJsonData ojd;
     private ListView lv;
     private ShareListAdapter adapter;
     private ArrayList<ShareEntity> share_record;
@@ -34,7 +43,7 @@ public class ShareTalkActivity extends Activity {
         Bundle bundle = getIntent().getExtras();
         create_time = bundle.getString("createtime");
         talk_cache = bundle.getParcelableArrayList("recordcache");
-        
+        ojd = new OptJsonData(this.getApplicationContext());
         lv = (ListView)findViewById(R.id.share_list);
         initListView();
         
@@ -51,6 +60,12 @@ public class ShareTalkActivity extends Activity {
 					shareEntity.setContent(comment);
 					shareEntity.setComeMsg(false);
 			    	share_record.add(shareEntity);
+			    	/*
+			    	 *  load json data from file
+			    	 *  add new talk item
+			    	 *  save new json data
+			    	 */
+			    	ojd.appendJsonData(shareEntity);
 			    	adapter.notifyDataSetChanged();
 			    	lv.setSelection(share_record.size() - 1);
 			    	share_comment.setText("");
@@ -59,6 +74,8 @@ public class ShareTalkActivity extends Activity {
         	
         });
     }
+    
+
     
     private void initListView() {
         if(lv == null)
