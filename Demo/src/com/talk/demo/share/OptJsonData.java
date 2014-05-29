@@ -34,7 +34,7 @@ public class OptJsonData {
     	}
     }
     
-    public String appendJsonData(String dataJson, ShareEntity shareEntity) {
+    public String internalAppendData(String dataJson, ShareEntity shareEntity) {
      	try {
     		JSONObject jsonObject = new JSONObject(dataJson);
    
@@ -76,7 +76,7 @@ public class OptJsonData {
     }
     
     public void appendJsonData(ShareEntity shareEntity) {
-    	saveLocalFile(appendJsonData(readLocalFile("test"), shareEntity));
+    	saveLocalFile(internalAppendData(readLocalFile("test"), shareEntity));
     }
     
     public void dumpJsonData(String data) {

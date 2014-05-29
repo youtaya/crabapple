@@ -27,7 +27,11 @@ import com.talk.demo.setting.FindIntimateActivity;
 import com.talk.demo.setting.IntimateActivity;
 import com.talk.demo.setting.PreviewActivity;
 import com.talk.demo.setting.UserActivity;
+import com.talk.demo.share.OptJsonData;
 import com.talk.demo.util.TalkUtil;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -69,7 +73,8 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
      * The {@link ViewPager} that will host the section contents.
      */
     ViewPager mViewPager;
-
+    
+    private OptJsonData ojd;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -137,7 +142,12 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
             Editor editor = sp.edit();
             editor.putBoolean("test", false);
             editor.commit();
+            
+            //talk fake data
+            ojd = new OptJsonData(this.getApplicationContext());
+            ojd.saveLocalFile(fakeJsonData());
         }
+        
         
         fragmentList = new ArrayList<Fragment>();
         //add guide fragment
@@ -188,6 +198,39 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         return super.onPrepareOptionsMenu(menu);
     }
     
+    public String fakeJsonData() {
+        try { 
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("content", "hello");
+            jsonObject.put("create_time", "20120514");
+            
+            JSONArray array = new JSONArray(); 
+            for (int i = 0; i < 2; i++) { 
+                JSONObject talk = new JSONObject(); 
+                if(i == 0) {
+	                talk.put("from", "alice"); 
+	                talk.put("to", "bob"); 
+	                talk.put("content", "hello"); 
+	                talk.put("time", "20120514"); 
+                }
+                
+                if (i == 1) {
+	                talk.put("from", "bob"); 
+	                talk.put("to", "alice"); 
+	                talk.put("content", "i'm ok"); 
+	                talk.put("time", "20120515");        	
+                }
+                array.put(talk); 
+            } 
+            jsonObject.put("talk", array); 
+            Log.d(TAG, jsonObject.toString()); 
+            return jsonObject.toString(); 
+        } catch (Exception e) { 
+            // TODO Auto-generated catch block 
+            e.printStackTrace(); 
+        } 
+        return "";
+    }   
     // fake hardware menu
     private void getOverflowMenu() {
         try {

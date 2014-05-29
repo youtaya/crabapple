@@ -51,7 +51,7 @@ public class TalkFragment extends Fragment implements OnItemClickListener {
         
         initListView();
         	
-        ojd.saveLocalFile(fakeJsonData());
+
         return rootView;
     }
     
@@ -60,44 +60,17 @@ public class TalkFragment extends Fragment implements OnItemClickListener {
         super.onAttach(activity);
     }
     
-    public String fakeJsonData() {
-        try { 
-            JSONObject jsonObject = new JSONObject();
-            jsonObject.put("content", "hello");
-            jsonObject.put("create_time", "20120514");
-            
-            JSONArray array = new JSONArray(); 
-            for (int i = 0; i < 2; i++) { 
-                JSONObject talk = new JSONObject(); 
-                if(i == 0) {
-	                talk.put("from", "alice"); 
-	                talk.put("to", "bob"); 
-	                talk.put("content", "hello"); 
-	                talk.put("time", "20120514"); 
-                }
-                
-                if (i == 1) {
-	                talk.put("from", "bob"); 
-	                talk.put("to", "alice"); 
-	                talk.put("content", "i'm ok"); 
-	                talk.put("time", "20120515");        	
-                }
-                array.put(talk); 
-            } 
-            jsonObject.put("talk", array); 
-            Log.d(TAG, jsonObject.toString()); 
-            return jsonObject.toString(); 
-        } catch (Exception e) { 
-            // TODO Auto-generated catch block 
-            e.printStackTrace(); 
-        } 
-        return "";
-    }
-    
+    public ArrayList<Map<String, String>> test4test(ArrayList<Map<String, String>> test) {
+    	//ArrayList<Map<String, String>> test = new ArrayList<Map<String, String>>();
 
-    public ArrayList<Map<String, String>> test4test() {
-    	ArrayList<Map<String, String>> test = new ArrayList<Map<String, String>>();
-
+    	if(!test.isEmpty()) {
+    		test.clear();
+    	}
+    	
+    	if(!talk_cache.isEmpty()) {
+    		talk_cache.clear();
+    	}
+    	
     	try {
     		JSONObject jsonObject = new JSONObject(ojd.readLocalFile("test"));
         	HashMap<String,String> map = new HashMap<String, String>();
@@ -127,7 +100,7 @@ public class TalkFragment extends Fragment implements OnItemClickListener {
         if(lv == null)
             return;
         //time_record = recordManager.initDataListTalk(record_cache);
-        time_record = test4test();
+        test4test(time_record);
         adapter = new SimpleAdapter(getActivity(),time_record, R.layout.talk_listitem,
                 new String[]{"content", "create_time"}, new int[]{R.id.content, R.id.create_time});
         lv.setAdapter(adapter);
@@ -158,8 +131,8 @@ public class TalkFragment extends Fragment implements OnItemClickListener {
     public void onResume () {
         super.onResume();
         Log.d(TAG, "on Resume");
-        time_record = test4test();
-        adapter.notifyDataSetChanged();
+     
+        initListView();
     }
 
 }
