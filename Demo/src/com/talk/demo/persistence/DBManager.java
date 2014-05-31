@@ -36,6 +36,7 @@ public class DBManager {
                 new Object[]{
         			tr.server_id,
                     tr.userName, 
+                    tr.link,
                     tr.title, 
                     tr.content, 
                     tr.calc_date, 
@@ -43,7 +44,6 @@ public class DBManager {
                     tr.content_type,
                     tr.photo,
                     tr.audio,
-                    tr.status,
                     tr.sync_time,
                     isDirty?tr.dirty:0,
                     tr.deleted});

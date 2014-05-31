@@ -14,10 +14,10 @@ public class TimeRecord {
     public int content_type;
     
     public String userName;
+    public String link;
     public String title = "time";
     public String photo;
     public String audio;
-    public String status;
     public long sync_time;
  	/*
  	 * deleted flag :
@@ -64,6 +64,13 @@ public class TimeRecord {
         calc_date = date;
         create_time = handledTime();
     }
+    
+    public TimeRecord(String v1, Date date) {
+        content = v1;
+        calc_date = handledDate(date);
+        create_time = handledTime(date);
+    }
+    
     public void setContent(String v) {
     	content = v;
     }
@@ -72,14 +79,22 @@ public class TimeRecord {
     }
     
     public String handledDate() {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd"); 
         Date date = new Date();
+        return handledDate(date);
+    }
+    
+    public String handledDate(Date date) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd"); 
         return dateFormat.format(date);
     }
     
     public String handledTime() {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss:SSSS"); 
         Date date = new Date();
+        return handledTime(date);
+    }
+    
+    public String handledTime(Date date) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss:SSSS"); 
         return dateFormat.format(date);
     }
 

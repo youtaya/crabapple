@@ -81,6 +81,7 @@ public class SyncCompaign {
     
     private static RawRecord getRawRecord(DBManager db, int clientId) {
         String name = null;
+        String link = null;
         String title = null;
         String content = null;
         String createDate = null;
@@ -88,7 +89,6 @@ public class SyncCompaign {
         int contentType = 0;
         String photo = null;
         String audio = null;
-        String status = null;
         long serverRecordId = -1;;
         long rawRecordId = -1;
         long syncState = -1;
@@ -105,13 +105,13 @@ public class SyncCompaign {
         contentType = tr.content_type;
         photo = tr.photo;
         audio = tr.audio;
-        status = tr.status;
+        link = tr.link;
         serverRecordId = tr.server_id;
         rawRecordId = tr._id;
         
-        RawRecord rr = RawRecord.create(name, title, content, 
+        RawRecord rr = RawRecord.create(name, link, title, content, 
                 createDate, createTime, contentType, photo, 
-                audio, status, deleted, serverRecordId, 
+                audio, deleted, serverRecordId, 
                 rawRecordId, syncState, dirty);
         return rr;
     }

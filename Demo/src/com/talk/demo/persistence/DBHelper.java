@@ -31,6 +31,7 @@ public class DBHelper extends SQLiteOpenHelper {
                 + " (id INTEGER PRIMARY KEY AUTOINCREMENT,"
                 + " server_id INTEGER,"
                 + " username TEXT,"
+                + " link TEXT,"
                 + " title TEXT default '',"
                 + " content TEXT default '',"
                 + " calc_date TEXT,"
@@ -38,7 +39,6 @@ public class DBHelper extends SQLiteOpenHelper {
                 + " content_type INTEGER default 0,"
                 + " photo TEXT default '',"
                 + " audio TEXT default '',"
-                + " status TEXT default '',"
                 + " sync_time INTEGER,"
                 + " dirty INTEGER,"
                 + " deleted INTEGER);");

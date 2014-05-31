@@ -74,8 +74,8 @@ public class DailyEditActivity extends Activity {
     
     private String shareToFriend(TimeRecord time, String name) {
         String result = "ok";
-    	RawRecord raw = RawRecord.create("jinxp", "test", time.content, time.calc_date, time.create_time,
-    			time.content_type, null, null, null, false, 11, 12, -1, true);
+    	RawRecord raw = RawRecord.create("jinxp", "abc", "test", time.content, time.calc_date, time.create_time,
+    			time.content_type, null, null, false, 11, 12, -1, true);
         try {
             NetworkUtilities.shareRecord(raw, name);
         } catch (ParseException e) {
