@@ -6,18 +6,30 @@
     <ScrollView
         android:id="@+id/scrollView1"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="226dp"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:background="@color/yellow" >
 
         <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="226dp"
 			android:focusable="true"  
 			android:focusableInTouchMode="true"
             android:orientation="vertical" >
-
+            <ImageView
+                android:id="@+id/content_bg"
+                android:layout_width="match_parent"
+                android:layout_height="226dp"
+                android:src="@drawable/splash_load"
+                android:scaleType="fitXY" />
+            <ImageView
+                android:id="@+id/content_bg_dec"
+                android:layout_width="match_parent"
+                android:layout_height="226dp"
+                android:src="@drawable/no_artwork"
+                android:alpha="0.8"
+                android:scaleType="fitXY" />            
             <EditText
                 android:id="@+id/edit_content"
                 android:layout_width="match_parent"
