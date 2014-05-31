@@ -10,11 +10,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ListView;
-import android.widget.SimpleAdapter;
 
+import com.afollestad.cardsui.Card;
+import com.afollestad.cardsui.CardAdapter;
+import com.afollestad.cardsui.CardBase;
+import com.afollestad.cardsui.CardHeader;
+import com.afollestad.cardsui.CardListView;
+import com.afollestad.cardsui.CardListView.CardClickListener;
 import com.talk.demo.core.RecordManager;
 import com.talk.demo.persistence.RecordCache;
 import com.talk.demo.time.TimeAllItem;
@@ -23,13 +25,13 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Map;
 
-public class TimeFragment extends Fragment implements OnItemClickListener {
+public class TimeFragment extends Fragment {
     
     private static String TAG = "TimeFragment";
-    private ListView lv;
+    private CardListView cardLv;
     private ArrayList<Map<String, String>> time_record;
     private ArrayList<RecordCache> record_cache;
-    private SimpleAdapter adapter;
+    private CardAdapter<Card> cardAdapter;
     private RecordManager recordManager;
     
     public TimeFragment(RecordManager recordMgr) {
@@ -43,7 +45,7 @@ public class TimeFragment extends Fragment implements OnItemClickListener {
             Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_time, container, false);
         
-        lv = (ListView)rootView.findViewById(R.id.time_list);
+        cardLv = (CardListView)rootView.findViewById(R.id.time_list);
                
         initListView();
         
@@ -82,28 +84,38 @@ public class TimeFragment extends Fragment implements OnItemClickListener {
     }
  
     private void initListView() {
-        if(lv == null)
+        if(cardLv == null)
             return;
         time_record = recordManager.initDataListTime(record_cache, isLuckDay());
-        adapter = new SimpleAdapter(getActivity(),time_record, R.layout.record_listitem,
-                new String[]{"content", "create_time"}, new int[]{R.id.content, R.id.create_time});
-        lv.setAdapter(adapter);
-        lv.setOnItemClickListener(this);
+        
+    	// This sets the color displayed for card titles and header actions by default
+        cardAdapter = new CardAdapter<Card>(this.getActivity().getApplicationContext(),android.R.color.holo_blue_dark);
+
+        // Add a basic header and cards below it
+        for(Map<String,String> map : time_record) {
+        	cardAdapter.add(new CardHeader(map.get("create_time")));
+        	cardAdapter.add(new Card(map.get("content"), map.get("create_time")));
+        }
+        cardLv.setAdapter(cardAdapter);
+        cardLv.setOnCardClickListener(new CardClickListener() {
+
+			@Override
+			public void onCardClick(int index, CardBase card, View view) {
+				Log.d(TAG, "index: "+index+" card title: "+card.getTitle()+" card content: "+card.getContent());
+		        Intent mIntent = new Intent(getActivity(), TimeAllItem.class);
+		        Bundle mBundle = new Bundle();
+		        int position = index - 1;
+		        mBundle.putString("createdate", time_record.get(position).get("calc_date"));
+		        mBundle.putString("createtime", time_record.get(position).get("create_time"));
+		        mBundle.putParcelableArrayList("recordcache", record_cache);
+		        mIntent.putExtras(mBundle);
+		        startActivity(mIntent);				
+			}
+        	
+        });
+
     }
     
-    @Override
-    public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-        
-        Intent mIntent = new Intent(getActivity(), TimeAllItem.class);
-        Bundle mBundle = new Bundle();
-        mBundle.putString("createdate", time_record.get(position).get("calc_date"));
-        mBundle.putString("createtime", time_record.get(position).get("create_time"));
-        mBundle.putParcelableArrayList("recordcache", record_cache);
-        mIntent.putExtras(mBundle);
-        startActivity(mIntent);
-        
-        
-    } 
     @Override
     public void onPause() {
     	super.onPause();
@@ -114,7 +126,7 @@ public class TimeFragment extends Fragment implements OnItemClickListener {
         super.onResume();
         Log.d(TAG, "on Resume");
         time_record = recordManager.initDataListTime(record_cache, isLuckDay());
-        adapter.notifyDataSetChanged();
+        cardAdapter.notifyDataSetChanged();
 
     }
 
