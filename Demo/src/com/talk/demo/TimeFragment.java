@@ -104,7 +104,8 @@ public class TimeFragment extends Fragment {
 				Log.d(TAG, "index: "+index+" card title: "+card.getTitle()+" card content: "+card.getContent());
 		        Intent mIntent = new Intent(getActivity(), TimeAllItem.class);
 		        Bundle mBundle = new Bundle();
-		        int position = index - 1;
+		        //1,3,5,7 ==> 0,1,2,3
+		        int position = (index - 1)/2;
 		        mBundle.putString("createdate", time_record.get(position).get("calc_date"));
 		        mBundle.putString("createtime", time_record.get(position).get("create_time"));
 		        mBundle.putParcelableArrayList("recordcache", record_cache);
