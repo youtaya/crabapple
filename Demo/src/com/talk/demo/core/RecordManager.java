@@ -63,7 +63,44 @@ public class RecordManager {
 	}
 
 	public ArrayList<Map<String, String>> initDataListTalk(ArrayList<RecordCache> record_cache) {
-		return initDataListTime(record_cache, true);
+		ArrayList<Map<String, String>> time_record = new ArrayList<Map<String, String>>();
+		if (!trlist.isEmpty()) {
+			trlist.clear();
+		}
+		Log.d(TAG, "init data list");
+
+		trlist = dbMgr.queryFromOthers("jinxp");
+
+		if (!time_record.isEmpty()) {
+			time_record.clear();
+		}
+		
+		if(!record_cache.isEmpty()) {
+			record_cache.clear();
+		}
+
+		for (TimeRecord tr : trlist) {
+			HashMap<String, String> map = new HashMap<String, String>();
+			RecordCache rc = new RecordCache();
+			if (tr.content_type == TalkUtil.MEDIA_TYPE_PHOTO)
+				map.put("content", "惊鸿一瞥");
+			else if (tr.content_type == TalkUtil.MEDIA_TYPE_AUDIO)
+				map.put("content", "口若兰花");
+			else
+				map.put("content", tr.content);
+
+			rc.setId(tr._id);
+			rc.setContent(tr.content);
+			map.put("calc_date", tr.calc_date);
+			rc.setCreateDate(tr.calc_date);
+			map.put("create_time", tr.create_time);
+			rc.setCreateTime(tr.create_time);
+			rc.setMediaType(tr.content_type);
+			record_cache.add(rc);
+			time_record.add(map);
+		}
+
+		return time_record;
 	}
 
 	public ArrayList<Map<String, String>> initDataListTime(ArrayList<RecordCache> record_cache, boolean isLuckDay) {

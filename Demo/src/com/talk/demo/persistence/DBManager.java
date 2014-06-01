@@ -185,6 +185,19 @@ public class DBManager {
         }  
         c.close();  
         return trList;  
+    }
+    
+    public List<TimeRecord> queryFromOthers(String param) {  
+        ArrayList<TimeRecord> trList = new ArrayList<TimeRecord>();  
+        Cursor c = queryCursorFromOthers(param);  
+        
+        while (c.moveToNext()) {  
+            TimeRecord tr = new TimeRecord();  
+            dumpRecord(tr, c);
+            trList.add(tr);  
+        }  
+        c.close();  
+        return trList;  
     }   
     
     public TimeRecord queryTheParam(int param) {  
@@ -247,7 +260,14 @@ public class DBManager {
                 +" WHERE calc_date=?"
         		+" ORDER BY calc_date DESC, create_time DESC", new String[]{param,});  
         return c;  
-    }  
+    }
+    
+    public Cursor queryCursorFromOthers(String param) {  
+        Cursor c = db.rawQuery("SELECT * FROM "+DATABASE_TABLE
+                +" WHERE link!=?"
+        		+" ORDER BY calc_date DESC, create_time DESC", new String[]{param,});  
+        return c;  
+    }
     
     public Cursor queryCursorWithId(int param) {  
         Cursor c = db.rawQuery("SELECT * FROM "+DATABASE_TABLE

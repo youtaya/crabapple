@@ -71,6 +71,9 @@ public class TimeRecord {
         create_time = handledTime(date);
     }
     
+    public void setLink(String v) {
+    	link = v;
+    }
     public void setContent(String v) {
     	content = v;
     }
