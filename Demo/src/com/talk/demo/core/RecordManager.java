@@ -103,8 +103,8 @@ public class RecordManager {
 		return time_record;
 	}
 
-	public ArrayList<Map<String, String>> initDataListTime(ArrayList<RecordCache> record_cache, boolean isLuckDay) {
-		ArrayList<Map<String, String>> time_record = new ArrayList<Map<String, String>>();
+	public ArrayList<Map<String, Object>> initDataListTime(ArrayList<RecordCache> record_cache, boolean isLuckDay) {
+		ArrayList<Map<String, Object>> time_record = new ArrayList<Map<String, Object>>();
 		if (!trlist.isEmpty()) {
 			trlist.clear();
 		}
@@ -123,25 +123,57 @@ public class RecordManager {
 			record_cache.clear();
 		}
 
-		for (TimeRecord tr : trlist) {
-			HashMap<String, String> map = new HashMap<String, String>();
+		for (int i = 0; i< trlist.size(); i += 2) {
+			HashMap<String, Object> map = new HashMap<String, Object>();
 			RecordCache rc = new RecordCache();
+			TimeRecord tr = trlist.get(i);
+			TimeRecord tr2 = trlist.get(i+1);
+			
+			String lf_content;
 			if (tr.content_type == TalkUtil.MEDIA_TYPE_PHOTO)
-				map.put("content", "惊鸿一瞥");
+				lf_content = "惊鸿一瞥";
 			else if (tr.content_type == TalkUtil.MEDIA_TYPE_AUDIO)
-				map.put("content", "口若兰花");
+				lf_content = "口若兰花";
 			else
-				map.put("content", tr.content);
+				lf_content = tr.content;
 
 			rc.setId(tr._id);
 			rc.setContent(tr.content);
 			map.put("calc_date", tr.calc_date);
 			rc.setCreateDate(tr.calc_date);
-			map.put("create_time", tr.create_time);
+			map.put("lf_content", lf_content);
+			map.put("lf_create_time", tr.create_time);
 			rc.setCreateTime(tr.create_time);
 			rc.setMediaType(tr.content_type);
+
 			record_cache.add(rc);
-			time_record.add(map);
+			
+			if(null != tr2) {
+				RecordCache rc2 = new RecordCache();
+				
+				String content;
+				if (tr2.content_type == TalkUtil.MEDIA_TYPE_PHOTO)
+					content = "惊鸿一瞥";
+				else if (tr2.content_type == TalkUtil.MEDIA_TYPE_AUDIO)
+					content = "口若兰花";
+				else
+					content = tr2.content;
+
+				rc2.setId(tr2._id);
+				rc2.setContent(tr2.content);
+				map.put("calc_date", tr2.calc_date);
+				rc2.setCreateDate(tr2.calc_date);
+				map.put("content", content);
+				map.put("create_time", tr2.create_time);
+				rc2.setCreateTime(tr2.create_time);
+				rc2.setMediaType(tr2.content_type);
+
+				record_cache.add(rc2);
+				time_record.add(map);
+			} else {
+				time_record.add(map);
+				break;
+			}
 		}
 
 		return time_record;

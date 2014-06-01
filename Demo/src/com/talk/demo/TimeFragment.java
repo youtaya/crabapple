@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 
 import com.afollestad.cardsui.Card;
 import com.afollestad.cardsui.CardAdapter;
@@ -28,14 +29,14 @@ import java.util.Map;
 public class TimeFragment extends Fragment {
     
     private static String TAG = "TimeFragment";
-    private CardListView cardLv;
-    private ArrayList<Map<String, String>> time_record;
+    private ListView lv;
+    private ArrayList<Map<String, Object>> time_record;
     private ArrayList<RecordCache> record_cache;
-    private CardAdapter<Card> cardAdapter;
+    private TimeListAdapter tAdapter;
     private RecordManager recordManager;
     
     public TimeFragment(RecordManager recordMgr) {
-        time_record = new ArrayList<Map<String, String>>();
+        time_record = new ArrayList<Map<String, Object>>();
         record_cache = new ArrayList<RecordCache>();
         recordManager = recordMgr;
     }
@@ -45,7 +46,7 @@ public class TimeFragment extends Fragment {
             Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_time, container, false);
         
-        cardLv = (CardListView)rootView.findViewById(R.id.time_list);
+        lv = (ListView)rootView.findViewById(R.id.time_list);
                
         initListView();
         
@@ -84,20 +85,16 @@ public class TimeFragment extends Fragment {
     }
  
     private void initListView() {
-        if(cardLv == null)
+        if(lv == null)
             return;
         time_record = recordManager.initDataListTime(record_cache, isLuckDay());
         
     	// This sets the color displayed for card titles and header actions by default
-        cardAdapter = new CardAdapter<Card>(this.getActivity().getApplicationContext(),android.R.color.holo_blue_dark);
+        tAdapter = new TimeListAdapter(this.getActivity().getApplicationContext(),time_record);
 
-        // Add a basic header and cards below it
-        for(Map<String,String> map : time_record) {
-        	cardAdapter.add(new CardHeader(map.get("create_time")));
-        	cardAdapter.add(new Card(map.get("content"), map.get("create_time")));
-        }
-        cardLv.setAdapter(cardAdapter);
-        cardLv.setOnCardClickListener(new CardClickListener() {
+        lv.setAdapter(tAdapter);
+        /*
+        lv.setOnCardClickListener(new CardClickListener() {
 
 			@Override
 			public void onCardClick(int index, CardBase card, View view) {
@@ -114,6 +111,7 @@ public class TimeFragment extends Fragment {
 			}
         	
         });
+        */
 
     }
     
@@ -127,7 +125,7 @@ public class TimeFragment extends Fragment {
         super.onResume();
         Log.d(TAG, "on Resume");
         time_record = recordManager.initDataListTime(record_cache, isLuckDay());
-        cardAdapter.notifyDataSetChanged();
+        tAdapter.notifyDataSetChanged();
 
     }
 

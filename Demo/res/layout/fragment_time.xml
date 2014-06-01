@@ -10,7 +10,7 @@
         android:layout_height="0dp"
         android:background="@color/beige" >
         
-        <com.afollestad.cardsui.CardListView
+        <ListView
             android:id="@+id/time_list"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent" />
