@@ -127,7 +127,8 @@ public class RecordManager {
 			HashMap<String, Object> map = new HashMap<String, Object>();
 			RecordCache rc = new RecordCache();
 			TimeRecord tr = trlist.get(i);
-			TimeRecord tr2 = trlist.get(i+1);
+			TimeRecord tr2 = null;
+
 			
 			String lf_content;
 			if (tr.content_type == TalkUtil.MEDIA_TYPE_PHOTO)
@@ -139,7 +140,7 @@ public class RecordManager {
 
 			rc.setId(tr._id);
 			rc.setContent(tr.content);
-			map.put("calc_date", tr.calc_date);
+			map.put("lf_calc_date", tr.calc_date);
 			rc.setCreateDate(tr.calc_date);
 			map.put("lf_content", lf_content);
 			map.put("lf_create_time", tr.create_time);
@@ -148,7 +149,8 @@ public class RecordManager {
 
 			record_cache.add(rc);
 			
-			if(null != tr2) {
+			if(i+1 < trlist.size()) {
+				tr2 = trlist.get(i+1);
 				RecordCache rc2 = new RecordCache();
 				
 				String content;
@@ -174,6 +176,7 @@ public class RecordManager {
 				time_record.add(map);
 				break;
 			}
+
 		}
 
 		return time_record;

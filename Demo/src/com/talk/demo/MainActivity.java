@@ -150,8 +150,10 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
             editor.commit();
             
             //talk fake data
+            /*
             ojd = new OptJsonData(this.getApplicationContext());
             ojd.saveLocalFile(fakeJsonData());
+            */
         }
         
         

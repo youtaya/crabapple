@@ -2,7 +2,6 @@ package com.talk.demo;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -12,15 +11,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
-import com.afollestad.cardsui.Card;
-import com.afollestad.cardsui.CardAdapter;
-import com.afollestad.cardsui.CardBase;
-import com.afollestad.cardsui.CardHeader;
-import com.afollestad.cardsui.CardListView;
-import com.afollestad.cardsui.CardListView.CardClickListener;
 import com.talk.demo.core.RecordManager;
 import com.talk.demo.persistence.RecordCache;
-import com.talk.demo.time.TimeAllItem;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -90,28 +82,9 @@ public class TimeFragment extends Fragment {
         time_record = recordManager.initDataListTime(record_cache, isLuckDay());
         
     	// This sets the color displayed for card titles and header actions by default
-        tAdapter = new TimeListAdapter(this.getActivity().getApplicationContext(),time_record);
+        tAdapter = new TimeListAdapter(this.getActivity(),time_record, record_cache);
 
         lv.setAdapter(tAdapter);
-        /*
-        lv.setOnCardClickListener(new CardClickListener() {
-
-			@Override
-			public void onCardClick(int index, CardBase card, View view) {
-				Log.d(TAG, "index: "+index+" card title: "+card.getTitle()+" card content: "+card.getContent());
-		        Intent mIntent = new Intent(getActivity(), TimeAllItem.class);
-		        Bundle mBundle = new Bundle();
-		        //1,3,5,7 ==> 0,1,2,3
-		        int position = (index - 1)/2;
-		        mBundle.putString("createdate", time_record.get(position).get("calc_date"));
-		        mBundle.putString("createtime", time_record.get(position).get("create_time"));
-		        mBundle.putParcelableArrayList("recordcache", record_cache);
-		        mIntent.putExtras(mBundle);
-		        startActivity(mIntent);				
-			}
-        	
-        });
-        */
 
     }
     
