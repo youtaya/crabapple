@@ -10,7 +10,9 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.talk.demo.R;
+import com.talk.demo.persistence.DBManager;
 import com.talk.demo.persistence.RecordCache;
+import com.talk.demo.persistence.TimeRecord;
 import com.talk.demo.util.TalkUtil;
 
 import java.util.ArrayList;
@@ -25,8 +27,10 @@ public class ShareTalkActivity extends Activity {
     private TextView link_tv;
     private TextView time_tv;
     private TextView tv;
-    private ShareListAdapter adapter;
-    private ArrayList<ShareEntity> share_record;
+    
+    private DBManager mgr;
+    //private ShareListAdapter adapter;
+    //private ArrayList<ShareEntity> share_record;
     
     private EditText share_comment;
     private ImageView share_save;
@@ -36,7 +40,7 @@ public class ShareTalkActivity extends Activity {
         
         setContentView(R.layout.activity_share_talk);
         
-        share_record = new ArrayList<ShareEntity>();
+        //share_record = new ArrayList<ShareEntity>();
         Bundle bundle = getIntent().getExtras();
         create_time = bundle.getString("createtime");
         link_name = bundle.getString("link");
@@ -50,6 +54,7 @@ public class ShareTalkActivity extends Activity {
         time_tv.setText(create_time);
         tv = (TextView)findViewById(R.id.share_content);
         tv.setText(talk_cache.getContent());
+        mgr = new DBManager(this);
         
         share_comment = (EditText)findViewById(R.id.share_comment);
         share_save = (ImageView)findViewById(R.id.share_send);
@@ -59,19 +64,25 @@ public class ShareTalkActivity extends Activity {
 			public void onClick(View v) {
 				String comment = share_comment.getText().toString();
 				if(comment.length() > 0) {
+					/*
 					ShareEntity shareEntity = new ShareEntity();
 					shareEntity.setShareTime(TalkUtil.currentDate());
 					shareEntity.setContent(comment);
 					shareEntity.setComeMsg(false);
 			    	share_record.add(shareEntity);
+			    	*/
 			    	/*
 			    	 *  load json data from file
 			    	 *  add new talk item
 			    	 *  save new json data
 			    	 */
 			    	//ojd.appendJsonData(shareEntity);
-			    	adapter.notifyDataSetChanged();
-			    	lv.setSelection(share_record.size() - 1);
+			    	//adapter.notifyDataSetChanged();
+			    	//lv.setSelection(share_record.size() - 1);
+				     
+					TimeRecord tr = new TimeRecord(comment);  
+					tr.setContentType(TalkUtil.MEDIA_TYPE_TEXT);
+					mgr.add(tr);
 			    	share_comment.setText("");
 				}
 			}
