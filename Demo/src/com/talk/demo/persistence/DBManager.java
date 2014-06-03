@@ -147,6 +147,7 @@ public class DBManager {
         tr._id = c.getInt(c.getColumnIndex("id"));
         tr.server_id = c.getInt(c.getColumnIndex("server_id"));
         tr.userName = c.getString(c.getColumnIndex("username"));
+        tr.link = c.getString(c.getColumnIndex("link"));
         tr.content = c.getString(c.getColumnIndex("content"));  
         tr.calc_date = c.getString(c.getColumnIndex("calc_date"));
         tr.create_time = c.getString(c.getColumnIndex("create_time"));  

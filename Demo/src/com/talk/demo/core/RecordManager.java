@@ -94,6 +94,7 @@ public class RecordManager {
 			map.put("calc_date", tr.calc_date);
 			rc.setCreateDate(tr.calc_date);
 			map.put("create_time", tr.create_time);
+			map.put("link", tr.link);
 			rc.setCreateTime(tr.create_time);
 			rc.setMediaType(tr.content_type);
 			record_cache.add(rc);

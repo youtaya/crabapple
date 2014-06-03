@@ -31,7 +31,7 @@ public class TalkFragment extends Fragment {
     private ArrayList<RecordCache> record_cache;
     private CardAdapter<Card> cardAdapter;
     private RecordManager recordManager;
-    private OptJsonData ojd;
+    //private OptJsonData ojd;
     
     public TalkFragment(RecordManager recordMgr) {
         time_record = new ArrayList<Map<String, String>>();
@@ -118,7 +118,8 @@ public class TalkFragment extends Fragment {
 		        //1,3,5,7 ==> 0,1,2,3
 		        int position = (index - 1)/2;
 		        mBundle.putString("createtime", time_record.get(position).get("create_time"));
-		        mBundle.putParcelableArrayList("recordcache", record_cache);
+		        mBundle.putString("link", time_record.get(position).get("link"));
+		        mBundle.putParcelable("recordcache", record_cache.get(position));
 		        mIntent.putExtras(mBundle);
 		        startActivity(mIntent);				
 			}

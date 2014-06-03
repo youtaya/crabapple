@@ -68,7 +68,7 @@ public class TimeListAdapter extends BaseAdapter {
         Intent mIntent = new Intent(context, TimeAllItem.class);
         Bundle mBundle = new Bundle();
         Log.d(TAG, "create date : "+(String)values.get(position).get(left?"lf_calc_date":"calc_date"));
-        mBundle.putString("createdate", (String)values.get(position).get(left?"lf_cal_date":"calc_date"));
+        mBundle.putString("createdate", (String)values.get(position).get(left?"lf_calc_date":"calc_date"));
         mBundle.putString("createtime", (String)values.get(position).get(left?"lf_create_time":"create_time"));
         Log.d(TAG,"cache size: "+record_cache.size());
         mBundle.putParcelableArrayList("recordcache", record_cache);

@@ -7,12 +7,51 @@
         android:id="@+id/share_list_layout"
         android:layout_width="match_parent"
         android:layout_weight="1"
-        android:layout_height="0dp">
-        
-        <ListView
-            android:id="@+id/share_list"
+        android:layout_height="0dp"
+        android:orientation="vertical" >
+  		<RelativeLayout
+  		    android:layout_width="match_parent"
+  		    android:layout_height="wrap_content">
+  		   	<ImageView
+	            android:id="@+id/iv_user_image"
+	            android:layout_width="50dp"
+	            android:layout_height="50dp"
+	            android:layout_alignParentLeft="true"
+	            android:layout_alignParentTop="true"
+	            android:background="@drawable/tab_main_nav_me_girl_off"
+	            android:focusable="false" />
+	        <TextView
+	            android:id="@+id/link_name"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:layout_marginRight="5dp"
+	            android:layout_toRightOf="@+id/iv_user_image"
+	            android:clickable="true"
+	            android:focusable="true"
+	            android:lineSpacingExtra="2dp"
+	            android:textColor="#ff707070"
+	            android:textSize="18sp" />  		   	
+  		   	<TextView
+	        	android:id="@+id/create_time"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:layout_toRightOf="@+id/iv_user_image"
+	            android:layout_below="@+id/link_name"
+	            android:paddingTop="2dp"
+	            android:paddingBottom="2dp"
+	            android:paddingLeft="4dp"
+	            android:paddingRight="4dp"
+	            android:textColor="#ff8d8d8d"
+	            android:textSize="14sp" />
+  		        
+  		</RelativeLayout>
+        <TextView
+            android:id="@+id/share_content"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content" 
+			android:lineSpacingExtra="2dp"
+	        android:textColor="#ff707070"
+	        android:textSize="18sp"/>
     </LinearLayout>
     
 	<LinearLayout 
