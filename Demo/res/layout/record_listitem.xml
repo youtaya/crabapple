@@ -47,9 +47,10 @@
 	        android:paddingLeft="4dp"
 	        android:paddingRight="4dp"
 	        android:maxLines="1"
+	        android:ellipsize="end"
 	        android:text="New Times"
 	        android:textColor="#ff707070"
-	        android:textSize="23sp" />
+	        android:textSize="18sp" />
 	</LinearLayout>
 
     <LinearLayout 
@@ -89,9 +90,10 @@
 	        android:paddingLeft="4dp"
 	        android:paddingRight="4dp"
 	        android:maxLines="1"
+	        android:ellipsize="end"
 	        android:text="New Times"
 	        android:textColor="#ff707070"
-	        android:textSize="23sp" />
+	        android:textSize="18sp" />
 	</LinearLayout>
 
 </LinearLayout>

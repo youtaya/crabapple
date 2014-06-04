@@ -27,7 +27,6 @@ import com.talk.demo.setting.FindIntimateActivity;
 import com.talk.demo.setting.IntimateActivity;
 import com.talk.demo.setting.PreviewActivity;
 import com.talk.demo.setting.UserActivity;
-import com.talk.demo.share.OptJsonData;
 import com.talk.demo.util.TalkUtil;
 
 import org.json.JSONArray;
@@ -35,7 +34,6 @@ import org.json.JSONObject;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
@@ -74,7 +72,6 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
      */
     ViewPager mViewPager;
     
-    private OptJsonData ojd;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -149,11 +146,6 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
             editor.putBoolean("test", false);
             editor.commit();
             
-            //talk fake data
-            /*
-            ojd = new OptJsonData(this.getApplicationContext());
-            ojd.saveLocalFile(fakeJsonData());
-            */
         }
         
         

@@ -17,7 +17,6 @@ import com.afollestad.cardsui.CardListView;
 import com.afollestad.cardsui.CardListView.CardClickListener;
 import com.talk.demo.core.RecordManager;
 import com.talk.demo.persistence.RecordCache;
-import com.talk.demo.share.OptJsonData;
 import com.talk.demo.share.ShareTalkActivity;
 
 import java.util.ArrayList;
@@ -31,7 +30,6 @@ public class TalkFragment extends Fragment {
     private ArrayList<RecordCache> record_cache;
     private CardAdapter<Card> cardAdapter;
     private RecordManager recordManager;
-    //private OptJsonData ojd;
     
     public TalkFragment(RecordManager recordMgr) {
         time_record = new ArrayList<Map<String, String>>();
@@ -46,7 +44,6 @@ public class TalkFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_talk, container, false);
         
         cardLv = (CardListView)rootView.findViewById(R.id.talk_list);
-        //ojd = new OptJsonData(this.getActivity().getApplicationContext());
         
         initListView();
         	
@@ -58,42 +55,6 @@ public class TalkFragment extends Fragment {
     public void onAttach(Activity activity) {
         super.onAttach(activity);
     }
-    /*
-    public ArrayList<Map<String, String>> test4test(ArrayList<Map<String, String>> test) {
-    	//ArrayList<Map<String, String>> test = new ArrayList<Map<String, String>>();
-
-    	if(!test.isEmpty()) {
-    		test.clear();
-    	}
-    	
-    	if(!talk_cache.isEmpty()) {
-    		talk_cache.clear();
-    	}
-    	
-    	try {
-    		JSONObject jsonObject = new JSONObject(ojd.readLocalFile("test"));
-        	HashMap<String,String> map = new HashMap<String, String>();
-        	map.put("create_time", jsonObject.getString("create_time"));
-        	map.put("content", jsonObject.getString("content"));
-        	test.add(map);
-        	JSONArray talkArray = jsonObject.getJSONArray("talk");
-        	for(int i = 0; i < talkArray.length(); i++) {
-        		JSONObject talkObject = talkArray.getJSONObject(i);
-	        	TalkCache tc = new TalkCache();
-	        	tc.setContent(talkObject.getString("content"));
-	        	tc.setCreateDate(talkObject.getString("time"));
-	        	tc.setFrom(talkObject.getString("from"));
-	        	tc.setTo(talkObject.getString("to"));
-	        	talk_cache.add(tc);
-        	}
-    	} catch(Exception e) {
-    		e.printStackTrace();
-    	}
-
-    	return test;
-    }
-    */
-
 
     private void initListView() {
         if(cardLv == null)
