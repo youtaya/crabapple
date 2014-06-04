@@ -3,6 +3,8 @@ package com.talk.demo;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,9 +15,16 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.nostra13.universalimageloader.core.assist.ImageSize;
+import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
+import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
+import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
+import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 import com.talk.demo.persistence.RecordCache;
 import com.talk.demo.time.TimeAllItem;
-import com.talk.demo.util.ImageUtils;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -27,11 +36,26 @@ public class TimeListAdapter extends BaseAdapter {
     private ArrayList<Map<String, Object>> values;
     private ViewHolder holder;
     private ArrayList<RecordCache> record_cache;
+    protected ImageLoader imageLoader = ImageLoader.getInstance();
+    protected DisplayImageOptions options;
+    private ImageLoadingListener animateFirstListener = new AnimateFirstDisplayListener();
+    //private ImageSize targetSize = new ImageSize(120, 80); // result Bitmap will be fit to this size
     
     public TimeListAdapter(Context context, ArrayList<Map<String, Object>> data, ArrayList<RecordCache> recordCache) {
     	this.context = context;
     	this.values = data;
     	this.record_cache = recordCache;
+    	
+		options = new DisplayImageOptions.Builder()
+			.cacheInMemory(true)
+			.cacheOnDisk(true)
+			.considerExifParams(true)
+			.displayer(new RoundedBitmapDisplayer(20))
+			.build();
+    	ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(context)
+    		.defaultDisplayImageOptions(options)
+    		.build();
+    	imageLoader.init(config);
     }
 
     @Override
@@ -59,12 +83,30 @@ public class TimeListAdapter extends BaseAdapter {
         if(null != values.get(position).get("content")) {
         	holder.content.setText(values.get(position).get("content").toString()); 
         	holder.create_time.setText(values.get(position).get("create_time").toString());
-        	if(2 == (Integer)values.get(position).get("content_type"))
-        		holder.image.setImageDrawable(ImageUtils.decodeDrawable(values.get(position).get("content").toString()));
+        	if(2 == (Integer)values.get(position).get("content_type")) {
+        		Uri uri = Uri.parse("file://"+values.get(position).get("content").toString());
+        		Log.d(TAG, " image uri: "+uri.toString());
+        		
+        		imageLoader.displayImage(uri.toString(), holder.image, animateFirstListener);
+        		//holder.image.setImageDrawable(ImageUtils.decodeDrawable(values.get(position).get("content").toString()));
+        	}
         	holder.image.setOnClickListener(new lvButtonListener(position));
         }
         return convertView; 
     }
+    
+	private static class AnimateFirstDisplayListener extends SimpleImageLoadingListener {
+
+
+		@Override
+		public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+			if (loadedImage != null) {
+				ImageView imageView = (ImageView) view;
+				FadeInBitmapDisplayer.animate(imageView, 500);
+				imageView.setImageBitmap(loadedImage);
+			}
+		}
+	}
     private void callOtherActivity(int position) {
     	Log.d(TAG, " position: "+position);
         Intent mIntent = new Intent(context, TimeAllItem.class);
