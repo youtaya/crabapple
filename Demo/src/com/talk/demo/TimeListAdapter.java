@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.talk.demo.persistence.RecordCache;
 import com.talk.demo.time.TimeAllItem;
+import com.talk.demo.util.ImageUtils;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -38,9 +39,6 @@ public class TimeListAdapter extends BaseAdapter {
         if (convertView == null) {  
             holder = new ViewHolder();  
             convertView = LayoutInflater.from(context).inflate(R.layout.record_listitem, null);  
-            holder.lf_image = (ImageView) convertView.findViewById(R.id.lf_time_pic);  
-            holder.lf_content = (TextView) convertView.findViewById(R.id.lf_content);  
-            holder.lf_create_time = (TextView) convertView.findViewById(R.id.lf_create_time);  
             holder.image = (ImageView) convertView.findViewById(R.id.time_pic);  
             holder.content = (TextView) convertView.findViewById(R.id.content);  
             holder.create_time = (TextView) convertView.findViewById(R.id.create_time); 
@@ -51,25 +49,29 @@ public class TimeListAdapter extends BaseAdapter {
         }  
   
         // 向ViewHolder中填入的数据 
-        if(null != values.get(position).get("lf_content")) {
-        	holder.lf_content.setText(values.get(position).get("lf_content").toString());  
-        	//holder.lf_create_time.setText(values.get(position).get("lf_create_time").toString());
-        	holder.lf_image.setOnClickListener(new lvButtonListener(position));
+
+        /*
+        if(null != values.get(position).get("photo")) {
+        	holder.image.setImageBitmap(ImageUtils.decodeBitmap(values.get(position).get("photo").toString()));
+        	holder.image.setOnClickListener(new lvButtonListener(position));
         }
+        */
         if(null != values.get(position).get("content")) {
         	holder.content.setText(values.get(position).get("content").toString()); 
-        	//holder.create_time.setText(values.get(position).get("create_time").toString()); 
+        	holder.create_time.setText(values.get(position).get("create_time").toString());
+        	if(2 == (Integer)values.get(position).get("content_type"))
+        		holder.image.setImageDrawable(ImageUtils.decodeDrawable(values.get(position).get("content").toString()));
         	holder.image.setOnClickListener(new lvButtonListener(position));
         }
         return convertView; 
     }
-    private void callOtherActivity(int index, int position, boolean left) {
-    	Log.d(TAG, "index : "+ index +" position: "+position+" is left: "+left);
+    private void callOtherActivity(int position) {
+    	Log.d(TAG, " position: "+position);
         Intent mIntent = new Intent(context, TimeAllItem.class);
         Bundle mBundle = new Bundle();
-        Log.d(TAG, "create date : "+(String)values.get(position).get(left?"lf_calc_date":"calc_date"));
-        mBundle.putString("createdate", (String)values.get(position).get(left?"lf_calc_date":"calc_date"));
-        mBundle.putString("createtime", (String)values.get(position).get(left?"lf_create_time":"create_time"));
+        Log.d(TAG, "create date : "+(String)values.get(position).get("calc_date"));
+        mBundle.putString("createdate", (String)values.get(position).get("calc_date"));
+        mBundle.putString("createtime", (String)values.get(position).get("create_time"));
         Log.d(TAG,"cache size: "+record_cache.size());
         mBundle.putParcelableArrayList("recordcache", record_cache);
         mIntent.putExtras(mBundle);
@@ -86,21 +88,9 @@ public class TimeListAdapter extends BaseAdapter {
         @Override
         public void onClick(View v) {
             int vid=v.getId();
-            int index = 0;
-            boolean isleft = true;
-            /*
-             * {0:[0,1],1:[2,3],2:[4,5],3:[6,7]...}
-             */
-            if (vid == holder.lf_image.getId()) {
-            	index = 2*position;
-            	isleft = true;
-            	Log.d(TAG, "left view id");
-            	callOtherActivity(index, position, isleft);
-            } else if (vid == holder.image.getId()) {
-            	index = 2*position+1;
-            	isleft = false;
-            	Log.d(TAG, "right view id");
-            	callOtherActivity(index, position, isleft);
+            
+            if (vid == holder.image.getId()) {
+            	callOtherActivity(position);
             } else {
             	Log.d(TAG, "unknow view id");
             }
@@ -110,9 +100,6 @@ public class TimeListAdapter extends BaseAdapter {
      * ViewHolder类用以储存item中控件的引用 
      */  
     final class ViewHolder {  
-        ImageView lf_image;  
-        TextView lf_content;
-        TextView lf_create_time;
         ImageView image; 
         TextView content;
         TextView create_time;

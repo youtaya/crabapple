@@ -10,90 +10,39 @@
     android:paddingLeft="0dp"
     android:paddingRight="0dp" >
 
-    <LinearLayout 
-        android:layout_width="wrap_content"
+	<ImageView
+	    android:id="@+id/time_pic"
+		android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:orientation="vertical" >
-        <RelativeLayout 
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content">
-			<ImageView
-			    android:id="@+id/lf_time_pic"
-				android:layout_width="wrap_content"
-		        android:layout_height="wrap_content"
-		        android:src="@drawable/sadface" />
-			<TextView
-		        android:id="@+id/lf_create_time"
-		        android:layout_width="wrap_content"
-		        android:layout_height="wrap_content"
-		        android:layout_marginTop="4dp"
-		        android:maxLines="3"
-		        android:paddingLeft="4dp"
-		        android:paddingRight="4dp"
-		        android:textColor="#ff8d8d8d"
-		        android:textSize="16sp" />
-        </RelativeLayout>
-		<View
-	        android:layout_width="fill_parent"
-	        android:layout_height="1dp"
-	        android:layout_marginTop="4dp"
-	        android:background="@android:color/holo_blue_light"
-	        android:visibility="visible" />
-		<TextView
-	        android:id="@+id/lf_content"
-	        android:layout_width="match_parent"
-	        android:layout_height="wrap_content"
-	        android:paddingLeft="4dp"
-	        android:paddingRight="4dp"
-	        android:maxLines="1"
-	        android:ellipsize="end"
-	        android:text="New Times"
-	        android:textColor="#ff707070"
-	        android:textSize="18sp" />
-	</LinearLayout>
-
-    <LinearLayout 
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:orientation="vertical" >
-        <RelativeLayout 
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content">
-			<ImageView
-			    android:id="@+id/time_pic"
-				android:layout_width="wrap_content"
-		        android:layout_height="wrap_content"
-		        android:src="@drawable/sadface" />
-			<TextView
-		        android:id="@+id/create_time"
-		        android:layout_width="wrap_content"
-		        android:layout_height="wrap_content"
-		        android:layout_marginTop="4dp"
-		        android:maxLines="3"
-		        android:paddingLeft="4dp"
-		        android:paddingRight="4dp"
-		        android:textColor="#ff8d8d8d"
-		        android:textSize="16sp" />
-        </RelativeLayout>
-		<View
-	        android:layout_width="match_parent"
-	        android:layout_height="1dp"
-	        android:layout_marginTop="4dp"
-	        android:background="@android:color/holo_blue_light"
-	        android:visibility="visible" />
+        android:src="@drawable/sadface" />
+	
+	<RelativeLayout 
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content">
 		<TextView
 	        android:id="@+id/content"
 	        android:layout_width="match_parent"
 	        android:layout_height="wrap_content"
+	        android:layout_marginTop="4dp"
 	        android:paddingLeft="4dp"
 	        android:paddingRight="4dp"
-	        android:maxLines="1"
+	        android:maxLines="3"
 	        android:ellipsize="end"
-	        android:text="New Times"
 	        android:textColor="#ff707070"
 	        android:textSize="18sp" />
-	</LinearLayout>
+		<TextView
+	        android:id="@+id/create_time"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_marginTop="4dp"
+	        android:layout_below="@+id/content"
+	        android:maxLines="3"
+	        android:paddingLeft="4dp"
+	        android:paddingRight="4dp"
+	        android:textColor="#ff8d8d8d"
+	        android:textSize="16sp" />
+	</RelativeLayout>
+
+
 
 </LinearLayout>

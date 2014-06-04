@@ -148,10 +148,12 @@ public class DBManager {
         tr.server_id = c.getInt(c.getColumnIndex("server_id"));
         tr.userName = c.getString(c.getColumnIndex("username"));
         tr.link = c.getString(c.getColumnIndex("link"));
-        tr.content = c.getString(c.getColumnIndex("content"));  
+        tr.content = c.getString(c.getColumnIndex("content")); 
         tr.calc_date = c.getString(c.getColumnIndex("calc_date"));
         tr.create_time = c.getString(c.getColumnIndex("create_time"));  
         tr.content_type = c.getInt(c.getColumnIndex("content_type"));
+        tr.photo = c.getString(c.getColumnIndex("photo")); 
+        tr.audio = c.getString(c.getColumnIndex("audio")); 
         tr.sync_time = c.getLong(c.getColumnIndex("sync_time"));
     }
     

@@ -110,11 +110,14 @@ public class RecordManager {
 			trlist.clear();
 		}
 		Log.d(TAG, "init data list");
-
+		
+		/*
 		if (isLuckDay) {
 			trlist = dbMgr.query();
 		} else
 			trlist = dbMgr.queryWithMultipleParams(TalkUtil.conditonDates());
+		*/
+		trlist = dbMgr.query();
 
 		if (!time_record.isEmpty()) {
 			time_record.clear();
@@ -124,59 +127,34 @@ public class RecordManager {
 			record_cache.clear();
 		}
 
-		for (int i = 0; i< trlist.size(); i += 2) {
+		for (int i = 0; i< trlist.size(); i ++) {
 			HashMap<String, Object> map = new HashMap<String, Object>();
 			RecordCache rc = new RecordCache();
 			TimeRecord tr = trlist.get(i);
-			TimeRecord tr2 = null;
-
 			
 			String lf_content;
+			/*
 			if (tr.content_type == TalkUtil.MEDIA_TYPE_PHOTO)
 				lf_content = "惊鸿一瞥";
 			else if (tr.content_type == TalkUtil.MEDIA_TYPE_AUDIO)
 				lf_content = "口若兰花";
 			else
 				lf_content = tr.content;
-
+			*/
+			lf_content = tr.content;
+			
 			rc.setId(tr._id);
 			rc.setContent(tr.content);
-			map.put("lf_calc_date", tr.calc_date);
+			map.put("calc_date", tr.calc_date);
+			map.put("content_type", tr.content_type);
 			rc.setCreateDate(tr.calc_date);
-			map.put("lf_content", lf_content);
-			map.put("lf_create_time", tr.create_time);
+			map.put("content", lf_content);
+			map.put("create_time", tr.create_time);
 			rc.setCreateTime(tr.create_time);
 			rc.setMediaType(tr.content_type);
 
 			record_cache.add(rc);
-			
-			if(i+1 < trlist.size()) {
-				tr2 = trlist.get(i+1);
-				RecordCache rc2 = new RecordCache();
-				
-				String content;
-				if (tr2.content_type == TalkUtil.MEDIA_TYPE_PHOTO)
-					content = "惊鸿一瞥";
-				else if (tr2.content_type == TalkUtil.MEDIA_TYPE_AUDIO)
-					content = "口若兰花";
-				else
-					content = tr2.content;
-
-				rc2.setId(tr2._id);
-				rc2.setContent(tr2.content);
-				map.put("calc_date", tr2.calc_date);
-				rc2.setCreateDate(tr2.calc_date);
-				map.put("content", content);
-				map.put("create_time", tr2.create_time);
-				rc2.setCreateTime(tr2.create_time);
-				rc2.setMediaType(tr2.content_type);
-
-				record_cache.add(rc2);
-				time_record.add(map);
-			} else {
-				time_record.add(map);
-				break;
-			}
+			time_record.add(map);
 
 		}
 
