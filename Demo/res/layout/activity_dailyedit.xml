@@ -27,7 +27,7 @@
                 android:id="@+id/content_bg_dec"
                 android:layout_width="match_parent"
                 android:layout_height="226dp"
-                android:src="@drawable/no_artwork"
+                android:src="@drawable/ic_publisher_guide_blur"
                 android:alpha="0.8"
                 android:scaleType="fitXY" />            
             <EditText

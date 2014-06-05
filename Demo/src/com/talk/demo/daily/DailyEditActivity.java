@@ -2,8 +2,14 @@ package com.talk.demo.daily;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.renderscript.Allocation;
+import android.renderscript.Element;
+import android.renderscript.RenderScript;
+import android.renderscript.ScriptIntrinsicBlur;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -11,6 +17,8 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import ch.boye.httpclientandroidlib.client.cache.Resource;
 
 import com.talk.demo.R;
 import com.talk.demo.core.RecordManager;
@@ -59,6 +67,39 @@ public class DailyEditActivity extends Activity {
         mgr = new DBManager(this);
         rMgr = new RecordManager(mgr);
     }
+    /*
+    private Bitmap CreateBlurredImage(int radius)
+    {
+        // Load a clean bitmap and work from that.
+        Bitmap originalBitmap = BitmapFactory.DecodeResource(Resources, Resource.Drawable.dog_and_monkeys);
+
+        // Create another bitmap that will hold the results of the filter.
+        Bitmap blurredBitmap;
+        blurredBitmap = Bitmap.CreateBitmap(originalBitmap);
+
+        // Create the Renderscript instance that will do the work.
+        RenderScript rs = RenderScript.Create(this);
+
+        // Allocate memory for Renderscript to work with
+        Allocation input = Allocation.CreateFromBitmap (rs, originalBitmap, Allocation.MipmapControl.MipmapFull, AllocationUsage.Script);
+        Allocation output = Allocation.CreateTyped(rs, input.Type);
+
+        // Load up an instance of the specific script that we want to use.
+        ScriptIntrinsicBlur script = ScriptIntrinsicBlur.Create(rs, Element.U8_4(rs));
+        script.SetInput(input);
+
+        // Set the blur radius
+        script.SetRadius(radius);
+
+        // Start the ScriptIntrinisicBlur
+        script.ForEach(output);
+
+        // Copy the output to the blurred bitmap
+        output.CopyTo(blurredBitmap);
+
+        return blurredBitmap;
+    }
+    */
     
     private void startFriendActivity() {
         Intent mIntent = new Intent(this, FriendsActivity.class);

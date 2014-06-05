@@ -3,10 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="6dp"
     android:descendantFocusability="blocksDescendants"
     android:orientation="horizontal"
-    android:paddingBottom="2dp"
     android:paddingLeft="0dp"
     android:paddingRight="0dp" >
 
@@ -14,8 +12,6 @@
 	    android:id="@+id/time_pic"
 		android:layout_width="72dip"
         android:layout_height="72dip"
-        android:layout_marginTop="2dp"
-        android:layout_marginBottom="2dp"
         android:adjustViewBounds="true"
         android:scaleType="centerCrop"
         android:src="@drawable/sadface" />
@@ -30,7 +26,7 @@
 	        android:layout_marginTop="6dp"
 	        android:paddingLeft="4dp"
 	        android:paddingRight="4dp"
-	        android:maxLines="3"
+	        android:maxLines="1"
 	        android:ellipsize="end"
 	        android:textColor="#ff707070"
 	        android:textSize="18sp" />
@@ -40,7 +36,7 @@
 	        android:layout_height="wrap_content"
 	        android:layout_marginTop="4dp"
 	        android:layout_below="@+id/content"
-	        android:maxLines="3"
+	        android:maxLines="1"
 	        android:paddingLeft="4dp"
 	        android:paddingRight="4dp"
 	        android:textColor="#ff8d8d8d"
