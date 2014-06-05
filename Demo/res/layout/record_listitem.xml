@@ -12,8 +12,10 @@
 
 	<ImageView
 	    android:id="@+id/time_pic"
-		android:layout_width="120dp"
-        android:layout_height="120dp"
+		android:layout_width="72dip"
+        android:layout_height="72dip"
+        android:adjustViewBounds="true"
+        android:scaleType="centerCrop"
         android:src="@drawable/sadface" />
 	
 	<RelativeLayout 
