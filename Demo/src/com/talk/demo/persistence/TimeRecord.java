@@ -1,84 +1,104 @@
 package com.talk.demo.persistence;
 
+import com.talk.demo.util.RawRecord;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import android.content.ContentValues;
-import android.database.Cursor;
-
 public class TimeRecord {
-	   // SQL convention says Table name should be "singular", so not Persons
-    public static final String TABLE_NAME = "Record";
-    // Naming the id column with an underscore is good to be consistent
-    // with other Android things. This is ALWAYS needed
-    public static final String COL_ID = "_id";
-    // These fields can be anything you want.
-    public static final String COL_TITLE = "title";
-    public static final String COL_CONTENT = "content";
-    public static final String COL_CREATE_TIME = "create_time";
-
-    // For database projection so order is consistent
-    public static final String[] FIELDS = { COL_ID, COL_TITLE, COL_CONTENT,
-    	COL_CREATE_TIME };
-
-    /*
-     * The SQL code that creates a Table for storing Persons in.
-     * Note that the last row does NOT end in a comma like the others.
-     * This is a common source of error.
-     */
-    public static final String CREATE_TABLE =
-            "CREATE TABLE " + TABLE_NAME + "("
-            + COL_ID + " INTEGER PRIMARY KEY,"
-            + COL_TITLE + " TEXT NULL '',"
-            + COL_CONTENT + " TEXT NOT NULL DEFAULT '',"
-            + COL_CREATE_TIME + " TEXT NOT NULL DEFAULT ''"
-            + ")";
-
-    // Fields corresponding to database columns
-    public long id = -1;
-    public String title = "";
-    public String content = "";
-    public String create_time = "";
-
+    public int _id;
+    public int server_id;
+    public String content;
+    public String calc_date;
+    public String create_time;
+    public int content_type;
     
+    public String userName;
+    public String link;
+    public String title = "time";
+    public String photo;
+    public String audio;
+    public long sync_time;
+ 	/*
+ 	 * deleted flag :
+ 	 * default : 0 mean don't delete, other: 1 mean need to delete
+ 	 */
+    public int deleted = 0; 
+ 	/*
+ 	 * dirty flag :
+ 	 * default : 1 mean dirty and need to sync, other: 0 mean not need sync
+ 	 */
+    public int dirty = 1;
     
     public TimeRecord() {
     }
     
+    public TimeRecord(RawRecord rr) {
+        _id = (int)rr.getRawContactId();
+        server_id = (int)rr.getServerContactId();
+        content = rr.getContent();
+        calc_date = rr.getCreateDate();
+        create_time = rr.getCreateTime();
+        content_type = rr.getContentType();
+        title = rr.getTitle();
+        sync_time = rr.getSyncState();
+    }
+    
+    public TimeRecord(RecordCache rc) {
+    	_id = rc.getId();
+    	content = rc.getContent();
+    	calc_date = rc.getCreateDate();
+    	create_time = rc.getCreateTime();
+    	content_type = rc.getMediaType();
+    }
+    
     public TimeRecord(String v1) {
         content = v1;
+        calc_date = handledDate();
+        create_time = handledTime();
+       
+    }
+    
+    public TimeRecord(String v1, String date) {
+        content = v1;
+        calc_date = date;
         create_time = handledTime();
     }
     
-    public String handledTime() {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd"); 
+    public TimeRecord(String v1, Date date) {
+        content = v1;
+        calc_date = handledDate(date);
+        create_time = handledTime(date);
+    }
+    
+    public void setLink(String v) {
+    	link = v;
+    }
+    public void setContent(String v) {
+    	content = v;
+    }
+    public void setContentType(int type) {
+        content_type = type;
+    }
+    
+    public String handledDate() {
         Date date = new Date();
+        return handledDate(date);
+    }
+    
+    public String handledDate(Date date) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd"); 
         return dateFormat.format(date);
     }
     
-    /**
-     * Convert information from the database into a TimeRecord object.
-     */
-    public TimeRecord(final Cursor cursor) {
-        // Indices expected to match order in FIELDS!
-        this.id = cursor.getLong(0);
-        this.title = cursor.getString(1);
-        this.content = cursor.getString(2);
-        this.create_time = cursor.getString(3);
+    public String handledTime() {
+        Date date = new Date();
+        return handledTime(date);
     }
-
-    /**
-     * Return the fields in a ContentValues object, suitable for insertion
-     * into the database.
-     */
-    public ContentValues getContent() {
-        final ContentValues values = new ContentValues();
-        // Note that ID is NOT included here
-        values.put(COL_TITLE, title);
-        values.put(COL_CONTENT, content);
-        values.put(create_time, create_time);
-
-        return values;
+    
+    public String handledTime(Date date) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss:SSSS"); 
+        return dateFormat.format(date);
     }
 
 }

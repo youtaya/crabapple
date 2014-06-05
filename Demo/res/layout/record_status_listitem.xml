@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="6dp"
+    android:descendantFocusability="blocksDescendants"
+    android:orientation="horizontal"
+    android:background="@color/darkgoldenrod"
+    android:paddingLeft="0dp"
+    android:paddingRight="0dp"
+    tools:context=".MainActivity" >
+
+    <LinearLayout
+        android:id="@+id/record_ll"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:orientation="vertical" >
+
+	    <TextView
+	        android:id="@+id/create_time"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:maxLines="3"
+	        android:paddingLeft="8dp"
+	        android:paddingTop="18dp"
+	        android:paddingRight="2dp"
+	        android:textColor="@color/semitransparent"
+	        android:textSize="16sp" />
+    </LinearLayout>
+    
+    <ImageButton
+        android:id="@+id/status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/record_ll"
+        android:layout_marginLeft="15dip"
+        android:focusable="false" />
+    
+	<ImageButton
+        android:id="@+id/send_knows"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/status"
+        android:layout_marginLeft="15dip"
+        android:focusable="false" />
+</RelativeLayout>

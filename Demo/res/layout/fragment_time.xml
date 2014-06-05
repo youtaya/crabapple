@@ -7,41 +7,13 @@
         android:id="@+id/time_list_layout"
         android:layout_width="match_parent"
         android:layout_weight="1"
-        android:layout_height="0dp">
+        android:layout_height="0dp"
+        android:background="@color/beige" >
         
         <ListView
             android:id="@+id/time_list"
-			android:divider="@android:color/transparent"
-			android:dividerHeight="12dp"
-			android:drawSelectorOnTop="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent" />
     </LinearLayout>
     
-    <LinearLayout
-        android:id="@+id/fast_record_layout"
-        android:layout_width="match_parent"
-        android:layout_weight="0.1"
-        android:layout_height="0dp"
-        android:orientation="horizontal" >
-
-        <EditText
-            android:id="@+id/fast_record"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-			android:paddingBottom="5dp"
-			android:paddingTop="5dp"
-            android:maxLines="5"
-            android:gravity="center"
-            android:hint="fast record" />
-
-        <Button
-            android:id="@+id/ok_fast_record"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="0.1"
-            android:text="OK" />
-
-	</LinearLayout>
 </LinearLayout>
