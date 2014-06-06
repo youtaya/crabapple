@@ -198,39 +198,6 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         return super.onPrepareOptionsMenu(menu);
     }
     
-    public String fakeJsonData() {
-        try { 
-            JSONObject jsonObject = new JSONObject();
-            jsonObject.put("content", "hello");
-            jsonObject.put("create_time", "20120514");
-            
-            JSONArray array = new JSONArray(); 
-            for (int i = 0; i < 2; i++) { 
-                JSONObject talk = new JSONObject(); 
-                if(i == 0) {
-	                talk.put("from", "alice"); 
-	                talk.put("to", "bob"); 
-	                talk.put("content", "hello"); 
-	                talk.put("time", "20120514"); 
-                }
-                
-                if (i == 1) {
-	                talk.put("from", "bob"); 
-	                talk.put("to", "alice"); 
-	                talk.put("content", "i'm ok"); 
-	                talk.put("time", "20120515");        	
-                }
-                array.put(talk); 
-            } 
-            jsonObject.put("talk", array); 
-            Log.d(TAG, jsonObject.toString()); 
-            return jsonObject.toString(); 
-        } catch (Exception e) { 
-            // TODO Auto-generated catch block 
-            e.printStackTrace(); 
-        } 
-        return "";
-    }   
     // fake hardware menu
     private void getOverflowMenu() {
         try {
@@ -266,37 +233,25 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         }
     }
     
-    private void callUserActivity() {
-        Intent intent = new Intent(this, UserActivity.class);
+    private void callOtherActivity(Class<?> cls) {
+        Intent intent = new Intent(this, cls);
         startActivity(intent);
     }
-    private void callDiscoveryActivity() {
-        Intent intent = new Intent(this, PreviewActivity.class);
-        startActivity(intent);
-    } 
-    private void callIntimateActivity() {
-        Intent intent = new Intent(this, IntimateActivity.class);
-        startActivity(intent);
-    } 
-    private void callFindIntimateActivity() {
-        Intent intent = new Intent(this, FindIntimateActivity.class);
-        startActivity(intent);
-    } 
     
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
         case R.id.action_user:
-            callUserActivity();
+        	callOtherActivity(UserActivity.class);
             return true;
         case R.id.action_preview:
-            callDiscoveryActivity();
+        	callOtherActivity(PreviewActivity.class);
             return true;
         case R.id.action_friend:
-            callIntimateActivity();
+        	callOtherActivity(IntimateActivity.class);
             return true;  
         case R.id.action_add_friend:
-            callFindIntimateActivity();
+        	callOtherActivity(FindIntimateActivity.class);
             return true;              
         default:
             return super.onOptionsItemSelected(item);

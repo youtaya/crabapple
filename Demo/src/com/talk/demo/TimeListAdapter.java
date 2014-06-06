@@ -90,7 +90,6 @@ public class TimeListAdapter extends BaseAdapter {
         		imageLoader.displayImage(uri.toString(), holder.image, animateFirstListener);
         		//holder.image.setImageDrawable(ImageUtils.decodeDrawable(values.get(position).get("content").toString()));
         	}
-        	holder.image.setOnClickListener(new lvButtonListener(position));
         }
         return convertView; 
     }
@@ -107,37 +106,6 @@ public class TimeListAdapter extends BaseAdapter {
 			}
 		}
 	}
-    private void callOtherActivity(int position) {
-    	Log.d(TAG, " position: "+position);
-        Intent mIntent = new Intent(context, TimeAllItem.class);
-        Bundle mBundle = new Bundle();
-        Log.d(TAG, "create date : "+(String)values.get(position).get("calc_date"));
-        mBundle.putString("createdate", (String)values.get(position).get("calc_date"));
-        mBundle.putString("createtime", (String)values.get(position).get("create_time"));
-        Log.d(TAG,"cache size: "+record_cache.size());
-        mBundle.putParcelableArrayList("recordcache", record_cache);
-        mIntent.putExtras(mBundle);
-        context.startActivity(mIntent);	
-    }
-    
-    class lvButtonListener implements OnClickListener {
-        private int position;
-
-        lvButtonListener(int pos) {
-            position = pos;
-        }
-        
-        @Override
-        public void onClick(View v) {
-            int vid=v.getId();
-            
-            if (vid == holder.image.getId()) {
-            	callOtherActivity(position);
-            } else {
-            	Log.d(TAG, "unknow view id");
-            }
-        }
-    }
     /** 
      * ViewHolder类用以储存item中控件的引用 
      */  

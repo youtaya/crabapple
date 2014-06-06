@@ -2,8 +2,11 @@ package com.talk.demo.share;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.DragEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnLongClickListener;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -43,6 +46,16 @@ public class ShareTalkActivity extends Activity {
         time_tv.setText(create_time);
         tv = (TextView)findViewById(R.id.share_content);
         tv.setText(talk_cache.getContent());
+        tv.setOnLongClickListener(new OnLongClickListener() {
+
+			@Override
+			public boolean onLongClick(View v) {
+				//Todo:bring user to write
+				Log.d(TAG, "long event: should edit!");
+				return false;
+			}
+        	
+        });
         mgr = new DBManager(this);
         
         share_comment = (EditText)findViewById(R.id.share_comment);

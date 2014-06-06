@@ -2,6 +2,7 @@ package com.talk.demo;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -9,10 +10,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
 import com.talk.demo.core.RecordManager;
 import com.talk.demo.persistence.RecordCache;
+import com.talk.demo.time.TimeAllItem;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -85,7 +89,24 @@ public class TimeFragment extends Fragment {
         tAdapter = new TimeListAdapter(this.getActivity(),time_record, record_cache);
 
         lv.setAdapter(tAdapter);
+        lv.setOnItemClickListener(new OnItemClickListener() {
 
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view,
+					int position, long id) {
+		        Intent mIntent = new Intent(view.getContext(), TimeAllItem.class);
+		        Bundle mBundle = new Bundle();
+		        Log.d(TAG, "create date : "+(String)time_record.get(position).get("calc_date"));
+		        mBundle.putString("createdate", (String)time_record.get(position).get("calc_date"));
+		        mBundle.putString("createtime", (String)time_record.get(position).get("create_time"));
+		        Log.d(TAG,"cache size: "+record_cache.size());
+		        mBundle.putParcelableArrayList("recordcache", record_cache);
+		        mIntent.putExtras(mBundle);
+		        startActivity(mIntent);	
+				
+			}
+       	
+        });
     }
     
     @Override
