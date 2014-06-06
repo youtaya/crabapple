@@ -177,12 +177,13 @@ public class DailyEditActivity extends Activity {
 			tr = new TimeRecord(content);
 			tr.setContentType(TalkUtil.MEDIA_TYPE_TEXT);
 			rMgr.addRecord(tr);
-			;
 		}
 
 		// share to friend
 		// shareToFriend(tr, friend);
-		new ShareRecordTask().execute();
+		if(friend != null) {
+			new ShareRecordTask().execute();
+		}
 		// goto main activity
 		/*
 		 * Intent mIntent = new Intent(); mIntent.setClass(this,

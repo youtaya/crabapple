@@ -24,6 +24,22 @@
         android:text="Test It!"
         android:textColor="@color/black"
         android:textSize="33sp" />
+	<ImageView
+	    android:id="@+id/feed_like" 
+		android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="14dip"
+        android:layout_marginBottom="24dip"
+        android:layout_alignParentBottom="true"
+        android:src="@drawable/ic_feed_like_zero_white" /> 
+	<ImageView
+	    android:id="@+id/feed_comment" 
+		android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="14dip"
+        android:layout_marginBottom="24dip"
+        android:layout_alignParentBottom="true"
+        android:layout_toRightOf="@+id/feed_like"
+        android:src="@drawable/ic_feed_comment_zero_white" /> 
 
-	
 </RelativeLayout>
