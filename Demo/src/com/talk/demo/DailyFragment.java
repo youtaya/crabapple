@@ -93,8 +93,8 @@ public class DailyFragment extends Fragment implements OnItemClickListener {
     
     private void dispatchTakeGalleryIntent() {
         Intent intent = new Intent();
-        intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
+        intent.setType("image/*");
         startActivityForResult(Intent.createChooser(intent,
                 "Select Picture"), TalkUtil.REQUEST_SELECT_PICTURE);
     }
