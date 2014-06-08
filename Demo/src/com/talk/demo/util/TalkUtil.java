@@ -9,6 +9,7 @@ public class TalkUtil {
 	public static final int REQUEST_IMAGE_CAPTURE = 1;
 	public static final int REQUEST_SELECT_PICTURE = 2;
 	public static final int REQUEST_AUDIO_CAPTURE = 3;
+	public static final int REQUEST_PHOTO_CROPPER = 3;// 结果
 	/**
 	 *  media_type: 1: text; 2: photo; 3: audio
 	 */

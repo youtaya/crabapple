@@ -47,8 +47,8 @@ public class DailyEditActivity extends Activity {
 	private TextView tv;
 	private ImageView content_bg;
 	private ImageView add_photo;
-	private String selectedImagePath;
 	
+
 	private DBManager mgr;
 	private RecordManager rMgr;
 	private static final int GET_FRIEND = 101;
@@ -248,46 +248,23 @@ public class DailyEditActivity extends Activity {
 		}
 	}
 	
-    /**
-     * helper to retrieve the path of an image URI
-     */
-    public String getPath(Uri uri) {
-            // just some safety built in 
-            if( uri == null ) {
-                // TODO perform some logging or show user feedback
-                return null;
-            }
-            // try to retrieve the image from the media store first
-            // this will only work for images selected from gallery
-            String[] projection = { MediaStore.Images.Media.DATA };
-            Cursor cursor = managedQuery(uri, projection, null, null, null);
-            if( cursor != null ){
-                int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-                cursor.moveToFirst();
-                return cursor.getString(column_index);
-            }
-            // this is our fallback here
-            return uri.getPath();
-    }
-    
-    private void saveAsBitmap(Uri originalUri) {
-    	try {
-        	//使用ContentProvider通过URI获取原始图片
-			Bitmap photo = MediaStore.Images.Media.getBitmap(this.getContentResolver(), originalUri);
-			if (photo != null) {
-				/*
-				//为防止原始图片过大导致内存溢出，这里先缩小原图显示，然后释放原始Bitmap占用的内存
-				Bitmap smallBitmap = ImageTools.zoomBitmap(photo, photo.getWidth() / SCALE, photo.getHeight() / SCALE);
-				//释放原始图片占用的内存，防止out of memory异常发生
-				photo.recycle();
-				*/
-				content_bg.setImageBitmap(photo);
-			}
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}  
+   
+    private void startPhotoZoom(Uri uri) {
+        Intent intent = new Intent("com.android.camera.action.CROP");
+        intent.setDataAndType(uri, "image/*");
+        // crop为true是设置在开启的intent中设置显示的view可以剪裁
+        intent.putExtra("crop", "true");
+
+        // aspectX aspectY 是宽高的比例
+        intent.putExtra("aspectX", 1);
+        intent.putExtra("aspectY", 1);
+
+        // outputX,outputY 是剪裁图片的宽高
+        intent.putExtra("outputX", 300);
+        intent.putExtra("outputY", 300);
+        intent.putExtra("return-data", true);
+        intent.putExtra("noFaceDetection", true);
+        startActivityForResult(intent, TalkUtil.REQUEST_PHOTO_CROPPER);
     }
     
 	@Override
@@ -303,15 +280,21 @@ public class DailyEditActivity extends Activity {
 			break;
         case TalkUtil.REQUEST_SELECT_PICTURE:
             if (resultCode == RESULT_OK) {
-                Uri selectedImageUri = data.getData();
-                selectedImagePath = getPath(selectedImageUri);
-                Log.d(TAG, "image path: "+selectedImagePath);
-                //save a content background
-                saveAsBitmap(selectedImageUri);
+            	if(data != null ) {
+            		Uri selectedImageUri = data.getData();
+            		startPhotoZoom(selectedImageUri);
+            	}
+            }
+            break;
+        case TalkUtil.REQUEST_PHOTO_CROPPER:// 返回的结果
+           	Bundle bundle = data.getExtras();
+            if (bundle != null) {
+                Bitmap photo = bundle.getParcelable("data");
+                content_bg.setImageBitmap(photo);
                 //apply blur
                 applyBlur();
             }
-            break;			
+            break;            
 		}
 	}
 }
