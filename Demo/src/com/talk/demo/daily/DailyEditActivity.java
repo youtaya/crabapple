@@ -287,13 +287,17 @@ public class DailyEditActivity extends Activity {
             }
             break;
         case TalkUtil.REQUEST_PHOTO_CROPPER:// 返回的结果
-           	Bundle bundle = data.getExtras();
-            if (bundle != null) {
-                Bitmap photo = bundle.getParcelable("data");
-                content_bg.setImageBitmap(photo);
-                //apply blur
-                applyBlur();
-            }
+        	if (resultCode == RESULT_OK) {
+        		if(data != null ) {
+		           	Bundle bundle = data.getExtras();
+		            if (bundle != null) {
+		                Bitmap photo = bundle.getParcelable("data");
+		                content_bg.setImageBitmap(photo);
+		                //apply blur
+		                applyBlur();
+		            }
+        		}
+        	}
             break;            
 		}
 	}
