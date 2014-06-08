@@ -11,6 +11,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.renderscript.Allocation;
 import android.renderscript.RenderScript;
@@ -37,8 +38,12 @@ import com.talk.demo.util.TalkUtil;
 import org.apache.http.ParseException;
 import org.json.JSONException;
 
+import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class DailyEditActivity extends Activity {
 	private static String TAG = "DailyEditActivity";
@@ -48,7 +53,7 @@ public class DailyEditActivity extends Activity {
 	private ImageView content_bg;
 	private ImageView add_photo;
 	
-
+	private String fileName = null;
 	private DBManager mgr;
 	private RecordManager rMgr;
 	private static final int GET_FRIEND = 101;
@@ -202,12 +207,19 @@ public class DailyEditActivity extends Activity {
 		// save to db
 		String content = edit_content.getText().toString();
 		// Do nothing if content is empty
-
-		if (content.length() > 0) {
+		if(fileName != null) {
+			tr = new TimeRecord("/sdcard/Demo/"+fileName);
+			tr.setContentType(TalkUtil.MEDIA_TYPE_PHOTO);
+			rMgr.addRecord(tr);
+		} else if (content.length() > 0) {
 			tr = new TimeRecord(content);
 			tr.setContentType(TalkUtil.MEDIA_TYPE_TEXT);
 			rMgr.addRecord(tr);
+		} else {
+			Log.d(TAG, "unknow state");
 		}
+		
+		
 
 		// share to friend
 		// shareToFriend(tr, friend);
@@ -267,6 +279,34 @@ public class DailyEditActivity extends Activity {
         startActivityForResult(intent, TalkUtil.REQUEST_PHOTO_CROPPER);
     }
     
+    
+    private void createDirAndSaveFile(Bitmap imageToSave, String fileName) {
+        File direct = new File(Environment.getExternalStorageDirectory() + "/Demo");
+        
+        if(!direct.exists()) {
+            File fileDirectory = new File("/sdcard/Demo/");
+            fileDirectory.mkdirs();
+        }
+        
+        File file = new File(new File("/sdcard/Demo/"), fileName);
+        
+        if(file.exists())
+            file.delete();
+        
+        try {
+            FileOutputStream out = new FileOutputStream(file);
+            imageToSave.compress(Bitmap.CompressFormat.JPEG, 100, out);
+            out.flush();
+            out.close();
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+    }
+    private String getTimeAsFileName() {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss"); 
+        Date date = new Date();
+        return dateFormat.format(date);
+    }
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		Log.d(TAG, "got the return :" + requestCode + " :" + resultCode);
@@ -292,6 +332,10 @@ public class DailyEditActivity extends Activity {
 		           	Bundle bundle = data.getExtras();
 		            if (bundle != null) {
 		                Bitmap photo = bundle.getParcelable("data");
+		                
+		               	fileName = getTimeAsFileName();
+		                createDirAndSaveFile(photo, fileName);
+
 		                content_bg.setImageBitmap(photo);
 		                //apply blur
 		                applyBlur();
