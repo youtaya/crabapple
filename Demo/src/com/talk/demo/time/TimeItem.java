@@ -1,7 +1,9 @@
 package com.talk.demo.time;
 
+import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -55,6 +57,12 @@ public class TimeItem extends Fragment {
         
         item_bg = (ImageView)view.findViewById(R.id.item_bg);
         item_content = (TextView)view.findViewById(R.id.item_content);
+        //得到AssetManager
+        AssetManager mgr = this.getActivity().getApplicationContext().getAssets();
+        //根据路径得到Typeface
+        Typeface tf=Typeface.createFromAsset(mgr, "Roboto-Thin.ttf");
+        //设置字体
+        item_content.setTypeface(tf);
         
         switch(media_type) {
         case TalkUtil.MEDIA_TYPE_TEXT:
