@@ -207,19 +207,17 @@ public class DailyEditActivity extends Activity {
 		// save to db
 		String content = edit_content.getText().toString();
 		// Do nothing if content is empty
-		if(fileName != null) {
-			tr = new TimeRecord("/sdcard/Demo/"+fileName);
-			tr.setContentType(TalkUtil.MEDIA_TYPE_PHOTO);
-			rMgr.addRecord(tr);
-		} else if (content.length() > 0) {
+		if (content.length() > 0) {
 			tr = new TimeRecord(content);
-			tr.setContentType(TalkUtil.MEDIA_TYPE_TEXT);
+			if(fileName != null) {
+				//tr = new TimeRecord("/sdcard/Demo/"+fileName);
+				tr.setPhoto("/sdcard/Demo/"+fileName);
+				tr.setContentType(TalkUtil.MEDIA_TYPE_PHOTO_TEXT);
+			} else {
+				tr.setContentType(TalkUtil.MEDIA_TYPE_TEXT);
+			}
 			rMgr.addRecord(tr);
-		} else {
-			Log.d(TAG, "unknow state");
 		}
-		
-		
 
 		// share to friend
 		// shareToFriend(tr, friend);

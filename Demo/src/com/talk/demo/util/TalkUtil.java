@@ -17,6 +17,7 @@ public class TalkUtil {
 	public static final int MEDIA_TYPE_TEXT = 1;
 	public static final int MEDIA_TYPE_PHOTO = 2;
 	public static final int MEDIA_TYPE_AUDIO = 3;
+	public static final int MEDIA_TYPE_PHOTO_TEXT = 4;
     /**  
      * @param   参照日期      
      * @param   天数(之前为负数,之后为正数)          

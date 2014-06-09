@@ -152,7 +152,9 @@ public class RecordManager {
 			map.put("create_time", tr.create_time);
 			rc.setCreateTime(tr.create_time);
 			rc.setMediaType(tr.content_type);
-
+			map.put("photo", tr.photo);
+			rc.setPhotoPath(tr.photo);
+			
 			record_cache.add(rc);
 			time_record.add(map);
 

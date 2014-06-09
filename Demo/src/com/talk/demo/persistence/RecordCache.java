@@ -10,7 +10,7 @@ public class RecordCache implements Parcelable {
 	private String create_date;
 	private String create_time;
 	private int content_type;
-	
+	private String photoPath;
 	
 	public void setId(int v) {
 		id = v;
@@ -52,6 +52,14 @@ public class RecordCache implements Parcelable {
 		return content_type;
 	}
 	
+	public void setPhotoPath(String v) {
+		photoPath = v;
+	}
+	
+	public String getPhotoPath() {
+		return photoPath;
+	}
+	
     // 用来创建自定义的Parcelable的对象
     public static final Parcelable.Creator<RecordCache> CREATOR
             = new Parcelable.Creator<RecordCache>() {
@@ -62,6 +70,7 @@ public class RecordCache implements Parcelable {
             rc.create_date = in.readString();
             rc.create_time = in.readString();
             rc.content_type = in.readInt();
+            rc.photoPath = in.readString();
             return rc;
         }
 
@@ -83,7 +92,7 @@ public class RecordCache implements Parcelable {
 		parcel.writeString(create_date);
 		parcel.writeString(create_time);
 		parcel.writeInt(content_type);
-		
+		parcel.writeString(photoPath);
 	}
 
 }

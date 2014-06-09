@@ -83,8 +83,9 @@ public class TimeListAdapter extends BaseAdapter {
         if(null != values.get(position).get("content")) {
         	holder.content.setText(values.get(position).get("content").toString()); 
         	holder.create_time.setText(values.get(position).get("create_time").toString());
-        	if(2 == (Integer)values.get(position).get("content_type")) {
-        		Uri uri = Uri.parse("file://"+values.get(position).get("content").toString());
+        	int media_type = (Integer)values.get(position).get("content_type");
+        	if(2 == media_type || 4 == media_type) {
+        		Uri uri = Uri.parse("file://"+values.get(position).get("photo").toString());
         		Log.d(TAG, " image uri: "+uri.toString());
         		
         		imageLoader.displayImage(uri.toString(), holder.image, animateFirstListener);

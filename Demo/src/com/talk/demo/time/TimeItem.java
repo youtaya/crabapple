@@ -1,12 +1,14 @@
 package com.talk.demo.time;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebView;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.talk.demo.R;
@@ -19,7 +21,10 @@ public class TimeItem extends Fragment {
     private String valueContent;
     private String creatTime;
     private int media_type;
-    private WebView wvView;
+    private String photo;
+    private ImageView item_bg;
+    private TextView item_content;
+    //private WebView wvView;
     private TextView tvTime;
     
     static TimeItem newInstance(RecordCache content) {
@@ -29,10 +34,10 @@ public class TimeItem extends Fragment {
     }
     
     public TimeItem(RecordCache content) {
-        // TODO Auto-generated constructor stub
         valueContent = content.getContent();
         creatTime = content.getCreateTime();
         media_type = content.getMediaType();
+        photo = content.getPhotoPath();
     }
     
     @Override
@@ -45,10 +50,34 @@ public class TimeItem extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
         Log.d(TAG, "TestFragment-----onCreateView");
         View view = inflater.inflate(R.layout.time_item, container, false);
-        wvView = (WebView) view.findViewById(R.id.item_content);
         tvTime = (TextView) view.findViewById(R.id.item_time);
-        
         tvTime.setText(creatTime);
+        
+        item_bg = (ImageView)view.findViewById(R.id.item_bg);
+        item_content = (TextView)view.findViewById(R.id.item_content);
+        
+        switch(media_type) {
+        case TalkUtil.MEDIA_TYPE_TEXT:
+        	item_content.setText(valueContent);
+        	break;
+        case TalkUtil.MEDIA_TYPE_PHOTO:
+        	Bitmap bm = loadPhotoAsBitmap(photo);
+        	item_bg.setImageBitmap(bm);
+        	break;
+        case TalkUtil.MEDIA_TYPE_AUDIO:
+        	Log.d(TAG, "not support now!");
+        	break;
+        case TalkUtil.MEDIA_TYPE_PHOTO_TEXT:
+        	Bitmap bm2 = loadPhotoAsBitmap(photo);
+        	item_bg.setImageBitmap(bm2);
+        	item_content.setText(valueContent);
+        	break;
+        default:
+        	Log.d(TAG, "unknow now!");
+        	break;
+        }
+        /*
+        wvView = (WebView) view.findViewById(R.id.item_content);
         if(media_type == TalkUtil.MEDIA_TYPE_TEXT) {
         	String textHtml = "<html><body><p style=\"font-family: times, Times New Roman, times-roman, georgia, serif;" +
         			"color: #444;margin: 0;padding: 0px 0px 6px 0px;" +
@@ -73,7 +102,12 @@ public class TimeItem extends Fragment {
         } else {
         	Log.d(TAG, "unknown type not support!");
         }
+        */
         return view;
     }
     
+    private Bitmap loadPhotoAsBitmap(String photoPath) {
+    	Bitmap bm = BitmapFactory.decodeFile(photoPath);
+    	return bm;
+    }
 }

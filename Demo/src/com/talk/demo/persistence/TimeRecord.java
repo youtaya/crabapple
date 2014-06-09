@@ -81,6 +81,10 @@ public class TimeRecord {
         content_type = type;
     }
     
+    public void setPhoto(String photoPath) {
+    	photo = photoPath;
+    }
+    
     public String handledDate() {
         Date date = new Date();
         return handledDate(date);
