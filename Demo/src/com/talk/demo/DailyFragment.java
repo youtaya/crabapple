@@ -371,8 +371,9 @@ public class DailyFragment extends Fragment implements OnItemClickListener {
                     Bitmap imageBitmap = (Bitmap) extras.get("data");
                     String fileName = getTimeAsFileName();
                     createDirAndSaveFile(imageBitmap, fileName);
-                    
-                    TimeRecord tr = new TimeRecord("/sdcard/Demo/"+fileName);
+                    //prvent content null
+                    TimeRecord tr = new TimeRecord("photo");
+                    tr.setPhoto("/sdcard/Demo/"+fileName);
                     tr.setContentType(TalkUtil.MEDIA_TYPE_PHOTO);;
                     recordManager.addRecord(tr);
                 }
@@ -381,7 +382,8 @@ public class DailyFragment extends Fragment implements OnItemClickListener {
                 if (resultCode == getActivity().RESULT_OK) {
                     Uri selectedImageUri = data.getData();
                     selectedImagePath = getPath(selectedImageUri);
-                    TimeRecord tr = new TimeRecord(selectedImagePath);
+                    TimeRecord tr = new TimeRecord("photo");
+                    tr.setPhoto(selectedImagePath);
                     tr.setContentType(TalkUtil.MEDIA_TYPE_PHOTO);;
                     recordManager.addRecord(tr);
                 }
