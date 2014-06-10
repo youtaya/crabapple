@@ -3,12 +3,12 @@ package com.talk.demo.share;
 import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.DragEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.talk.demo.R;
@@ -27,7 +27,7 @@ public class ShareTalkActivity extends Activity {
     private TextView tv;
     
     private DBManager mgr;
-    
+    private LinearLayout share_comment_layout;
     private EditText share_comment;
     private ImageView share_save;
     @Override
@@ -51,13 +51,18 @@ public class ShareTalkActivity extends Activity {
 			@Override
 			public boolean onLongClick(View v) {
 				//Todo:bring user to write
-				Log.d(TAG, "long event: should edit!");
+				if(share_comment_layout.getVisibility() == View.VISIBLE) {
+					share_comment_layout.setVisibility(View.GONE);
+				} else {
+					share_comment_layout.setVisibility(View.VISIBLE);
+				}
 				return false;
 			}
         	
         });
+
         mgr = new DBManager(this);
-        
+        share_comment_layout = (LinearLayout)findViewById(R.id.share_comment_layout);
         share_comment = (EditText)findViewById(R.id.share_comment);
         share_save = (ImageView)findViewById(R.id.share_send);
         share_save.setOnClickListener(new OnClickListener() {

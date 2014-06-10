@@ -9,18 +9,37 @@
         android:layout_weight="1"
         android:layout_height="0dp"
         android:orientation="vertical" >
-		<TextView
-            android:id="@+id/share_content"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
+		<FrameLayout
+			android:layout_width="match_parent"
+			android:layout_height="0dp"
             android:layout_weight="1"
-			android:lineSpacingExtra="2dp"
-			android:gravity="center"
-	        android:textColor="#ff707070"
-	        android:textSize="23sp"/>
+			android:focusable="true"  
+			android:focusableInTouchMode="true"
+			android:background="@color/crowcyan"
+			android:orientation="vertical" >
+
+			<ImageView
+			    android:id="@+id/share_bg"
+			    android:layout_width="match_parent"
+			    android:layout_height="fill_parent"
+			    android:scaleType="fitXY" />
+	        
+			<TextView
+			    android:id="@+id/share_content"
+			    android:layout_width="match_parent"
+			    android:layout_height="fill_parent"
+			    android:layout_centerInParent="true"
+			    android:background="@null"
+			    android:gravity="center"
+			    android:textStyle="bold"
+			    android:textSize="32sp"
+			    android:textColor="@color/moonwhite" />
+
+		</FrameLayout>
+
   		<RelativeLayout
   		    android:layout_width="match_parent"
-  		    android:layout_height="wrap_content">
+  		    android:layout_height="wrap_content" >
   		   	<ImageView
 	            android:id="@+id/iv_user_image"
 	            android:layout_width="50dp"
@@ -60,7 +79,8 @@
 	<LinearLayout 
         android:id="@+id/share_comment_layout"
 		android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content"
+        android:visibility="gone" >
 	    <EditText 
 	        android:id="@+id/share_comment"
 			android:layout_width="0dp"
