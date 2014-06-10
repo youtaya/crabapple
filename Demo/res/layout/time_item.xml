@@ -12,13 +12,13 @@
 		android:paddingBottom="8dip"
 		android:gravity="center"
 		android:textColor="@color/pager_title_background_top_end"
-		android:background="@color/lemonchiffon"
+		android:background="@color/rouge"
 		android:textSize="18.0dip" />
 	
 	<LinearLayout
 		android:layout_width="match_parent"
 		android:layout_height="fill_parent"
-		android:background="@color/yellow" >
+		android:background="@color/crowcyan" >
 	
 		<FrameLayout
 			android:layout_width="match_parent"
@@ -41,8 +41,9 @@
 			    android:layout_centerInParent="true"
 			    android:background="@null"
 			    android:gravity="center"
-			    android:textSize="40sp"
-			    android:textColor="@color/fuchsia" />
+			    android:textStyle="bold"
+			    android:textSize="32sp"
+			    android:textColor="@color/moonwhite" />
 
 		</FrameLayout>
 	</LinearLayout>
