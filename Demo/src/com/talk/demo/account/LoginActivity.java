@@ -213,7 +213,6 @@ public class LoginActivity extends AccountAuthenticatorActivity {
         Intent mIntent = new Intent();
         mIntent.setClass(this, LuckDayActivity.class);
         startActivity(mIntent);
-        finish();
     }
     /**
      * Called when the authentication process completes (see attemptLogin()).
@@ -265,5 +264,10 @@ public class LoginActivity extends AccountAuthenticatorActivity {
             // activity to let it know.
             onAuthenticationCancel();
 		}
+	}
+	
+	@Override
+	public void onResume() {
+		super.onResume();
 	}
 }

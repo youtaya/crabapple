@@ -79,6 +79,7 @@ final public class NetworkUtilities {
     public static final String BASE_URL = "http://192.168.1.106/";
     /** URI for authentication service */
     public static final String AUTH_URI = BASE_URL + "account/login/";
+    public static final String SIGNUP_URI = BASE_URL + "account/signup/";
     public static final String SYNC_NEWS_URI = BASE_URL + "news/today/";
     public static final String SYNC_FRIENDS_URI = BASE_URL + "friends/recommend";
     /** URI for sync service */
@@ -153,7 +154,73 @@ final public class NetworkUtilities {
     }
     */
     
+    public static String signup(String username, String email, String password) {
+    	String authToken = null;
+		String csrfToken2 = null;
+		try {
+			HttpURLConnection conn = HttpRequest.get(SIGNUP_URI)
+					.getConnection();
+			//ToDo: cookie header may be null, should fix it.
+			List<String> cookieHeader = conn.getHeaderFields().get("Set-Cookie");
+            for(String resItem : cookieHeader) {
+            	Log.d(TAG, "cookie session: " + resItem);
+                if(resItem.contains("sessionid")) {
+                	authToken = resItem.split(";")[0];
+                    Log.d(TAG, "session :" + authToken);
+                }
+                
+                if(resItem.contains("csrftoken")) {
+                    csrfToken2 = resItem.split(";")[0];
+                    Log.d(TAG, "csrf token :" + csrfToken2);
+                }
+                
+            }
+			Log.d(TAG, "cookie: " + cookieHeader);
 
+			String csrfToken = csrfToken2;
+			Log.d(TAG, "csrf token : " + csrfToken);
+
+			HttpRequest request = HttpRequest.post(SIGNUP_URI);
+			String name = username;
+			String mail = email;
+			String passwd = password;
+			Map<String, String> data = new HashMap<String, String>();
+			data.put("username", name);
+			data.put("email", mail);
+			data.put("password", passwd);
+			data.put("password_confirm",passwd);
+			data.put("csrfmiddlewaretoken", csrfToken.substring(10));
+			Log.d(TAG, "name: " + username + " passwd: " + password);
+			// X-CSRFToken
+			Map<String, String> headers = new HashMap<String, String>();
+			headers.put("Content-Type", "text/html");
+			headers.put("Cookie", csrfToken);
+			Log.d(TAG, "our cookie: " + csrfToken);
+			request.headers(headers);
+			//request.followRedirects(false);
+			HttpRequest conn4Session = request.form(data);
+			conn4Session.code();
+			HttpURLConnection sessionConnection = conn4Session.getConnection();
+			try {
+				int result = sessionConnection.getResponseCode();
+				Log.e(TAG, "get response code : "+result);
+                
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+			
+		} catch (HttpRequestException exception) {
+			Log.d(TAG, "exception : " + exception.toString());
+			return null;
+		} finally {
+            Log.v(TAG, "signup completing");
+        }
+		
+		return "ok";
+		
+	}
+    
     public static String authenticate(String username, String password) {
 		String authToken = null;
 		String csrfToken2 = null;

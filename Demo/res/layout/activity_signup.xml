@@ -60,7 +60,7 @@
 	                android:hint="username"
 	                android:typeface="monospace" />
 	            <AutoCompleteTextView
-	                android:id="@+id/et_login"
+	                android:id="@+id/et_mail"
 	                android:layout_width="match_parent"
 	                android:layout_height="wrap_content"
 	                android:autoText="false"
