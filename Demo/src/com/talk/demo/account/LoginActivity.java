@@ -9,7 +9,9 @@ import android.accounts.Account;
 import android.accounts.AccountAuthenticatorActivity;
 import android.accounts.AccountManager;
 import android.content.ContentResolver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Editable;
@@ -160,11 +162,25 @@ public class LoginActivity extends AccountAuthenticatorActivity {
         setAccountAuthenticatorResult(intent.getExtras());
         setResult(RESULT_OK, intent);
         
-		// auth done, go to set lucky day.
-        Intent mIntent = new Intent();
-        mIntent.setClass(this, LuckDayActivity.class);
-        startActivity(mIntent);
-        finish();
+        /*
+         * if date has set, go to main activity
+         * else go to set lucky day.
+         */
+        SharedPreferences sPreferences = getSharedPreferences("luck_day", Context.MODE_PRIVATE);
+        int setMonth = sPreferences.getInt("Month", 0);
+        int setDay = sPreferences.getInt("Day", 0);
+        Log.d(TAG, "month is : "+setMonth+ "day is : "+setDay);
+        if(setMonth > 0 || setDay > 0) {
+            Intent mIntent = new Intent();
+            mIntent.setClass(this, MainActivity.class);
+            startActivity(mIntent);
+            finish();
+        } else {
+	        Intent mIntent = new Intent();
+	        mIntent.setClass(this, LuckDayActivity.class);
+	        startActivity(mIntent);
+	        finish();
+        }
     }
 
     /**

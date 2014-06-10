@@ -35,17 +35,6 @@ public class LuckDayActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         
-        //if date has set, go to main activity
-        SharedPreferences sPreferences = getSharedPreferences("luck_day", Context.MODE_PRIVATE);
-        int setMonth = sPreferences.getInt("Month", 0);
-        int setDay = sPreferences.getInt("Day", 0);
-        if(setMonth > 0 || setDay > 0) {
-            Log.d(TAG, "month is : "+setMonth+ "day is : "+setDay);
-            Intent mIntent = new Intent();
-            mIntent.setClass(this, MainActivity.class);
-            startActivity(mIntent);
-            finish();
-        }
         setContentView(R.layout.activity_luckday);
 
         tv = (TextView)findViewById(R.id.setting_date);
@@ -53,14 +42,18 @@ public class LuckDayActivity extends Activity {
 
         month = (WheelView) findViewById(R.id.month);
         day = (WheelView) findViewById(R.id.day);
-
+        SharedPreferences sPreferences = getSharedPreferences("luck_day", Context.MODE_PRIVATE);
+        int setMonth = sPreferences.getInt("Month", 0);
+        int setDay = sPreferences.getInt("Day", 0);
+        tv.setText("Month: "+setMonth+" Day: "+setDay);
+        
         OnWheelChangedListener listener = new OnWheelChangedListener() {
             @Override
             public void onChanged(WheelView wheel, int oldValue, int newValue) {
                 updateDays(month, day);
-                actualMonth = month.getCurrentItem();
+                actualMonth = month.getCurrentItem() + 1;
                 actualDay = day.getCurrentItem() + 1;
-                tv.setText("Month "+(actualMonth + 1)+" Day "+actualDay);
+                tv.setText("Month: "+actualMonth+" Day: "+actualDay);
             }
         };
 
@@ -101,12 +94,8 @@ public class LuckDayActivity extends Activity {
         editorFUT.putInt("year", calendar.get(calendar.YEAR));
         editorFUT.putInt("month", calendar.get(calendar.MONTH));
         editorFUT.putInt("day", calendar.get(calendar.DAY_OF_MONTH));
+        editorFUT.commit();
         
-        editorFUT.commit(); 
-        //goto main activity
-        Intent mIntent = new Intent();
-        mIntent.setClass(this, MainActivity.class);
-        startActivity(mIntent);
         finish();
     }
     

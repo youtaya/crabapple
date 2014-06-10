@@ -30,7 +30,7 @@ public class AppMainActivity extends Activity {
         if (existing != null && !TextUtils.isEmpty(existing.name)) {
             accountExist = true;
             Intent mIntent = new Intent();
-            mIntent.setClass(this, LuckDayActivity.class);
+            mIntent.setClass(this, MainActivity.class);
             startActivity(mIntent);
             
             finish();
@@ -49,12 +49,9 @@ public class AppMainActivity extends Activity {
 		signup_btn.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				// TODO 
-				// 4 test: jump to mainActivity
 		        Intent intent = new Intent();
-		        intent.setClass(v.getContext(), LuckDayActivity.class);
+		        intent.setClass(v.getContext(), SignupActivity.class);
 		        startActivity(intent);
-		        finish();
 			}
 		});
 	}

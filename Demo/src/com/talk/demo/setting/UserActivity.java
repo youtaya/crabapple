@@ -52,12 +52,7 @@ public class UserActivity extends Activity {
         	Log.d(TAG,"ccount name: "+accout.name);
         	user_name.setText(accout.name);
         }
-        
-        // Get luck day
-        SharedPreferences sPreferences = getSharedPreferences("luck_day", Context.MODE_PRIVATE);
-        int sMonth = sPreferences.getInt("Month", 0);
-        int sDay = sPreferences.getInt("Day", 0);
-        tv_luck.setText(sMonth+" 月 "+sDay+" 日 ");
+
     }
 
     
@@ -65,5 +60,10 @@ public class UserActivity extends Activity {
     public void onResume() {
         super.onResume();
         tv_rich.setText(String.valueOf(rp.getRich()));
+        // Get luck day
+        SharedPreferences sPreferences = getSharedPreferences("luck_day", Context.MODE_PRIVATE);
+        int sMonth = sPreferences.getInt("Month", 0);
+        int sDay = sPreferences.getInt("Day", 0);
+        tv_luck.setText(sMonth+" 月 "+sDay+" 日 ");
     }
 }

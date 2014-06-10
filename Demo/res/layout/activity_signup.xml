@@ -46,7 +46,19 @@
 	            android:paddingRight="15dp"
 	            android:paddingTop="5dp" 
 	            android:background="@color/white" >
-	
+				<EditText
+	                android:id="@+id/et_username"
+	                android:layout_width="match_parent"
+	        		android:layout_height="wrap_content"
+	       			android:autoText="false"
+	        		android:capitalize="none"
+	        		android:scrollHorizontally="true"
+	        		android:singleLine="true"
+	        		android:textSize="20sp"
+	                android:imeOptions="actionDone"
+	                android:inputType="textPersonName"
+	                android:hint="username"
+	                android:typeface="monospace" />
 	            <AutoCompleteTextView
 	                android:id="@+id/et_login"
 	                android:layout_width="match_parent"
@@ -59,7 +71,7 @@
 	                android:completionThreshold="1"
 	                android:imeOptions="actionNext"
 	                android:inputType="textEmailAddress"
-	                android:hint="username_or_email"
+	                android:hint="email"
 	                android:nextFocusDown="@+id/et_password" />
 	
 	
@@ -79,13 +91,13 @@
 	        </LinearLayout>
 		
 			<Button
-	           android:id="@+id/bt_login"
+	           android:id="@+id/bt_signup"
 	           android:layout_width="fill_parent"
 	           android:layout_height="fill_parent"
 	           android:layout_gravity="center_horizontal"
 	           android:background="@color/grey"
 	           android:minHeight="50dip"
-	           android:text="@string/login"
+	           android:text="@string/signup"
 	           android:textColor="@color/white"
 	           android:textSize="30sp"
 	           android:textStyle="bold" />
