@@ -3,25 +3,18 @@ package com.talk.demo.setting;
 import android.accounts.Account;
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.MotionEvent;
-import android.view.View;
-import android.view.View.OnTouchListener;
-import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.talk.demo.R;
-import com.talk.demo.time.TimeAllItem;
 import com.talk.demo.util.AccountUtils;
 
 public class UserActivity extends Activity {
 	private static String TAG = "UserActivity";
 	private TextView tv_rich, user_name, tv_luck;
-	private ImageButton set_luck;
     // Get rich values
     private RichPresent rp;
     @Override
@@ -32,18 +25,6 @@ public class UserActivity extends Activity {
         tv_rich = (TextView)findViewById(R.id.rich_number);
         user_name = (TextView)findViewById(R.id.my_name);
         tv_luck = (TextView)findViewById(R.id.my_luck_day);
-        set_luck = (ImageButton)findViewById(R.id.set_luck_day);
-        set_luck.setOnTouchListener(new OnTouchListener() {
-
-			@Override
-			public boolean onTouch(View v, MotionEvent event) {
-		        Intent mIntent = new Intent();
-		        mIntent.setClass(v.getContext(), LuckDayActivity.class);
-		        startActivity(mIntent);
-				return false;
-			}
-        	
-        });
         // Get values
         rp = RichPresent.getInstance(this);
         tv_rich.setText(String.valueOf(rp.getRich()));

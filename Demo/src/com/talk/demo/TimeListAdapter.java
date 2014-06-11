@@ -2,14 +2,11 @@
 package com.talk.demo;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
@@ -18,13 +15,12 @@ import android.widget.TextView;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
-import com.nostra13.universalimageloader.core.assist.ImageSize;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 import com.talk.demo.persistence.RecordCache;
-import com.talk.demo.time.TimeAllItem;
+import com.talk.demo.time.DateInfo;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -65,7 +61,9 @@ public class TimeListAdapter extends BaseAdapter {
             convertView = LayoutInflater.from(context).inflate(R.layout.record_listitem, null);  
             holder.image = (ImageView) convertView.findViewById(R.id.time_pic);  
             holder.content = (TextView) convertView.findViewById(R.id.content);  
-            holder.create_time = (TextView) convertView.findViewById(R.id.create_time); 
+            holder.create_time = (TextView) convertView.findViewById(R.id.create_time);
+            holder.create_date = (TextView) convertView.findViewById(R.id.create_date); 
+            holder.create_week = (TextView) convertView.findViewById(R.id.create_week); 
             // 将holder绑定到convertView  
             convertView.setTag(holder);  
         } else {  
@@ -81,13 +79,18 @@ public class TimeListAdapter extends BaseAdapter {
         }
         */
         if(null != values.get(position).get("content")) {
-        	holder.content.setText(values.get(position).get("content").toString()); 
-        	holder.create_time.setText(values.get(position).get("create_time").toString());
+        	holder.content.setText(values.get(position).get("content").toString());
+        	String time_info = values.get(position).get("create_time").toString();
+        	DateInfo mDateInfo = new DateInfo(time_info);
+        	mDateInfo.parseCreateTime();
+        	holder.create_time.setText(mDateInfo.getTime());
+        	holder.create_date.setText(mDateInfo.getDate());
+        	holder.create_week.setText(mDateInfo.getWeekInfo());
         	int media_type = (Integer)values.get(position).get("content_type");
         	if(2 == media_type || 4 == media_type) {
         		Uri uri = Uri.parse("file://"+values.get(position).get("photo").toString());
         		Log.d(TAG, " image uri: "+uri.toString());
-        		
+        		holder.image.setVisibility(View.VISIBLE);
         		imageLoader.displayImage(uri.toString(), holder.image, animateFirstListener);
         		//holder.image.setImageDrawable(ImageUtils.decodeDrawable(values.get(position).get("content").toString()));
         	}
@@ -114,6 +117,8 @@ public class TimeListAdapter extends BaseAdapter {
         ImageView image; 
         TextView content;
         TextView create_time;
+        TextView create_date;
+        TextView create_week;
     }
 
 	@Override

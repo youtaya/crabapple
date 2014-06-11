@@ -42,11 +42,12 @@ public class LuckDayActivity extends Activity {
 
         month = (WheelView) findViewById(R.id.month);
         day = (WheelView) findViewById(R.id.day);
+        /*
         SharedPreferences sPreferences = getSharedPreferences("luck_day", Context.MODE_PRIVATE);
         int setMonth = sPreferences.getInt("Month", 0);
         int setDay = sPreferences.getInt("Day", 0);
         tv.setText("Month: "+setMonth+" Day: "+setDay);
-        
+        */
         OnWheelChangedListener listener = new OnWheelChangedListener() {
             @Override
             public void onChanged(WheelView wheel, int oldValue, int newValue) {
@@ -96,6 +97,10 @@ public class LuckDayActivity extends Activity {
         editorFUT.putInt("day", calendar.get(calendar.DAY_OF_MONTH));
         editorFUT.commit();
         
+        //go to Main Activity
+        Intent mIntent = new Intent();
+        mIntent.setClass(this, MainActivity.class);
+        startActivity(mIntent);
         finish();
     }
     
