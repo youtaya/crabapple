@@ -9,18 +9,27 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.widget.TextView;
 
+import br.com.dina.ui.widget.UITableView;
+import br.com.dina.ui.widget.UITableView.ClickListener;
+
 import com.talk.demo.R;
 import com.talk.demo.util.AccountUtils;
 
 public class UserActivity extends Activity {
 	private static String TAG = "UserActivity";
 	private TextView tv_rich, user_name, tv_luck;
+	private UITableView tableView;
     // Get rich values
     private RichPresent rp;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user);
+        
+        tableView = (UITableView) findViewById(R.id.tableView);        
+        createList();        
+        Log.d("MainActivity", "total items: " + tableView.getCount());        
+        tableView.commit();
         
         tv_rich = (TextView)findViewById(R.id.rich_number);
         user_name = (TextView)findViewById(R.id.my_name);
@@ -35,7 +44,23 @@ public class UserActivity extends Activity {
         }
 
     }
+    
+    private void createList() {
+    	CustomClickListener listener = new CustomClickListener();
+    	tableView.setClickListener(listener);
+    	tableView.addBasicItem("Example 1 - UITableView", "without images");
+    	tableView.addBasicItem("Example 5 - UITableViewActivity", "a sample activity");
+    	tableView.addBasicItem("Example 7 - UIButton", "some floating buttons");
+    	tableView.addBasicItem("Example 8 - Clear List", "this button will clear the list");
+    	
+    }
+    private class CustomClickListener implements ClickListener {
 
+		@Override
+		public void onClick(int index) {
+			Log.d("MainActivity", "item clicked: " + index);
+		}
+    }
     
     @Override
     public void onResume() {

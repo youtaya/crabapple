@@ -11,6 +11,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -104,6 +105,19 @@ public class RecordManager {
 		return time_record;
 	}
 
+	private boolean exsitDateItem(List<String> list, String date) {
+		if(list.isEmpty()) {
+			return false;
+		}
+		
+		for(String str: list) {
+			if(str.equalsIgnoreCase(date)) {
+				return true;
+			}
+		}
+		
+		return false;
+	}
 	public ArrayList<Map<String, Object>> initDataListTime(ArrayList<RecordCache> record_cache, boolean isLuckDay) {
 		ArrayList<Map<String, Object>> time_record = new ArrayList<Map<String, Object>>();
 		if (!trlist.isEmpty()) {
@@ -126,29 +140,31 @@ public class RecordManager {
 		if(!record_cache.isEmpty()) {
 			record_cache.clear();
 		}
-
+		List<String> ourDateSet = new LinkedList<String>();
+		
 		for (int i = 0; i< trlist.size(); i ++) {
 			HashMap<String, Object> map = new HashMap<String, Object>();
+			HashMap<String, Object> section_map = new HashMap<String, Object>();
+			
 			RecordCache rc = new RecordCache();
 			TimeRecord tr = trlist.get(i);
 			
-			String lf_content;
-			/*
-			if (tr.content_type == TalkUtil.MEDIA_TYPE_PHOTO)
-				lf_content = "惊鸿一瞥";
-			else if (tr.content_type == TalkUtil.MEDIA_TYPE_AUDIO)
-				lf_content = "口若兰花";
-			else
-				lf_content = tr.content;
-			*/
-			lf_content = tr.content;
+			String mYearMonth = tr.calc_date.substring(0,7);
 			
+			if(!exsitDateItem(ourDateSet, mYearMonth)) {
+				ourDateSet.add(mYearMonth);
+				section_map.put("isSection", 1);
+				section_map.put("header", mYearMonth);
+				Log.d(TAG, "put header: "+mYearMonth);
+				time_record.add(section_map);
+			}
+			map.put("isSection", 0);
 			rc.setId(tr._id);
 			rc.setContent(tr.content);
 			map.put("calc_date", tr.calc_date);
 			map.put("content_type", tr.content_type);
 			rc.setCreateDate(tr.calc_date);
-			map.put("content", lf_content);
+			map.put("content", tr.content);
 			map.put("create_time", tr.create_time);
 			rc.setCreateTime(tr.create_time);
 			rc.setMediaType(tr.content_type);

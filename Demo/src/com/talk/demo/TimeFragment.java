@@ -43,7 +43,7 @@ public class TimeFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_time, container, false);
         
         lv = (ListView)rootView.findViewById(R.id.time_list);
-               
+        
         initListView();
         
         return rootView;
@@ -87,7 +87,6 @@ public class TimeFragment extends Fragment {
         
     	// This sets the color displayed for card titles and header actions by default
         tAdapter = new TimeListAdapter(this.getActivity(),time_record, record_cache);
-
         lv.setAdapter(tAdapter);
         lv.setOnItemClickListener(new OnItemClickListener() {
 

@@ -1,0 +1,23 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+ 
+    <LinearLayout
+        android:id="@+id/list_header_layout"
+        android:layout_width="match_parent"
+        android:layout_weight="1"
+        android:layout_height="0dp"
+        android:background="@color/moonwhite" >
+		<TextView
+	        android:id="@+id/time_list_header"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_marginLeft="4dp"
+	        android:textStyle="bold|italic"
+	        android:textColor="@color/lividity"
+	        android:textSize="32sp" />     
+
+    </LinearLayout>
+    
+</LinearLayout>
