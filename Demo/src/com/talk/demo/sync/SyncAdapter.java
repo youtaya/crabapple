@@ -14,7 +14,6 @@ import android.util.Log;
 
 import com.talk.demo.account.AccountConstants;
 import com.talk.demo.persistence.DBManager;
-import com.talk.demo.setting.RichPresent;
 import com.talk.demo.util.NetworkUtilities;
 import com.talk.demo.util.RawRecord;
 
