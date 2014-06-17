@@ -1,6 +1,8 @@
 
 package com.talk.demo;
 
+import android.accounts.Account;
+import android.accounts.AccountManager;
 import android.app.ActionBar;
 import android.app.FragmentTransaction;
 import android.content.Context;
@@ -19,6 +21,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.ViewConfiguration;
 
+import com.talk.demo.account.AccountConstants;
+import com.talk.demo.account.AppMainActivity;
 import com.talk.demo.core.RecordManager;
 import com.talk.demo.persistence.DBManager;
 import com.talk.demo.persistence.TimeRecord;
@@ -28,9 +32,6 @@ import com.talk.demo.setting.IntimateActivity;
 import com.talk.demo.setting.PreviewActivity;
 import com.talk.demo.setting.UserActivity;
 import com.talk.demo.util.TalkUtil;
-
-import org.json.JSONArray;
-import org.json.JSONObject;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -238,6 +239,14 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         startActivity(intent);
     }
     
+    private void removeAccount() {
+    	AccountManager manager = AccountManager.get(this);
+        Account[] accounts = manager.getAccountsByType(AccountConstants.ACCOUNT_TYPE);
+        for (int index = 0; index < accounts.length; index++) {
+        	manager.removeAccount(accounts[index], null, null);
+        }
+    }
+    
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -252,7 +261,11 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
             return true;  
         case R.id.action_add_friend:
         	callOtherActivity(FindIntimateActivity.class);
-            return true;              
+            return true;
+        case R.id.action_logout:
+        	removeAccount();
+        	callOtherActivity(AppMainActivity.class);
+            return true;               
         default:
             return super.onOptionsItemSelected(item);
         }

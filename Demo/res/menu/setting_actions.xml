@@ -29,6 +29,11 @@
         android:id="@+id/action_setting"
         android:showAsAction="ifRoom|withText"
         android:icon="@drawable/ic_popup_menu"
-        android:title="@string/setting"/>	
+        android:title="@string/setting"/>
+	<item
+        android:id="@+id/action_logout"
+        android:showAsAction="ifRoom|withText"
+        android:icon="@drawable/ic_popup_menu"
+        android:title="@string/logout"/>	
 
 </menu>

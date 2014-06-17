@@ -36,4 +36,5 @@
     <string name="add_friend">查找好友</string>
     <string name="store">商店</string>
     <string name="setting">设置</string>
+	<string name="logout">注销</string>    
 </resources>
