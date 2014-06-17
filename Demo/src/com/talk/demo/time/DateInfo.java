@@ -22,14 +22,17 @@ public class DateInfo {
 	
 	public void parseCreateTime() {
 		String str[] = raw_info.split(" ");
+		Log.d(TAG, "raw info: "+raw_info);
 		String[] strDate = str[0].split("-");
 		date = strDate[2];
 		Log.d(TAG, "date: "+date);
-		String[] strTime = str[1].split(":");
-		if(strTime[0].compareTo("12") < 0) {
-			time = strTime[0]+":"+strTime[1]+" AM";
-		} else {
-			time = strTime[0]+":"+strTime[1]+" PM";
+		if(str.length > 1) {
+			String[] strTime = str[1].split(":");
+			if(strTime[0].compareTo("12") < 0) {
+				time = strTime[0]+":"+strTime[1]+" AM";
+			} else {
+				time = strTime[0]+":"+strTime[1]+" PM";
+			}
 		}
 		Log.d(TAG, "time: "+time);
 		
