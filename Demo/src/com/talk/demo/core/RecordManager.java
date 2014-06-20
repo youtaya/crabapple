@@ -118,6 +118,14 @@ public class RecordManager {
 		
 		return false;
 	}
+	String month12[] = {"Jan", "Feb", "Mar","Apr", "May", 
+			"June", "July","Aug", "Sept", "Oct", "Nov", "Dec"
+	};
+	private String coverYearMonth(String yearMonth) {
+		String[] temp = yearMonth.split("-");
+		Log.d(TAG, "convert to : "+Integer.parseInt(temp[1]));
+		return month12[Integer.parseInt(temp[1])-1]+" "+temp[0];
+	}
 	public ArrayList<Map<String, Object>> initDataListTime(ArrayList<RecordCache> record_cache, boolean isLuckDay) {
 		ArrayList<Map<String, Object>> time_record = new ArrayList<Map<String, Object>>();
 		if (!trlist.isEmpty()) {
@@ -154,7 +162,8 @@ public class RecordManager {
 			if(!exsitDateItem(ourDateSet, mYearMonth)) {
 				ourDateSet.add(mYearMonth);
 				section_map.put("isSection", 1);
-				section_map.put("header", mYearMonth);
+				
+				section_map.put("header", coverYearMonth(mYearMonth));
 				Log.d(TAG, "put header: "+mYearMonth);
 				time_record.add(section_map);
 			}
