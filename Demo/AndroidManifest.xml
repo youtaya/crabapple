@@ -57,20 +57,20 @@
 		</activity>    
 		<activity
             android:name=".account.LoginActivity"
-            android:label="@string/app_name">
+            android:label="登录">
 		</activity>
 		<activity
             android:name=".account.SignupActivity"
-            android:label="@string/app_name">
+            android:label="注册">
 		</activity>		
 		<activity
             android:name=".setting.LuckDayActivity"
-            android:label="@string/app_name"
+            android:label="幸运日"
             android:launchMode="singleTask">
 		</activity>
 		<activity
             android:name=".setting.PreviewActivity"
-            android:label="@string/app_name"  
+            android:label="预览"  
             android:parentActivityName=".MainActivity">
 			<meta-data
 			    android:name="android.support.PARENT_ACTIVITY"
@@ -78,7 +78,7 @@
 		</activity>			
 		<activity
             android:name=".setting.UserActivity"
-            android:label="@string/app_name"
+            android:label="用户"
             android:parentActivityName=".MainActivity">
 			<meta-data
 			    android:name="android.support.PARENT_ACTIVITY"
@@ -86,7 +86,7 @@
 		</activity>		
 		<activity
             android:name=".setting.IntimateActivity"
-            android:label="@string/app_name"
+            android:label="好友"
             android:parentActivityName=".MainActivity">
 			<meta-data
 			    android:name="android.support.PARENT_ACTIVITY"
@@ -94,7 +94,7 @@
 		</activity>
 		<activity
             android:name=".setting.FindIntimateActivity"
-            android:label="@string/app_name"
+            android:label="添加好友"
             android:parentActivityName=".MainActivity">
 			<meta-data
 			    android:name="android.support.PARENT_ACTIVITY"
@@ -108,6 +108,7 @@
         </activity>
 		<activity
             android:name=".daily.DailyEditActivity"
+            android:label="编辑日志" 
             android:parentActivityName=".MainActivity">
 			<meta-data
 			    android:name="android.support.PARENT_ACTIVITY"
@@ -115,16 +116,19 @@
         </activity>
 		<activity
             android:name=".share.ShareTalkActivity"
+            android:label="分享" 
             android:parentActivityName=".MainActivity">
 			<meta-data
 			    android:name="android.support.PARENT_ACTIVITY"
 			    android:value=".MainActivity"/>
         </activity>        
 		<activity
-            android:name=".share.FriendsActivity" >
+            android:name=".share.FriendsActivity" 
+            android:label="通讯录" >
         </activity>       
 		<activity
             android:name=".time.TimeAllItem"
+            android:label="时光" 
 			android:parentActivityName=".MainActivity">
 			<meta-data
 			    android:name="android.support.PARENT_ACTIVITY"
@@ -132,7 +136,7 @@
         </activity>
 		<activity
             android:name=".audio.AudioRecorderActivity"
-            android:label="@string/app_name" >
+            android:label="录音" >
         </activity>        
         <service 
             android:name=".account.AccountAuthenticatorService">
