@@ -124,7 +124,11 @@
         </activity>        
 		<activity
             android:name=".share.FriendsActivity" 
-            android:label="通讯录" >
+            android:label="通讯录"
+            android:parentActivityName=".MainActivity" >
+			<meta-data
+			    android:name="android.support.PARENT_ACTIVITY"
+			    android:value=".MainActivity"/>			
         </activity>       
 		<activity
             android:name=".time.TimeAllItem"
