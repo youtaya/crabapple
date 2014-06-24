@@ -21,7 +21,7 @@
                 android:id="@+id/content_bg"
                 android:layout_width="match_parent"
                 android:layout_height="226dp"
-                android:src="@drawable/splash_load"
+                android:src="@drawable/bg_feed_quesition"
                 android:scaleType="fitXY" />
            
             <EditText
