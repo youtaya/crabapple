@@ -1,6 +1,7 @@
 
 package com.talk.demo;
 
+import android.R.color;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,7 +17,7 @@ public class DailyListAdapter extends ArrayAdapter<String> {
 
     private final Context context;
     private final List<String> values;
-    private int[] colors = new int[] { 0xffff0000, 0xffa0a0a0 };
+    private int[] colors = new int[] { 0xffff0000, 0xff444444 };
     
     public DailyListAdapter(Context context, List<String> values) {
         super(context, R.layout.daily_listitem, values);
@@ -55,7 +56,7 @@ public class DailyListAdapter extends ArrayAdapter<String> {
         	holder.feed_like.setImageResource(R.drawable.ic_feed_like_white);
         	holder.feed_comment.setImageResource(R.drawable.ic_feed_comment_white);
         }
-        
+        //holder.text.setTextColor(color.holo_blue_dark);
         holder.feed_like.setOnClickListener(new FeedListener(position));
         
         return convertView; 

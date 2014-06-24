@@ -22,7 +22,7 @@
         android:gravity="center"
         android:minHeight="256dp"
         android:text="Test It!"
-        android:textColor="@color/black"
+        android:textColor="@color/white"
         android:textSize="33sp" />
 	<ImageView
 	    android:id="@+id/feed_like" 
