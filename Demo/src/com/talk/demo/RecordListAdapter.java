@@ -98,7 +98,7 @@ public class RecordListAdapter extends BaseAdapter {
      */
     protected void buyDialog(final View v) {
         AlertDialog.Builder builder = new Builder(mContext);
-        builder.setMessage("确定适用蓝宝石");
+        builder.setMessage("确定使用蓝宝石");
         builder.setTitle("购买提示");
         builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
 

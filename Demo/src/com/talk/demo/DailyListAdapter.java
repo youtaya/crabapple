@@ -16,7 +16,7 @@ public class DailyListAdapter extends ArrayAdapter<String> {
 
     private final Context context;
     private final List<String> values;
-    private int[] colors = new int[] { 0xff3cb371, 0xffa0a0a0 };
+    private int[] colors = new int[] { 0xffff0000, 0xffa0a0a0 };
     
     public DailyListAdapter(Context context, List<String> values) {
         super(context, R.layout.daily_listitem, values);
