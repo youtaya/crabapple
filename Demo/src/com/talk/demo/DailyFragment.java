@@ -49,13 +49,6 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class DailyFragment extends Fragment implements OnItemClickListener {
-    OnItemChangedListener mCallback;
-
-    // The container Activity must implement this interface so the frag can deliver messages
-    public interface OnItemChangedListener {
-        public void onItemChanged();
-    }
-    
     private static String TAG = "DailyFragment";
     //private ListView lv;
     private PullToRefreshListView pullToRefreshView;
@@ -193,10 +186,6 @@ public class DailyFragment extends Fragment implements OnItemClickListener {
                     tr.setContentType(TalkUtil.MEDIA_TYPE_TEXT);
                     recordManager.addRecord(tr);
                     
-                    mCallback.onItemChanged();
-                    // update record list view
-                    RecordFragment rFragment = RecordFragment.newInstance(recordManager);;
-                    rFragment.update();
                     // update time list view
                     initDataList();
                     adapter.notifyDataSetChanged();
@@ -222,15 +211,6 @@ public class DailyFragment extends Fragment implements OnItemClickListener {
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-
-        // This makes sure that the container activity has implemented
-        // the callback interface. If not, it throws an exception.
-        try {
-            mCallback = (OnItemChangedListener) activity;
-        } catch (ClassCastException e) {
-            throw new ClassCastException(activity.toString()
-                    + " must implement OnItemChangedListener");
-        }
     }
 
     public LinkedList<String> initDataList() {  

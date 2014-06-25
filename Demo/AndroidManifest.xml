@@ -99,6 +99,14 @@
 			<meta-data
 			    android:name="android.support.PARENT_ACTIVITY"
 			    android:value=".MainActivity"/>
+		</activity>	
+		<activity
+            android:name=".setting.StoreShopActivity"
+            android:label="商店"
+            android:parentActivityName=".MainActivity">
+			<meta-data
+			    android:name="android.support.PARENT_ACTIVITY"
+			    android:value=".MainActivity"/>
 		</activity>				
         <activity
             android:name=".MainActivity"

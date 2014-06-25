@@ -1,4 +1,4 @@
-package com.talk.demo;
+package com.talk.demo.setting;
 
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
@@ -12,7 +12,9 @@ import android.widget.BaseAdapter;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-import com.talk.demo.setting.RichPresent;
+import com.talk.demo.R;
+import com.talk.demo.R.drawable;
+import com.talk.demo.R.layout;
 
 import java.util.ArrayList;
 import java.util.HashMap;

@@ -30,6 +30,7 @@ import com.talk.demo.prewrite.PreWrite;
 import com.talk.demo.setting.FindIntimateActivity;
 import com.talk.demo.setting.IntimateActivity;
 import com.talk.demo.setting.PreviewActivity;
+import com.talk.demo.setting.StoreShopActivity;
 import com.talk.demo.setting.UserActivity;
 import com.talk.demo.util.TalkUtil;
 
@@ -39,7 +40,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
-public class MainActivity extends FragmentActivity implements ActionBar.TabListener, DailyFragment.OnItemChangedListener {
+public class MainActivity extends FragmentActivity implements ActionBar.TabListener {
 
     private static String TAG = "MainActivity";
     private PreWrite pw;
@@ -47,17 +48,11 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
     private RecordManager recordManager;
     private DailyFragment guideFragment;
     private TimeFragment timeFragment;
-    private RecordFragment recordFragment;
     private TalkFragment talkFragment;
     private ArrayList<Fragment> fragmentList;
     
     private boolean forTest = true;
 
-	@Override
-	public void onItemChanged() {
-		// change to record fragment
-		getActionBar().setSelectedNavigationItem(3);
-	}  
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
      * fragments for each of the sections. We use a
@@ -160,9 +155,6 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         //add talk fragment
         talkFragment = new TalkFragment(recordManager);
         fragmentList.add(talkFragment);        
-        //add record fragment
-        recordFragment = RecordFragment.newInstance(recordManager);
-        fragmentList.add(recordFragment);
         
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager(),fragmentList);
 
@@ -262,6 +254,9 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         case R.id.action_add_friend:
         	callOtherActivity(FindIntimateActivity.class);
             return true;
+        case R.id.action_store:
+        	callOtherActivity(StoreShopActivity.class);
+            return true;            
         case R.id.action_logout:
         	removeAccount();
         	callOtherActivity(AppMainActivity.class);
@@ -329,8 +324,10 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
                     return getString(R.string.title_section1).toUpperCase(l);
                 case 2:
                     return getString(R.string.title_section2).toUpperCase(l);
+                /*
                 case 3:
                     return getString(R.string.title_section3).toUpperCase(l);
+                */
             }
             return null;
         }
