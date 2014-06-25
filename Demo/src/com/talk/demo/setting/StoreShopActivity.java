@@ -30,7 +30,7 @@ public class StoreShopActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
     	
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.fragment_record);
+        setContentView(R.layout.activity_record);
         
         mgr = new DBManager(this);
         recordManager = new RecordManager(mgr);

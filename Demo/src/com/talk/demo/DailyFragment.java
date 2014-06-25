@@ -1,7 +1,10 @@
 package com.talk.demo;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.AlertDialog.Builder;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -25,7 +28,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
@@ -96,6 +98,19 @@ public class DailyFragment extends Fragment implements OnItemClickListener {
     private void dispatchTakeTapeIntent() {
         Intent intent = new Intent(getActivity(), AudioRecorderActivity.class);
         startActivityForResult(intent, TalkUtil.REQUEST_AUDIO_CAPTURE);
+    }
+    
+    private void diamondDialog() {
+        AlertDialog.Builder builder = new Builder(getActivity());
+        builder.setTitle("新进宝石一枚");
+        builder.setMessage("宝石可以用于解锁锁定时光:)");
+        builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        builder.create().show();
     }
     
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -189,6 +204,8 @@ public class DailyFragment extends Fragment implements OnItemClickListener {
                     // update time list view
                     initDataList();
                     adapter.notifyDataSetChanged();
+                    
+                    diamondDialog();
                     
                     hideKeyboardAndClearET();
                 }

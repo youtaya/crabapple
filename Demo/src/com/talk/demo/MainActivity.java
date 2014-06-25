@@ -85,6 +85,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the app.
+        /*
         SharedPreferences sPreferences = getSharedPreferences("for_test", Context.MODE_PRIVATE);
         forTest = sPreferences.getBoolean("test", true);
         if(forTest) {
@@ -143,7 +144,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
             editor.commit();
             
         }
-        
+        */
         
         fragmentList = new ArrayList<Fragment>();
         //add guide fragment

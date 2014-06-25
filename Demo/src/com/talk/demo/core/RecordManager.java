@@ -133,13 +133,10 @@ public class RecordManager {
 		}
 		Log.d(TAG, "init data list");
 		
-		/*
 		if (isLuckDay) {
 			trlist = dbMgr.query();
 		} else
 			trlist = dbMgr.queryWithMultipleParams(TalkUtil.conditonDates());
-		*/
-		trlist = dbMgr.query();
 
 		if (!time_record.isEmpty()) {
 			time_record.clear();

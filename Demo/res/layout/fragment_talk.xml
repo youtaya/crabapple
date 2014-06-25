@@ -10,6 +10,14 @@
         android:layout_height="0dp"
         android:background="@color/beige" >
         
+        <TextView
+			android:layout_width="fill_parent"
+			android:layout_height="fill_parent"
+			android:gravity="center"
+			android:text="@string/long_letter"
+			android:textColor="@color/chinared"
+			android:textSize="18sp"/>
+        
         <com.afollestad.cardsui.CardListView
             android:id="@+id/talk_list"
             android:layout_width="wrap_content"

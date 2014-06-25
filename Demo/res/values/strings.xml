@@ -5,6 +5,12 @@
     <string name="love_letter">是否应验了我曾说过的那句话\n
         &#160;&#160;情到深处人寂寞\n&#160; &#160; 
         &#160; &#160; &#160; &#160; --蔡琴\n\n</string>
+    <string name="old_time">何当共剪西窗烛\n
+		却话巴山夜雨时\n&#160; &#160;&#160; &#160;  
+        &#160; &#160; &#160; &#160; --李商隐\n\n</string> 
+    <string name="long_letter">三人行必有我师\n
+        &#160; &#160;&#160; &#160; &#160; &#160;
+        &#160; &#160;&#160; &#160; --孔子\n\n</string>                
     <string name="login">LOG IN</string>
     <string name="signup">SIGN UP</string>
     <string name="action_settings">Settings</string>
