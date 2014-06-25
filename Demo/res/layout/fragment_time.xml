@@ -3,7 +3,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
  
-    <LinearLayout
+    <FrameLayout
         android:id="@+id/time_list_layout"
         android:layout_width="match_parent"
         android:layout_weight="1"
@@ -14,13 +14,13 @@
 			android:layout_height="fill_parent"
 			android:gravity="center"
 			android:text="@string/old_time"
-			android:textColor="@color/chinared"
+			android:textColor="@color/ivorywhite"
 			android:textSize="18sp"/>   
 			    
         <ListView
             android:id="@+id/time_list"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent" />
-    </LinearLayout>
+    </FrameLayout>
     
 </LinearLayout>
