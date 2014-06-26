@@ -3,10 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="6dp"
+    android:layout_marginTop="2dp"
     android:descendantFocusability="blocksDescendants"
     android:orientation="horizontal"
-    android:paddingBottom="8dp"
     android:paddingLeft="0dp"
     android:paddingRight="0dp" >
     
@@ -16,7 +15,7 @@
         android:layout_height="match_parent"
         android:paddingLeft="4dp"
         android:paddingRight="4dp"
-        android:src="@drawable/tab_main_nav_me_boy_off"
+        android:src="@drawable/default_avatar"
         android:textColor="#ff707070"
         android:textSize="23sp" />
 	<LinearLayout
@@ -32,20 +31,20 @@
 		        android:layout_height="match_parent"
 		        android:paddingLeft="4dp"
 		        android:paddingRight="4dp"
-		        android:paddingTop="4dp"
+		        android:gravity="center"
 		        android:textColor="#ff707070"
 		        android:textSize="25sp" />
 	    </LinearLayout>
 	</LinearLayout>
 	<LinearLayout
 		android:layout_width="wrap_content"
-        android:layout_height="match_parent" >
+        android:layout_height="wrap_content" >
 	    <ImageView
 	        android:id="@+id/decrator"
 	        android:layout_width="wrap_content"
-	        android:layout_height="match_parent"
+	        android:layout_height="wrap_content"
 			android:layout_marginRight="4dp"
-	        android:src="@drawable/new_selected"
+	        android:src="@drawable/ofm_add_icon"
 	        android:visibility="visible" />
 	</LinearLayout>
 

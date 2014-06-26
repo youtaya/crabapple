@@ -85,7 +85,7 @@ public class FindIntimateListAdapter extends BaseAdapter {
             holder.friend_find_name.setText(friendName);
             holder.friend_avatar.setImageDrawable(holder.friend_find_name.getResources().getDrawable(avatarIcon));
             //if it's unlock, no need to set listener
-            if(avatarIcon == R.drawable.new_selected)
+            if(avatarIcon == R.drawable.ofm_add_icon)
             	holder.friend_find_name.setOnClickListener(new lvButtonListener(position));
             holder.decrator.setImageDrawable(holder.decrator.getResources().getDrawable(decratorIcon));
             holder.decrator.setOnClickListener(new lvButtonListener(position));
@@ -111,7 +111,7 @@ public class FindIntimateListAdapter extends BaseAdapter {
             int vid=v.getId();
             if (vid == holder.decrator.getId()) {
             	addFriendLocal(mFindIntimateList.get(position));
-            	((ImageView)v).setImageDrawable(holder.decrator.getResources().getDrawable(R.drawable.new_unselected));
+            	((ImageView)v).setImageDrawable(holder.decrator.getResources().getDrawable(R.drawable.ofm_profile_icon));
             }
         }
     }

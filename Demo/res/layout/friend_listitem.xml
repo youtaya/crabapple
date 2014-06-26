@@ -16,7 +16,7 @@
         android:layout_height="match_parent"
         android:paddingLeft="4dp"
         android:paddingRight="4dp"
-        android:src="@drawable/tab_main_nav_me_boy_off"
+        android:src="@drawable/default_avatar"
         android:textColor="#ff707070"
         android:textSize="23sp" />
 	<LinearLayout

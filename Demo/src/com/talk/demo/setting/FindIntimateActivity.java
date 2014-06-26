@@ -7,7 +7,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.talk.demo.R;
@@ -45,7 +44,7 @@ public class FindIntimateActivity extends Activity {
     public void initData() {
         
         adapter= new FindIntimateListAdapter(this, friends, R.layout.friend_find_listitem,
-        		new String[]{"avatar", "friend_name", "selected"}, 
+        		new String[]{"avatar", "friend_name", "add"}, 
                 new int[]{R.id.friend_avatar, R.id.friend_find_name, R.id.decrator});
         view.setAdapter(adapter);
     }
@@ -66,9 +65,9 @@ public class FindIntimateActivity extends Activity {
 		protected void onPostExecute(List<String> result) {
 			for(String name: getFriendList) {
 				HashMap<String, Object> map = new HashMap<String, Object>();
-				map.put("avatar", R.drawable.tab_main_nav_me_boy_off);
+				map.put("avatar", R.drawable.default_avatar);
 				map.put("friend_name", name);
-				map.put("selected", R.drawable.new_selected);
+				map.put("add", R.drawable.ofm_add_icon);
 				friends.add(map);
 			}
 			initData();
