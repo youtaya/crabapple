@@ -52,7 +52,7 @@ public class FriendsActivity extends Activity {
 				TextView name = (TextView)view.findViewById(R.id.name);
 				choose.setImageResource(R.drawable.ic_menu_done_holo_dark);
 				friendName = name.getText().toString();
-				passChooseName(friendName);
+				//passChooseName(friendName);
 
 			}
 			
@@ -67,7 +67,7 @@ public class FriendsActivity extends Activity {
 	    super.onPause();
 
 	}
-
+	/*
 	private void passChooseName(String name) {
 	    Log.d(TAG, "pass choose name");
         if(name != null) {
@@ -78,6 +78,7 @@ public class FriendsActivity extends Activity {
             finish();
         }
 	}
+	*/
 	
 	private void init() {
 		Uri uri = ContactsContract.CommonDataKinds.Phone.CONTENT_URI;

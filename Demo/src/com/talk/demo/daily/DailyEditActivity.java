@@ -1,5 +1,6 @@
 package com.talk.demo.daily;
 
+import android.accounts.Account;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Intent;
@@ -14,6 +15,7 @@ import android.os.Environment;
 import android.renderscript.Allocation;
 import android.renderscript.RenderScript;
 import android.renderscript.ScriptIntrinsicBlur;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -29,6 +31,7 @@ import com.talk.demo.core.RecordManager;
 import com.talk.demo.persistence.DBManager;
 import com.talk.demo.persistence.TimeRecord;
 import com.talk.demo.share.AddFriendsActivity;
+import com.talk.demo.util.AccountUtils;
 import com.talk.demo.util.NetworkUtilities;
 import com.talk.demo.util.RawRecord;
 import com.talk.demo.util.TalkUtil;
@@ -180,7 +183,11 @@ public class DailyEditActivity extends Activity {
 
 	private String shareToFriend(TimeRecord time, String name) {
 		String result = "ok";
-		RawRecord raw = RawRecord.create("jinxp", "abc", "test", time.content,
+        Account accout = AccountUtils.getPasswordAccessibleAccount(this);
+        if (accout != null && !TextUtils.isEmpty(accout.name)) {
+        	Log.d(TAG,"ccount name: "+accout.name);
+        }
+		RawRecord raw = RawRecord.create(accout.name, friend, "test", time.content,
 				time.calc_date, time.create_time, time.content_type, null,
 				null, false, 11, 12, -1, true);
 		try {

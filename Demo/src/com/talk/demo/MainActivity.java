@@ -5,10 +5,7 @@ import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.app.ActionBar;
 import android.app.FragmentTransaction;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -25,19 +22,16 @@ import com.talk.demo.account.AccountConstants;
 import com.talk.demo.account.AppMainActivity;
 import com.talk.demo.core.RecordManager;
 import com.talk.demo.persistence.DBManager;
-import com.talk.demo.persistence.TimeRecord;
 import com.talk.demo.prewrite.PreWrite;
-import com.talk.demo.setting.FindIntimateActivity;
+import com.talk.demo.setting.FindDSourceFriendsActivity;
 import com.talk.demo.setting.IntimateActivity;
 import com.talk.demo.setting.PreviewActivity;
 import com.talk.demo.setting.StoreShopActivity;
 import com.talk.demo.setting.UserActivity;
-import com.talk.demo.util.TalkUtil;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Locale;
 
 public class MainActivity extends FragmentActivity implements ActionBar.TabListener {
@@ -253,7 +247,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         	callOtherActivity(IntimateActivity.class);
             return true;  
         case R.id.action_add_friend:
-        	callOtherActivity(FindIntimateActivity.class);
+        	callOtherActivity(FindDSourceFriendsActivity.class);
             return true;
         case R.id.action_store:
         	callOtherActivity(StoreShopActivity.class);
