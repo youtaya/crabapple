@@ -1,4 +1,4 @@
-package com.talk.demo.setting;
+package com.talk.demo.share;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -18,8 +18,8 @@ import com.talk.demo.persistence.FriendRecord;
 import java.util.ArrayList;
 import java.util.List;
 
-public class IntimateActivity extends Activity {
-	private static String TAG = "IntimateActivity";
+public class AddFriendsActivity extends Activity {
+	private static String TAG = "AddFriendsActivity";
 	List<String> friends;
     ArrayAdapter<String> adapter;
     ListView view;
@@ -41,7 +41,7 @@ public class IntimateActivity extends Activity {
                 Log.d(TAG, "position : "+position+"id : "+id);
 				TextView name = (TextView)view.findViewById(R.id.friend_name);
 				friendName = name.getText().toString();
-				//Todo:start daily edit activity
+				passChooseName(friendName);
             }
         });
         mgr = new DBManager(this);
@@ -56,6 +56,17 @@ public class IntimateActivity extends Activity {
         
     }
     
+	private void passChooseName(String name) {
+	    Log.d(TAG, "pass choose name: "+name);
+        if(name != null) {
+            Intent resultIntent = new Intent();
+            Log.d(TAG, "friend name : "+name);
+            resultIntent.putExtra("friend_name", name);
+            this.setResult(Activity.RESULT_OK, resultIntent);
+            finish();
+        }
+	}
+	
     public void initData() {
         
         adapter= new ArrayAdapter<String>(this, R.layout.friend_listitem, R.id.friend_name, friends);

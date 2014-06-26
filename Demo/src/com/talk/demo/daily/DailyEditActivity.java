@@ -3,7 +3,6 @@ package com.talk.demo.daily;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Intent;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.drawable.BitmapDrawable;
@@ -12,7 +11,6 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
-import android.provider.MediaStore;
 import android.renderscript.Allocation;
 import android.renderscript.RenderScript;
 import android.renderscript.ScriptIntrinsicBlur;
@@ -30,7 +28,7 @@ import com.talk.demo.R;
 import com.talk.demo.core.RecordManager;
 import com.talk.demo.persistence.DBManager;
 import com.talk.demo.persistence.TimeRecord;
-import com.talk.demo.share.FriendsActivity;
+import com.talk.demo.share.AddFriendsActivity;
 import com.talk.demo.util.NetworkUtilities;
 import com.talk.demo.util.RawRecord;
 import com.talk.demo.util.TalkUtil;
@@ -39,7 +37,6 @@ import org.apache.http.ParseException;
 import org.json.JSONException;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -170,7 +167,7 @@ public class DailyEditActivity extends Activity {
 	}
 
 	private void startFriendActivity() {
-		Intent mIntent = new Intent(this, FriendsActivity.class);
+		Intent mIntent = new Intent(this, AddFriendsActivity.class);
 		this.startActivityForResult(mIntent, GET_FRIEND);
 	}
 
