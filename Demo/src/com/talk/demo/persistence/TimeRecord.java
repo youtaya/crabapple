@@ -36,6 +36,8 @@ public class TimeRecord {
     public TimeRecord(RawRecord rr) {
         _id = (int)rr.getRawContactId();
         server_id = (int)rr.getServerContactId();
+        if(null != rr.getLink())
+        	link = rr.getLink();
         content = rr.getContent();
         calc_date = rr.getCreateDate();
         create_time = rr.getCreateTime();

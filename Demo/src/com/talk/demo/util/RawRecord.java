@@ -103,6 +103,9 @@ final public class RawRecord {
             if (!TextUtils.isEmpty(mUserName)) {
                 json.put("user", mUserName);
             }
+            if (!TextUtils.isEmpty(mLink)) {
+                json.put("link", mLink);
+            }
             if (!TextUtils.isEmpty(mTitle)) {
                 json.put("title", mTitle);
             }

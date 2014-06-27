@@ -15,6 +15,7 @@ import com.talk.demo.persistence.FriendRecord;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class FindIntimateListAdapter extends BaseAdapter {
     private class ViewHolder {
@@ -95,6 +96,14 @@ public class FindIntimateListAdapter extends BaseAdapter {
 
     private void addFriendLocal(HashMap<String, Object> map) {
     	String name = (String) map.get(keyString[1]);
+    	//check whether have saved
+    	List<FriendRecord> frList = mgr.queryFriend();
+    	for(FriendRecord temp : frList) {
+    		if(temp.userName.equals(name)) {
+    			//already add it, skip it
+    			return;
+    		}
+    	}
     	FriendRecord fr = new FriendRecord(name);
     	mgr.addFriend(fr);
     }
