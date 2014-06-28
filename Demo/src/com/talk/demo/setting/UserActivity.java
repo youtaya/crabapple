@@ -54,8 +54,8 @@ public class UserActivity extends Activity {
         }
         GraphViewData[] gvd = new GraphViewData[dailyNum.length];
         int maxNum = 0;
-        for(int j=0;j<dailyNum.length;j++) {
-        	gvd[j] = new GraphViewData(1, dailyNum[j]);
+        for(int j=(dailyNum.length-1), i=0;j>=0;j--,i++) {
+        	gvd[i] = new GraphViewData(i+1, dailyNum[j]);
         	if(maxNum < dailyNum[j] ) {
         		maxNum = dailyNum[j];
         	}
