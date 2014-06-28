@@ -165,7 +165,11 @@ final public class RawRecord {
             final String title = !Record.isNull("title")  ? Record.getString("title") : null;
             final String content = !Record.isNull("content") ? Record.getString("content") : null;
             final String createDate = !Record.isNull("date") ? Record.getString("date") : null;
-            final String createTime = !Record.isNull("time") ? Record.getString("time") : null;
+            String createTime = !Record.isNull("time") ? Record.getString("time") : null;
+            if(createTime.length() > 24) {
+            	String temp = createTime.substring(0, 24);
+            	createTime = temp;
+            }
             final int contentType = !Record.isNull("ctx") ? Record.getInt("ctx") : null;
             final String photo = !Record.isNull("po") ? Record.getString("po") : null;
             final String audio = !Record.isNull("ao") ? Record.getString("ao") : null;

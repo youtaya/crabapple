@@ -15,13 +15,19 @@ import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.GraphView.GraphViewData;
 import com.jjoe64.graphview.GraphViewSeries;
 import com.talk.demo.R;
+import com.talk.demo.persistence.DBManager;
 import com.talk.demo.util.AccountUtils;
+import com.talk.demo.util.TalkUtil;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class UserActivity extends Activity {
 	private static String TAG = "UserActivity";
 	private TextView tv_rich, user_name, tv_luck;
     // Get rich values
     private RichPresent rp;
+    private DBManager mgr;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,23 +45,46 @@ public class UserActivity extends Activity {
         	user_name.setText(accout.name);
         }
         
+        mgr = new DBManager(this);
+        
         // init example series data
-        GraphViewSeries exampleSeries = new GraphViewSeries(new GraphViewData[] {
-            new GraphViewData(1, 2.0d)
-            , new GraphViewData(2, 1.5d)
-            , new GraphViewData(3, 2.5d)
-            , new GraphViewData(4, 1.0d)
-        });
+        int[] dailyNum = new int[4];
+        for(int i=0;i<4;i++) {
+        	dailyNum[i] = getDailyNumber(0-i);
+        }
+        GraphViewData[] gvd = new GraphViewData[dailyNum.length];
+        int maxNum = 0;
+        for(int j=0;j<dailyNum.length;j++) {
+        	gvd[j] = new GraphViewData(1, dailyNum[j]);
+        	if(maxNum < dailyNum[j] ) {
+        		maxNum = dailyNum[j];
+        	}
+        }
+        
+        GraphViewSeries exampleSeries = new GraphViewSeries(gvd);
 
         GraphView graphView = new BarGraphView(
             this // context
-            , "GraphViewDemo" // heading
+            , "日记生成统计" // heading
         );
+        graphView.getGraphViewStyle().setNumHorizontalLabels(4);
+        graphView.getGraphViewStyle().setNumVerticalLabels(maxNum+2);
+        graphView.setManualYAxisBounds(maxNum+1, 0);
+        //graphView.getGraphViewStyle().setVerticalLabelsWidth(300);
+        graphView.setHorizontalLabels(new String[] {"3 days ago", "2 days ago", "yesterday", "today"});
+        
         graphView.addSeries(exampleSeries); // data
 
         LinearLayout layout = (LinearLayout) findViewById(R.id.vtable);
         layout.addView(graphView);
 
+    }
+    
+    public int getDailyNumber(int v) {
+	    SimpleDateFormat pDateFormat = new SimpleDateFormat("yyyy/MM/dd"); 
+	    Date previewDate = TalkUtil.Cal_Days(new Date(), v);
+	    String preDate = pDateFormat.format(previewDate);
+	    return mgr.queryWithParam(TalkUtil.dailyDate(previewDate)).size(); 
     }
     
     @Override

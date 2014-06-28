@@ -307,6 +307,8 @@ public class DailyFragment extends Fragment implements OnItemClickListener {
         initDataList();
         adapter.notifyDataSetChanged();
 
+        //Todo:get today latest
+        
     }
     
     private void createDirAndSaveFile(Bitmap imageToSave, String fileName) {

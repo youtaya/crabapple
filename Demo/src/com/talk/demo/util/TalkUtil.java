@@ -61,6 +61,12 @@ public class TalkUtil {
         condDate[3] = dateFormat.format(date7);
         return condDate;
 	}
+	
+	public static String dailyDate(Date d) {
+	    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd"); 
+	    Date date1 = Cal_Days(d, 0);
+	    return dateFormat.format(date1);
+	}
 	public static String currentDate() {
 		 SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		 return dateFormat.format(new Date());
