@@ -335,5 +335,19 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         Log.d(TAG, "onDestroy");
         //mgr.closeDB();  
     }
+
+    long waitTime = 2000;
+    long touchTime = 0;
+
+    @Override
+    public void onBackPressed() {
+	    long currentTime = System.currentMillis();
+	    if(currentTime-TouchTime) >= waitTime) {
+		    Toast.makeText(this, "Press again for exit", Toast.LENGTH_SHORT).show();
+		    touchTime = currentTime;
+	    } else {
+		    finish();
+	    }
+    }
     
 }
