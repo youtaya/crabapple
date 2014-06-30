@@ -65,7 +65,7 @@ public class TalkFragment extends Fragment {
         
         // Add a basic header and cards below it
         for(Map<String,String> map : time_record) {
-        	cardAdapter.add(new CardHeader(map.get("create_time")));
+        	//cardAdapter.add(new CardHeader(map.get("create_time")));
         	cardAdapter.add(new Card(map.get("content"), map.get("create_time")));
         }
         cardLv.setAdapter(cardAdapter);  
