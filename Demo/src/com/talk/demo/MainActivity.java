@@ -17,6 +17,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.ViewConfiguration;
+import android.widget.Toast;
 
 import com.talk.demo.account.AccountConstants;
 import com.talk.demo.account.AppMainActivity;
@@ -341,9 +342,9 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 
     @Override
     public void onBackPressed() {
-	    long currentTime = System.currentMillis();
-	    if(currentTime-TouchTime) >= waitTime) {
-		    Toast.makeText(this, "Press again for exit", Toast.LENGTH_SHORT).show();
+	    long currentTime = System.currentTimeMillis();
+	    if((currentTime-touchTime) >= waitTime) {
+	    	Toast.makeText(this, "再按一次退出程序", Toast.LENGTH_SHORT).show();
 		    touchTime = currentTime;
 	    } else {
 		    finish();
