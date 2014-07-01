@@ -108,7 +108,7 @@ public class DailyEditActivity extends Activity {
 		});
 		mgr = new DBManager(this);
 		rMgr = new RecordManager(mgr);
-
+		/*
 		new Thread(new Runnable() {
 
 			@Override
@@ -116,7 +116,7 @@ public class DailyEditActivity extends Activity {
 				applyBlur();
 			}
 		}).start();
-
+		*/
 	}
 
 	private void applyBlur() {
@@ -340,7 +340,7 @@ public class DailyEditActivity extends Activity {
 
 		                content_bg.setImageBitmap(photo);
 		                //apply blur
-		                applyBlur();
+		                //applyBlur();
 		            }
         		}
         	}
