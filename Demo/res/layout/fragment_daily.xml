@@ -20,21 +20,20 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="bottom" 
-        android:background="@color/peru">
+        android:background="@color/white">
         
 	    <RelativeLayout  
 	        android:id="@+id/fast_record_layout"
 	        android:layout_width="match_parent"
-	        android:layout_height="54dp"
-	        android:paddingTop="5dp" >
+	        android:layout_height="50dp" >
 	        
 			<ImageView 
 			    android:id="@+id/tool_spring"
 				android:layout_width="wrap_content"
 	            android:layout_height="wrap_content" 
-	            android:paddingLeft="5dp"
-	            android:paddingTop="5dp"
-				android:src="@drawable/ic_dialog_long_click" />
+	            android:layout_marginTop="5dp"
+	            android:layout_marginBottom="6dp"
+				android:src="@drawable/btn_more_normal" />
 			
 			 <LinearLayout
 			    android:id="@+id/null_empty"
@@ -49,29 +48,35 @@
 	            android:id="@+id/fast_record"
 	            style="@style/MMEditText"
 	            android:layout_toRightOf="@+id/null_empty"
-	            android:layout_alignParentRight="true"
+	            android:layout_toLeftOf="@+id/btn_new"
 	            android:autoText="true"
 	            android:capitalize="sentences"
 	            android:hint="@string/fast_record"
 	            android:maxLines="5"
-	            android:nextFocusRight="@+id/ok_fast_record"
-	            android:paddingBottom="5dip"
-	            android:paddingLeft="5dip"
-	            android:paddingRight="5dip"
-	            android:layout_marginLeft="4dp"
-	            android:layout_marginRight="5dp"
-	            android:textSize="15sp" >
-	
-	        </EditText>
+	            android:layout_marginTop="5dp"
+	            android:layout_marginBottom="6dp"
+	            android:textSize="15sp" />
 	
 	        <ImageView
 	            android:id="@+id/ok_fast_record"
 	            android:layout_width="wrap_content"
 	            android:layout_height="wrap_content"
-	            android:paddingTop="4dp"
+	            android:layout_alignRight="@+id/fast_record"
+	            android:visibility="gone"
+				android:paddingTop="5dp"
+	            android:paddingBottom="5dp"
+	            android:layout_marginTop="5dp"
+	            android:layout_marginBottom="6dp"
+	            android:src="@drawable/btn_maximize_normal" />
+	        
+	        <ImageView
+	            android:id="@+id/btn_new"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:layout_marginTop="5dp"
+	            android:layout_marginBottom="5dp"
 	            android:layout_alignParentRight="true"
-	            android:layout_marginRight="6dp"
-	            android:src="@drawable/btn_check_off_normal" />
+	            android:src="@drawable/btn_new_normal" />	        
 	
 		</RelativeLayout>
 		
