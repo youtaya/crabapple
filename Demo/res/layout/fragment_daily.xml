@@ -28,7 +28,7 @@
 	        android:layout_height="50dp" >
 	        
 			<ImageView 
-			    android:id="@+id/tool_spring"
+			    android:id="@+id/btn_more"
 				android:layout_width="wrap_content"
 	            android:layout_height="wrap_content" 
 	            android:layout_marginTop="5dp"
@@ -39,7 +39,7 @@
 			    android:id="@+id/null_empty"
 				android:focusable="true"
 				android:focusableInTouchMode="true" 
-				android:layout_toRightOf="@+id/tool_spring"
+				android:layout_toRightOf="@+id/btn_more"
 				android:orientation="horizontal"
 				android:layout_width="0px"
 				android:layout_height="0px" />
@@ -58,7 +58,7 @@
 	            android:textSize="15sp" />
 	
 	        <ImageView
-	            android:id="@+id/ok_fast_record"
+	            android:id="@+id/btn_maximize"
 	            android:layout_width="wrap_content"
 	            android:layout_height="wrap_content"
 	            android:layout_alignRight="@+id/fast_record"
@@ -76,7 +76,7 @@
 	            android:layout_marginTop="5dp"
 	            android:layout_marginBottom="5dp"
 	            android:layout_alignParentRight="true"
-	            android:src="@drawable/btn_new_normal" />	        
+	            android:src="@drawable/quicknew_button_selector" />	        
 	
 		</RelativeLayout>
 		

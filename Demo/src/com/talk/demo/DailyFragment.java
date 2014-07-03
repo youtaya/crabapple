@@ -18,8 +18,10 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
@@ -55,7 +57,8 @@ public class DailyFragment extends Fragment implements OnItemClickListener {
     //private ListView lv;
     private PullToRefreshListView pullToRefreshView;
     private EditText et;
-    private ImageView iv,ivSpring, ivPhoto, ivGallery, ivTape;
+    private ImageView btn_maximize,btn_more, ivPhoto, ivGallery, ivTape;
+    private ImageView btn_new;
     private RecordManager recordManager;
     private LinkedList<String> daily_record;
     private DailyListAdapter adapter;
@@ -77,7 +80,7 @@ public class DailyFragment extends Fragment implements OnItemClickListener {
       	      Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(et.getWindowToken(), 0);
         et.setText("");
-        iv.setImageResource(R.drawable.btn_check_off_normal);
+        btn_maximize.setImageResource(R.drawable.btn_maximize_normal);
     }
     
     private void dispatchTakePictureIntent() {
@@ -123,7 +126,7 @@ public class DailyFragment extends Fragment implements OnItemClickListener {
         pullToRefreshView = (PullToRefreshListView)rootView.findViewById(R.id.daily_list);
         //lv = (ListView)rootView.findViewById(R.id.daily_list);
         et = (EditText)rootView.findViewById(R.id.fast_record);
-        ivSpring = (ImageView)rootView.findViewById(R.id.tool_spring);
+        btn_more = (ImageView)rootView.findViewById(R.id.btn_more);
         ivPhoto = (ImageView)rootView.findViewById(R.id.take_photo);
         ivPhoto.setOnClickListener(new OnClickListener() {
 
@@ -155,7 +158,7 @@ public class DailyFragment extends Fragment implements OnItemClickListener {
             }
             
         });
-        ivSpring.setOnClickListener(new OnClickListener() {
+        btn_more.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
@@ -169,7 +172,64 @@ public class DailyFragment extends Fragment implements OnItemClickListener {
 			}
         	
         });
-        iv = (ImageView)rootView.findViewById(R.id.ok_fast_record);
+        btn_maximize = (ImageView)rootView.findViewById(R.id.btn_maximize);
+        btn_maximize.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+            	Intent intent = new Intent(getActivity(),DailyEditActivity.class);  
+            	getActivity().startActivity(intent);  
+            	getActivity().overridePendingTransition(R.anim.in_from_bottom,0);  
+            }
+        });
+        
+        btn_new = (ImageView)rootView.findViewById(R.id.btn_new);
+        btn_new.setOnTouchListener(new OnTouchListener() {
+
+			@Override
+			public boolean onTouch(View v, MotionEvent event) {
+				//v.setSelected(true);
+				int action = event.getAction();
+			    switch (action) {
+			    case MotionEvent.ACTION_MOVE:
+			    case MotionEvent.ACTION_DOWN:
+			    	btn_new.setPressed(true);
+			    	break;
+			    case MotionEvent.ACTION_UP:
+			    	if(!btn_new.isFocusable()) {
+			    		Log.d(TAG, "test....");
+				    	Intent intent = new Intent(getActivity(),DailyEditActivity.class);  
+		            	getActivity().startActivity(intent);  
+		            	getActivity().overridePendingTransition(R.anim.in_from_bottom,0);
+			    	} else {
+			    		Log.d(TAG, "test....222");
+			    		String content = et.getText().toString();
+						// Do nothing if content is empty
+		                if(content.length() > 0) {
+		                    TimeRecord tr = new TimeRecord(content);  
+		                    tr.setContentType(TalkUtil.MEDIA_TYPE_TEXT);
+		                    recordManager.addRecord(tr);
+		                    
+		                    // update time list view
+		                    initDataList();
+		                    adapter.notifyDataSetChanged();
+		                    
+		                    diamondDialog();
+		                }
+		                hideKeyboardAndClearET();
+			    	}
+			    	btn_new.setPressed(false);
+	            	break;
+			    case MotionEvent.ACTION_CANCEL:
+			    	btn_new.setPressed(false);
+			    default:
+			    	break;
+			    }
+			    
+				return true;
+			}
+        	
+        });
+   
         TextWatcher watcher = new TextWatcher() {
 			@Override
 			public void afterTextChanged(Editable s) {
@@ -177,40 +237,24 @@ public class DailyFragment extends Fragment implements OnItemClickListener {
 			@Override
 			public void beforeTextChanged(CharSequence s, int start, int count,
 					int after) {
-				iv.setImageResource(R.drawable.btn_check_on_normal);
+				//btn_maximize.setImageResource(R.drawable.btn_maximize_active);
 			}
 			@Override
 			public void onTextChanged(CharSequence s, int start, int before,
 					int count) {
 				if( s.length() > 0) {
-					iv.setImageResource(R.drawable.btn_check_on_normal);
+					btn_maximize.setVisibility(View.VISIBLE);
+					btn_new.setImageResource(R.drawable.done_button_selector);
+					btn_new.setFocusable(true);
 				} else {
-					iv.setImageResource(R.drawable.btn_check_off_normal);
+					btn_maximize.setVisibility(View.GONE);
+					btn_new.setImageResource(R.drawable.quicknew_button_selector);
+					btn_new.setFocusable(false);
 				}
 			}
         };
         et.addTextChangedListener(watcher);
         
-        iv.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String content = et.getText().toString();
-				// Do nothing if content is empty
-                if(content.length() > 0) {
-                    TimeRecord tr = new TimeRecord(content);  
-                    tr.setContentType(TalkUtil.MEDIA_TYPE_TEXT);
-                    recordManager.addRecord(tr);
-                    
-                    // update time list view
-                    initDataList();
-                    adapter.notifyDataSetChanged();
-                    
-                    diamondDialog();
-                    
-                    hideKeyboardAndClearET();
-                }
-            }
-        });
         
         pullToRefreshView.setOnRefreshListener(new OnRefreshListener<ListView>() {
             @Override

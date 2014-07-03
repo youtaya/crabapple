@@ -66,10 +66,13 @@ public class DailyEditActivity extends Activity {
 
 		setContentView(R.layout.activity_dailyedit);
 		Bundle bundle = getIntent().getExtras();
-		pre_content = bundle.getString("precontent");
+		if(bundle != null)
+			pre_content = bundle.getString("precontent");
 		edit_content = (EditText) findViewById(R.id.edit_content);
-		edit_content.setText(pre_content);
-		edit_content.setSelection(pre_content.length());
+		if(pre_content != null) {
+			edit_content.setText(pre_content);
+			edit_content.setSelection(pre_content.length());
+		}
 		content_bg = (ImageView) findViewById(R.id.content_bg);
 		add_photo = (ImageView) findViewById(R.id.add_photo);
 		
@@ -235,7 +238,14 @@ public class DailyEditActivity extends Activity {
 		 */
 		finish();
 	}
-
+	
+	@Override
+	public void finish() {  
+		super.finish();  
+		//关闭窗体动画显示
+		this.overridePendingTransition(R.anim.out_to_bottom,0);  
+	}
+	
 	private class ShareRecordTask extends AsyncTask<Void, Void, String> {
 		@Override
 		protected String doInBackground(Void... params) {
