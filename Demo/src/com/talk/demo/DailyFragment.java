@@ -144,6 +144,7 @@ public class DailyFragment extends Fragment implements OnItemClickListener {
 			    	dispatchTakePictureIntent();
 			    	ivPhoto.setPressed(false);
 			    	take_snap.setVisibility(View.GONE);
+			    	btn_more.setImageResource(R.drawable.quickmore_button_selector);
 			    case MotionEvent.ACTION_CANCEL:
 			    	ivPhoto.setPressed(false);
 			    default:
@@ -162,6 +163,7 @@ public class DailyFragment extends Fragment implements OnItemClickListener {
 			public void onClick(View arg0) {
 				dispatchTakeGalleryIntent();
 				take_snap.setVisibility(View.GONE);
+				btn_more.setImageResource(R.drawable.quickmore_button_selector);
 			}
         	
         });
@@ -172,6 +174,7 @@ public class DailyFragment extends Fragment implements OnItemClickListener {
             public void onClick(View arg0) {
                 dispatchTakeTapeIntent();
                 take_snap.setVisibility(View.GONE);
+                btn_more.setImageResource(R.drawable.quickmore_button_selector);
             }
             
         });
@@ -194,11 +197,11 @@ public class DailyFragment extends Fragment implements OnItemClickListener {
 						take_snap.startAnimation(hyperspaceJumpAnimation);
 						snap_on = true;
 					} else {
-						take_snap.setVisibility(View.GONE);
 						btn_more.setImageResource(R.drawable.quickmore_button_selector);
 						Animation hyperspaceJumpAnimation = AnimationUtils.
 								loadAnimation(getActivity(), R.anim.out_to_bottom);
 						take_snap.startAnimation(hyperspaceJumpAnimation);
+						take_snap.setVisibility(View.GONE);
 						snap_on = false;
 					}
 			    	btn_more.setPressed(false);
@@ -256,7 +259,7 @@ public class DailyFragment extends Fragment implements OnItemClickListener {
 			    		Log.d(TAG, "test....");
 				    	Intent intent = new Intent(getActivity(),DailyEditActivity.class);  
 		            	getActivity().startActivity(intent);  
-		            	getActivity().overridePendingTransition(R.anim.in_from_bottom,0);
+		            	getActivity().overridePendingTransition(R.anim.in_from_bottom, R.anim.out_to_top);
 			    	} else {
 			    		Log.d(TAG, "test....222");
 			    		String content = et.getText().toString();
