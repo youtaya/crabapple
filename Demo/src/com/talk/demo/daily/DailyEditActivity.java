@@ -243,7 +243,7 @@ public class DailyEditActivity extends Activity {
 	public void finish() {  
 		super.finish();  
 		//关闭窗体动画显示
-		this.overridePendingTransition(R.anim.out_to_bottom,0);  
+		this.overridePendingTransition(R.anim.out_to_bottom,R.anim.in_from_bottom);  
 	}
 	
 	private class ShareRecordTask extends AsyncTask<Void, Void, String> {
