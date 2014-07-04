@@ -31,9 +31,9 @@
 			    android:id="@+id/btn_more"
 				android:layout_width="wrap_content"
 	            android:layout_height="wrap_content" 
-	            android:layout_marginTop="5dp"
+	            android:layout_marginTop="6dp"
 	            android:layout_marginBottom="6dp"
-				android:src="@drawable/btn_more_normal" />
+				android:src="@drawable/quickmore_button_selector" />
 			
 			 <LinearLayout
 			    android:id="@+id/null_empty"
@@ -53,7 +53,7 @@
 	            android:capitalize="sentences"
 	            android:hint="@string/fast_record"
 	            android:maxLines="5"
-	            android:layout_marginTop="5dp"
+	            android:layout_marginTop="6dp"
 	            android:layout_marginBottom="6dp"
 	            android:textSize="15sp" />
 	
@@ -65,16 +65,16 @@
 	            android:visibility="gone"
 				android:paddingTop="5dp"
 	            android:paddingBottom="5dp"
-	            android:layout_marginTop="5dp"
+	            android:layout_marginTop="6dp"
 	            android:layout_marginBottom="6dp"
-	            android:src="@drawable/btn_maximize_normal" />
+	            android:src="@drawable/maximize_button_selector" />
 	        
 	        <ImageView
 	            android:id="@+id/btn_new"
 	            android:layout_width="wrap_content"
 	            android:layout_height="wrap_content"
-	            android:layout_marginTop="5dp"
-	            android:layout_marginBottom="5dp"
+	            android:layout_marginTop="6dp"
+	            android:layout_marginBottom="6dp"
 	            android:layout_alignParentRight="true"
 	            android:src="@drawable/quicknew_button_selector" />	        
 	
@@ -83,9 +83,9 @@
 	    <LinearLayout
 	        android:id="@+id/take_snap"
 			android:layout_width="match_parent"
-	        android:layout_height="70dp" 
+	        android:layout_height="wrap_content" 
 	        android:visibility="gone"
-	        android:background="@color/lemonchiffon"
+	        android:background="@color/white"
 	        android:layout_below="@+id/fast_record_layout">
 	        <LinearLayout
 				android:layout_width="wrap_content"
@@ -98,7 +98,7 @@
 					android:layout_height="wrap_content"
 					android:layout_marginTop="6dip"
 					android:layout_gravity="center"
-					android:src="@drawable/take_photo" />
+					android:src="@drawable/quickcamera_button_selector" />
 		        <TextView
 		            android:id="@+id/str_photo"
 		            android:layout_width="match_parent"
@@ -124,7 +124,7 @@
 					android:layout_height="wrap_content" 
 					android:layout_marginTop="6dip"
 					android:layout_gravity="center"
-					android:src="@drawable/take_gallery" />
+					android:src="@drawable/icon_album" />
 		        <TextView
 		            android:id="@+id/str_gallery"
 		            android:layout_width="match_parent"
@@ -150,7 +150,7 @@
 					android:layout_height="wrap_content"
 					android:layout_marginTop="6dip"
 					android:layout_gravity="center"
-					android:src="@drawable/take_tape" />
+					android:src="@drawable/quickrecord_button_selector" />
 		        <TextView
 		            android:id="@+id/str_tape"
 		            android:layout_width="match_parent"

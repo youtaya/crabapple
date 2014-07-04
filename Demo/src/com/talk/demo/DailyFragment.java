@@ -23,6 +23,8 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -128,12 +130,27 @@ public class DailyFragment extends Fragment implements OnItemClickListener {
         et = (EditText)rootView.findViewById(R.id.fast_record);
         btn_more = (ImageView)rootView.findViewById(R.id.btn_more);
         ivPhoto = (ImageView)rootView.findViewById(R.id.take_photo);
-        ivPhoto.setOnClickListener(new OnClickListener() {
+        ivPhoto.setOnTouchListener(new OnTouchListener() {
 
 			@Override
-			public void onClick(View arg0) {
-				dispatchTakePictureIntent();
-				take_snap.setVisibility(View.GONE);
+			public boolean onTouch(View v, MotionEvent event) {
+	  			int action = event.getAction();
+			    switch (action) {
+			    case MotionEvent.ACTION_MOVE:
+			    case MotionEvent.ACTION_DOWN:
+			    	ivPhoto.setPressed(true);
+			    	break;
+			    case MotionEvent.ACTION_UP:
+			    	dispatchTakePictureIntent();
+			    	ivPhoto.setPressed(false);
+			    	take_snap.setVisibility(View.GONE);
+			    case MotionEvent.ACTION_CANCEL:
+			    	ivPhoto.setPressed(false);
+			    default:
+			    	break;
+			    }
+				
+				return true;
 			}
         	
         });
@@ -158,27 +175,68 @@ public class DailyFragment extends Fragment implements OnItemClickListener {
             }
             
         });
-        btn_more.setOnClickListener(new OnClickListener() {
+        btn_more.setOnTouchListener(new OnTouchListener() {
 
 			@Override
-			public void onClick(View v) {
-				if(!snap_on) {
-					take_snap.setVisibility(View.VISIBLE);
-					snap_on = true;
-				} else {
-					take_snap.setVisibility(View.GONE);
-					snap_on = false;
-				}
+			public boolean onTouch(View v, MotionEvent event) {
+    			int action = event.getAction();
+			    switch (action) {
+			    case MotionEvent.ACTION_MOVE:
+			    case MotionEvent.ACTION_DOWN:
+			    	btn_more.setPressed(true);
+			    	break;
+			    case MotionEvent.ACTION_UP:
+					if(!snap_on) {
+						take_snap.setVisibility(View.VISIBLE);
+						btn_more.setImageResource(R.drawable.quickstowed_button_selector);
+						Animation hyperspaceJumpAnimation = AnimationUtils.
+								loadAnimation(getActivity(), R.anim.in_from_bottom);
+						take_snap.startAnimation(hyperspaceJumpAnimation);
+						snap_on = true;
+					} else {
+						take_snap.setVisibility(View.GONE);
+						btn_more.setImageResource(R.drawable.quickmore_button_selector);
+						Animation hyperspaceJumpAnimation = AnimationUtils.
+								loadAnimation(getActivity(), R.anim.out_to_bottom);
+						take_snap.startAnimation(hyperspaceJumpAnimation);
+						snap_on = false;
+					}
+			    	btn_more.setPressed(false);
+			    	break;
+			    case MotionEvent.ACTION_CANCEL:
+			    	btn_more.setPressed(false);
+			    default:
+			    	break;
+			    }
+				
+				return true;
 			}
         	
         });
         btn_maximize = (ImageView)rootView.findViewById(R.id.btn_maximize);
-        btn_maximize.setOnClickListener(new OnClickListener() {
+        btn_maximize.setOnTouchListener(new OnTouchListener() {
             @Override
-            public void onClick(View v) {
-            	Intent intent = new Intent(getActivity(),DailyEditActivity.class);  
-            	getActivity().startActivity(intent);  
-            	getActivity().overridePendingTransition(R.anim.in_from_bottom,0);  
+            public boolean onTouch(View v, MotionEvent event) {
+    			int action = event.getAction();
+			    switch (action) {
+			    case MotionEvent.ACTION_MOVE:
+			    case MotionEvent.ACTION_DOWN:
+			    	btn_maximize.setPressed(true);
+			    	break;
+			    case MotionEvent.ACTION_UP:
+	            	Intent intent = new Intent(getActivity(),DailyEditActivity.class);
+	                Bundle mBundle = new Bundle();
+	                mBundle.putString("precontent", et.getText().toString());
+	                intent.putExtras(mBundle);
+	            	getActivity().startActivity(intent);  
+	            	getActivity().overridePendingTransition(R.anim.in_from_bottom,0);
+	            	btn_maximize.setPressed(false);
+			    case MotionEvent.ACTION_CANCEL:
+			    	btn_maximize.setPressed(false);
+			    default:
+			    	break;
+			    }
+            	return true;
             }
         });
         
@@ -187,7 +245,6 @@ public class DailyFragment extends Fragment implements OnItemClickListener {
 
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {
-				//v.setSelected(true);
 				int action = event.getAction();
 			    switch (action) {
 			    case MotionEvent.ACTION_MOVE:
