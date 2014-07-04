@@ -199,7 +199,7 @@ public class DailyFragment extends Fragment implements OnItemClickListener {
 			    		Log.d(TAG, "test....");
 				    	Intent intent = new Intent(getActivity(),DailyEditActivity.class);  
 		            	getActivity().startActivity(intent);  
-		            	getActivity().overridePendingTransition(R.anim.in_from_bottom,R.anim.out_to_bottom);
+		            	getActivity().overridePendingTransition(R.anim.in_from_bottom,0);
 			    	} else {
 			    		Log.d(TAG, "test....222");
 			    		String content = et.getText().toString();
