@@ -3,7 +3,7 @@
     
     <!-- Confirm, should appear as action button -->
     <item android:id="@+id/action_confirm"
-          android:icon="@drawable/ic_action_confirm"
+          android:icon="@drawable/ic_send_btn_disabled"
           android:title="@string/action_confirm"
-          android:showAsAction="ifRoom" />
+          android:showAsAction="always|withText" />
 </menu>

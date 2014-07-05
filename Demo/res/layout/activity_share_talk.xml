@@ -93,7 +93,7 @@
 			android:layout_width="wrap_content"
 	        android:layout_height="wrap_content" 
 	        android:background ="@drawable/button_rounded_background"  
-	        android:src="@drawable/send_knows" />
+	        android:src="@drawable/ic_send_btn_disabled" />
     </LinearLayout>
 
 </LinearLayout>

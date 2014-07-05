@@ -71,7 +71,7 @@ public class UserActivity extends Activity {
         graphView.getGraphViewStyle().setNumVerticalLabels(maxNum+2);
         graphView.setManualYAxisBounds(maxNum+1, 0);
         //graphView.getGraphViewStyle().setVerticalLabelsWidth(300);
-        graphView.setHorizontalLabels(new String[] {"3 days ago", "2 days ago", "yesterday", "today"});
+        graphView.setHorizontalLabels(new String[] {"3天前", "2天前", "昨天", "今天"});
         
         graphView.addSeries(exampleSeries); // data
 

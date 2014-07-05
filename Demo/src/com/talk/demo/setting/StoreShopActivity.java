@@ -23,7 +23,7 @@ public class StoreShopActivity extends Activity {
     int[] status = new int[] {
             R.drawable.lock_status,
             R.drawable.unlock_status,
-            R.drawable.send_knows,
+            R.drawable.note_browse_share_normal,
             };
     
     @Override

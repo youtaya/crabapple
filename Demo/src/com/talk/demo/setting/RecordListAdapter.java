@@ -10,11 +10,10 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.talk.demo.R;
-import com.talk.demo.R.drawable;
-import com.talk.demo.R.layout;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -23,7 +22,7 @@ public class RecordListAdapter extends BaseAdapter {
     private class ViewHolder {
     	TextView create_time;
     	ImageButton buy;
-        ImageButton share;
+        ImageView share;
     }
     
     private ArrayList<HashMap<String, Object>> mRecordList;
@@ -76,7 +75,7 @@ public class RecordListAdapter extends BaseAdapter {
             holder = new ViewHolder();
             holder.create_time = (TextView)convertView.findViewById(valueViewID[0]);
             holder.buy = (ImageButton)convertView.findViewById(valueViewID[1]);
-            holder.share = (ImageButton)convertView.findViewById(valueViewID[2]);
+            holder.share = (ImageView)convertView.findViewById(valueViewID[2]);
             convertView.setTag(holder);
         }
         

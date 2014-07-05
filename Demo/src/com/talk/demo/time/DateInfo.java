@@ -14,7 +14,7 @@ public class DateInfo {
 	private String date;
 	private String week_day;
 	private String[] week_array = 
-		{"MONDAY", "TUESDAY", "WENSDAY", "THURSDAY", "FRIDAY", "SATDAY", "SUNDAY" };
+		{"星期一", "星期二", "星期三", "星期四", "星期五", "星期六", "星期日" };
 	private String raw_info;
 	public DateInfo(String timeInfo) {
 		raw_info = timeInfo;
