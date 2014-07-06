@@ -1,11 +1,15 @@
 package com.talk.demo;
 
+import android.accounts.Account;
 import android.app.Activity;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,9 +18,14 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
+import com.handmark.pulltorefresh.library.PullToRefreshBase;
+import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
+import com.handmark.pulltorefresh.library.PullToRefreshListView;
+import com.talk.demo.account.AccountConstants;
 import com.talk.demo.core.RecordManager;
 import com.talk.demo.persistence.RecordCache;
 import com.talk.demo.time.TimeAllItem;
+import com.talk.demo.util.AccountUtils;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -25,7 +34,7 @@ import java.util.Map;
 public class TimeFragment extends Fragment {
     
     private static String TAG = "TimeFragment";
-    private ListView lv;
+    private PullToRefreshListView lv;
     private ArrayList<Map<String, Object>> time_record;
     private ArrayList<RecordCache> record_cache;
     private TimeListAdapter tAdapter;
@@ -42,7 +51,15 @@ public class TimeFragment extends Fragment {
             Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_time, container, false);
         
-        lv = (ListView)rootView.findViewById(R.id.time_list);
+        lv = (PullToRefreshListView)rootView.findViewById(R.id.time_list);
+        
+        lv.setOnRefreshListener(new OnRefreshListener<ListView>() {
+            @Override
+            public void onRefresh(PullToRefreshBase<ListView> refreshView) {
+                // Do work to refresh the list here.
+                new ManualSyncTask().execute();
+            }
+        });
         
         initListView();
         
@@ -121,5 +138,50 @@ public class TimeFragment extends Fragment {
         tAdapter.notifyDataSetChanged();
 
     }
+    
+    private class ManualSyncTask extends AsyncTask<Void, Void, Void> {
+    	
+		@Override
+		protected Void doInBackground(Void... params) {
+			onRefreshButtonClick();
+			//Todo: trigger talk list to update!!
+			return null;
+		}			
+        @Override
+        protected void onPostExecute(Void result) {
+            // Call onRefreshComplete when the list has been refreshed.
+            lv.onRefreshComplete();
+            super.onPostExecute(result);
+        }
 
+    }
+    
+    /**
+     * Respond to a button click by calling requestSync(). This is an
+     * asynchronous operation.
+     *
+     * This method is attached to the refresh button in the layout
+     * XML file
+     *
+     * @param v The View associated with the method call,
+     * in this case a Button
+     */
+    public void onRefreshButtonClick() {
+        // Pass the settings flags by inserting them in a bundle
+        Bundle settingsBundle = new Bundle();
+        settingsBundle.putBoolean(
+                ContentResolver.SYNC_EXTRAS_MANUAL, true);
+        settingsBundle.putBoolean(
+                ContentResolver.SYNC_EXTRAS_EXPEDITED, true);
+        /*
+         * Request the sync for the default account, authority, and
+         * manual sync settings
+         */
+        Account accout = AccountUtils.getPasswordAccessibleAccount(getActivity());
+        if (accout != null && !TextUtils.isEmpty(accout.name)) {
+        	Log.d(TAG,"ccount name: "+accout.name);
+        	ContentResolver.requestSync(accout, AccountConstants.PROVIDER_AUTHORITY, settingsBundle);
+        }
+        
+    }
 }
