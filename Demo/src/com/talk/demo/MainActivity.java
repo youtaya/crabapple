@@ -27,6 +27,7 @@ import com.talk.demo.prewrite.PreWrite;
 import com.talk.demo.setting.FindDSourceFriendsActivity;
 import com.talk.demo.setting.IntimateActivity;
 import com.talk.demo.setting.PreviewActivity;
+import com.talk.demo.setting.SettingActivity;
 import com.talk.demo.setting.StoreShopActivity;
 import com.talk.demo.setting.UserActivity;
 
@@ -252,7 +253,10 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
             return true;
         case R.id.action_store:
         	callOtherActivity(StoreShopActivity.class);
-            return true;            
+            return true; 
+        case R.id.action_setting:
+        	callOtherActivity(SettingActivity.class);
+            return true;              
         case R.id.action_logout:
         	removeAccount();
         	callOtherActivity(AppMainActivity.class);

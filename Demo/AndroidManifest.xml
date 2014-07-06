@@ -115,7 +115,23 @@
 			<meta-data
 			    android:name="android.support.PARENT_ACTIVITY"
 			    android:value=".MainActivity"/>
-		</activity>				
+		</activity>	
+		<activity
+            android:name=".setting.AboutActivity"
+            android:label="关于"
+            android:parentActivityName=".MainActivity">
+			<meta-data
+			    android:name="android.support.PARENT_ACTIVITY"
+			    android:value=".MainActivity"/>
+		</activity>			
+		<activity
+            android:name=".setting.SettingActivity"
+            android:label="设置"
+            android:parentActivityName=".MainActivity">
+			<meta-data
+			    android:name="android.support.PARENT_ACTIVITY"
+			    android:value=".MainActivity"/>
+		</activity>						
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name" 
