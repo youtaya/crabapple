@@ -55,42 +55,38 @@
 	</LinearLayout>
 	
 	<LinearLayout 
-		android:layout_width="64dip"
+		android:layout_width="66dip"
 		android:layout_height="wrap_content"
 		android:layout_marginTop="2dp"
 		android:layout_marginBottom="2dp"
-		android:layout_marginRight="12dp"
+		android:background="@color/moonwhite"
 		android:orientation="vertical" >
-		<RelativeLayout 
-			android:layout_width="match_parent"
-			android:layout_height="match_parent" >
-			<TextView
-		        android:id="@+id/create_time"
-		        android:layout_width="wrap_content"
-		        android:layout_height="wrap_content"
-		        android:maxLines="1"
-		        android:layout_alignParentRight="true"
-		        android:textColor="@color/saddlebrown"
-		        android:textSize="11sp" />
-			<TextView
-		        android:id="@+id/create_date"
-		        android:layout_width="wrap_content"
-		        android:layout_height="wrap_content"
-		        android:layout_below="@+id/create_time"
-		        android:layout_alignParentRight="true"
-		        android:textStyle="bold|italic"
-		        android:textColor="@color/feise"
-		        android:textSize="32sp" />
-			<TextView
-		        android:id="@+id/create_week"
-		        android:layout_width="wrap_content"
-		        android:layout_height="wrap_content"
-		        android:layout_below="@+id/create_date"
-		        android:maxLines="1"
-		        android:layout_alignParentRight="true"
-		        android:textColor="@color/chinared"
-		        android:textSize="12sp" />
-		</RelativeLayout>		
+		<TextView
+	        android:id="@+id/create_time"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:maxLines="1"
+	        android:gravity="center"
+	        android:textColor="@color/saddlebrown"
+	        android:textSize="11sp" />
+		<TextView
+	        android:id="@+id/create_date"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:layout_below="@+id/create_time"
+	        android:textStyle="bold|italic"
+	        android:textColor="@color/feise"
+	        android:gravity="center"
+	        android:textSize="32sp" />
+		<TextView
+	        android:id="@+id/create_week"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:layout_below="@+id/create_date"
+	        android:maxLines="1"
+	        android:gravity="center"
+	        android:textColor="@color/chinared"
+	        android:textSize="12sp" />
 	</LinearLayout>
 
 </LinearLayout>

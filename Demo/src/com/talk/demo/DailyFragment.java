@@ -22,6 +22,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnFocusChangeListener;
 import android.view.View.OnKeyListener;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
@@ -223,7 +224,27 @@ public class DailyFragment extends Fragment implements OnItemClickListener {
         	
         });
         
+        btn_more.setOnFocusChangeListener(new OnFocusChangeListener() {
 
+			@Override
+			public void onFocusChange(View v, boolean hasFocus) {
+				if(!hasFocus) {
+					if(snap_on) {
+						btn_more.setImageResource(R.drawable.quickmore_button_selector);
+						Animation hyperspaceJumpAnimation = AnimationUtils.
+								loadAnimation(getActivity(), R.anim.out_to_bottom);
+						take_snap.startAnimation(hyperspaceJumpAnimation);
+						take_snap.setVisibility(View.GONE);
+						snap_on = false;
+						btn_more.setFocusableInTouchMode(false);
+					}
+			    	btn_more.setPressed(false);
+				}
+				
+			}
+        	
+        });
+        
         btn_more.setOnKeyListener(new OnKeyListener() {
 			@Override
 			public boolean onKey(View v, int keyCode, KeyEvent event) {
