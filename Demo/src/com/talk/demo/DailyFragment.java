@@ -284,6 +284,8 @@ public class DailyFragment extends Fragment implements OnItemClickListener {
 	            	getActivity().startActivity(intent);  
 	            	getActivity().overridePendingTransition(R.anim.in_from_bottom,0);
 	            	btn_maximize.setPressed(false);
+	            	//clear the edit text content.
+	            	et.setText("");
 			    case MotionEvent.ACTION_CANCEL:
 			    	btn_maximize.setPressed(false);
 			    default:
