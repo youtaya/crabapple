@@ -17,10 +17,12 @@ import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnKeyListener;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
@@ -196,6 +198,8 @@ public class DailyFragment extends Fragment implements OnItemClickListener {
 								loadAnimation(getActivity(), R.anim.in_from_bottom);
 						take_snap.startAnimation(hyperspaceJumpAnimation);
 						snap_on = true;
+				        btn_more.setFocusableInTouchMode(true);
+				        btn_more.requestFocus();
 					} else {
 						btn_more.setImageResource(R.drawable.quickmore_button_selector);
 						Animation hyperspaceJumpAnimation = AnimationUtils.
@@ -203,6 +207,8 @@ public class DailyFragment extends Fragment implements OnItemClickListener {
 						take_snap.startAnimation(hyperspaceJumpAnimation);
 						take_snap.setVisibility(View.GONE);
 						snap_on = false;
+						btn_more.setFocusableInTouchMode(false);
+						btn_more.setFocusable(false);
 					}
 			    	btn_more.setPressed(false);
 			    	break;
@@ -216,6 +222,29 @@ public class DailyFragment extends Fragment implements OnItemClickListener {
 			}
         	
         });
+        
+
+        btn_more.setOnKeyListener(new OnKeyListener() {
+			@Override
+			public boolean onKey(View v, int keyCode, KeyEvent event) {
+				if (keyCode == KeyEvent.KEYCODE_BACK) {
+					if(snap_on) {
+						btn_more.setImageResource(R.drawable.quickmore_button_selector);
+						Animation hyperspaceJumpAnimation = AnimationUtils.
+								loadAnimation(getActivity(), R.anim.out_to_bottom);
+						take_snap.startAnimation(hyperspaceJumpAnimation);
+						take_snap.setVisibility(View.GONE);
+						snap_on = false;
+						btn_more.setFocusableInTouchMode(false);
+						btn_more.setFocusable(false);
+					}
+			    	btn_more.setPressed(false);
+					return true;
+				}
+				return false;
+			}
+		});
+        
         btn_maximize = (ImageView)rootView.findViewById(R.id.btn_maximize);
         btn_maximize.setOnTouchListener(new OnTouchListener() {
             @Override
@@ -405,7 +434,7 @@ public class DailyFragment extends Fragment implements OnItemClickListener {
     }
     
     @Override
-    public void onResume () {
+    public void onResume() {
         super.onResume();
         Log.d(TAG, "on Resume");
         initDataList();
