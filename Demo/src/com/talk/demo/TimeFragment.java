@@ -34,7 +34,7 @@ import java.util.Map;
 public class TimeFragment extends Fragment {
     
     private static String TAG = "TimeFragment";
-    private PullToRefreshListView lv;
+    private ListView lv;
     private ArrayList<Map<String, Object>> time_record;
     private ArrayList<RecordCache> record_cache;
     private TimeListAdapter tAdapter;
@@ -51,8 +51,9 @@ public class TimeFragment extends Fragment {
             Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_time, container, false);
         
-        lv = (PullToRefreshListView)rootView.findViewById(R.id.time_list);
+        lv = (ListView)rootView.findViewById(R.id.time_list);
         
+        /*
         lv.setOnRefreshListener(new OnRefreshListener<ListView>() {
             @Override
             public void onRefresh(PullToRefreshBase<ListView> refreshView) {
@@ -60,6 +61,7 @@ public class TimeFragment extends Fragment {
                 new ManualSyncTask().execute();
             }
         });
+        */
         
         initListView();
         
@@ -150,7 +152,7 @@ public class TimeFragment extends Fragment {
         @Override
         protected void onPostExecute(Void result) {
             // Call onRefreshComplete when the list has been refreshed.
-            lv.onRefreshComplete();
+            //lv.onRefreshComplete();
             super.onPostExecute(result);
         }
 
