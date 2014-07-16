@@ -45,6 +45,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
@@ -86,7 +87,9 @@ final public class NetworkUtilities {
     /** URI for sync service */
     public static final String SYNC_RECORDS_URI = BASE_URL + "times/sync/";
     public static final String SHARE_RECORDS_URI = BASE_URL + "times/share/";
-
+    
+    public static final String SYNC_PHOTO_URI = BASE_URL + "times/photo/";
+    
     private NetworkUtilities() {
     }
 
@@ -461,6 +464,14 @@ final public class NetworkUtilities {
         return serverDirtyList;
     }
 
+   
+    public static void syncPhoto(String url, String imagePath) {
+    	HttpRequest request = HttpRequest.post(SYNC_PHOTO_URI);
+    	request.part("status[body]", "Making a multipart request");
+    	request.part("status[image]", new File(imagePath));
+    	if (request.ok())
+    	  System.out.println("Status was updated");
+	}
     /**
      * Download the avatar image from the server.
      *
