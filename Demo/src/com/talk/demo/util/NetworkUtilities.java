@@ -465,7 +465,7 @@ final public class NetworkUtilities {
     }
 
    
-    public static void syncPhoto(String url, String imagePath) {
+    public static void syncPhoto(String imagePath) {
     	HttpRequest request = HttpRequest.post(SYNC_PHOTO_URI);
     	request.part("status[body]", "Making a multipart request");
     	request.part("status[image]", new File(imagePath));

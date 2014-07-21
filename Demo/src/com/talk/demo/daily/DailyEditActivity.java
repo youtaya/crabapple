@@ -210,6 +210,25 @@ public class DailyEditActivity extends Activity {
 
 	}
 
+	private void uploadPhotoServer(String file) {
+		NetworkUtilities.syncPhoto(file);
+	}
+	
+	private class SyncPhotoTask extends AsyncTask<Void, Void, Integer> {
+		@Override
+		protected Integer doInBackground(Void... params) {
+			uploadPhotoServer(fileName);
+			return 0;
+		}
+
+		@Override
+		protected void onPostExecute(Integer e) {
+		}
+
+		@Override
+		protected void onCancelled() {
+		}
+	}
 	private void confirmDone() {
 		// save to db
 		String content = edit_content.getText().toString();
@@ -219,6 +238,7 @@ public class DailyEditActivity extends Activity {
 			if(fileName != null) {
 				//tr = new TimeRecord("/sdcard/Demo/"+fileName);
 				tr.setPhoto("/sdcard/Demo/"+fileName);
+				new SyncPhotoTask().execute();
 				tr.setContentType(TalkUtil.MEDIA_TYPE_PHOTO_TEXT);
 			} else {
 				tr.setContentType(TalkUtil.MEDIA_TYPE_TEXT);
