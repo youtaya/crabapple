@@ -217,7 +217,7 @@ public class DailyEditActivity extends Activity {
 	private class SyncPhotoTask extends AsyncTask<Void, Void, Integer> {
 		@Override
 		protected Integer doInBackground(Void... params) {
-			uploadPhotoServer(fileName);
+			uploadPhotoServer("/sdcard/Demo/"+fileName);
 			return 0;
 		}
 
