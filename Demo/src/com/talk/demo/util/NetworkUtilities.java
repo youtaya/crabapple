@@ -44,9 +44,14 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
+import java.io.DataOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -77,8 +82,8 @@ final public class NetworkUtilities {
     /** Timeout (in ms) we specify for each http request */
     public static final int HTTP_REQUEST_TIMEOUT_MS = 30 * 1000;
     /** Base URL for the v2 Sample Sync Service */
-    public static final String BASE_URL = "http://114.215.208.170/";
-    //public static final String BASE_URL = "http://192.168.1.104/";
+    //public static final String BASE_URL = "http://114.215.208.170/";
+    public static final String BASE_URL = "http://192.168.1.103/";
     /** URI for authentication service */
     public static final String AUTH_URI = BASE_URL + "account/login/";
     public static final String SIGNUP_URI = BASE_URL + "account/signup/";
@@ -466,12 +471,23 @@ final public class NetworkUtilities {
 
    
     public static void syncPhoto(String imagePath) {
+    	
+    	Log.d(TAG,"Sync photo to Server");
+    	/*
     	HttpRequest request = HttpRequest.post(SYNC_PHOTO_URI);
-    	request.part("status[body]", "Making a multipart request");
-    	request.part("status[image]", new File(imagePath));
+    	request.part("body", "Making a multipart request");
+    	request.part("image", new File(imagePath));
+    	
     	if (request.ok())
-    	  System.out.println("Status was updated");
+    	  Log.d(TAG,"Status was updated");
+    	*/
+    	
+		String fileKey = "image";
+		UploadUtil uploadUtil = UploadUtil.getInstance();;
+		
+		uploadUtil.uploadFile(imagePath,fileKey, SYNC_PHOTO_URI);
 	}
+
     /**
      * Download the avatar image from the server.
      *
