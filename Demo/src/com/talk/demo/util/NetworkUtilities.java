@@ -44,14 +44,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
-import java.io.DataOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -507,6 +501,7 @@ final public class NetworkUtilities {
                 final Bitmap photo = BitmapFactory.decodeStream(connection.getInputStream(),
                         null, options);
 
+                Log.d(TAG, "file name : "+photoName);
                 TalkUtil.createDirAndSaveFile(photo, photoName);
                 // On pre-Honeycomb systems, it's important to call recycle on bitmaps
                 photo.recycle();

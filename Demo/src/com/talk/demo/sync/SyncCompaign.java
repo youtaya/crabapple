@@ -78,7 +78,7 @@ public class SyncCompaign {
             }
             
             //TODO: update photo from server
-            if(rr.getContentType() == 2) {
+            if(rr.getContentType() == 4) {
             	NetworkUtilities.downloadPhoto(rr.getPhoto());	
             }
         }

@@ -1,7 +1,6 @@
 package com.talk.demo.account;
 
 import android.accounts.Account;
-import android.accounts.AccountManager;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,7 +11,6 @@ import android.widget.Button;
 
 import com.talk.demo.MainActivity;
 import com.talk.demo.R;
-import com.talk.demo.setting.LuckDayActivity;
 import com.talk.demo.util.AccountUtils;
 
 public class AppMainActivity extends Activity {

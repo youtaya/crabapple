@@ -1,15 +1,8 @@
 
 package com.talk.demo.audio;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 import android.app.Activity;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.os.Bundle;
@@ -24,6 +17,12 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.talk.demo.R;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class AudioRecorderActivity extends Activity
 {

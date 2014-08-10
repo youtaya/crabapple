@@ -9,7 +9,6 @@ import br.com.dina.ui.widget.UITableView;
 import br.com.dina.ui.widget.UITableView.ClickListener;
 
 import com.talk.demo.R;
-import com.talk.demo.share.FriendsActivity;
 
 public class SettingActivity extends Activity {
 	private static String TAG = "SettingActivity";

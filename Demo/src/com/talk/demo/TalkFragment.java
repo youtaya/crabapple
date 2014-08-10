@@ -12,7 +12,6 @@ import android.view.ViewGroup;
 import com.afollestad.cardsui.Card;
 import com.afollestad.cardsui.CardAdapter;
 import com.afollestad.cardsui.CardBase;
-import com.afollestad.cardsui.CardHeader;
 import com.afollestad.cardsui.CardListView;
 import com.afollestad.cardsui.CardListView.CardClickListener;
 import com.talk.demo.core.RecordManager;

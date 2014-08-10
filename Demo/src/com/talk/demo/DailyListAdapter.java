@@ -1,7 +1,6 @@
 
 package com.talk.demo;
 
-import android.R.color;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;

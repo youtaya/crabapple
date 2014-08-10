@@ -1,10 +1,5 @@
 package com.talk.demo.daily;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.graphics.Bitmap;
@@ -12,6 +7,11 @@ import android.graphics.Point;
 import android.os.Build;
 import android.util.Log;
 import android.view.Display;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 public class ImageUtils {
 	private static final String TAG = "ImageUtils";

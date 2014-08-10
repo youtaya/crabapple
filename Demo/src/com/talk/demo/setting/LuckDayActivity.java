@@ -1,11 +1,5 @@
 package com.talk.demo.setting;
 
-import java.util.Calendar;
-
-import kankan.wheel.widget.OnWheelChangedListener;
-import kankan.wheel.widget.WheelView;
-import kankan.wheel.widget.adapters.ArrayWheelAdapter;
-import kankan.wheel.widget.adapters.NumericWheelAdapter;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -22,7 +16,13 @@ import android.widget.TextView;
 
 import com.talk.demo.MainActivity;
 import com.talk.demo.R;
-import com.talk.demo.util.TalkUtil;
+
+import java.util.Calendar;
+
+import kankan.wheel.widget.OnWheelChangedListener;
+import kankan.wheel.widget.WheelView;
+import kankan.wheel.widget.adapters.ArrayWheelAdapter;
+import kankan.wheel.widget.adapters.NumericWheelAdapter;
 
 
 public class LuckDayActivity extends Activity {
