@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.talk.demo.persistence.DBManager;
 import com.talk.demo.persistence.TimeRecord;
+import com.talk.demo.util.NetworkUtilities;
 import com.talk.demo.util.RawRecord;
 
 import java.util.ArrayList;
@@ -74,6 +75,11 @@ public class SyncCompaign {
             } else {
             	Log.d(TAG, "[update] server id: " + tr.server_id);
             	db.updateServerInfo(tr);
+            }
+            
+            //TODO: update photo from server
+            if(rr.getContentType() == 2) {
+            	NetworkUtilities.downloadPhoto(rr.getPhoto());	
             }
         }
         

@@ -467,28 +467,7 @@ public class DailyFragment extends Fragment implements OnItemClickListener {
         
     }
     
-    private void createDirAndSaveFile(Bitmap imageToSave, String fileName) {
-        File direct = new File(Environment.getExternalStorageDirectory() + "/Demo");
-        
-        if(!direct.exists()) {
-            File fileDirectory = new File("/sdcard/Demo/");
-            fileDirectory.mkdirs();
-        }
-        
-        File file = new File(new File("/sdcard/Demo/"), fileName);
-        
-        if(file.exists())
-            file.delete();
-        
-        try {
-            FileOutputStream out = new FileOutputStream(file);
-            imageToSave.compress(Bitmap.CompressFormat.JPEG, 100, out);
-            out.flush();
-            out.close();
-        } catch(Exception e) {
-            e.printStackTrace();
-        }
-    }
+
     private String getTimeAsFileName() {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss"); 
         Date date = new Date();
@@ -526,7 +505,7 @@ public class DailyFragment extends Fragment implements OnItemClickListener {
                     Bundle extras = data.getExtras();
                     Bitmap imageBitmap = (Bitmap) extras.get("data");
                     String fileName = getTimeAsFileName();
-                    createDirAndSaveFile(imageBitmap, fileName);
+                    TalkUtil.createDirAndSaveFile(imageBitmap, fileName);
                     //prvent content null
                     TimeRecord tr = new TimeRecord("photo");
                     tr.setPhoto("/sdcard/Demo/"+fileName);

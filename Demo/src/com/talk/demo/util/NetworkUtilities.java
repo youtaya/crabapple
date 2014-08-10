@@ -94,6 +94,7 @@ final public class NetworkUtilities {
     public static final String SHARE_RECORDS_URI = BASE_URL + "times/share/";
     
     public static final String SYNC_PHOTO_URI = BASE_URL + "times/photo/";
+    public static final String DOWNLOAD_PHOTO_URI = BASE_URL + "times/photoView/";
     
     private NetworkUtilities() {
     }
@@ -488,6 +489,39 @@ final public class NetworkUtilities {
 		uploadUtil.uploadFile(imagePath,fileKey, SYNC_PHOTO_URI);
 	}
 
+    public static void downloadPhoto(final String photoName) {
+        // If there is no photo, we're done
+        if (TextUtils.isEmpty(photoName)) {
+            return;
+        }
+
+        try {
+            Log.i(TAG, "Downloading photo: " + DOWNLOAD_PHOTO_URI);
+            // Request the photo from the server, and create a bitmap
+            // object from the stream we get back.
+            URL url = new URL(DOWNLOAD_PHOTO_URI);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.connect();
+            try {
+                final BitmapFactory.Options options = new BitmapFactory.Options();
+                final Bitmap photo = BitmapFactory.decodeStream(connection.getInputStream(),
+                        null, options);
+
+                TalkUtil.createDirAndSaveFile(photo, photoName);
+                // On pre-Honeycomb systems, it's important to call recycle on bitmaps
+                photo.recycle();
+            } finally {
+                connection.disconnect();
+            }
+        } catch (MalformedURLException muex) {
+            // A bad URL - nothing we can really do about it here...
+            Log.e(TAG, "Malformed avatar URL: " + DOWNLOAD_PHOTO_URI);
+        } catch (IOException ioex) {
+            // If we're unable to download the avatar, it's a bummer but not the
+            // end of the world. We'll try to get it next time we sync.
+            Log.e(TAG, "Failed to download user avatar: " + DOWNLOAD_PHOTO_URI);
+        }
+    }
     /**
      * Download the avatar image from the server.
      *
