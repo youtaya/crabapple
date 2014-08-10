@@ -1,5 +1,6 @@
 package com.talk.demo.sync;
 
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.talk.demo.persistence.DBManager;
@@ -76,10 +77,14 @@ public class SyncCompaign {
             	Log.d(TAG, "[update] server id: " + tr.server_id);
             	db.updateServerInfo(tr);
             }
-            
+            Log.d(TAG, "content type is : "+rr.getContentType());
+            Log.d(TAG, "photo is : "+rr.getPhoto());
             //TODO: update photo from server
             if(rr.getContentType() == 4) {
-            	NetworkUtilities.downloadPhoto(rr.getPhoto());	
+            	if(TextUtils.isEmpty(rr.getPhoto()))
+            		NetworkUtilities.downloadPhoto("test.jpg");
+            	else
+            		NetworkUtilities.downloadPhoto(rr.getPhoto());
             }
         }
         

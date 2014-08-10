@@ -78,15 +78,13 @@ public class TalkUtil {
 	}
 	
     public static void createDirAndSaveFile(Bitmap imageToSave, String fileName) {
-        File direct = new File(Environment.getExternalStorageDirectory() + "/Demo");
-        
-        if(!direct.exists()) {
-            File fileDirectory = new File("/sdcard/Demo/");
-            fileDirectory.mkdirs();
+        File directory = new File(Environment.getExternalStorageDirectory() + "/Demo");
+        if(!directory.exists()) {
+        	directory = new File("/sdcard/Demo/");
+        	directory.mkdirs();
         }
         
-        File file = new File(new File("/sdcard/Demo/"), fileName);
-        
+        File file = new File(directory, fileName);
         if(file.exists())
             file.delete();
         
