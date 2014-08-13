@@ -89,7 +89,12 @@ public class TimeListAdapter extends BaseAdapter {
 	        	holder.create_week.setText(mDateInfo.getWeekInfo());
 	        	int media_type = (Integer)values.get(position).get("content_type");
 	        	if(2 == media_type || 4 == media_type) {
-	        		Uri uri = Uri.parse("file://"+values.get(position).get("photo").toString());
+	        		Uri uri = null;
+	        		if(null != values.get(position).get("photo")) {
+		        		uri = Uri.parse("file://"+values.get(position).get("photo").toString());
+	        		} else {
+	        			uri = Uri.parse("file://"+"/sdcard/Demo/"+"test.jpg");
+	        		}
 	        		Log.d(TAG, " image uri: "+uri.toString());
 	        		holder.image.setVisibility(View.VISIBLE);
 	        		imageLoader.displayImage(uri.toString(), holder.image, animateFirstListener);
