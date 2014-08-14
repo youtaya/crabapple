@@ -82,7 +82,7 @@ public class SyncCompaign {
             //TODO: update photo from server
             if(rr.getContentType() == 4) {
             	if(TextUtils.isEmpty(rr.getPhoto()))
-            		NetworkUtilities.downloadPhoto("test.jpg");
+            		NetworkUtilities.downloadPhoto("20140810231230");
             	else
             		NetworkUtilities.downloadPhoto(rr.getPhoto());
             }

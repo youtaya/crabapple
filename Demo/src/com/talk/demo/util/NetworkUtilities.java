@@ -493,7 +493,7 @@ final public class NetworkUtilities {
             Log.i(TAG, "Downloading photo: " + DOWNLOAD_PHOTO_URI);
             // Request the photo from the server, and create a bitmap
             // object from the stream we get back.
-            URL url = new URL(DOWNLOAD_PHOTO_URI);
+            URL url = new URL(DOWNLOAD_PHOTO_URI+photoName+"/");
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.connect();
             try {
