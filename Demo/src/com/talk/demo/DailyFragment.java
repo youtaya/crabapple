@@ -505,7 +505,7 @@ public class DailyFragment extends Fragment implements OnItemClickListener {
                     TalkUtil.createDirAndSaveFile(imageBitmap, fileName);
                     //prvent content null
                     TimeRecord tr = new TimeRecord("photo");
-                    tr.setPhoto("/sdcard/Demo/"+fileName);
+                    tr.setPhoto(fileName);
                     tr.setContentType(TalkUtil.MEDIA_TYPE_PHOTO);;
                     recordManager.addRecord(tr);
                 }

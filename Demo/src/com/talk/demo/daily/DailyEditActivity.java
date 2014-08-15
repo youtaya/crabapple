@@ -237,7 +237,7 @@ public class DailyEditActivity extends Activity {
 			tr = new TimeRecord(content);
 			if(fileName != null) {
 				//tr = new TimeRecord("/sdcard/Demo/"+fileName);
-				tr.setPhoto("/sdcard/Demo/"+fileName);
+				tr.setPhoto(fileName);
 				new SyncPhotoTask().execute();
 				tr.setContentType(TalkUtil.MEDIA_TYPE_PHOTO_TEXT);
 			} else {

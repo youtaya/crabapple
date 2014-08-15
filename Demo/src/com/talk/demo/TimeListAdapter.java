@@ -91,7 +91,7 @@ public class TimeListAdapter extends BaseAdapter {
 	        	if(2 == media_type || 4 == media_type) {
 	        		Uri uri = null;
 	        		if(null != values.get(position).get("photo")) {
-		        		uri = Uri.parse("file://"+values.get(position).get("photo").toString());
+		        		uri = Uri.parse("file://"+"/sdcard/Demo/"+values.get(position).get("photo").toString());
 	        		} else {
 	        			uri = Uri.parse("file://"+"/sdcard/Demo/"+"test.jpg");
 	        		}
