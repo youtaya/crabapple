@@ -93,7 +93,7 @@ public class TimeListAdapter extends BaseAdapter {
 	        		if(null != values.get(position).get("photo")) {
 		        		uri = Uri.parse("file://"+"/sdcard/Demo/"+values.get(position).get("photo").toString());
 	        		} else {
-	        			uri = Uri.parse("file://"+"/sdcard/Demo/"+"test.jpg");
+	        			uri = Uri.parse("file://"+"/sdcard/Demo/"+"20140810231230");
 	        		}
 	        		Log.d(TAG, " image uri: "+uri.toString());
 	        		holder.image.setVisibility(View.VISIBLE);

@@ -68,6 +68,8 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter  {
 	        Log.d(TAG, "sync record start");
 			updatedRecords = NetworkUtilities.syncRecords(account, authtoken, lastSyncMarker, dirtyRecords);
 			SyncCompaign.updateRecords(db, updatedRecords);
+			Log.d(TAG, "sync friend start");
+			
 		} catch (final AuthenticatorException e) {
             Log.e(TAG, "AuthenticatorException", e);
             syncResult.stats.numParseExceptions++;
