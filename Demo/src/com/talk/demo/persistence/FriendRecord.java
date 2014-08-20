@@ -1,5 +1,7 @@
 package com.talk.demo.persistence;
 
+import com.talk.demo.util.RawFriend;
+
 public class FriendRecord {
     public int _id;
     public int server_id;
@@ -21,6 +23,14 @@ public class FriendRecord {
     public FriendRecord() {
     }
     
+    public FriendRecord(RawFriend rf) {
+        _id = (int)rf.getRawFriendId();
+        server_id = (int)rf.getServerFriendId();
+        userName = rf.getUserName();
+        handle = rf.getHandle();
+        phoneMobile = rf.getPhoneMobile();
+        sync_time = rf.getSyncState();
+    }
     public FriendRecord(String v1) {
         userName = v1;
        

@@ -74,7 +74,23 @@ public class DBManager {
     	}
     }  
     
-    public void friendExecSQL(FriendRecord fr) {
+    public void addFriendFromServer(FriendRecord fr) {
+        Cursor c = queryCursorWithServerId(fr.server_id);
+        if(c != null && c.moveToFirst()) {
+            Log.d(TAG, "No need to creat new record!");
+            updateFriendServerInfo(fr);
+        } else {
+            db.beginTransaction();  //开始事务  
+            try {  
+                friendExecSQL(fr, false);
+                db.setTransactionSuccessful();  //设置事务成功完成  
+            } finally {  
+                db.endTransaction();    //结束事务  
+            }
+        }
+    }  
+    
+    public void friendExecSQL(FriendRecord fr, boolean isDirty) {
         db.execSQL("INSERT INTO "+TABLE_FRIEND+""
                 + " VALUES(null, ?, ?, ?, ?, ?, ?, ?)", 
                 new Object[]{
@@ -83,14 +99,14 @@ public class DBManager {
                     fr.userName,
                     fr.phoneMobile, 
                     fr.sync_time,
-                    fr.dirty,
+                    isDirty?fr.dirty:0,
                     fr.deleted});
     }
     
     public void addFriend(FriendRecord fr) {  
         db.beginTransaction();  //开始事务  
         try {  
-        	friendExecSQL(fr);
+        	friendExecSQL(fr, true);
             db.setTransactionSuccessful();  //设置事务成功完成  
         } finally {  
             db.endTransaction();    //结束事务  
@@ -137,6 +153,16 @@ public class DBManager {
         db.update(DATABASE_TABLE, cv, "id" + "='" +tRecord._id+"'", null);
     }  
     
+    public void updateFriendServerInfo(FriendRecord fRecord) {  
+        ContentValues cv = new ContentValues();  
+        cv.put("server_id", fRecord.server_id); 
+        //set dirty flag : 0
+        cv.put("dirty", 0);
+        cv.put("sync_time", fRecord.sync_time);
+        Log.d(TAG,"update id: "+fRecord._id);
+        db.update(TABLE_FRIEND, cv, "id" + "='" +fRecord._id+"'", null);
+    }  
+    
     public void updateFriendInfo(FriendRecord fRecord) {  
         ContentValues cv = new ContentValues();  
         cv.put("phone_mobile", fRecord.phoneMobile);  
@@ -155,6 +181,15 @@ public class DBManager {
         tr.photo = c.getString(c.getColumnIndex("photo")); 
         tr.audio = c.getString(c.getColumnIndex("audio")); 
         tr.sync_time = c.getLong(c.getColumnIndex("sync_time"));
+    }
+    
+    public void dumpFriendRecord(FriendRecord fr, Cursor c) {
+        fr._id = c.getInt(c.getColumnIndex("id"));
+        fr.server_id = c.getInt(c.getColumnIndex("server_id"));
+        fr.userName = c.getString(c.getColumnIndex("username"));
+        fr.handle = c.getString(c.getColumnIndex("handle"));
+        fr.phoneMobile = c.getString(c.getColumnIndex("phone_mobile"));
+        fr.sync_time = c.getLong(c.getColumnIndex("sync_time"));
     }
     
     /** 
@@ -212,6 +247,17 @@ public class DBManager {
         }
         c.close();  
         return tr;  
+    }  
+    
+    public FriendRecord queryFriendTheParam(int param) {  
+        Cursor c = queryFriendCursorWithId(param); 
+        
+        FriendRecord fr = new FriendRecord();
+        if((c != null) && c.moveToFirst()) {
+            dumpFriendRecord(fr, c);
+        }
+        c.close();  
+        return fr;  
     }  
     /** 
      * query all content, return list 
@@ -277,6 +323,12 @@ public class DBManager {
                 +" WHERE "+"id" + "='" +param+"'", null);
         return c;  
     }
+    
+    public Cursor queryFriendCursorWithId(int param) {  
+        Cursor c = db.rawQuery("SELECT * FROM "+TABLE_FRIEND
+                +" WHERE "+"id" + "='" +param+"'", null);
+        return c;  
+    }  
     
     public Cursor queryCursorWithServerId(int param) {  
         Cursor c = db.rawQuery("SELECT * FROM "+DATABASE_TABLE

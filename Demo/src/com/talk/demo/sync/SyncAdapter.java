@@ -15,6 +15,7 @@ import android.util.Log;
 import com.talk.demo.account.AccountConstants;
 import com.talk.demo.persistence.DBManager;
 import com.talk.demo.util.NetworkUtilities;
+import com.talk.demo.util.RawFriend;
 import com.talk.demo.util.RawRecord;
 
 import org.apache.http.ParseException;
@@ -68,7 +69,13 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter  {
 	        Log.d(TAG, "sync record start");
 			updatedRecords = NetworkUtilities.syncRecords(account, authtoken, lastSyncMarker, dirtyRecords);
 			SyncCompaign.updateRecords(db, updatedRecords);
+			
 			Log.d(TAG, "sync friend start");
+			List<RawFriend> dirtyFriends;
+			List<RawFriend> updatedFriends;
+			dirtyFriends = SyncCompaign2.getDirtyFriends(db);
+			updatedFriends = NetworkUtilities.syncFriends(account, authtoken, lastSyncMarker, dirtyFriends);
+			SyncCompaign2.updateFriends(db, updatedFriends);
 			
 		} catch (final AuthenticatorException e) {
             Log.e(TAG, "AuthenticatorException", e);

@@ -464,7 +464,13 @@ final public class NetworkUtilities {
         return serverDirtyList;
     }
 
-   
+    public static List<RawFriend> syncFriends(
+            Account account, String authtoken, long serverSyncState, List<RawFriend> dirtyFriends)
+            throws JSONException, ParseException, IOException, AuthenticationException {
+        //TODO: fix it
+        return null;
+    }
+    
     public static void syncPhoto(String imagePath) {
     	
     	Log.d(TAG,"Sync photo to Server");
