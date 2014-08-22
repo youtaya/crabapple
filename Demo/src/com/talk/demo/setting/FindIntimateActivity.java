@@ -64,7 +64,7 @@ public class FindIntimateActivity extends Activity {
 		protected List<String> doInBackground(Void... params) {
 			try {
 				getFriendList = new ArrayList<String>();
-				getFriendList = NetworkUtilities.syncFriends();
+				getFriendList = NetworkUtilities.recommendFriends();
 			} catch (JSONException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

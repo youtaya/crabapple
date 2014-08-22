@@ -82,7 +82,8 @@ final public class NetworkUtilities {
     public static final String AUTH_URI = BASE_URL + "account/login/";
     public static final String SIGNUP_URI = BASE_URL + "account/signup/";
     public static final String SYNC_NEWS_URI = BASE_URL + "news/today/";
-    public static final String SYNC_FRIENDS_URI = BASE_URL + "friends/recommend";
+    public static final String RECOMMEND_FRIENDS_URI = BASE_URL + "friends/recommend";
+    public static final String SYNC_FRIENDS_URI = BASE_URL + "friends/sync/";
     /** URI for sync service */
     public static final String SYNC_RECORDS_URI = BASE_URL + "times/sync/";
     public static final String SHARE_RECORDS_URI = BASE_URL + "times/share/";
@@ -327,11 +328,11 @@ final public class NetworkUtilities {
         return mItems;
     }
     
-    public static List<String> syncFriends() throws JSONException {
+    public static List<String> recommendFriends() throws JSONException {
         List<String> mItems = new LinkedList<String>();
         try {
             
-            HttpRequest request = HttpRequest.get(SYNC_FRIENDS_URI);
+            HttpRequest request = HttpRequest.get(RECOMMEND_FRIENDS_URI);
             //request.followRedirects(false);
             String response = request.body();
             int result = request.code();
@@ -467,8 +468,65 @@ final public class NetworkUtilities {
     public static List<RawFriend> syncFriends(
             Account account, String authtoken, long serverSyncState, List<RawFriend> dirtyFriends)
             throws JSONException, ParseException, IOException, AuthenticationException {
-        //TODO: fix it
-        return null;
+        // Convert our list of User objects into a list of JSONObject
+        List<JSONObject> jsonRecords = new ArrayList<JSONObject>();
+        for (RawFriend rawFriend : dirtyFriends) {
+            jsonRecords.add(rawFriend.toJSONObject());
+        }
+
+        // Create a special JSONArray of our JSON contacts
+        JSONArray buffer = new JSONArray(jsonRecords);
+
+        // Create an array that will hold the server-side records
+        // that have been changed (returned by the server).
+        final ArrayList<RawFriend> serverDirtyList = new ArrayList<RawFriend>();
+
+        // Prepare our POST data
+        final ArrayList<NameValuePair> params = new ArrayList<NameValuePair>();
+        params.add(new BasicNameValuePair(PARAM_USERNAME, account.name));
+        //params.add(new BasicNameValuePair(PARAM_AUTH_TOKEN, authtoken));
+        params.add(new BasicNameValuePair(PARAM_RECORDS_DATA, buffer.toString()));
+        params.add(new BasicNameValuePair("csrfmiddlewaretoken", authtoken.split(";")[1].substring(10)));
+        Log.d(TAG, "auth toke: "+authtoken);
+        
+        if (serverSyncState > 0) {
+            params.add(new BasicNameValuePair(PARAM_SYNC_STATE, Long.toString(serverSyncState)));
+        }
+        Log.i(TAG, params.toString());
+        HttpEntity entity = new UrlEncodedFormEntity(params, HTTP.UTF_8);
+
+        // Send the updated friends data to the server
+        Log.i(TAG, "Syncing to: " + SYNC_FRIENDS_URI);
+        final HttpPost post = new HttpPost(SYNC_FRIENDS_URI);
+        post.addHeader(entity.getContentType());
+        post.addHeader("Cookie", authtoken);
+        post.setEntity(entity);
+        final HttpResponse resp = getHttpClient().execute(post);
+        final String response = EntityUtils.toString(resp.getEntity());
+        if (resp.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
+            // Our request to the server was successful - so we assume
+            // that they accepted all the changes we sent up, and
+            // that the response includes the contacts that we need
+            // to update on our side...
+            final JSONArray serverRecords = new JSONArray(response);
+            Log.d(TAG, serverRecords.toString());
+            for (int i = 0; i < serverRecords.length(); i++) {
+                RawFriend rawRecord = RawFriend.valueOf(serverRecords.getJSONObject(i));
+                if (rawRecord != null) {
+                    serverDirtyList.add(rawRecord);
+                }
+            }
+        } else {
+            if (resp.getStatusLine().getStatusCode() == HttpStatus.SC_UNAUTHORIZED) {
+                Log.e(TAG, "Authentication exception in sending dirty contacts");
+                throw new AuthenticationException();
+            } else {
+                Log.e(TAG, "Server error in sending dirty friends: " + resp.getStatusLine());
+                throw new IOException();
+            }
+        }
+
+        return serverDirtyList;
     }
     
     public static void syncPhoto(String imagePath) {
