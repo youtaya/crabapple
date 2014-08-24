@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class StoreShopActivity extends Activity {
-    private static String TAG = "RecordFragment";
+    private static String TAG = "StoreShopActivity";
     
     private ArrayList<HashMap<String, Object>> list;
     private DBManager mgr;
