@@ -233,13 +233,17 @@ final public class NetworkUtilities {
 			HttpURLConnection conn = HttpRequest.get(AUTH_URI)
 					.getConnection();
 			//ToDo: cookie header may be null, should fix it.
-			String cookieHeader = conn.getHeaderFields().get("Set-Cookie")
-					.get(0);
+			List<String> temp  = conn.getHeaderFields().get("Set-Cookie");
+			String cookieHeader = null;
+			String csrfToken = null;
+			if (null !=temp && !temp.isEmpty()) {
+				cookieHeader = temp.get(0);
+			
+				Log.d(TAG, "cookie: " + cookieHeader);
 
-			Log.d(TAG, "cookie: " + cookieHeader);
-
-			String csrfToken = cookieHeader.split(";")[0];
-			Log.d(TAG, "csrf token : " + csrfToken);
+				csrfToken = cookieHeader.split(";")[0];
+				Log.d(TAG, "csrf token : " + csrfToken);
+			}
 
 			HttpRequest request = HttpRequest.post(AUTH_URI);
 			String name = username;
@@ -247,12 +251,14 @@ final public class NetworkUtilities {
 			Map<String, String> data = new HashMap<String, String>();
 			data.put("username", name);
 			data.put("password", passwd);
-			data.put("csrfmiddlewaretoken", csrfToken.substring(10));
+			if(csrfToken != null)
+				data.put("csrfmiddlewaretoken", csrfToken.substring(10));
 			Log.d(TAG, "name: " + username + " passwd: " + password);
 			// X-CSRFToken
 			Map<String, String> headers = new HashMap<String, String>();
 			headers.put("Content-Type", "text/html");
-			headers.put("Cookie", csrfToken);
+			if(csrfToken != null)
+				headers.put("Cookie", csrfToken);
 
 			request.headers(headers);
 			request.followRedirects(false);

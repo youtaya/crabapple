@@ -28,7 +28,19 @@ public class SettingActivity extends Activity {
     private void createList() {
     	CustomClickListener listener = new CustomClickListener();
     	tableView.setClickListener(listener);
+    	tableView.addBasicItem("分享", "邀请朋友");
     	tableView.addBasicItem("关于西窗话", "版本信息");
+    }
+    private Intent createEmailIntent() {
+        Intent emailIntent = new Intent(Intent.ACTION_SEND);
+        emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[] {
+            "jxiaoping@gmail.com"
+        });
+        StringBuilder builder = new StringBuilder();
+        builder.append(getString(R.string.app_name)).append(" v");
+        emailIntent.putExtra(Intent.EXTRA_SUBJECT, builder.toString());
+        emailIntent.setType("message/rfc822");
+        return emailIntent;
     }
     
     private class CustomClickListener implements ClickListener {
@@ -38,8 +50,11 @@ public class SettingActivity extends Activity {
 			Log.d(TAG, "item clicked: " + index);
 			switch(index) {
 			case 0:
-				callOtherActivity(AboutActivity.class);
+				startActivity(createEmailIntent());
 				break;
+			case 1:
+				callOtherActivity(AboutActivity.class);
+				break;				
 			}
 		}
     }
