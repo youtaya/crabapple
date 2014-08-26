@@ -4,31 +4,59 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
-    <TextView
-        android:id="@+id/tv_sina"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="TextView" />
-    <TextView
-        android:id="@+id/tv_QQ_weibo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="TextView" />
 	<TextView
-        android:id="@+id/tv_message"
-        android:layout_width="wrap_content"
+        android:id="@+id/invite_friend"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="TextView" />
-    <TextView
-        android:id="@+id/tv_weixin"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="TextView" />
+        android:textSize="56sp"
+        android:gravity="center"
+        android:text="邀请朋友" />
 
-    <Button
-        android:id="@+id/btn_dialog_close"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Button" />
+    <TableLayout
+        android:stretchColumns="*"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <TableRow
+            android:id="@+id/tableRow1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+		    <TextView
+		        android:id="@+id/tv_sina"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:drawableTop="@drawable/weibo_invail"
+		        android:gravity="center"
+		        android:text="新浪微博" />
+		    <TextView
+		        android:id="@+id/tv_QQ_weibo"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:drawableTop="@drawable/weibo_invail"
+		        android:gravity="center"
+		        android:text="QQ微博" />            
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/tableRow2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+			<TextView
+		        android:id="@+id/tv_message"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:drawableTop="@drawable/weibo_invail"
+		        android:gravity="center"
+		        android:text="短信" />
+		    <TextView
+		        android:id="@+id/tv_weixin"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:drawableTop="@drawable/weibo_invail"
+		        android:gravity="center"
+		        android:text="微信" />		    
+        </TableRow>
+
+    </TableLayout>
 
 </LinearLayout>

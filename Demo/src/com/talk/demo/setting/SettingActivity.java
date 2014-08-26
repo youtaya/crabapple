@@ -68,25 +68,25 @@ public class SettingActivity extends Activity {
 			if ("com.sina.weibo".equals(shareAppInfos.get(i).getAppPkgName())) {
 				Drawable add = this.getResources().getDrawable(R.drawable.ic_share_sina_weibo);
 				add.setBounds(0, 0, add.getMinimumWidth(), add.getMinimumHeight());
-				tv_sina_weibo.setCompoundDrawables(add, null, null, null);// 设置左图标
+				tv_sina_weibo.setCompoundDrawables(null, add, null, null);// 设置Top图标
 				tv_sina_weibo.setTag(i);
 			}
 			if ("com.tencent.WBlog".equals(shareAppInfos.get(i).getAppPkgName())) {
 				Drawable add = this.getResources().getDrawable(R.drawable.ic_share_qq);
 				add.setBounds(0, 0, add.getMinimumWidth(), add.getMinimumHeight());
-				tv_tecent_weibo.setCompoundDrawables(add, null, null, null);// 设置左图标
+				tv_tecent_weibo.setCompoundDrawables(null, add, null, null);// 设置Top图标
 				tv_tecent_weibo.setTag(i);
 			}
 			if ("com.android.mms".equals(shareAppInfos.get(i).getAppPkgName())) {
 				Drawable add = this.getResources().getDrawable(R.drawable.ic_share_sms);
 				add.setBounds(0, 0, add.getMinimumWidth(), add.getMinimumHeight());
-				tv_message.setCompoundDrawables(add, null, null, null);// 设置左图标
+				tv_message.setCompoundDrawables(null, add, null, null);// 设置Top图标
 				tv_message.setTag(i);
 			}
 			if ("com.tencent.mm".equals(shareAppInfos.get(i).getAppPkgName())) {
 				Drawable add = this.getResources().getDrawable(R.drawable.ic_share_weixin);
 				add.setBounds(0, 0, add.getMinimumWidth(), add.getMinimumHeight());
-				tv_weixin.setCompoundDrawables(add, null, null, null);// 设置左图标
+				tv_weixin.setCompoundDrawables(null, add, null, null);// 设置Top图标
 				tv_weixin.setTag(i);
 			}
 		}
@@ -103,40 +103,31 @@ public class SettingActivity extends Activity {
 		*/
 		final String share = shareContent;
 		
-		/*
 		tv_sina_weibo.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				setOnClick(tv_sina_weibo, app_sina, share);
+				//setOnClick(tv_sina_weibo, app_sina, share);
 			}
 		});
 		tv_tecent_weibo.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				setOnClick(tv_tecent_weibo, app_tx_weibo, share);
+				//setOnClick(tv_tecent_weibo, app_tx_weibo, share);
 			}
 		});
 		tv_message.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				setOnClick(tv_message, app_message, share);
+				//setOnClick(tv_message, app_message, share);
 			}
 		});
 		tv_weixin.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				setOnClick(tv_weixin, app_weixin, share);
+				//setOnClick(tv_weixin, app_weixin, share);
 			}
 		});
-		*/
 		
-		Button btn_close = (Button) dialog.findViewById(R.id.btn_dialog_close);
-		btn_close.setOnClickListener(new Button.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				dialog.dismiss();
-			}
-		});
 		dialog.show();
 	}
 	
