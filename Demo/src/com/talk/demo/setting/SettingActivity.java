@@ -55,8 +55,8 @@ public class SettingActivity extends Activity {
 	 */
     Dialog dialog;
 	public void showShare_5(final String shareContent) {
-		dialog = new Dialog(this, R.style.dialog);
-		dialog.setContentView(R.layout.dialog_factory_share_5);
+		dialog = new Dialog(this, R.style.Dialog);
+		dialog.setContentView(R.layout.dialog_factory_share);
 		final TextView tv_sina_weibo = (TextView) dialog.findViewById(R.id.tv_sina);
 		final TextView tv_tecent_weibo = (TextView) dialog.findViewById(R.id.tv_QQ_weibo);
 		final TextView tv_message = (TextView) dialog.findViewById(R.id.tv_message);
@@ -134,21 +134,7 @@ public class SettingActivity extends Activity {
 		dialog.show();
 	}
 	
-    private class CustomClickListener implements ClickListener {
 
-		@Override
-		public void onClick(int index) {
-			Log.d(TAG, "item clicked: " + index);
-			switch(index) {
-			case 0:
-				showShare_5("I like");
-				break;
-			case 1:
-				callOtherActivity(AboutActivity.class);
-				break;				
-			}
-		}
-    }
     /**
      * 查询所有支持分享的应用信息
      * 
@@ -189,9 +175,26 @@ public class SettingActivity extends Activity {
     	}
     	return shareAppInfos;
     }
+    
     private void callOtherActivity(Class<?> cls) {
         Intent intent = new Intent(this, cls);
         startActivity(intent);
+    }
+    
+    private class CustomClickListener implements ClickListener {
+
+        @Override
+        public void onClick(int index) {
+            Log.d(TAG, "item clicked: " + index);
+            switch(index) {
+            case 0:
+                showShare_5("I like");
+                break;
+            case 1:
+                callOtherActivity(AboutActivity.class);
+                break;              
+            }
+        }
     }
     
     @Override
