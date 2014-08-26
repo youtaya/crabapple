@@ -120,7 +120,7 @@
     </style>
 
 	<style name="Dialog" parent="android:style/Theme.Dialog">
-        <item name="android:windowBackground">@color/white</item>
+        <item name="android:windowBackground">@drawable/about_bg</item>
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowIsFloating">true</item>
     </style>
