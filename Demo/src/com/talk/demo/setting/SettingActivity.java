@@ -66,25 +66,25 @@ public class SettingActivity extends Activity {
 
 		for (int i = 0; i < shareAppInfos.size(); i++) {
 			if ("com.sina.weibo".equals(shareAppInfos.get(i).getAppPkgName())) {
-				Drawable add = this.getResources().getDrawable(R.drawable.icon_share_sinaweibo);
+				Drawable add = this.getResources().getDrawable(R.drawable.ic_share_sina_weibo);
 				add.setBounds(0, 0, add.getMinimumWidth(), add.getMinimumHeight());
 				tv_sina_weibo.setCompoundDrawables(add, null, null, null);// 设置左图标
 				tv_sina_weibo.setTag(i);
 			}
 			if ("com.tencent.WBlog".equals(shareAppInfos.get(i).getAppPkgName())) {
-				Drawable add = this.getResources().getDrawable(R.drawable.icon_share_tecent_weibo);
+				Drawable add = this.getResources().getDrawable(R.drawable.ic_share_qq);
 				add.setBounds(0, 0, add.getMinimumWidth(), add.getMinimumHeight());
 				tv_tecent_weibo.setCompoundDrawables(add, null, null, null);// 设置左图标
 				tv_tecent_weibo.setTag(i);
 			}
 			if ("com.android.mms".equals(shareAppInfos.get(i).getAppPkgName())) {
-				Drawable add = this.getResources().getDrawable(R.drawable.icon_share_message);
+				Drawable add = this.getResources().getDrawable(R.drawable.ic_share_sms);
 				add.setBounds(0, 0, add.getMinimumWidth(), add.getMinimumHeight());
 				tv_message.setCompoundDrawables(add, null, null, null);// 设置左图标
 				tv_message.setTag(i);
 			}
 			if ("com.tencent.mm".equals(shareAppInfos.get(i).getAppPkgName())) {
-				Drawable add = this.getResources().getDrawable(R.drawable.icon_share_tecent_weixin);
+				Drawable add = this.getResources().getDrawable(R.drawable.ic_share_weixin);
 				add.setBounds(0, 0, add.getMinimumWidth(), add.getMinimumHeight());
 				tv_weixin.setCompoundDrawables(add, null, null, null);// 设置左图标
 				tv_weixin.setTag(i);
@@ -97,9 +97,13 @@ public class SettingActivity extends Activity {
 		final AppInfo app_message = new AppInfo("com.android.mms", "com.android.mms.ui.ComposeMessageActivity");
 		final AppInfo app_weixin = new AppInfo("com.tencent.mm", "com.tencent.mm.ui.tools.ShareImgUI");
 
+		/*
 		final String share = this.getString(R.string.dialog_share1) + shareContent
 				+ this.getString(R.string.dialog_share2);
-
+		*/
+		final String share = shareContent;
+		
+		/*
 		tv_sina_weibo.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -124,6 +128,8 @@ public class SettingActivity extends Activity {
 				setOnClick(tv_weixin, app_weixin, share);
 			}
 		});
+		*/
+		
 		Button btn_close = (Button) dialog.findViewById(R.id.btn_dialog_close);
 		btn_close.setOnClickListener(new Button.OnClickListener() {
 			@Override
