@@ -2,6 +2,7 @@ package com.talk.demo.setting;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -11,7 +12,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.Button;
 import android.widget.TextView;
 
 import br.com.dina.ui.widget.UITableView;
@@ -44,6 +44,21 @@ public class SettingActivity extends Activity {
     	tableView.addBasicItem("关于西窗话", "版本信息");
     }
     
+	private void mySetOnClick(View v, AppInfo info, String argu ) {
+		try{                
+		    ComponentName toActivity = new ComponentName(info.getAppPkgName(),info.getAppLauncherClassName());
+
+		    Intent intent = new Intent();
+		    intent.setComponent(toActivity);
+		    intent.setAction("android.intent.action.SEND");
+		    intent.putExtra(Intent.EXTRA_TEXT, argu);
+		    SettingActivity.this.startActivity(intent);
+		}catch(Exception e){
+		    Log.v(TAG,"------>"+e.toString());
+		}
+
+	}
+	
 	/**
 	 * 分享对话框
 	 * 
@@ -101,30 +116,31 @@ public class SettingActivity extends Activity {
 		final String share = this.getString(R.string.dialog_share1) + shareContent
 				+ this.getString(R.string.dialog_share2);
 		*/
+			
 		final String share = shareContent;
 		
 		tv_sina_weibo.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				//setOnClick(tv_sina_weibo, app_sina, share);
+				mySetOnClick(tv_sina_weibo, app_sina, share);
 			}
 		});
 		tv_tecent_weibo.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				//setOnClick(tv_tecent_weibo, app_tx_weibo, share);
+				mySetOnClick(tv_tecent_weibo, app_tx_weibo, share);
 			}
 		});
 		tv_message.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				//setOnClick(tv_message, app_message, share);
+				mySetOnClick(tv_message, app_message, share);
 			}
 		});
 		tv_weixin.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				//setOnClick(tv_weixin, app_weixin, share);
+				mySetOnClick(tv_weixin, app_weixin, share);
 			}
 		});
 		
