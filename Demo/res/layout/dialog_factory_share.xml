@@ -44,7 +44,7 @@
 		        android:layout_weight="1.0"
 		        android:layout_width="0.0dip"
 		        android:layout_height="wrap_content"
-		        android:drawableTop="@drawable/weibo_invail"
+		        android:drawableTop="@drawable/pyq_invail"
 		        android:layout_gravity="center"
 		        android:gravity="center"
 		        android:text="QQ微博" />            
@@ -63,7 +63,7 @@
 		        android:layout_weight="1.0"
 		        android:layout_width="0.0dip"
 		        android:layout_height="wrap_content"
-		        android:drawableTop="@drawable/weibo_invail"
+		        android:drawableTop="@drawable/twitter_invail"
 		        android:layout_gravity="center"
 		        android:gravity="center"
 		        android:text="短信" />
@@ -76,7 +76,7 @@
 		        android:layout_weight="1.0"
 		        android:layout_width="0.0dip"
 		        android:layout_height="wrap_content"
-		        android:drawableTop="@drawable/weibo_invail"
+		        android:drawableTop="@drawable/wx_invail"
 		        android:layout_gravity="center"
 		        android:gravity="center"
 		        android:text="微信" />		    

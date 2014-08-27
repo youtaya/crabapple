@@ -81,25 +81,25 @@ public class SettingActivity extends Activity {
 
 		for (int i = 0; i < shareAppInfos.size(); i++) {
 			if ("com.sina.weibo".equals(shareAppInfos.get(i).getAppPkgName())) {
-				Drawable add = this.getResources().getDrawable(R.drawable.ic_share_sina_weibo);
+				Drawable add = this.getResources().getDrawable(R.drawable.weibo);
 				add.setBounds(0, 0, add.getMinimumWidth(), add.getMinimumHeight());
 				tv_sina_weibo.setCompoundDrawables(null, add, null, null);// 设置Top图标
 				tv_sina_weibo.setTag(i);
 			}
 			if ("com.tencent.WBlog".equals(shareAppInfos.get(i).getAppPkgName())) {
-				Drawable add = this.getResources().getDrawable(R.drawable.ic_share_qq);
+				Drawable add = this.getResources().getDrawable(R.drawable.pyq);
 				add.setBounds(0, 0, add.getMinimumWidth(), add.getMinimumHeight());
 				tv_tecent_weibo.setCompoundDrawables(null, add, null, null);// 设置Top图标
 				tv_tecent_weibo.setTag(i);
 			}
 			if ("com.android.mms".equals(shareAppInfos.get(i).getAppPkgName())) {
-				Drawable add = this.getResources().getDrawable(R.drawable.ic_share_sms);
+				Drawable add = this.getResources().getDrawable(R.drawable.twitter);
 				add.setBounds(0, 0, add.getMinimumWidth(), add.getMinimumHeight());
 				tv_message.setCompoundDrawables(null, add, null, null);// 设置Top图标
 				tv_message.setTag(i);
 			}
 			if ("com.tencent.mm".equals(shareAppInfos.get(i).getAppPkgName())) {
-				Drawable add = this.getResources().getDrawable(R.drawable.ic_share_weixin);
+				Drawable add = this.getResources().getDrawable(R.drawable.wx);
 				add.setBounds(0, 0, add.getMinimumWidth(), add.getMinimumHeight());
 				tv_weixin.setCompoundDrawables(null, add, null, null);// 设置Top图标
 				tv_weixin.setTag(i);
