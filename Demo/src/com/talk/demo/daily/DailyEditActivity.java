@@ -259,6 +259,13 @@ public class DailyEditActivity extends Activity {
 		finish();
 	}
 	
+	private void send_dialog() {
+	    SendDialogFragment sdf = new SendDialogFragment();
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+        sdf.show(ft, "df");
+	}
+	
 	@Override
 	public void finish() {  
 		super.finish();  
@@ -285,7 +292,8 @@ public class DailyEditActivity extends Activity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.action_confirm:
-			confirmDone();
+			//confirmDone();
+		    send_dialog();
 			return true;
 		default:
 			return super.onOptionsItemSelected(item);
