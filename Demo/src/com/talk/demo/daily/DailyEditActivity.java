@@ -3,7 +3,7 @@ package com.talk.demo.daily;
 import android.accounts.Account;
 import android.annotation.TargetApi;
 import android.app.Activity;
-import android.app.FragmentTransaction;
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -18,11 +18,14 @@ import android.renderscript.RenderScript;
 import android.renderscript.ScriptIntrinsicBlur;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewTreeObserver;
+import android.view.Window;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -259,12 +262,9 @@ public class DailyEditActivity extends Activity {
 		 */
 		finish();
 	}
-	
+
 	private void send_dialog() {
-	    SendDialogFragment sdf = new SendDialogFragment();
-        FragmentTransaction ft = getFragmentManager().beginTransaction();
-        ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-        sdf.show(ft, "df");
+		startActivity(new Intent(this,SelectPopupActivity.class));
 	}
 	
 	@Override
