@@ -130,11 +130,11 @@
         <item name="android:windowExitAnimation">@anim/push_bottom_out</item>
     </style>
 
-    <style name="MyDialogStyleBottom" parent="android:Theme.Dialog">
+    <style name="MyDialogStyleBottom" >
         <item name="android:windowAnimationStyle">@style/AnimBottom</item>
         <item name="android:windowFrame">@null</item>
 		<!-- 边框 -->
-        <item name="android:windowIsFloating">true</item>
+        <!-- <item name="android:windowIsFloating">true</item> -->
 		<!-- 是否浮现在activity之上 -->
         <item name="android:windowIsTranslucent">true</item>
 		<!-- 半透明 -->
@@ -145,4 +145,5 @@
         <item name="android:backgroundDimEnabled">true</item>
 		<!-- 模糊 -->
     </style>
+    
 </resources>

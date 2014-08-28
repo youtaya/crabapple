@@ -147,8 +147,8 @@
 			    android:value=".MainActivity"/>
         </activity>
 		<activity
-            android:name=".daily.SelectPopupActivity"
-            android:theme="@style/MyDialogStyleBottom">
+            android:name=".daily.SelectPopupActivity" 
+			android:theme="@style/MyDialogStyleBottom" >
         </activity>        
 		<activity
             android:name=".share.ShareTalkActivity"
