@@ -3,6 +3,7 @@ package com.talk.demo.daily;
 import android.accounts.Account;
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -261,7 +262,7 @@ public class DailyEditActivity extends Activity {
 	
 	private void send_dialog() {
 	    SendDialogFragment sdf = new SendDialogFragment();
-        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        FragmentTransaction ft = getFragmentManager().beginTransaction();
         ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
         sdf.show(ft, "df");
 	}

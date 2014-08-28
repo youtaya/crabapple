@@ -83,6 +83,7 @@ public class SyncCompaign2 {
         String name = null;
         String handle = null;
         String phone = null;
+        String avatar = null;
         long serverRecordId = -1;;
         long rawRecordId = -1;
         long syncState = -1;
@@ -95,10 +96,11 @@ public class SyncCompaign2 {
         handle = fr.handle;
         phone = fr.phoneMobile;
         serverRecordId = fr.server_id;
+        avatar = fr.avatar;
         rawRecordId = fr._id;
         
-        RawFriend rf = RawFriend.create(name, handle, phone, serverRecordId, 
-                rawRecordId);
+        RawFriend rf = RawFriend.create(name, handle, phone, avatar, 
+        		serverRecordId, rawRecordId);
         return rf;
     }
 }
