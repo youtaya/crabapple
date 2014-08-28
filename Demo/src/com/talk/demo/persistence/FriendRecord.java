@@ -8,6 +8,7 @@ public class FriendRecord {
     public String userName;
     public String handle;
     public String phoneMobile;
+    public String avatar;
     public long sync_time;
  	/*
  	 * deleted flag :
@@ -29,6 +30,7 @@ public class FriendRecord {
         userName = rf.getUserName();
         handle = rf.getHandle();
         phoneMobile = rf.getPhoneMobile();
+        avatar = rf.getAvatar();
         sync_time = rf.getSyncState();
     }
     public FriendRecord(String v1) {

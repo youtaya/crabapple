@@ -49,6 +49,7 @@ public class DBHelper extends SQLiteOpenHelper {
                 + " handle TEXT,"
                 + " username TEXT,"
                 + " phone_mobile TEXT,"
+                + " avatar TEXT,"
                 + " sync_time TEXT,"
                 + " dirty INTEGER,"
                 + " deleted INTEGER);");

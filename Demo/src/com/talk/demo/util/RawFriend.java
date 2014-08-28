@@ -11,8 +11,9 @@ final public class RawFriend {
 	private static final String TAG = "RawFriend";
 	
     private final String mUserName;
-    private final  String mHandle;
-    private final  String mPhoneMobile;
+    private final String mHandle;
+    private final String mPhoneMobile;
+    private final String mAvatar;
     private final long mServerFriendId;
     private final long mRawFriendId;
     private final long mSyncState;
@@ -26,6 +27,9 @@ final public class RawFriend {
     public String getPhoneMobile() {
         return mPhoneMobile;
     }
+    public String getAvatar() {
+        return mAvatar;
+    }    
     public long getServerFriendId() {
         return mServerFriendId;
     }
@@ -36,11 +40,12 @@ final public class RawFriend {
         return mSyncState;
     } 
     
-    public RawFriend(String name, String handle, String phone,
+    public RawFriend(String name, String handle, String phone, String avatar,
     		long serverFriendId,long rawFriendId, long syncState) {
     	mUserName = name;
     	mHandle = handle;
     	mPhoneMobile = phone;
+    	mAvatar = avatar;
     	mServerFriendId = serverFriendId;
     	mRawFriendId = rawFriendId;
     	mSyncState = syncState;
@@ -58,6 +63,9 @@ final public class RawFriend {
         	if (!TextUtils.isEmpty(mPhoneMobile)) {
         		json.put("p", mPhoneMobile);
         	}
+            if (!TextUtils.isEmpty(mAvatar)) {
+                json.put("a", mAvatar);
+            }        	
         	if (mServerFriendId > 0) {
         		json.put("s", mServerFriendId);
         	}
@@ -84,21 +92,23 @@ final public class RawFriend {
     		final int rawFriendId = !friend.isNull("f")?friend.getInt("f"): -1;
     		final String handle = !friend.isNull("h")?friend.getString("h"): null;
     		final String phone = !friend.isNull("p")?friend.getString("p"): null;
+    		final String avatar = !friend.isNull("a")?friend.getString("a"): null;
     		final long syncState = !friend.isNull("x")?friend.getLong("x"): 0;
     		
-    		return new RawFriend(userName, handle, phone, serverFriendId, rawFriendId, syncState);
+    		return new RawFriend(userName, handle, phone, avatar, serverFriendId,
+    		        rawFriendId, syncState);
     	} catch (final Exception ex) {
     		Log.d(TAG, "Error parsing JSON friend object" +ex.toString());
     	}
     	return null;
     }
     
-    public static RawFriend create(String name, String handle, String phone,
+    public static RawFriend create(String name, String handle, String phone, String avatar,
     		long serverFriendId,long rawFriendId) {
-    	return new RawFriend(name, handle, phone, serverFriendId, rawFriendId, -1);
+    	return new RawFriend(name, handle, phone, avatar, serverFriendId, rawFriendId, -1);
     }
     
     public static RawFriend createDeletedFriend(long serverFriendId, long rawFriendId) {
-    	return new RawFriend(null, null, null, serverFriendId, rawFriendId, -1);
+    	return new RawFriend(null, null, null, null, serverFriendId, rawFriendId, -1);
     }
 }

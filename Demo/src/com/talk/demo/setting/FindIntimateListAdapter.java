@@ -94,6 +94,7 @@ public class FindIntimateListAdapter extends BaseAdapter {
         return convertView;
     }
 
+    //TODO: should contain more info about friend
     private void addFriendLocal(HashMap<String, Object> map) {
     	String name = (String) map.get(keyString[1]);
     	//check whether have saved

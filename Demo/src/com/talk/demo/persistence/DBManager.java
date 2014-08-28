@@ -97,7 +97,8 @@ public class DBManager {
                     fr.server_id,
                     fr.handle,
                     fr.userName,
-                    fr.phoneMobile, 
+                    fr.phoneMobile,
+                    fr.avatar,
                     fr.sync_time,
                     isDirty?fr.dirty:0,
                     fr.deleted});
@@ -189,6 +190,7 @@ public class DBManager {
         fr.userName = c.getString(c.getColumnIndex("username"));
         fr.handle = c.getString(c.getColumnIndex("handle"));
         fr.phoneMobile = c.getString(c.getColumnIndex("phone_mobile"));
+        fr.avatar = c.getString(c.getColumnIndex("avatar"));
         fr.sync_time = c.getLong(c.getColumnIndex("sync_time"));
     }
     
@@ -285,6 +287,7 @@ public class DBManager {
             fr._id = c.getInt(c.getColumnIndex("id"));  
             fr.userName = c.getString(c.getColumnIndex("username"));  
             fr.phoneMobile = c.getString(c.getColumnIndex("phone_mobile"));
+            fr.avatar = c.getString(c.getColumnIndex("avatar"));
             frList.add(fr);  
         }  
         c.close();  
