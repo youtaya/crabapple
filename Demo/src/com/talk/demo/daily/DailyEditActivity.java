@@ -264,9 +264,9 @@ public class DailyEditActivity extends Activity {
 	}
 
 	private void send_dialog() {
-		startActivity(new Intent(this,SelectPopupActivity.class));
+		startActivityForResult(new Intent(this,SelectPopupActivity.class),TalkUtil.REQUEST_SEND_TO_WHAT);
 	}
-	
+	  
 	@Override
 	public void finish() {  
 		super.finish();  
@@ -383,6 +383,23 @@ public class DailyEditActivity extends Activity {
 		            }
         		}
         	}
+            break;
+        case TalkUtil.REQUEST_SEND_TO_WHAT:
+            if (resultCode == RESULT_OK) {
+                Bundle extras = data.getExtras();
+                int to_what = (Integer) extras.get("TO_WHAT");
+                Log.d(TAG, "result to what : "+to_what);
+                switch (to_what) {
+                    case 1:
+                        confirmDone();
+                        break;
+                    case 2:
+                        break;
+                    case 3:
+                        break;
+                }
+                
+            }
             break;            
 		}
 	}

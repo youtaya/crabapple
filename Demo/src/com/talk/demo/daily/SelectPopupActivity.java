@@ -1,6 +1,7 @@
 package com.talk.demo.daily;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -35,19 +36,26 @@ public class SelectPopupActivity extends Activity implements OnClickListener{
 	}
 
 	public void onClick(View v) {
+	    int to_what  = 0;
 		switch (v.getId()) {
         case R.id.share_dialog_send_to_me:
             Log.d(TAG, "send to me");
+            to_what = 1;
             break; 
         case R.id.share_dialog_send_to_other:
             Log.d(TAG, "send to other");
+            to_what = 2;
             break; 
         case R.id.share_dialog_send_to_tag:
             Log.d(TAG, "send to tag");
+            to_what = 3;
             break; 
         default: 
             break; 
 		}
+        Intent resultIntent = new Intent();
+        resultIntent.putExtra("TO_WHAT", to_what);
+        setResult(RESULT_OK, resultIntent);
 		finish();
 	}
 	
