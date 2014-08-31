@@ -77,21 +77,7 @@
                 android:textColor="@color/menu_text_color"
                 android:textSize="@dimen/menu_item_text_size" />
 
-            <Button
-                android:id="@+id/share_dialog_copy_text"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:layout_marginLeft="20.0dip"
-                android:layout_marginRight="20.0dip"
-                android:layout_marginTop="15.0px"
-                android:background="@drawable/menu_btn_back"
-                android:gravity="center"
-                android:shadowColor="@color/menu_text_shadow_color"
-                android:shadowDy="2.0"
-                android:shadowRadius="0.1"
-                android:text="@string/share_dialog_copy_text"
-                android:textColor="@color/menu_text_color"
-                android:textSize="@dimen/menu_item_text_size" />
+
 
             <Button
                 android:id="@+id/share_dialog_send_to_tag"

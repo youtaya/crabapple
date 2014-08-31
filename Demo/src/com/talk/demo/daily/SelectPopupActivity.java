@@ -25,16 +25,26 @@ public class SelectPopupActivity extends Activity implements OnClickListener{
         otherBtn.setOnClickListener(this);          
         Button tagBtn = (Button)findViewById(R.id.share_dialog_send_to_tag); 
         tagBtn.setOnClickListener(this); 
+        
+        Button cancelBtn = (Button)findViewById(R.id.share_dialog_cancel);
+        cancelBtn.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				finish();
+			}
+        });
 
 	}
 	
+	/*
 	//实现onTouchEvent触屏函数但点击屏幕时销毁本Activity
 	@Override
 	public boolean onTouchEvent(MotionEvent event){
 		finish();
 		return true;
 	}
-
+	*/
+	
 	public void onClick(View v) {
 	    int to_what  = 0;
 		switch (v.getId()) {
