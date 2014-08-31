@@ -92,7 +92,7 @@ public class DBManager {
     
     public void friendExecSQL(FriendRecord fr, boolean isDirty) {
         db.execSQL("INSERT INTO "+TABLE_FRIEND+""
-                + " VALUES(null, ?, ?, ?, ?, ?, ?, ?)", 
+                + " VALUES(null, ?, ?, ?, ?, ?, ?, ?, ?)", 
                 new Object[]{
                     fr.server_id,
                     fr.handle,
