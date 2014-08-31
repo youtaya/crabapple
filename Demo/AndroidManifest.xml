@@ -151,6 +151,14 @@
 			android:theme="@style/MyDialogStyleBottom" >
         </activity>        
 		<activity
+            android:name=".daily.TagActivity" 
+            android:label="选择TAG"
+            android:parentActivityName=".daily.DailyEditActivity">
+			<meta-data
+			    android:name="android.support.PARENT_ACTIVITY"
+			    android:value=".daily.DailyEditActivity"/>
+        </activity>           
+		<activity
             android:name=".share.ShareTalkActivity"
             android:label="分享" 
             android:parentActivityName=".MainActivity">

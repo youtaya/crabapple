@@ -16,7 +16,9 @@ public class SelectPopupActivity extends Activity implements OnClickListener{
 
 	private static String TAG = "SelectPopupWindow";
 	private static final int GET_FRIEND = 101;
+	private static final int GET_TAG = 102;
 	private String friend = null;
+	private String tag = null;
     private int to_what  = 0;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +56,11 @@ public class SelectPopupActivity extends Activity implements OnClickListener{
 		this.startActivityForResult(mIntent, GET_FRIEND);
 	}
 	
+	private void startTagActivity() {
+		Intent mIntent = new Intent(this, TagActivity.class);
+		this.startActivityForResult(mIntent, GET_TAG);
+	}
+	
 	public void onClick(View v) {
 
 		switch (v.getId()) {
@@ -80,7 +87,7 @@ public class SelectPopupActivity extends Activity implements OnClickListener{
             break;             
         case R.id.share_dialog_send_to_tag:
             Log.d(TAG, "send to tag");
-            to_what = 4;
+            startTagActivity();
             break; 
         default: 
             break; 
@@ -105,6 +112,12 @@ public class SelectPopupActivity extends Activity implements OnClickListener{
 				finish();
 			}
 			break;
+		case GET_TAG:
+			if (resultCode == RESULT_OK) {
+	            Log.d(TAG, "tag is : "+tag);
+				finish();
+			}
+			break;			
 		}
 	}
 }
