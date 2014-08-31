@@ -42,7 +42,7 @@ public class DateInfo {
 			c.setTime(myDate);
 			int dayOfWeek = c.get(Calendar.DAY_OF_WEEK);
 			Log.d(TAG, "raw week day: "+dayOfWeek);
-			week_day = week_array[dayOfWeek-1];
+			week_day = week_array[dayOfWeek];
 			Log.d(TAG, "week day: "+week_day);
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
