@@ -74,8 +74,8 @@
     <string name="delete_note_confirm">Delete</string>
     <string name="share_dialog_send_method">Please select</string>
     <string name="share_dialog_send_to_me">Send to Me</string>
-    <string name="share_dialog_send_to_other">Send to Other</string>
-    <string name="share_dialog_copy_text">Copy text</string>
+    <string name="share_dialog_send_to_friend">Send to Friend</string>
+    <string name="share_dialog_send_to_stranger">Send to Stranger</string>
     <string name="share_dialog_send_to_tag">Send to Tag</string>
     <string name="share_dialog_send_via_long_length_weibo">Send as a picture</string>
     <string name="share_dialog_cancel">Cancel</string>

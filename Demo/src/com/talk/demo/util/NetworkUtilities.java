@@ -369,24 +369,30 @@ final public class NetworkUtilities {
          * cookieHeader may be null cause NullPointerException
          * ToDo: write the whole code completely
          */
-        String cookieHeader = conn.getHeaderFields().get("Set-Cookie")
-                .get(0);
+		List<String> temp  = conn.getHeaderFields().get("Set-Cookie");
+		String cookieHeader = null;
+		String csrfToken = null;
+		if (null !=temp && !temp.isEmpty()) {
+			cookieHeader = temp.get(0);
+		
+			Log.d(TAG, "cookie: " + cookieHeader);
 
-        Log.d(TAG, "cookie: " + cookieHeader);
+			csrfToken = cookieHeader.split(";")[0];
+			Log.d(TAG, "csrf token : " + csrfToken);
+		}
 
-        String csrfToken = cookieHeader.split(";")[0];
-        
-        Log.d(TAG, "csrf token : " + csrfToken);
         JSONObject jsonRecord = raw.toJSONObject();
         // Prepare our POST data
         final ArrayList<NameValuePair> params = new ArrayList<NameValuePair>();
         params.add(new BasicNameValuePair("records", jsonRecord.toString()));
         params.add(new BasicNameValuePair("target", target));
-        params.add(new BasicNameValuePair("csrfmiddlewaretoken", csrfToken.substring(10)));
+        if(csrfToken != null)
+        	params.add(new BasicNameValuePair("csrfmiddlewaretoken", csrfToken.substring(10)));
         HttpEntity entity = new UrlEncodedFormEntity(params, HTTP.UTF_8);
         final HttpPost post = new HttpPost(SHARE_RECORDS_URI);
         post.addHeader(entity.getContentType());
-        post.addHeader("Cookie", csrfToken);
+        if(csrfToken != null)
+        	post.addHeader("Cookie", csrfToken);
         post.setEntity(entity);
         final HttpResponse resp = getHttpClient().execute(post);
         final String response = EntityUtils.toString(resp.getEntity());

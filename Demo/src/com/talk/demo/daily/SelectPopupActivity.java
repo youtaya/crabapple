@@ -10,19 +10,24 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 
 import com.talk.demo.R;
+import com.talk.demo.share.AddFriendsActivity;
 
 public class SelectPopupActivity extends Activity implements OnClickListener{
 
 	private static String TAG = "SelectPopupWindow";
-
+	private static final int GET_FRIEND = 101;
+	private String friend = null;
+    private int to_what  = 0;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.send_dialog);
         Button meBtn = (Button)findViewById(R.id.share_dialog_send_to_me); 
         meBtn.setOnClickListener(this);          
-        Button otherBtn = (Button)findViewById(R.id.share_dialog_send_to_other); 
-        otherBtn.setOnClickListener(this);          
+        Button otherBtn = (Button)findViewById(R.id.share_dialog_send_to_friend); 
+        otherBtn.setOnClickListener(this);
+        Button strangerBtn = (Button)findViewById(R.id.share_dialog_send_to_stranger); 
+        strangerBtn.setOnClickListener(this);    
         Button tagBtn = (Button)findViewById(R.id.share_dialog_send_to_tag); 
         tagBtn.setOnClickListener(this); 
         
@@ -44,29 +49,62 @@ public class SelectPopupActivity extends Activity implements OnClickListener{
 		return true;
 	}
 	*/
+	private void startFriendActivity() {
+		Intent mIntent = new Intent(this, AddFriendsActivity.class);
+		this.startActivityForResult(mIntent, GET_FRIEND);
+	}
 	
 	public void onClick(View v) {
-	    int to_what  = 0;
+
 		switch (v.getId()) {
         case R.id.share_dialog_send_to_me:
             Log.d(TAG, "send to me");
             to_what = 1;
+            Intent resultIntent = new Intent();
+            resultIntent.putExtra("TO_WHAT", to_what);
+            setResult(RESULT_OK, resultIntent);
+    		finish();
             break; 
-        case R.id.share_dialog_send_to_other:
-            Log.d(TAG, "send to other");
-            to_what = 2;
-            break; 
+        case R.id.share_dialog_send_to_friend:
+            Log.d(TAG, "send to friend");
+            startFriendActivity();
+            break;
+        case R.id.share_dialog_send_to_stranger:
+            Log.d(TAG, "send to stranger");
+            to_what = 3;
+            Intent resIntent = new Intent();
+            resIntent.putExtra("TO_WHAT", to_what);
+            resIntent.putExtra("TARGET", "anonymous");
+            setResult(RESULT_OK, resIntent);
+    		finish();
+            break;             
         case R.id.share_dialog_send_to_tag:
             Log.d(TAG, "send to tag");
-            to_what = 3;
+            to_what = 4;
             break; 
         default: 
             break; 
 		}
-        Intent resultIntent = new Intent();
-        resultIntent.putExtra("TO_WHAT", to_what);
-        setResult(RESULT_OK, resultIntent);
-		finish();
+
 	}
 	
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		Log.d(TAG, "got the return :" + requestCode + " :" + resultCode);
+		switch (requestCode) {
+		case GET_FRIEND:
+			if (resultCode == RESULT_OK) {
+				String name = data.getStringExtra("friend_name").toString();
+				friend = name;
+	            Log.d(TAG, "friend is : "+friend);
+	            to_what = 2;
+		        Intent resultIntent = new Intent();
+		        resultIntent.putExtra("TO_WHAT", to_what);
+		        resultIntent.putExtra("target", friend);
+		        setResult(RESULT_OK, resultIntent);
+				finish();
+			}
+			break;
+		}
+	}
 }

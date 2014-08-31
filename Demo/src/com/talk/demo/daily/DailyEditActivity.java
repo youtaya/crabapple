@@ -262,7 +262,37 @@ public class DailyEditActivity extends Activity {
 		 */
 		finish();
 	}
+	
+	private void confirmDone(String target) {
+		// save to db
+		String content = edit_content.getText().toString();
+		// Do nothing if content is empty
+		if (content.length() > 0) {
+			tr = new TimeRecord(content);
+			if(fileName != null) {
+				//tr = new TimeRecord("/sdcard/Demo/"+fileName);
+				tr.setPhoto(fileName);
+				new SyncPhotoTask().execute();
+				tr.setContentType(TalkUtil.MEDIA_TYPE_PHOTO_TEXT);
+			} else {
+				tr.setContentType(TalkUtil.MEDIA_TYPE_TEXT);
+			}
+			rMgr.addRecord(tr);
+		}
 
+		// share to friend
+		// shareToFriend(tr, friend);
+		friend = target;
+		if(friend != null) {
+			new ShareRecordTask().execute();
+		}
+		// goto main activity
+		/*
+		 * Intent mIntent = new Intent(); mIntent.setClass(this,
+		 * MainActivity.class); startActivity(mIntent);
+		 */
+		finish();
+	}
 	private void send_dialog() {
 		startActivityForResult(new Intent(this,SelectPopupActivity.class),TalkUtil.REQUEST_SEND_TO_WHAT);
 	}
@@ -394,9 +424,12 @@ public class DailyEditActivity extends Activity {
                         confirmDone();
                         break;
                     case 2:
-                        break;
                     case 3:
+                    	String target = (String)extras.get("TARGET");
+                    	confirmDone(target);
                         break;
+                    case 4:
+                        break;                        
                 }
                 
             }
