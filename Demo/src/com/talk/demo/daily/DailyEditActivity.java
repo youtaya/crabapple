@@ -4,6 +4,8 @@ import android.accounts.Account;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.AlertDialog.Builder;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -60,7 +62,6 @@ public class DailyEditActivity extends Activity {
 	private String fileName = null;
 	private DBManager mgr;
 	private RecordManager rMgr;
-	private static final int GET_FRIEND = 101;
 	private String friend = null;
 	private TimeRecord tr = null;
 	
@@ -108,8 +109,8 @@ public class DailyEditActivity extends Activity {
 		tv.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				// call friends, and choose one
-				startFriendActivity();
+				//TODO: select friends, and choose one
+				hintDialog();
 			}
 
 		});
@@ -125,7 +126,26 @@ public class DailyEditActivity extends Activity {
 		}).start();
 		*/
 	}
+	
+    protected void hintDialog() {
+        AlertDialog.Builder builder = new Builder(this);
+        builder.setMessage("想好发送给谁吗？");
+        builder.setTitle("选择发送");
+        builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
 
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+                
+            }
+        });
+        builder.create().show();
+    }
+    
 	private void applyBlur() {
 		content_bg.getViewTreeObserver().addOnPreDrawListener(
 				new ViewTreeObserver.OnPreDrawListener() {
@@ -174,11 +194,6 @@ public class DailyEditActivity extends Activity {
 		view.setBackground(new BitmapDrawable(getResources(), overlay));
 
 		rs.destroy();
-	}
-
-	private void startFriendActivity() {
-		Intent mIntent = new Intent(this, AddFriendsActivity.class);
-		this.startActivityForResult(mIntent, GET_FRIEND);
 	}
 
 	@Override
@@ -382,13 +397,6 @@ public class DailyEditActivity extends Activity {
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		Log.d(TAG, "got the return :" + requestCode + " :" + resultCode);
 		switch (requestCode) {
-		case GET_FRIEND:
-			if (resultCode == RESULT_OK) {
-				String name = data.getStringExtra("friend_name").toString();
-				tv.setText("Choose Friends: " + name);
-				friend = name;
-			}
-			break;
         case TalkUtil.REQUEST_SELECT_PICTURE:
             if (resultCode == RESULT_OK) {
             	if(data != null ) {

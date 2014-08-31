@@ -143,5 +143,9 @@ You can post your notes to Sina Weibo, with no 140 character limit. If the note 
     <string name="dialog_add_contact">Add to contacts</string>
     <string name="dialog_send_mail">Send e-mail</string>
     <string name="dialog_add_mail_contact">Add e-maill address to contacts</string>
-    <string name="dialog_call">Call</string>	
+    <string name="dialog_call">Call</string>
+    
+    <string name="publish_secret_option_page_item_conversation">接收私信</string>
+	<string name="publish_secret_tip">谁会看到这个秘密？</string>
+	<string name="publish_secret_content_hint">匿名发表秘密</string>   
 </resources>

@@ -16,6 +16,9 @@
     <dimen name="ConversationItemHeight">58dp</dimen>
     <dimen name="LargeAvatarSize">56dp</dimen>
     
+	<dimen name="bottom_bar_height">48.0dip</dimen>
+    <dimen name="template_page_indicator_height">24.0dip</dimen>
+    <dimen name="template_item_padding">7.0dip</dimen>
     
     <dimen name="list_back_width">483.0dip</dimen>
     <dimen name="screen_width">360.0dip</dimen>
