@@ -211,7 +211,7 @@ public class DailyEditActivity extends Activity {
         }
 		RawRecord raw = RawRecord.create(accout.name, friend, "test", time.content,
 				time.calc_date, time.create_time, time.content_type, null,
-				null, false, 11, 12, -1, true);
+				null, null, false, 11, 12, -1, true);
 		try {
 			NetworkUtilities.shareRecord(raw, name);
 		} catch (ParseException e) {
