@@ -270,20 +270,22 @@ final public class NetworkUtilities {
 				Log.e(TAG, "get response code : "+result);
                 List<String> responseList = sessionConnection.getHeaderFields().get("Set-Cookie");
                 
-                for(String resItem : responseList) {
-                	Log.d(TAG, "cookie session: " + resItem);
-                    if(resItem.contains("sessionid")) {
-                    	authToken = resItem.split(";")[0];
-                        Log.d(TAG, "session :" + authToken);
-                        NetData.setSessionId(authToken);
-                    }
-                    
-                    if(resItem.contains("csrftoken")) {
-                        csrfToken2 = resItem.split(";")[0];
-                        Log.d(TAG, "csrf token :" + csrfToken2);
-                        NetData.setCsrfToken(csrfToken2);
-                    }
-                    
+                if(null != responseList) {
+	                for(String resItem : responseList) {
+	                	Log.d(TAG, "cookie session: " + resItem);
+	                    if(resItem.contains("sessionid")) {
+	                    	authToken = resItem.split(";")[0];
+	                        Log.d(TAG, "session :" + authToken);
+	                        NetData.setSessionId(authToken);
+	                    }
+	                    
+	                    if(resItem.contains("csrftoken")) {
+	                        csrfToken2 = resItem.split(";")[0];
+	                        Log.d(TAG, "csrf token :" + csrfToken2);
+	                        NetData.setCsrfToken(csrfToken2);
+	                    }
+	                    
+	                }
                 }
                 
             } catch (IOException e) {
@@ -360,7 +362,7 @@ final public class NetworkUtilities {
         return mItems;
     }
     
-    public static void shareRecord(RawRecord raw, String target) 
+    public static void shareRecord(RawRecord raw, String oring, String target) 
             throws JSONException, ParseException, IOException {
         HttpURLConnection conn = HttpRequest.get(AUTH_URI)
                 .getConnection();
@@ -384,6 +386,7 @@ final public class NetworkUtilities {
         JSONObject jsonRecord = raw.toJSONObject();
         // Prepare our POST data
         final ArrayList<NameValuePair> params = new ArrayList<NameValuePair>();
+        params.add(new BasicNameValuePair(PARAM_USERNAME, oring));
         params.add(new BasicNameValuePair("records", jsonRecord.toString()));
         params.add(new BasicNameValuePair("target", target));
         if(csrfToken != null)

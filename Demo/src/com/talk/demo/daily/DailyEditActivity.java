@@ -213,7 +213,7 @@ public class DailyEditActivity extends Activity {
 				time.calc_date, time.create_time, time.content_type, null,
 				null, null, false, 11, 12, -1, true);
 		try {
-			NetworkUtilities.shareRecord(raw, name);
+			NetworkUtilities.shareRecord(raw, accout.name, name);
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -298,6 +298,7 @@ public class DailyEditActivity extends Activity {
 		// share to friend
 		// shareToFriend(tr, friend);
 		friend = target;
+		Log.d(TAG, "friend is : "+friend);
 		if(friend != null) {
 			new ShareRecordTask().execute();
 		}
@@ -425,7 +426,7 @@ public class DailyEditActivity extends Activity {
         case TalkUtil.REQUEST_SEND_TO_WHAT:
             if (resultCode == RESULT_OK) {
                 Bundle extras = data.getExtras();
-                int to_what = (Integer) extras.get("TO_WHAT");
+                int to_what = extras.getInt("TO_WHAT");
                 Log.d(TAG, "result to what : "+to_what);
                 switch (to_what) {
                     case 1:
@@ -433,7 +434,8 @@ public class DailyEditActivity extends Activity {
                         break;
                     case 2:
                     case 3:
-                    	String target = (String)extras.get("TARGET");
+                    	String target = extras.getString("TARGET");
+                    	Log.d(TAG, "target is : "+target);
                     	confirmDone(target);
                         break;
                     case 4:

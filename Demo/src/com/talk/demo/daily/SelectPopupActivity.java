@@ -68,7 +68,9 @@ public class SelectPopupActivity extends Activity implements OnClickListener{
             Log.d(TAG, "send to me");
             to_what = 1;
             Intent resultIntent = new Intent();
-            resultIntent.putExtra("TO_WHAT", to_what);
+            Bundle bund = new Bundle();
+            bund.putInt("TO_WHAT", to_what);
+            resultIntent.putExtras(bund);
             setResult(RESULT_OK, resultIntent);
     		finish();
             break; 
@@ -80,8 +82,10 @@ public class SelectPopupActivity extends Activity implements OnClickListener{
             Log.d(TAG, "send to stranger");
             to_what = 3;
             Intent resIntent = new Intent();
-            resIntent.putExtra("TO_WHAT", to_what);
-            resIntent.putExtra("TARGET", "anonymous");
+            Bundle bundle = new Bundle();
+            bundle.putInt("TO_WHAT", to_what);
+            bundle.putString("TARGET", "anonymous");
+            resIntent.putExtras(bundle);
             setResult(RESULT_OK, resIntent);
     		finish();
             break;             
@@ -106,8 +110,10 @@ public class SelectPopupActivity extends Activity implements OnClickListener{
 	            Log.d(TAG, "friend is : "+friend);
 	            to_what = 2;
 		        Intent resultIntent = new Intent();
-		        resultIntent.putExtra("TO_WHAT", to_what);
-		        resultIntent.putExtra("target", friend);
+	            Bundle bundle = new Bundle();
+	            bundle.putInt("TO_WHAT", to_what);
+	            bundle.putString("TARGET", friend);
+	            resultIntent.putExtras(bundle);
 		        setResult(RESULT_OK, resultIntent);
 				finish();
 			}
