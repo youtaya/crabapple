@@ -18,6 +18,7 @@ public class TimeRecord {
     public String title = "time";
     public String photo;
     public String audio;
+    public String tag;
     public long sync_time;
  	/*
  	 * deleted flag :

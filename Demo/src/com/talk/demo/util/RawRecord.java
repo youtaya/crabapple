@@ -19,6 +19,7 @@ final public class RawRecord {
     private final int mContentType;
     private final String mPhoto;
     private final String mAudio;
+    private final String mTag;
     private final boolean mDeleted;
 
     private final boolean mDirty;
@@ -57,6 +58,9 @@ final public class RawRecord {
     public String getAudio() {
         return mAudio;
     }
+    public String getTag() {
+        return mTag;
+    }    
     public String getLink() {
         return mLink;
     }
@@ -72,7 +76,7 @@ final public class RawRecord {
     } 
     
     public RawRecord(String name, String link, String title, String content, String createDate,
-            String createTime, int contentType, String photo, String audio,
+            String createTime, int contentType, String photo, String audio, String tag,
             boolean deleted, long serverRecordId,
             long rawRecordId, long syncState, boolean dirty) {
         mUserName = name;
@@ -83,6 +87,7 @@ final public class RawRecord {
         mContentType = contentType;
         mPhoto = photo;
         mAudio = audio;
+        mTag = tag;
         mLink = link;
         mDeleted = deleted;
         mServerRecordId = serverRecordId;
@@ -127,6 +132,9 @@ final public class RawRecord {
             if (!TextUtils.isEmpty(mAudio)) {
                 json.put("ao", mAudio);
             }
+            if (!TextUtils.isEmpty(mTag)) {
+                json.put("tag", mTag);
+            }            
             if (mServerRecordId > 0) {
                 json.put("sid", mServerRecordId);
             }
@@ -173,10 +181,11 @@ final public class RawRecord {
             final int contentType = !Record.isNull("ctx") ? Record.getInt("ctx") : null;
             final String photo = !Record.isNull("po") ? Record.getString("po") : null;
             final String audio = !Record.isNull("ao") ? Record.getString("ao") : null;
+            final String tag = !Record.isNull("tag") ? Record.getString("tag") : null;
             final boolean deleted = !Record.isNull("del") ? Record.getBoolean("del") : false;
             final long syncState = !Record.isNull("x") ? Record.getLong("x") : 0;
             return new RawRecord(userName, link, title, content, createDate,
-            		createTime, contentType, photo, audio, deleted,
+            		createTime, contentType, photo, audio, tag, deleted,
             		serverRecordId, rawRecordId, syncState, false);
         } catch (final Exception ex) {
             Log.i(TAG, "Error parsing JSON contact object" + ex.toString());
@@ -188,11 +197,11 @@ final public class RawRecord {
      * Creates and returns RawRecord instance from all the supplied parameters.
      */
     public static RawRecord create(String name, String link, String title, String content, String createDate,
-            String createTime, int contentType, String photo, String audio,
+            String createTime, int contentType, String photo, String audio, String tag, 
             boolean deleted, long serverRecordId,
             long rawRecordId, long syncState, boolean dirty) {
         return new RawRecord(name, link, title, content, createDate,
-        		createTime, contentType, photo, audio, deleted,
+        		createTime, contentType, photo, audio, tag, deleted,
         		serverRecordId, rawRecordId, syncState, dirty);
     }
     
@@ -206,7 +215,7 @@ final public class RawRecord {
     public static RawRecord createDeletedRecord(long rawRecordId, long serverRecordId)
     {
         return new RawRecord(null, null, null, null, null,
-                null, 0, null, null, true, 
+                null, 0, null, null, null, true, 
                 serverRecordId, rawRecordId, -1, true);
     }
 }

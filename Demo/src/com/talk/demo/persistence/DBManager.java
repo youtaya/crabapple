@@ -32,7 +32,7 @@ public class DBManager {
    
     public void recordExecSQL(TimeRecord tr, boolean isDirty) {
         db.execSQL("INSERT INTO "+DATABASE_TABLE+""
-                + " VALUES(null, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", 
+                + " VALUES(null, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", 
                 new Object[]{
         			tr.server_id,
                     tr.userName, 
@@ -44,6 +44,7 @@ public class DBManager {
                     tr.content_type,
                     tr.photo,
                     tr.audio,
+                    tr.tag,
                     tr.sync_time,
                     isDirty?tr.dirty:0,
                     tr.deleted});
@@ -180,7 +181,8 @@ public class DBManager {
         tr.create_time = c.getString(c.getColumnIndex("create_time"));  
         tr.content_type = c.getInt(c.getColumnIndex("content_type"));
         tr.photo = c.getString(c.getColumnIndex("photo")); 
-        tr.audio = c.getString(c.getColumnIndex("audio")); 
+        tr.audio = c.getString(c.getColumnIndex("audio"));
+        tr.tag = c.getString(c.getColumnIndex("tag")); 
         tr.sync_time = c.getLong(c.getColumnIndex("sync_time"));
     }
     
