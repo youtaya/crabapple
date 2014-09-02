@@ -88,6 +88,10 @@ public class TimeRecord {
     	photo = photoPath;
     }
     
+    public void setTag(String pTag) {
+        tag = pTag;
+    }
+    
     public String handledDate() {
         Date date = new Date();
         return handledDate(date);

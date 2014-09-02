@@ -102,6 +102,8 @@ public class SelectPopupActivity extends Activity implements OnClickListener{
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		Log.d(TAG, "got the return :" + requestCode + " :" + resultCode);
+        Intent resultIntent = new Intent();
+        Bundle bundle = new Bundle();
 		switch (requestCode) {
 		case GET_FRIEND:
 			if (resultCode == RESULT_OK) {
@@ -109,8 +111,6 @@ public class SelectPopupActivity extends Activity implements OnClickListener{
 				friend = name;
 	            Log.d(TAG, "friend is : "+friend);
 	            to_what = 2;
-		        Intent resultIntent = new Intent();
-	            Bundle bundle = new Bundle();
 	            bundle.putInt("TO_WHAT", to_what);
 	            bundle.putString("TARGET", friend);
 	            resultIntent.putExtras(bundle);
@@ -120,7 +120,14 @@ public class SelectPopupActivity extends Activity implements OnClickListener{
 			break;
 		case GET_TAG:
 			if (resultCode == RESULT_OK) {
+	            String res_tag = data.getStringExtra("tag_name").toString();
+	            tag = res_tag;
 	            Log.d(TAG, "tag is : "+tag);
+	            to_what = 4;
+	            bundle.putInt("TO_WHAT", to_what);
+	            bundle.putString("TAG", tag);
+	            resultIntent.putExtras(bundle);
+	            setResult(RESULT_OK, resultIntent);
 				finish();
 			}
 			break;			
