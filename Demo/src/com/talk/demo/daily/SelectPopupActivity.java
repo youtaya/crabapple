@@ -57,7 +57,7 @@ public class SelectPopupActivity extends Activity implements OnClickListener{
 	}
 	
 	private void startTagActivity() {
-		Intent mIntent = new Intent(this, TagActivity.class);
+		Intent mIntent = new Intent(this, SelectTagActivity.class);
 		this.startActivityForResult(mIntent, GET_TAG);
 	}
 	

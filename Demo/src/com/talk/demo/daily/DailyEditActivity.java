@@ -314,6 +314,7 @@ public class DailyEditActivity extends Activity {
         }
         //TODO: start tag view
 
+        startActivities(new Intent(this, TagActivity.class));
         finish();
     }
 	
