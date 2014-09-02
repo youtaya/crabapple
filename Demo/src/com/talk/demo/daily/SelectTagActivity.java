@@ -1,13 +1,16 @@
 package com.talk.demo.daily;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.ExpandableListView;
+import android.widget.ExpandableListView.OnGroupClickListener;
 import android.widget.TextView;
 
 import com.talk.demo.R;
@@ -16,36 +19,29 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SelectTagActivity extends Activity {
+	private static final String TAG = "SelectTagActivity";
     private List<String> GroupData;//定义组数据  
     private List<List<String>> ChildrenData;//定义组中的子数据
     private void LoadListDate() {  
         GroupData = new ArrayList<String>();  
-        GroupData.add("国家");  
-        GroupData.add("人物");  
-        GroupData.add("武器");  
+        GroupData.add("想你的夜");  
+        GroupData.add("月亮代表我的心");  
+        GroupData.add("下一站天后");  
   
         ChildrenData = new ArrayList<List<String>>();  
         List<String> Child1 = new ArrayList<String>();  
-        Child1.add("蜀国");  
-        Child1.add("魏国");
-        Child1.add("吴国");
+        Child1.add("2012年6月21日");  
+        Child1.add("2012年6月22日");
+        Child1.add("2012年6月23日");
         ChildrenData.add(Child1);  
         List<String> Child2 = new ArrayList<String>();  
-        Child2.add("关羽");  
-        Child2.add("张飞");  
-        Child2.add("典韦");  
-        Child2.add("吕布");
-        Child2.add("曹操");
-        Child2.add("甘宁");
-        Child2.add("郭嘉");
-        Child2.add("周瑜");
+        Child2.add("喜马拉雅");  
+        Child2.add("泰山");  
+        Child2.add("嵩山");  
         ChildrenData.add(Child2);  
         List<String> Child3 = new ArrayList<String>();  
-        Child3.add("青龙偃月刀");  
-        Child3.add("丈八蛇矛枪");  
-        Child3.add("青钢剑");  
-        Child3.add("麒麟弓");  
-        Child3.add("银月枪");  
+        Child3.add("Sahara");  
+        Child3.add("Egypt");  
         ChildrenData.add(Child3);  
     }  
 	@Override
@@ -55,7 +51,24 @@ public class SelectTagActivity extends Activity {
         LoadListDate();  
         
         ExpandableListView myExpandableListView = (ExpandableListView)findViewById(R.id.expandableListView);  
-        myExpandableListView.setAdapter(new ExpandableAdapter());  
+        myExpandableListView.setAdapter(new ExpandableAdapter());
+        myExpandableListView.setOnGroupClickListener(new OnGroupClickListener() {
+
+			@Override
+			public boolean onGroupClick(ExpandableListView parent, View v,
+					int groupPosition, long id) {
+				Log.d(TAG, "group postion : "+groupPosition);
+				String tag = parent.getExpandableListAdapter().getGroup(groupPosition).toString();
+				Log.d(TAG, "parent : "+tag);
+				Intent resultIntent = new Intent();
+		        resultIntent.putExtra("tag_name", tag);
+		        setResult(RESULT_OK, resultIntent);
+		    	finish();
+				return false;
+			}
+        	
+        });
+	
 	}
 	
     private class ExpandableAdapter extends BaseExpandableListAdapter {  
@@ -78,7 +91,7 @@ public class SelectTagActivity extends Activity {
                 myText.setText(ChildrenData.get(groupPosition).get(childPosition));  
             } else {  
                 myText = createView(ChildrenData.get(groupPosition).get(childPosition));  
-            }  
+            }
             return myText;  
 		}
 
@@ -123,7 +136,8 @@ public class SelectTagActivity extends Activity {
 		@Override
 		public boolean isChildSelectable(int groupPosition, int childPosition) {
 			return false;
-		}  
+		}
+		
         private TextView createView(String content) {  
             AbsListView.LayoutParams layoutParams = new AbsListView.LayoutParams(    
                     ViewGroup.LayoutParams.FILL_PARENT, 80);    
@@ -134,6 +148,6 @@ public class SelectTagActivity extends Activity {
             myText.setText(content);  
             return myText;  
         }
-    }  
-	
+    }
+
 }
