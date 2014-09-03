@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
 	<string name="label">Talk</string>
-    <string name="app_name">West Wind</string>
+    <string name="app_name">西窗话</string>
     <string name="love_letter">是否应验了我曾说过的那句话\n
         &#160;&#160;情到深处人寂寞\n&#160; &#160; 
         &#160; &#160; &#160; &#160; --蔡琴\n\n</string>
@@ -11,38 +11,38 @@
     <string name="long_letter">三人行必有我师\n
         &#160; &#160;&#160; &#160; &#160; &#160;
         &#160; &#160;&#160; &#160; --孔子\n\n</string>                
-    <string name="login">LOG IN</string>
-    <string name="signup">SIGN UP</string>
+    <string name="login">登录</string>
+    <string name="signup">注册</string>
     <string name="action_settings">Settings</string>
-    <string name="title_section0">Daily</string>
-    <string name="title_section1">Times</string>
-    <string name="title_section2">Dialog</string>
-    <string name="title_section3">Records</string>
-    <string name="fast_record">&#160; fast record...</string>
-    <string name="fast_comment">&#160; add comment...</string>
+    <string name="title_section0">日记</string>
+    <string name="title_section1">时光</string>
+    <string name="title_section2">对话</string>
+    <string name="title_section3">记录</string>
+    <string name="fast_record">&#160; 快速记录...</string>
+    <string name="fast_comment">&#160; 添加评论...</string>
     <string name="take_photo">Take Photo</string>
     <string name="take_gallery">Take Gallery</string>
     <string name="take_tape">Take Tape</string>
-    <string name="dis_account">account status</string>
-    <string name="rich_measure">diamond count</string>
-    <string name="dis_preview">time preview</string>
-    <string name="dis_preview_hint">numbers of time preview</string>
+    <string name="dis_account">账号状态</string>
+    <string name="rich_measure">宝石数</string>
+    <string name="dis_preview">时光预览</string>
+    <string name="dis_preview_hint">时光预览数</string>
     <string name="dis_connection">青石所系</string>
-    <string name="action_confirm">confirm</string>
-    <string name="send">send</string>
+    <string name="action_confirm">确定</string>
+    <string name="send">发送</string>
     <string name="setting_date">设定幸运日期，幸运日会将往事时
         光全部呈现\n如跳过设定，默认为当前日期\n可以在设定菜单中重新设置幸运日期</string>
 	<!-- Do not translate. Format of the timer that shows how much has been recorded so far -->
     <string name="timer_format" translatable="false"><xliff:g id="format">%02d:%02d</xliff:g></string>
-    <string name="bluestone">Who will see this time?\n</string>
-    <string name="user">me</string>
-    <string name="user_name">user name</string>
-    <string name="luck_day">lucky day</string>
-    <string name="friend">friend</string>
-    <string name="add_friend">find friend</string>
-    <string name="store">store</string>
-    <string name="setting">setting</string>
-	<string name="logout">logout</string>   
+    <string name="bluestone">谁会看到这段时光?\n</string>
+    <string name="user">我</string>
+    <string name="user_name">用户名</string>
+    <string name="luck_day">幸运日</string>
+    <string name="friend">好友</string>
+    <string name="add_friend">查找好友</string>
+    <string name="store">商店</string>
+    <string name="setting">设置</string>
+	<string name="logout">注销</string>   
 	
     <string name="menu_settings">Settings</string>
     <string name="title_activity_notes">NotesActivity</string>
