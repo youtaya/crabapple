@@ -2,7 +2,9 @@ package com.talk.demo.daily;
 
 import android.R.integer;
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ListView;
@@ -15,6 +17,7 @@ public class SelectTagActivity extends Activity {
 	private static final String TAG = "SelectTagActivity";
 	private ArrayList<String> listItems = new ArrayList<String>();
     private ArrayAdapter<String> adapter;
+    private static final int ADD_TAG = 87;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -28,8 +31,8 @@ public class SelectTagActivity extends Activity {
 	
 	}
 	
-    public void addItems(View v) {
-        listItems.add("Clicked : "+clickCounter++);
+    public void addItems(String params) {
+        listItems.add(params);
         adapter.notifyDataSetChanged();
     }
     
@@ -45,9 +48,24 @@ public class SelectTagActivity extends Activity {
         
         if(id == android.R.id.action_add) {
             //TODO: add tag
+            Intent mIntent = new Intent(this, AddTagActivity.class);
+            startActivityForResult(mIntent, ADD_TAG);
             return true;
         }
         
         return super.onOptionsItemSelected(item);
+    }
+    
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Log.d(TAG, "got the return :" + requestCode + " :" + resultCode);
+        Intent resultIntent = new Intent();
+        Bundle bundle = new Bundle();
+        switch (requestCode) {
+        case ADD_TAG:
+            if (resultCode == RESULT_OK) {
+            }
+            break;
+        }
     }
 }
