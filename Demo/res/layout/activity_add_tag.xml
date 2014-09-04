@@ -3,11 +3,36 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
+	<LinearLayout 
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:background="@color/menu_text_shadow_color" >
+	    <TextView
+	        android:id="@+id/textView"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:layout_gravity="center"
+	        android:layout_marginTop="12dp"
+	        android:layout_marginBottom="12dp"
+	        android:textSize="24sp"
+	        android:text="@string/tag_name" />    
+	</LinearLayout>
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="TextView" />
-
+	<LinearLayout 
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content">
+		<LinearLayout 
+		    android:layout_width="match_parent"
+		    android:layout_height="match_parent">
+		    <EditText
+		        android:id="@+id/edittext"
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content"
+				android:layout_marginTop="12dp"
+				android:layout_marginBottom="12dp"
+		        android:layout_gravity="center"
+		        android:gravity="center"
+		    	android:hint="@string/input_tag" />
+		</LinearLayout>
+	</LinearLayout>
 </LinearLayout>

@@ -6,6 +6,9 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -29,6 +32,20 @@ public class SelectTagActivity extends Activity {
                 listItems);
         myListView.setAdapter(adapter);
 	
+        myListView.setOnItemClickListener(new OnItemClickListener() {
+
+        	@Override
+			public void onItemClick(AdapterView<?> parent, View view,
+					int position, long id) {
+				Log.d(TAG, "tag name : "+listItems.get(position));
+		        Intent resultIntent = new Intent();
+		        resultIntent.putExtra("tag_name", listItems.get(position));
+	            setResult(RESULT_OK, resultIntent);
+				finish();
+				
+			}
+        	
+        });
 	}
 	
     public void addItems(String params) {
@@ -38,7 +55,7 @@ public class SelectTagActivity extends Activity {
     
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.activity_tag, menu);
+        getMenuInflater().inflate(R.menu.tag_actions, menu);
         return true;
     }
 	
@@ -47,7 +64,6 @@ public class SelectTagActivity extends Activity {
         int id = item.getItemId();
         
         if(id == R.id.action_add) {
-            //TODO: add tag
             Intent mIntent = new Intent(this, AddTagActivity.class);
             startActivityForResult(mIntent, ADD_TAG);
             return true;
@@ -59,11 +75,13 @@ public class SelectTagActivity extends Activity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         Log.d(TAG, "got the return :" + requestCode + " :" + resultCode);
-        Intent resultIntent = new Intent();
-        Bundle bundle = new Bundle();
+
         switch (requestCode) {
         case ADD_TAG:
             if (resultCode == RESULT_OK) {
+            	String res_tag = data.getStringExtra("tag_name").toString();
+            	Log.d(TAG, "tag is : "+res_tag);
+            	addItems(res_tag);
             }
             break;
         }
