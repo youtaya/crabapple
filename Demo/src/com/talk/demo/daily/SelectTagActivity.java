@@ -1,17 +1,17 @@
 package com.talk.demo.daily;
 
-import android.R.integer;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.talk.demo.R;
 
-import java.util.List;
+import java.util.ArrayList;
 
 public class SelectTagActivity extends Activity {
 	private static final String TAG = "SelectTagActivity";
@@ -46,7 +46,7 @@ public class SelectTagActivity extends Activity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         
-        if(id == android.R.id.action_add) {
+        if(id == R.id.action_add) {
             //TODO: add tag
             Intent mIntent = new Intent(this, AddTagActivity.class);
             startActivityForResult(mIntent, ADD_TAG);

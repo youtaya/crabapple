@@ -1,16 +1,11 @@
 package com.talk.demo.daily;
 
-import android.R.integer;
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ListView;
 
 import com.talk.demo.R;
-
-import java.util.List;
 
 public class AddTagActivity extends Activity {
 	private static final String TAG = "AddTagActivity";
@@ -31,7 +26,7 @@ public class AddTagActivity extends Activity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         
-        if(id == android.R.id.action_save) {
+        if(id == R.id.action_save) {
             //TODO: retuen tag
             return true;
         }
