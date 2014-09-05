@@ -14,7 +14,7 @@ public class DateInfo {
 	private String date;
 	private String week_day;
 	private String[] week_array = 
-		{"星期一", "星期二", "星期三", "星期四", "星期五", "星期六", "星期日" };
+		{ "星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六" };
 	private String raw_info;
 	public DateInfo(String timeInfo) {
 		raw_info = timeInfo;
@@ -37,17 +37,16 @@ public class DateInfo {
 		Log.d(TAG, "time: "+time);
 		
 		Calendar c = Calendar.getInstance();
-		try {
-			Date myDate = new SimpleDateFormat("yy-mm-dd").parse(str[0]);
-			c.setTime(myDate);
-			int dayOfWeek = c.get(Calendar.DAY_OF_WEEK);
-			Log.d(TAG, "raw week day: "+dayOfWeek);
-			week_day = week_array[dayOfWeek];
-			Log.d(TAG, "week day: "+week_day);
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		String[] test = str[0].split("-");
+		int year = Integer.parseInt(test[0]);
+		int month = Integer.parseInt(test[1])-1;
+		int day = Integer.parseInt(test[2]);
+		Log.d(TAG, "my date: "+year+" "+month+" "+day);
+		c.set(year, month, day);
+		
+		int dayOfWeek = c.get(Calendar.DAY_OF_WEEK);
+		Log.d(TAG, "raw week day: "+dayOfWeek);
+		week_day = week_array[dayOfWeek-1];
 		
 	}
 	
