@@ -17,6 +17,7 @@ public class DBManager {
     private SQLiteDatabase db;  
     private String DATABASE_TABLE = "records";
     private String TABLE_FRIEND = "friends";
+    private String TABLE_TAG = "tags";
     // Get rich values
     private RichPresent rp;
     
@@ -105,10 +106,33 @@ public class DBManager {
                     fr.deleted});
     }
     
+    public void tagExecSQL(TagRecord tagr, boolean isDirty) {
+        db.execSQL("INSERT INTO "+TABLE_TAG+""
+                + " VALUES(null, ?, ?, ?, ?, ?, ?)", 
+                new Object[]{
+        			tagr.server_id,
+        			tagr.handle,
+        			tagr.tagName,
+        			tagr.sync_time,
+                    isDirty?tagr.dirty:0,
+                    tagr.deleted});
+    }
+    
     public void addFriend(FriendRecord fr) {  
         db.beginTransaction();  //开始事务  
         try {  
         	friendExecSQL(fr, true);
+            db.setTransactionSuccessful();  //设置事务成功完成  
+        } finally {  
+            db.endTransaction();    //结束事务  
+        }
+        
+    }
+    
+    public void addTag(TagRecord tagr) {  
+        db.beginTransaction();  //开始事务  
+        try {  
+        	tagExecSQL(tagr, true);
             db.setTransactionSuccessful();  //设置事务成功完成  
         } finally {  
             db.endTransaction();    //结束事务  
