@@ -53,8 +53,7 @@ public class RecordOperations {
         cv.put("content", tRecord.content);  
         Log.d(TAG,"update id: "+tRecord._id);
         db.update(DATABASE_TABLE, cv, "id" + "='" +tRecord._id+"'", null);
-        //TODO: fix rich inspiration
-        //rp.addRich(1);
+
     } 
     
     public static void updateServerInfo(SQLiteDatabase db, TimeRecord tRecord) {  

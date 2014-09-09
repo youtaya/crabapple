@@ -1,5 +1,6 @@
 package com.talk.demo.persistence;
 
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 public class TagOperations {
@@ -16,5 +17,19 @@ public class TagOperations {
                     tagr.sync_time,
                     isDirty?tagr.dirty:0,
                     tagr.deleted});
+    }
+    
+    public static void dumpTagRecord(TagRecord tagr, Cursor c) {
+    	tagr._id = c.getInt(c.getColumnIndex("id"));
+    	tagr.server_id = c.getInt(c.getColumnIndex("server_id"));
+    	tagr.tagName = c.getString(c.getColumnIndex("tagname"));
+    	tagr.handle = c.getString(c.getColumnIndex("handle"));
+    	tagr.sync_time = c.getLong(c.getColumnIndex("sync_time"));
+    }
+    
+    public static Cursor queryTagCursor(SQLiteDatabase db) {  
+        Cursor c = db.rawQuery("SELECT * FROM "+TABLE_TAG
+                +" ORDER BY tagname DESC", null);  
+        return c;  
     }
 }

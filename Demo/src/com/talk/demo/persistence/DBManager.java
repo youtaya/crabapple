@@ -13,10 +13,7 @@ import java.util.List;
 public class DBManager {  
     private static String TAG = "DBManager";
     private DBHelper helper;  
-    private SQLiteDatabase db;  
-    private String DATABASE_TABLE = "records";
-    private String TABLE_FRIEND = "friends";
-    private String TABLE_TAG = "tags";
+    private SQLiteDatabase db; 
     // Get rich values
     private RichPresent rp;
     
@@ -39,7 +36,8 @@ public class DBManager {
             db.endTransaction();    //结束事务  
         }
         rp.addRich(2);
-    }  
+    }
+    
     public void addFromServer(TimeRecord tr) {
     	Cursor c = RecordOperations.queryCursorWithServerId(db, tr.server_id);
     	if(c != null && c.moveToFirst()) {
@@ -84,7 +82,6 @@ public class DBManager {
         
     }
     
-    
     public void addTag(TagRecord tagr) {  
         db.beginTransaction();  //开始事务  
         try {  
@@ -114,6 +111,7 @@ public class DBManager {
     
     public void updateContent(TimeRecord tRecord) {
     	RecordOperations.updateContent(db, tRecord);
+        rp.addRich(1);
     }
     
     public void updateServerInfo(TimeRecord tRecord) {
@@ -123,6 +121,7 @@ public class DBManager {
     public void  updateFriendServerInfo(FriendRecord fRecord) {
     	FriendOperations.updateFriendServerInfo(db, fRecord);
     }
+    
     /** 
      * query all content, return list 
      * @return List<TimeRecord> 
@@ -189,7 +188,8 @@ public class DBManager {
         }
         c.close();  
         return fr;  
-    }  
+    }
+    
     /** 
      * query all content, return list 
      * @return List<TimeRecord> 
@@ -213,17 +213,25 @@ public class DBManager {
         
         while (c.moveToNext()) {  
             FriendRecord fr = new FriendRecord();  
-            fr._id = c.getInt(c.getColumnIndex("id"));  
-            fr.userName = c.getString(c.getColumnIndex("username"));  
-            fr.phoneMobile = c.getString(c.getColumnIndex("phone_mobile"));
-            fr.avatar = c.getString(c.getColumnIndex("avatar"));
+            FriendOperations.dumpFriendRecord(fr, c);
             frList.add(fr);  
         }  
         c.close();  
         return frList;  
     } 
 
-      
+    public List<TagRecord> queryTag() {  
+        ArrayList<TagRecord> tagrList = new ArrayList<TagRecord>();  
+        Cursor c = TagOperations.queryTagCursor(db);  
+        
+        while (c.moveToNext()) {  
+        	TagRecord tagr = new TagRecord();  
+            TagOperations.dumpTagRecord(tagr, c);
+            tagrList.add(tagr);  
+        }  
+        c.close();  
+        return tagrList;  
+    } 
     /** 
      * close database 
      */  

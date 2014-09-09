@@ -14,13 +14,16 @@ import android.widget.ListView;
 
 import com.talk.demo.R;
 import com.talk.demo.persistence.DBManager;
+import com.talk.demo.persistence.TagRecord;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class SelectTagActivity extends Activity {
 	private static final String TAG = "SelectTagActivity";
 	private ArrayList<String> listItems = new ArrayList<String>();
 	private DBManager mgr;
+	private List<TagRecord> tagList = new ArrayList<TagRecord>();
     private ArrayAdapter<String> adapter;
     private static final int ADD_TAG = 87;
 	@Override
@@ -29,9 +32,12 @@ public class SelectTagActivity extends Activity {
 		setContentView(R.layout.activity_select_tag);
         
         ListView myListView = (ListView)findViewById(R.id.ListView);
-        //TODO: get tag items from database
+        //get tag items from database
         mgr = new DBManager(this);
-        
+        tagList = mgr.queryTag();
+        for(TagRecord tr : tagList) {
+        	listItems.add(tr.getTagName());
+        }
         adapter=new ArrayAdapter<String>(this,
                 android.R.layout.simple_list_item_1,
                 listItems);

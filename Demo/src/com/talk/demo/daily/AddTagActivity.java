@@ -9,6 +9,7 @@ import android.widget.EditText;
 
 import com.talk.demo.R;
 import com.talk.demo.persistence.DBManager;
+import com.talk.demo.persistence.TagRecord;
 
 public class AddTagActivity extends Activity {
 	private static final String TAG = "AddTagActivity";
@@ -35,7 +36,10 @@ public class AddTagActivity extends Activity {
         if(id == R.id.action_save) {
         	String mTagName = mEditText.getText().toString();
         	if(mTagName.length() > 0) {
-        	    //TODO: add tag item to database
+        	    //add tag item to database
+        		TagRecord tagr = new TagRecord();
+        		tagr.setTagName(mTagName);
+        	    mgr.addTag(tagr);
         	    
 	            Intent mIntent = new Intent();
 	            mIntent.putExtra("tag_name", mTagName);
