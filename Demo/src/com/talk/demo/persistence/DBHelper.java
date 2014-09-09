@@ -17,6 +17,7 @@ public class DBHelper extends SQLiteOpenHelper {
     private static final String NAME = "test.db";
     private final String TABLE_RECORD = "records";
     private final String TABLE_FRIEND = "friends";
+    private final String TABLE_TAG = "tags";
 
     /**
      * @param context
@@ -54,6 +55,15 @@ public class DBHelper extends SQLiteOpenHelper {
                 + " sync_time TEXT,"
                 + " dirty INTEGER,"
                 + " deleted INTEGER);");
+        
+        db.execSQL("CREATE TABLE " + TABLE_TAG
+                + " (id INTEGER PRIMARY KEY AUTOINCREMENT,"
+                + " server_id INTEGER,"
+                + " handle TEXT,"
+                + " tagname TEXT,"
+                + " sync_time TEXT,"
+                + " dirty INTEGER,"
+                + " deleted INTEGER);");
     }
 
     @Override
@@ -61,6 +71,7 @@ public class DBHelper extends SQLiteOpenHelper {
             final int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS "+TABLE_RECORD);
         db.execSQL("DROP TABLE IF EXISTS "+TABLE_FRIEND);
+        db.execSQL("DROP TABLE IF EXISTS "+TABLE_TAG);
         onCreate(db);
     }
 }

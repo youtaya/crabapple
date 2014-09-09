@@ -265,33 +265,16 @@ public class DailyEditActivity extends Activity {
 			rMgr.addRecord(tr);
 		}
 
-		finish();
 	}
 	
 	private void confirmDone(String target) {
-		// save to db
-		String content = edit_content.getText().toString();
-		// Do nothing if content is empty
-		if (content.length() > 0) {
-			tr = new TimeRecord(content);
-			if(fileName != null) {
-				//tr = new TimeRecord("/sdcard/Demo/"+fileName);
-				tr.setPhoto(fileName);
-				new SyncPhotoTask().execute();
-				tr.setContentType(TalkUtil.MEDIA_TYPE_PHOTO_TEXT);
-			} else {
-				tr.setContentType(TalkUtil.MEDIA_TYPE_TEXT);
-			}
-			rMgr.addRecord(tr);
-		}
-
+		confirmDone();
 		friend = target;
 		Log.d(TAG, "friend is : "+friend);
 		if(friend != null) {
 			new ShareRecordTask().execute();
 		}
 
-		finish();
 	}
 	
     private void confirmToTag(String tag) {
@@ -312,10 +295,8 @@ public class DailyEditActivity extends Activity {
             }
             rMgr.addRecord(tr);
         }
-        //TODO: start tag view
-
-        startActivity(new Intent(this, TagActivity.class));
-        finish();
+        //startActivity(new Intent(this, TagActivity.class));
+        //finish();
     }
 	
 	private void send_dialog() {

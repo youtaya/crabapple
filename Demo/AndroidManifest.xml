@@ -165,15 +165,7 @@
 			<meta-data
 			    android:name="android.support.PARENT_ACTIVITY"
 			    android:value=".daily.SelectTagActivity"/>
-        </activity>        
-		<activity
-            android:name=".daily.TagActivity" 
-            android:label="所有标签"
-            android:parentActivityName=".MainActivity">
-			<meta-data
-			    android:name="android.support.PARENT_ACTIVITY"
-			    android:value=".MainActivity"/>
-        </activity>               
+        </activity>              
 		<activity
             android:name=".share.ShareTalkActivity"
             android:label="分享" 
