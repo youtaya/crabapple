@@ -8,15 +8,18 @@ import android.view.MenuItem;
 import android.widget.EditText;
 
 import com.talk.demo.R;
+import com.talk.demo.persistence.DBManager;
 
 public class AddTagActivity extends Activity {
 	private static final String TAG = "AddTagActivity";
 	private EditText mEditText;
+	private DBManager mgr;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_add_tag);
 		mEditText = (EditText)findViewById(R.id.edittext);
+		mgr = new DBManager(this);
 	}
 	
     @Override
@@ -32,6 +35,8 @@ public class AddTagActivity extends Activity {
         if(id == R.id.action_save) {
         	String mTagName = mEditText.getText().toString();
         	if(mTagName.length() > 0) {
+        	    //TODO: add tag item to database
+        	    
 	            Intent mIntent = new Intent();
 	            mIntent.putExtra("tag_name", mTagName);
 	            setResult(RESULT_OK, mIntent);
