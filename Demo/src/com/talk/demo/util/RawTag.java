@@ -8,7 +8,7 @@ import org.json.JSONObject;
 
 final public class RawTag {
 
-	private static final String TAG = "RawFriend";
+	private static final String TAG = "RawTag";
 	
     private final String mTagName;
     private final String mHandle;
