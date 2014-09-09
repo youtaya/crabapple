@@ -41,7 +41,7 @@ public class DBManager {
         rp.addRich(2);
     }  
     public void addFromServer(TimeRecord tr) {
-    	Cursor c = queryCursorWithServerId(tr.server_id);
+    	Cursor c = RecordOperations.queryCursorWithServerId(db, tr.server_id);
     	if(c != null && c.moveToFirst()) {
     		Log.d(TAG, "No need to creat new record!");
     		RecordOperations.updateServerInfo(db, tr);
@@ -57,7 +57,7 @@ public class DBManager {
     }  
     
     public void addFriendFromServer(FriendRecord fr) {
-        Cursor c = queryCursorWithServerId(fr.server_id);
+        Cursor c = FriendOperations.queryCursorWithServerId(db, fr.server_id);
         if(c != null && c.moveToFirst()) {
             Log.d(TAG, "No need to creat new record!");
             FriendOperations.updateFriendServerInfo(db, fr);
@@ -110,17 +110,26 @@ public class DBManager {
         } finally {  
             db.endTransaction();    //结束事务  
         }  
-    }  
+    }
     
- 
+    public void updateContent(TimeRecord tRecord) {
+    	RecordOperations.updateContent(db, tRecord);
+    }
     
+    public void updateServerInfo(TimeRecord tRecord) {
+    	RecordOperations.updateServerInfo(db, tRecord);
+    }
+    
+    public void  updateFriendServerInfo(FriendRecord fRecord) {
+    	FriendOperations.updateFriendServerInfo(db, fRecord);
+    }
     /** 
      * query all content, return list 
      * @return List<TimeRecord> 
      */  
     public List<TimeRecord> queryWithMultipleParams(String[] params) {  
         ArrayList<TimeRecord> trList = new ArrayList<TimeRecord>();  
-        Cursor c = queryCursorWithMultipleParams(params);  
+        Cursor c = RecordOperations.queryCursorWithMultipleParams(db, params);  
         
         while (c.moveToNext()) {  
             TimeRecord tr = new TimeRecord();  
@@ -136,7 +145,7 @@ public class DBManager {
      */  
     public List<TimeRecord> queryWithParam(String param) {  
         ArrayList<TimeRecord> trList = new ArrayList<TimeRecord>();  
-        Cursor c = queryCursorWithParam(param);  
+        Cursor c = RecordOperations.queryCursorWithParam(db, param);  
         
         while (c.moveToNext()) {  
             TimeRecord tr = new TimeRecord();  
@@ -149,7 +158,7 @@ public class DBManager {
     
     public List<TimeRecord> queryFromOthers(String param) {  
         ArrayList<TimeRecord> trList = new ArrayList<TimeRecord>();  
-        Cursor c = queryCursorFromOthers(param);  
+        Cursor c = RecordOperations.queryCursorFromOthers(db, param);  
         
         while (c.moveToNext()) {  
             TimeRecord tr = new TimeRecord();  
@@ -161,7 +170,7 @@ public class DBManager {
     }   
     
     public TimeRecord queryTheParam(int param) {  
-        Cursor c = queryCursorWithId(param); 
+        Cursor c = RecordOperations.queryCursorWithId(db, param); 
         
         TimeRecord tr = new TimeRecord();
         if((c != null) && c.moveToFirst()) {
@@ -172,7 +181,7 @@ public class DBManager {
     }  
     
     public FriendRecord queryFriendTheParam(int param) {  
-        Cursor c = queryFriendCursorWithId(param); 
+        Cursor c = FriendOperations.queryFriendCursorWithId(db, param); 
         
         FriendRecord fr = new FriendRecord();
         if((c != null) && c.moveToFirst()) {
@@ -187,7 +196,7 @@ public class DBManager {
      */  
     public List<TimeRecord> query() {  
         ArrayList<TimeRecord> trList = new ArrayList<TimeRecord>();  
-        Cursor c = queryTheCursor();  
+        Cursor c = RecordOperations.queryTheCursor(db);  
         
         while (c.moveToNext()) {  
             TimeRecord tr = new TimeRecord();  
@@ -200,7 +209,7 @@ public class DBManager {
     
     public List<FriendRecord> queryFriend() {  
         ArrayList<FriendRecord> frList = new ArrayList<FriendRecord>();  
-        Cursor c = queryFriendCursor();  
+        Cursor c = FriendOperations.queryFriendCursor(db);  
         
         while (c.moveToNext()) {  
             FriendRecord fr = new FriendRecord();  
@@ -213,66 +222,7 @@ public class DBManager {
         c.close();  
         return frList;  
     } 
-    /** 
-     * query all content, return cursor 
-     * @return  Cursor 
-     */  
-    public Cursor queryCursorWithMultipleParams(String[] params) {  
-        Cursor c = db.rawQuery("SELECT * FROM "+DATABASE_TABLE
-        		+" WHERE calc_date=? OR calc_date=? OR calc_date=? OR calc_date=?"
-        		+" ORDER BY calc_date DESC, create_time DESC", params);  
-        return c;  
-    } 
-    /** 
-     * query all content, return cursor 
-     * @return  Cursor 
-     */  
-    public Cursor queryCursorWithParam(String param) {  
-        Cursor c = db.rawQuery("SELECT * FROM "+DATABASE_TABLE
-                +" WHERE calc_date=?"
-        		+" ORDER BY calc_date DESC, create_time DESC", new String[]{param,});  
-        return c;  
-    }
-    
-    public Cursor queryCursorFromOthers(String param) {  
-        Cursor c = db.rawQuery("SELECT * FROM "+DATABASE_TABLE
-                +" WHERE link!=?"
-        		+" ORDER BY calc_date DESC, create_time DESC", new String[]{param,});  
-        return c;  
-    }
-    
-    public Cursor queryCursorWithId(int param) {  
-        Cursor c = db.rawQuery("SELECT * FROM "+DATABASE_TABLE
-                +" WHERE "+"id" + "='" +param+"'", null);
-        return c;  
-    }
-    
-    public Cursor queryFriendCursorWithId(int param) {  
-        Cursor c = db.rawQuery("SELECT * FROM "+TABLE_FRIEND
-                +" WHERE "+"id" + "='" +param+"'", null);
-        return c;  
-    }  
-    
-    public Cursor queryCursorWithServerId(int param) {  
-        Cursor c = db.rawQuery("SELECT * FROM "+DATABASE_TABLE
-                +" WHERE "+"server_id" + "='" +param+"'", null);
-        return c;  
-    }
-    /** 
-     * query all content, return cursor 
-     * @return  Cursor 
-     */  
-    public Cursor queryTheCursor() {  
-        Cursor c = db.rawQuery("SELECT * FROM "+DATABASE_TABLE
-        		+" ORDER BY calc_date DESC, create_time DESC", null);  
-        return c;  
-    }
-    
-    public Cursor queryFriendCursor() {  
-        Cursor c = db.rawQuery("SELECT * FROM "+TABLE_FRIEND
-                +" ORDER BY username DESC", null);  
-        return c;  
-    }  
+
       
     /** 
      * close database 

@@ -65,5 +65,50 @@ public class RecordOperations {
         cv.put("sync_time", tRecord.sync_time);
         Log.d(TAG,"update id: "+tRecord._id);
         db.update(DATABASE_TABLE, cv, "id" + "='" +tRecord._id+"'", null);
-    }  
+    }
+    
+    /** 
+     * query all content, return cursor 
+     * @return  Cursor 
+     */  
+    public static Cursor queryCursorWithMultipleParams(SQLiteDatabase db,String[] params) {  
+        Cursor c = db.rawQuery("SELECT * FROM "+DATABASE_TABLE
+        		+" WHERE calc_date=? OR calc_date=? OR calc_date=? OR calc_date=?"
+        		+" ORDER BY calc_date DESC, create_time DESC", params);  
+        return c;  
+    } 
+
+    public static Cursor queryCursorWithParam(SQLiteDatabase db,String param) {  
+        Cursor c = db.rawQuery("SELECT * FROM "+DATABASE_TABLE
+                +" WHERE calc_date=?"
+        		+" ORDER BY calc_date DESC, create_time DESC", new String[]{param,});  
+        return c;  
+    }
+    
+    public static Cursor queryCursorFromOthers(SQLiteDatabase db,String param) {  
+        Cursor c = db.rawQuery("SELECT * FROM "+DATABASE_TABLE
+                +" WHERE link!=?"
+        		+" ORDER BY calc_date DESC, create_time DESC", new String[]{param,});  
+        return c;  
+    }
+    
+    public static Cursor queryCursorWithId(SQLiteDatabase db,int param) {  
+        Cursor c = db.rawQuery("SELECT * FROM "+DATABASE_TABLE
+                +" WHERE "+"id" + "='" +param+"'", null);
+        return c;  
+    }
+    
+    public static Cursor queryTheCursor(SQLiteDatabase db) {  
+        Cursor c = db.rawQuery("SELECT * FROM "+DATABASE_TABLE
+        		+" ORDER BY calc_date DESC, create_time DESC", null);  
+        return c;  
+    }
+    
+    
+    public static Cursor queryCursorWithServerId(SQLiteDatabase db, int param) {  
+        Cursor c = db.rawQuery("SELECT * FROM "+DATABASE_TABLE
+                +" WHERE "+"server_id" + "='" +param+"'", null);
+        return c;  
+    }
+    
 }

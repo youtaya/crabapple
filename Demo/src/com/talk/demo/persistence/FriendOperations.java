@@ -46,5 +46,23 @@ public class FriendOperations {
         ContentValues cv = new ContentValues();  
         cv.put("phone_mobile", fRecord.phoneMobile);  
         db.update(TABLE_FRIEND, cv, "id" + "='" +fRecord._id+"'", null);
-    } 
+    }
+    
+    public static Cursor queryFriendCursor(SQLiteDatabase db) {  
+        Cursor c = db.rawQuery("SELECT * FROM "+TABLE_FRIEND
+                +" ORDER BY username DESC", null);  
+        return c;  
+    }
+    
+    public static Cursor queryFriendCursorWithId(SQLiteDatabase db, int param) {  
+        Cursor c = db.rawQuery("SELECT * FROM "+TABLE_FRIEND
+                +" WHERE "+"id" + "='" +param+"'", null);
+        return c;  
+    }
+    
+    public static Cursor queryCursorWithServerId(SQLiteDatabase db, int param) {  
+        Cursor c = db.rawQuery("SELECT * FROM "+TABLE_FRIEND
+                +" WHERE "+"server_id" + "='" +param+"'", null);
+        return c;  
+    }
 }
