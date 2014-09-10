@@ -186,8 +186,8 @@ public class RecordManager {
 			
 			if(tr.tag != null && !exsitTag(ourTagSet, tr.tag)) {
 				ourTagSet.add(tr.tag);
+				tag_map.put("isSection", 2);
 				Log.d(TAG, "tag is: "+tr.tag);
-				tag_map.put("isTag", 1);
 				tag_map.put("title", tr.tag);
 				tag_records = dbMgr.queryTag(tr.tag);
 				for(TimeRecord item : tag_records) {

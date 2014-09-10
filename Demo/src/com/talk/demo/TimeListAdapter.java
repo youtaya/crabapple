@@ -110,9 +110,17 @@ public class TimeListAdapter extends BaseAdapter {
             tag_item3 = (TextView) convertView.findViewById(R.id.time_tag_3);
             tag_title.setText(values.get(position).get("title").toString());
             items = (List<String>) values.get(position).get("tags");
-            tag_item1.setText(items.get(0).toString());
-            tag_item2.setText(items.get(1).toString());
-            tag_item3.setText(items.get(2).toString());
+            int nums = items.size();
+            if (nums == 1) {
+            	tag_item1.setText(items.get(0).toString());
+            } else if (nums == 2) {
+            	tag_item1.setText(items.get(0).toString());
+            	tag_item2.setText(items.get(1).toString());
+            } else {
+            	tag_item1.setText(items.get(0).toString());
+            	tag_item2.setText(items.get(1).toString());
+            	tag_item3.setText(items.get(2).toString());
+            }
     	    break;
     	case TYPE_CATEGORY_ITEM:
             convertView = LayoutInflater.from(context).inflate(R.layout.time_list_header, null);
@@ -172,13 +180,11 @@ public class TimeListAdapter extends BaseAdapter {
         Map<String, Object> item = values.get(position);
         if (1 == (Integer)item.get("isSection")) {
             return TYPE_CATEGORY_ITEM;
-        }
-        
-        if (2 == (Integer)item.get("isTag")) {
+        } else if (2 == (Integer)item.get("isSection")) {
             return TYPE_TAG_ITEM;
+        } else {
+        	return TYPE_ITEM;
         }
-        
-        return TYPE_ITEM;
     }
     
     @Override
