@@ -164,6 +164,7 @@ public class RecordManager {
 				Log.d(TAG, "put header: "+mYearMonth);
 				time_record.add(section_map);
 			}
+			//TODO: get tag items!!
 			map.put("isSection", 0);
 			rc.setId(tr._id);
 			rc.setContent(tr.content);

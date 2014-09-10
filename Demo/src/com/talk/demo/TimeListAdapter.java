@@ -102,6 +102,9 @@ public class TimeListAdapter extends BaseAdapter {
 	        	}
 	        }
 	        break;
+    	case TYPE_TAG_ITEM:
+    	    //TODO: tag items view
+    	    break;
     	case TYPE_CATEGORY_ITEM:
             if (null == convertView) {
                 convertView = LayoutInflater.from(context).inflate(R.layout.time_list_header, null);
