@@ -37,7 +37,8 @@ public class TimeListAdapter extends BaseAdapter {
     private ImageLoadingListener animateFirstListener = new AnimateFirstDisplayListener();
     
     private static final int TYPE_CATEGORY_ITEM = 0;  
-    private static final int TYPE_ITEM = 1; 
+    private static final int TYPE_ITEM = 1;
+    private static final int TYPE_TAG_ITEM = 2; 
     private TextView list_section;
     
     public TimeListAdapter(Context context, ArrayList<Map<String, Object>> data, ArrayList<RecordCache> recordCache) {
@@ -163,11 +164,15 @@ public class TimeListAdapter extends BaseAdapter {
             return TYPE_CATEGORY_ITEM;
         }
         
+        if (2 == (Integer)item.get("isTag")) {
+            return TYPE_TAG_ITEM;
+        }
+        
         return TYPE_ITEM;
     }
     
     @Override
     public int getViewTypeCount() {
-        return 2;
+        return 3;
     }
 }
