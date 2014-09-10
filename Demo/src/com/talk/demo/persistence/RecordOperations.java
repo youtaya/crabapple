@@ -97,6 +97,12 @@ public class RecordOperations {
         return c;  
     }
     
+    public static Cursor queryCursorWithTag(SQLiteDatabase db,String param) {  
+        Cursor c = db.rawQuery("SELECT * FROM "+DATABASE_TABLE
+                +" WHERE "+"tag" + "='" +param+"'", null);
+        return c;  
+    }  
+    
     public static Cursor queryTheCursor(SQLiteDatabase db) {  
         Cursor c = db.rawQuery("SELECT * FROM "+DATABASE_TABLE
         		+" ORDER BY calc_date DESC, create_time DESC", null);  

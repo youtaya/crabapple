@@ -177,7 +177,20 @@ public class DBManager {
         }
         c.close();  
         return tr;  
-    }  
+    }
+    
+    public List<TimeRecord> queryTag(String param) {
+    	ArrayList<TimeRecord> trList = new ArrayList<TimeRecord>();  
+        Cursor c = RecordOperations.queryCursorWithTag(db, param); 
+        
+        while (c.moveToNext()) {  
+            TimeRecord tr = new TimeRecord();  
+            RecordOperations.dumpRecord(tr, c);
+            trList.add(tr);  
+        }  
+        c.close();  
+        return trList;  
+    }
     
     public FriendRecord queryFriendTheParam(int param) {  
         Cursor c = FriendOperations.queryFriendCursorWithId(db, param); 

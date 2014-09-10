@@ -118,6 +118,21 @@ public class RecordManager {
 		
 		return false;
 	}
+	
+	private boolean exsitTag(List<String> list, String tag) {
+		if(list.isEmpty()) {
+			return false;
+		}
+		
+		for(String str: list) {
+			if(str.equalsIgnoreCase(tag)) {
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
 	String month12[] = {"Jan", "Feb", "Mar","Apr", "May", 
 			"June", "July","Aug", "Sept", "Oct", "Nov", "Dec"
 	};
@@ -146,10 +161,14 @@ public class RecordManager {
 			record_cache.clear();
 		}
 		List<String> ourDateSet = new LinkedList<String>();
+		List<String> ourTagSet = new LinkedList<String>();
+		List<TimeRecord> tag_records = new ArrayList<TimeRecord>();
 		
 		for (int i = 0; i< trlist.size(); i ++) {
 			HashMap<String, Object> map = new HashMap<String, Object>();
 			HashMap<String, Object> section_map = new HashMap<String, Object>();
+			HashMap<String, Object> tag_map = new HashMap<String, Object>();
+			List<String> tag_items = new ArrayList<String>();
 			
 			RecordCache rc = new RecordCache();
 			TimeRecord tr = trlist.get(i);
@@ -164,7 +183,20 @@ public class RecordManager {
 				Log.d(TAG, "put header: "+mYearMonth);
 				time_record.add(section_map);
 			}
-			//TODO: get tag items!!
+			
+			if(tr.tag != null && !exsitTag(ourTagSet, tr.tag)) {
+				ourTagSet.add(tr.tag);
+				Log.d(TAG, "tag is: "+tr.tag);
+				tag_map.put("isTag", 1);
+				tag_map.put("title", tr.tag);
+				tag_records = dbMgr.queryTag(tr.tag);
+				for(TimeRecord item : tag_records) {
+					tag_items.add(item.content);
+				}
+				tag_map.put("tags", tag_items);
+				time_record.add(tag_map);
+				continue;
+			}
 			map.put("isSection", 0);
 			rc.setId(tr._id);
 			rc.setContent(tr.content);

@@ -23,6 +23,7 @@ import com.talk.demo.persistence.RecordCache;
 import com.talk.demo.time.DateInfo;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 public class TimeListAdapter extends BaseAdapter {
@@ -40,6 +41,7 @@ public class TimeListAdapter extends BaseAdapter {
     private static final int TYPE_ITEM = 1;
     private static final int TYPE_TAG_ITEM = 2; 
     private TextView list_section;
+    private TextView tag_title, tag_item1, tag_item2, tag_item3;
     
     public TimeListAdapter(Context context, ArrayList<Map<String, Object>> data, ArrayList<RecordCache> recordCache) {
     	this.context = context;
@@ -62,21 +64,19 @@ public class TimeListAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
     	
     	int itemViewType = getItemViewType(position);
+    	List<String> items = new ArrayList<String>();
     	switch(itemViewType) {
     	case TYPE_ITEM:
-	        if (convertView == null) {  
-	            holder = new ViewHolder();  
-	            convertView = LayoutInflater.from(context).inflate(R.layout.record_listitem, null);  
-	            holder.image = (ImageView) convertView.findViewById(R.id.time_pic);  
-	            holder.content = (TextView) convertView.findViewById(R.id.content);  
-	            holder.create_time = (TextView) convertView.findViewById(R.id.create_time);
-	            holder.create_date = (TextView) convertView.findViewById(R.id.create_date); 
-	            holder.create_week = (TextView) convertView.findViewById(R.id.create_week); 
-	            // 将holder绑定到convertView  
-	            convertView.setTag(holder);  
-	        } else {  
-	            holder = (ViewHolder) convertView.getTag();  
-	        }  
+            holder = new ViewHolder();  
+            convertView = LayoutInflater.from(context).inflate(R.layout.record_listitem, null);  
+            holder.image = (ImageView) convertView.findViewById(R.id.time_pic);  
+            holder.content = (TextView) convertView.findViewById(R.id.content);  
+            holder.create_time = (TextView) convertView.findViewById(R.id.create_time);
+            holder.create_date = (TextView) convertView.findViewById(R.id.create_date); 
+            holder.create_week = (TextView) convertView.findViewById(R.id.create_week); 
+            // 将holder绑定到convertView  
+            convertView.setTag(holder);  
+	  
 	  
 	        // 向ViewHolder中填入的数据 
 	
@@ -103,13 +103,20 @@ public class TimeListAdapter extends BaseAdapter {
 	        }
 	        break;
     	case TYPE_TAG_ITEM:
-    	    //TODO: tag items view
+            convertView = LayoutInflater.from(context).inflate(R.layout.time_list_tags, null);
+            tag_title = (TextView) convertView.findViewById(R.id.time_tag_title);
+            tag_item1 = (TextView) convertView.findViewById(R.id.time_tag_1);
+            tag_item2 = (TextView) convertView.findViewById(R.id.time_tag_2);
+            tag_item3 = (TextView) convertView.findViewById(R.id.time_tag_3);
+            tag_title.setText(values.get(position).get("title").toString());
+            items = (List<String>) values.get(position).get("tags");
+            tag_item1.setText(items.get(0).toString());
+            tag_item2.setText(items.get(1).toString());
+            tag_item3.setText(items.get(2).toString());
     	    break;
     	case TYPE_CATEGORY_ITEM:
-            if (null == convertView) {
-                convertView = LayoutInflater.from(context).inflate(R.layout.time_list_header, null);
-                list_section = (TextView) convertView.findViewById(R.id.time_list_header);
-            }
+            convertView = LayoutInflater.from(context).inflate(R.layout.time_list_header, null);
+            list_section = (TextView) convertView.findViewById(R.id.time_list_header);
             list_section.setText(values.get(position).get("header").toString());
     		break;
     	}
