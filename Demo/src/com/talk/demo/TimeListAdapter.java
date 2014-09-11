@@ -32,6 +32,8 @@ public class TimeListAdapter extends BaseAdapter {
     private final Context context;
     private ArrayList<Map<String, Object>> values;
     private ViewHolder holder;
+    private ViewTagHolder mTagHolder;
+    private ViewHeaderHolder mHeaderHolder;
     private ArrayList<RecordCache> record_cache;
     protected ImageLoader imageLoader = ImageLoader.getInstance();
     protected DisplayImageOptions options;
@@ -40,8 +42,6 @@ public class TimeListAdapter extends BaseAdapter {
     private static final int TYPE_CATEGORY_ITEM = 0;  
     private static final int TYPE_ITEM = 1;
     private static final int TYPE_TAG_ITEM = 2; 
-    private TextView list_section;
-    private TextView tag_title, tag_item1, tag_item2, tag_item3;
     
     public TimeListAdapter(Context context, ArrayList<Map<String, Object>> data, ArrayList<RecordCache> recordCache) {
     	this.context = context;
@@ -103,29 +103,35 @@ public class TimeListAdapter extends BaseAdapter {
 	        }
 	        break;
     	case TYPE_TAG_ITEM:
+    	    mTagHolder = new ViewTagHolder();
             convertView = LayoutInflater.from(context).inflate(R.layout.time_list_tags, null);
-            tag_title = (TextView) convertView.findViewById(R.id.time_tag_title);
-            tag_item1 = (TextView) convertView.findViewById(R.id.time_tag_1);
-            tag_item2 = (TextView) convertView.findViewById(R.id.time_tag_2);
-            tag_item3 = (TextView) convertView.findViewById(R.id.time_tag_3);
-            tag_title.setText(values.get(position).get("title").toString());
+            mTagHolder.tag_title = (TextView) convertView.findViewById(R.id.time_tag_title);
+            mTagHolder.tag_item1 = (TextView) convertView.findViewById(R.id.time_tag_1);
+            mTagHolder.tag_item2 = (TextView) convertView.findViewById(R.id.time_tag_2);
+            mTagHolder.tag_item3 = (TextView) convertView.findViewById(R.id.time_tag_3);
+            convertView.setTag(mTagHolder);
+            
+            mTagHolder.tag_title.setText(values.get(position).get("title").toString());
             items = (List<String>) values.get(position).get("tags");
             int nums = items.size();
             if (nums == 1) {
-            	tag_item1.setText(items.get(0).toString());
+                mTagHolder.tag_item1.setText(items.get(0).toString());
             } else if (nums == 2) {
-            	tag_item1.setText(items.get(0).toString());
-            	tag_item2.setText(items.get(1).toString());
+                mTagHolder.tag_item1.setText(items.get(0).toString());
+                mTagHolder.tag_item2.setText(items.get(1).toString());
             } else {
-            	tag_item1.setText(items.get(0).toString());
-            	tag_item2.setText(items.get(1).toString());
-            	tag_item3.setText(items.get(2).toString());
+                mTagHolder.tag_item1.setText(items.get(0).toString());
+                mTagHolder.tag_item2.setText(items.get(1).toString());
+                mTagHolder.tag_item3.setText(items.get(2).toString());
             }
     	    break;
     	case TYPE_CATEGORY_ITEM:
+    	    mHeaderHolder = new ViewHeaderHolder();
             convertView = LayoutInflater.from(context).inflate(R.layout.time_list_header, null);
-            list_section = (TextView) convertView.findViewById(R.id.time_list_header);
-            list_section.setText(values.get(position).get("header").toString());
+            mHeaderHolder.list_section = (TextView) convertView.findViewById(R.id.time_list_header);
+            convertView.setTag(mHeaderHolder);
+            
+            mHeaderHolder.list_section.setText(values.get(position).get("header").toString());
     		break;
     	}
         return convertView; 
@@ -152,6 +158,17 @@ public class TimeListAdapter extends BaseAdapter {
         TextView create_time;
         TextView create_date;
         TextView create_week;
+    }
+    
+    final class ViewTagHolder {  
+        TextView tag_title;
+        TextView tag_item1;
+        TextView tag_item2;
+        TextView tag_item3;
+    }
+    
+    final class ViewHeaderHolder {  
+        TextView list_section;
     }
 
 	@Override
