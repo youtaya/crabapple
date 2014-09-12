@@ -23,7 +23,7 @@
         android:background="@color/whitetea" >
 		<TextView
 	        android:id="@+id/time_tag_1"
-	        android:layout_width="wrap_content"
+	        android:layout_width="match_parent"
 	        android:layout_height="match_parent"
 	        android:paddingTop="2dp"
 	        android:paddingBottom="2dp"
@@ -37,7 +37,7 @@
 	        android:textSize="16sp" />
 		<TextView
 	        android:id="@+id/time_tag_2"
-	        android:layout_width="wrap_content"
+	        android:layout_width="match_parent"
 	        android:layout_height="match_parent"
 	        android:paddingTop="2dp"
 	        android:paddingBottom="2dp"
@@ -51,7 +51,7 @@
 	        android:textSize="16sp" />
 		<TextView
 	        android:id="@+id/time_tag_3"
-	        android:layout_width="wrap_content"
+	        android:layout_width="match_parent"
 	        android:layout_height="match_parent"
 	        android:paddingTop="2dp"
 	        android:paddingBottom="2dp"

@@ -2,8 +2,10 @@
 package com.talk.demo;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,6 +23,7 @@ import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 import com.talk.demo.persistence.RecordCache;
 import com.talk.demo.time.DateInfo;
+import com.talk.demo.time.TimeAllItem;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -77,7 +80,6 @@ public class TimeListAdapter extends BaseAdapter {
             // 将holder绑定到convertView  
             convertView.setTag(holder);  
 	  
-	  
 	        // 向ViewHolder中填入的数据 
 	
 	        if(null != values.get(position).get("content")) {
@@ -110,6 +112,15 @@ public class TimeListAdapter extends BaseAdapter {
             mTagHolder.tag_item2 = (TextView) convertView.findViewById(R.id.time_tag_2);
             mTagHolder.tag_item3 = (TextView) convertView.findViewById(R.id.time_tag_3);
             convertView.setTag(mTagHolder);
+            
+            convertView.setOnClickListener(new OnClickListener() {
+                
+                @Override
+                public void onClick(View v) {
+                    //TODO: fix bug
+                    
+                }
+            });
             
             mTagHolder.tag_title.setText(values.get(position).get("title").toString());
             items = (List<String>) values.get(position).get("tags");
