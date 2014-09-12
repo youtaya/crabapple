@@ -148,7 +148,7 @@ public class RecordManager {
 		}
 		Log.d(TAG, "init data list");
 		
-		if (isLuckDay) {
+		if (true) {
 			trlist = dbMgr.query();
 		} else
 			trlist = dbMgr.queryWithMultipleParams(TalkUtil.conditonDates());

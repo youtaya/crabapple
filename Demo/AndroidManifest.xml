@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.talk.demo"
-    android:versionCode="14"
-    android:versionName="0.14" >
+    android:versionCode="15"
+    android:versionName="0.15" >
 
     <uses-sdk
         android:minSdkVersion="15"
@@ -189,7 +189,15 @@
 			<meta-data
 			    android:name="android.support.PARENT_ACTIVITY"
 			    android:value=".MainActivity"/>			
-        </activity>                  
+        </activity>
+		<activity
+            android:name=".time.TimeTagsActivity"
+            android:label="标签" 
+			android:parentActivityName=".MainActivity">
+			<meta-data
+			    android:name="android.support.PARENT_ACTIVITY"
+			    android:value=".MainActivity"/>
+        </activity>                        
 		<activity
             android:name=".time.TimeAllItem"
             android:label="时光" 

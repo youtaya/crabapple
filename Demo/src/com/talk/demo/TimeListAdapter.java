@@ -5,10 +5,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
@@ -23,7 +23,7 @@ import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 import com.talk.demo.persistence.RecordCache;
 import com.talk.demo.time.DateInfo;
-import com.talk.demo.time.TimeAllItem;
+import com.talk.demo.time.TimeTagsActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -118,6 +118,8 @@ public class TimeListAdapter extends BaseAdapter {
                 @Override
                 public void onClick(View v) {
                     //TODO: fix bug
+    		        Intent mIntent = new Intent(context, TimeTagsActivity.class);
+    		        context.startActivity(mIntent);	
                     
                 }
             });
