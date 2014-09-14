@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -67,7 +68,7 @@ public class TimeListAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
     	
     	int itemViewType = getItemViewType(position);
-    	List<String> items = new ArrayList<String>();
+    	
     	switch(itemViewType) {
     	case TYPE_ITEM:
             holder = new ViewHolder();  
@@ -113,19 +114,9 @@ public class TimeListAdapter extends BaseAdapter {
             mTagHolder.tag_item3 = (TextView) convertView.findViewById(R.id.time_tag_3);
             convertView.setTag(mTagHolder);
             
-            convertView.setOnClickListener(new OnClickListener() {
-                
-                @Override
-                public void onClick(View v) {
-                    //TODO: fix bug
-    		        Intent mIntent = new Intent(context, TimeTagsActivity.class);
-    		        context.startActivity(mIntent);	
-                    
-                }
-            });
-            
             mTagHolder.tag_title.setText(values.get(position).get("title").toString());
-            items = (List<String>) values.get(position).get("tags");
+            final String tag_title = values.get(position).get("title").toString();
+            final ArrayList<String> items = (ArrayList<String>) values.get(position).get("tags");
             int nums = items.size();
             if (nums == 1) {
                 mTagHolder.tag_item1.setText(items.get(0).toString());
@@ -137,6 +128,23 @@ public class TimeListAdapter extends BaseAdapter {
                 mTagHolder.tag_item2.setText(items.get(1).toString());
                 mTagHolder.tag_item3.setText(items.get(2).toString());
             }
+            
+            convertView.setOnClickListener(new OnClickListener() {
+                
+                @Override
+                public void onClick(View v) {
+                    //TODO: fix bug
+    		        Intent mIntent = new Intent(context, TimeTagsActivity.class);
+    		        Bundle mBundle = new Bundle();
+    		        Log.d(TAG, "tag title : "+ tag_title);
+    		        mBundle.putString("tag_title", tag_title);
+    		        mBundle.putStringArrayList("tag_items", items);
+    		        Log.d(TAG,"items size: "+ items.size());
+        		    mIntent.putExtras(mBundle);
+    		        context.startActivity(mIntent);	
+                    
+                }
+            });
     	    break;
     	case TYPE_CATEGORY_ITEM:
     	    mHeaderHolder = new ViewHeaderHolder();
