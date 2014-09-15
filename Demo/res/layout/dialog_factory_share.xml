@@ -8,7 +8,9 @@
         android:id="@+id/invite_friend"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="56sp"
+        android:paddingTop="3dp"
+        android:paddingBottom="3dp"
+        android:textSize="36sp"
         android:gravity="center"
         android:text="邀请朋友" />
 
