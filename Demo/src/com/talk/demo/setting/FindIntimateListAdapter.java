@@ -1,6 +1,9 @@
 package com.talk.demo.setting;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -12,6 +15,8 @@ import android.widget.TextView;
 import com.talk.demo.R;
 import com.talk.demo.persistence.DBManager;
 import com.talk.demo.persistence.FriendRecord;
+
+import net.sectorsieteg.avatars.AvatarDrawableFactory;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -84,7 +89,16 @@ public class FindIntimateListAdapter extends BaseAdapter {
             int avatarIcon = (Integer)intimateInfo.get(keyString[0]);
             int decratorIcon = (Integer)intimateInfo.get(keyString[2]);
             holder.friend_find_name.setText(friendName);
-            holder.friend_avatar.setImageDrawable(holder.friend_find_name.getResources().getDrawable(avatarIcon));
+            
+            BitmapFactory.Options options = new BitmapFactory.Options();
+            options.inMutable = false;
+            Bitmap avatar = BitmapFactory.decodeResource(mContext.getResources(), R.drawable.avatar, options);
+
+            AvatarDrawableFactory avatarDrawableFactory = new AvatarDrawableFactory(mContext.getResources());
+            Drawable roundedAvatarDrawable = avatarDrawableFactory.getRoundedAvatarDrawable(avatar);
+            holder.friend_avatar.setImageDrawable(roundedAvatarDrawable);
+            
+            //holder.friend_avatar.setImageDrawable(holder.friend_find_name.getResources().getDrawable(avatarIcon));
             //if it's unlock, no need to set listener
             if(avatarIcon == R.drawable.ofm_add_icon)
             	holder.friend_find_name.setOnClickListener(new lvButtonListener(position));

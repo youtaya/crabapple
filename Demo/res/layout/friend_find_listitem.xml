@@ -13,8 +13,6 @@
         android:id="@+id/friend_avatar"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:paddingLeft="4dp"
-        android:paddingRight="4dp"
         android:src="@drawable/default_avatar"
         android:textColor="#ff707070"
         android:textSize="23sp" />
