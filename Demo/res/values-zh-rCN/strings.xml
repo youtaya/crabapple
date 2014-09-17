@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
 	<string name="label">Talk</string>
-    <string name="app_name">西窗话</string>
+    <string name="app_name">窗话</string>
     <string name="love_letter">是否应验了我曾说过的那句话\n
         &#160;&#160;情到深处人寂寞\n&#160; &#160; 
         &#160; &#160; &#160; &#160; --蔡琴\n\n</string>

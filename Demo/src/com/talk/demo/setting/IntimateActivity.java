@@ -6,7 +6,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -19,8 +18,8 @@ import java.util.List;
 
 public class IntimateActivity extends Activity {
 	private static String TAG = "IntimateActivity";
-	List<String> friends;
-    ArrayAdapter<String> adapter;
+	ArrayList<String> friends;
+	IntimateListAdapter adapter;
     ListView view;
     
     private DBManager mgr;
@@ -57,7 +56,10 @@ public class IntimateActivity extends Activity {
     
     public void initData() {
         
-        adapter= new ArrayAdapter<String>(this, R.layout.friend_listitem, R.id.friend_name, friends);
+        //adapter= new ArrayAdapter<String>(this, R.layout.friend_listitem, R.id.friend_name, friends);
+        adapter= new IntimateListAdapter(this, friends, R.layout.friend_listitem,
+        		new String[]{"avatar", "friend_name"}, 
+                new int[]{R.id.friend_avatar, R.id.friend_find_name});
         view.setAdapter(adapter);
     }
 }
