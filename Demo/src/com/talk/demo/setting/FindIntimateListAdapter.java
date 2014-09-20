@@ -92,7 +92,7 @@ public class FindIntimateListAdapter extends BaseAdapter {
             
             BitmapFactory.Options options = new BitmapFactory.Options();
             options.inMutable = false;
-            Bitmap avatar = BitmapFactory.decodeResource(mContext.getResources(), R.drawable.avatar, options);
+            Bitmap avatar = BitmapFactory.decodeResource(mContext.getResources(), avatarIcon, options);
 
             AvatarDrawableFactory avatarDrawableFactory = new AvatarDrawableFactory(mContext.getResources());
             Drawable roundedAvatarDrawable = avatarDrawableFactory.getRoundedAvatarDrawable(avatar);

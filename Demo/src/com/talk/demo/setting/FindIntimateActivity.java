@@ -79,7 +79,7 @@ public class FindIntimateActivity extends Activity {
 					continue;
 				}
 				HashMap<String, Object> map = new HashMap<String, Object>();
-				map.put("avatar", R.drawable.default_avatar);
+				map.put("avatar", R.drawable.avatar);
 				map.put("friend_name", name);
 				map.put("add", R.drawable.ofm_add_icon);
 				friends.add(map);
