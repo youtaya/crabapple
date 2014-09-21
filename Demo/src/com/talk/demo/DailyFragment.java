@@ -465,12 +465,6 @@ public class DailyFragment extends Fragment implements OnItemClickListener {
     }
     
 
-    private String getTimeAsFileName() {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss"); 
-        Date date = new Date();
-        return dateFormat.format(date);
-    }
-    
     /**
      * helper to retrieve the path of an image URI
      */
@@ -501,7 +495,7 @@ public class DailyFragment extends Fragment implements OnItemClickListener {
                 if (resultCode == getActivity().RESULT_OK) {
                     Bundle extras = data.getExtras();
                     Bitmap imageBitmap = (Bitmap) extras.get("data");
-                    String fileName = getTimeAsFileName();
+                    String fileName = TalkUtil.getTimeAsFileName();
                     TalkUtil.createDirAndSaveFile(imageBitmap, fileName);
                     //prvent content null
                     TimeRecord tr = new TimeRecord("photo");

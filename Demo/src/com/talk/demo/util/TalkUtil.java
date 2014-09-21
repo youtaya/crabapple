@@ -98,4 +98,10 @@ public class TalkUtil {
             e.printStackTrace();
         }
     }
+    
+    public static String getTimeAsFileName() {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss"); 
+        Date date = new Date();
+        return dateFormat.format(date);
+    }
 }

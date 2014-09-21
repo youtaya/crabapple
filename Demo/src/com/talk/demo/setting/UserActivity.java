@@ -3,14 +3,26 @@ package com.talk.demo.setting;
 import android.accounts.Account;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.talk.demo.R;
+import com.talk.demo.persistence.TimeRecord;
 import com.talk.demo.util.AccountUtils;
+import com.talk.demo.util.TalkUtil;
+
+import net.sectorsieteg.avatars.AvatarDrawableFactory;
 
 public class UserActivity extends Activity {
 	private static String TAG = "UserActivity";
@@ -18,6 +30,7 @@ public class UserActivity extends Activity {
     // Get rich values
     private RichPresent rp;
     
+    private ImageView user_avatar;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,6 +48,18 @@ public class UserActivity extends Activity {
         	user_name.setText(accout.name);
         }
         
+        user_avatar = (ImageView)findViewById(R.id.user_avatar);
+        user_avatar.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+		        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+		        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+		        	startActivityForResult(takePictureIntent, TalkUtil.REQUEST_IMAGE_CAPTURE);
+		        }
+			}
+        	
+        });
     }
     
     @Override
@@ -46,5 +71,24 @@ public class UserActivity extends Activity {
         int sMonth = sPreferences.getInt("Month", 0);
         int sDay = sPreferences.getInt("Day", 0);
         tv_luck.setText(sMonth+" 月 "+sDay+" 日 ");
+    }
+    
+    @Override
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Log.d(TAG, "got the return :"+requestCode+" :"+resultCode);
+        switch(requestCode) {
+            case TalkUtil.REQUEST_IMAGE_CAPTURE:
+                if (resultCode == RESULT_OK) {
+                    Bundle extras = data.getExtras();
+                    Bitmap imageBitmap = (Bitmap) extras.get("data");
+                    String fileName = TalkUtil.getTimeAsFileName();
+                    TalkUtil.createDirAndSaveFile(imageBitmap, fileName);
+                    
+                    AvatarDrawableFactory avatarDrawableFactory = new AvatarDrawableFactory(getResources());
+                    Drawable roundedAvatarDrawable = avatarDrawableFactory.getRoundedAvatarDrawable(imageBitmap);
+                    user_avatar.setImageDrawable(roundedAvatarDrawable);
+                }
+                break;
+        }
     }
 }
