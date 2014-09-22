@@ -8,6 +8,7 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.TextUtils;
@@ -30,6 +31,7 @@ public class UserActivity extends Activity {
     // Get rich values
     private RichPresent rp;
     
+    private String account_name;
     private ImageView user_avatar;
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -45,10 +47,21 @@ public class UserActivity extends Activity {
         Account accout = AccountUtils.getPasswordAccessibleAccount(this);
         if (accout != null && !TextUtils.isEmpty(accout.name)) {
         	Log.d(TAG,"ccount name: "+accout.name);
-        	user_name.setText(accout.name);
+        	account_name  = accout.name;
+        	user_name.setText(account_name);
         }
         
         user_avatar = (ImageView)findViewById(R.id.user_avatar);
+        
+        // get avatar from uri
+        Uri uri = Uri.parse("file://"+"/sdcard/Demo/"+account_name);
+        Bitmap account_avatar = getBitmapFromURI(uri);
+        if(null != account_avatar) {
+            AvatarDrawableFactory avatarFactory = new AvatarDrawableFactory(getResources());
+            Drawable AvatarDrawable = avatarFactory.getRoundedAvatarDrawable(account_avatar);
+            user_avatar.setImageDrawable(AvatarDrawable);
+        }
+
         user_avatar.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -60,6 +73,16 @@ public class UserActivity extends Activity {
 			}
         	
         });
+    }
+    
+    private Bitmap getBitmapFromURI(Uri uri) {
+        try {
+            Bitmap bitmap = MediaStore.Images.getBitmap(this.getContentResolver(), uri);
+            return bitmap;
+        } catch (Exception e){
+            e.printStackTrace();
+            return null;
+        }
     }
     
     @Override
@@ -81,7 +104,7 @@ public class UserActivity extends Activity {
                 if (resultCode == RESULT_OK) {
                     Bundle extras = data.getExtras();
                     Bitmap imageBitmap = (Bitmap) extras.get("data");
-                    String fileName = TalkUtil.getTimeAsFileName();
+                    String fileName = account_name;
                     TalkUtil.createDirAndSaveFile(imageBitmap, fileName);
                     
                     AvatarDrawableFactory avatarDrawableFactory = new AvatarDrawableFactory(getResources());
