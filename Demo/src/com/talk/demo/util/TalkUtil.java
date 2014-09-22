@@ -12,10 +12,13 @@ import java.util.Date;
 public class TalkUtil {
 	
 	public static final int REQUEST_IMAGE_CAPTURE = 1;
-	public static final int REQUEST_SELECT_PICTURE = 2;
-	public static final int REQUEST_AUDIO_CAPTURE = 3;
-	public static final int REQUEST_PHOTO_CROPPER = 3;// 结果
-	public static final int REQUEST_SEND_TO_WHAT = 4;
+	public static final int REQUEST_IMAGE_CAPTURE_CROP = 2;
+	public static final int REQUEST_SELECT_PICTURE = 3;
+	public static final int REQUEST_AUDIO_CAPTURE = 4;
+	
+	public static final int REQUEST_PHOTO_CROPPER = 5;// 结果
+	public static final int REQUEST_SEND_TO_WHAT = 6;
+	public static final int REQUEST_SELECT_AVATAR = 7;
 	/**
 	 *  media_type: 1: text; 2: photo; 3: audio
 	 */

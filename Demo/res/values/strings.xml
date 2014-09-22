@@ -23,6 +23,7 @@
     <string name="take_photo">Take Photo</string>
     <string name="take_gallery">Take Gallery</string>
     <string name="take_tape">Take Tape</string>
+    <string name="take_cancel">Cancel</string>
     <string name="dis_account">account status</string>
     <string name="rich_measure">diamond count</string>
     <string name="dis_preview">time preview</string>

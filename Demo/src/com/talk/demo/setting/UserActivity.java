@@ -6,10 +6,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.util.Log;
@@ -19,11 +19,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.talk.demo.R;
-import com.talk.demo.persistence.TimeRecord;
+import com.talk.demo.time.TimeAllItem;
 import com.talk.demo.util.AccountUtils;
 import com.talk.demo.util.TalkUtil;
 
 import net.sectorsieteg.avatars.AvatarDrawableFactory;
+
+import java.io.File;
 
 public class UserActivity extends Activity {
 	private static String TAG = "UserActivity";
@@ -33,6 +35,7 @@ public class UserActivity extends Activity {
     
     private String account_name;
     private ImageView user_avatar;
+    private Uri uri;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,7 +57,7 @@ public class UserActivity extends Activity {
         user_avatar = (ImageView)findViewById(R.id.user_avatar);
         
         // get avatar from uri
-        Uri uri = Uri.parse("file://"+"/sdcard/Demo/"+account_name);
+        uri = Uri.parse("file://"+"/sdcard/Demo/"+account_name);
         Bitmap account_avatar = getBitmapFromURI(uri);
         if(null != account_avatar) {
             AvatarDrawableFactory avatarFactory = new AvatarDrawableFactory(getResources());
@@ -66,10 +69,11 @@ public class UserActivity extends Activity {
 
 			@Override
 			public void onClick(View v) {
-		        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-		        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-		        	startActivityForResult(takePictureIntent, TalkUtil.REQUEST_IMAGE_CAPTURE);
-		        }
+		        Intent mIntent = new Intent(UserActivity.this,SelectAvatarActivity.class);
+		        Bundle mBundle = new Bundle();
+		        mBundle.putString("account", account_name);
+		        mIntent.putExtras(mBundle);
+				startActivityForResult(mIntent, TalkUtil.REQUEST_SELECT_AVATAR);
 			}
         	
         });
@@ -77,7 +81,7 @@ public class UserActivity extends Activity {
     
     private Bitmap getBitmapFromURI(Uri uri) {
         try {
-            Bitmap bitmap = MediaStore.Images.getBitmap(this.getContentResolver(), uri);
+            Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), uri);
             return bitmap;
         } catch (Exception e){
             e.printStackTrace();
@@ -95,23 +99,22 @@ public class UserActivity extends Activity {
         int sDay = sPreferences.getInt("Day", 0);
         tv_luck.setText(sMonth+" 月 "+sDay+" 日 ");
     }
-    
+   
+   
     @Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
         Log.d(TAG, "got the return :"+requestCode+" :"+resultCode);
         switch(requestCode) {
-            case TalkUtil.REQUEST_IMAGE_CAPTURE:
+            case TalkUtil.REQUEST_SELECT_AVATAR:
                 if (resultCode == RESULT_OK) {
-                    Bundle extras = data.getExtras();
-                    Bitmap imageBitmap = (Bitmap) extras.get("data");
-                    String fileName = account_name;
-                    TalkUtil.createDirAndSaveFile(imageBitmap, fileName);
-                    
+                	Bitmap imageBitmap = getBitmapFromURI(uri);
+                    //TODO: upload to server
                     AvatarDrawableFactory avatarDrawableFactory = new AvatarDrawableFactory(getResources());
                     Drawable roundedAvatarDrawable = avatarDrawableFactory.getRoundedAvatarDrawable(imageBitmap);
                     user_avatar.setImageDrawable(roundedAvatarDrawable);
                 }
                 break;
+                
         }
     }
 }
