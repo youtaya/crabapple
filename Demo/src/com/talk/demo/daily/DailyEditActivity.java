@@ -1,10 +1,14 @@
 package com.talk.demo.daily;
 
+import android.R;
 import android.accounts.Account;
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.app.AlarmManager;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -15,29 +19,26 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.SystemClock;
 import android.renderscript.Allocation;
 import android.renderscript.RenderScript;
 import android.renderscript.ScriptIntrinsicBlur;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewTreeObserver;
-import android.view.Window;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.talk.demo.R;
 import com.talk.demo.core.RecordManager;
 import com.talk.demo.persistence.DBManager;
 import com.talk.demo.persistence.TimeRecord;
-import com.talk.demo.share.AddFriendsActivity;
 import com.talk.demo.util.AccountUtils;
+import com.talk.demo.util.AlarmManagerUtil;
 import com.talk.demo.util.NetworkUtilities;
 import com.talk.demo.util.RawRecord;
 import com.talk.demo.util.TalkUtil;
@@ -203,6 +204,7 @@ public class DailyEditActivity extends Activity {
 		return true;
 	}
 
+	//TODO
 	private String shareToFriend(TimeRecord time, String name) {
 		String result = "ok";
         Account accout = AccountUtils.getPasswordAccessibleAccount(this);
@@ -248,6 +250,7 @@ public class DailyEditActivity extends Activity {
 		protected void onCancelled() {
 		}
 	}
+	
 	private void confirmDone() {
 		// save to db
 		String content = edit_content.getText().toString();
@@ -262,29 +265,57 @@ public class DailyEditActivity extends Activity {
 			} else {
 				tr.setContentType(TalkUtil.MEDIA_TYPE_TEXT);
 			}
+			
 			rMgr.addRecord(tr);
 		}
 
 	}
 	
 	private void confirmDone(String target) {
-		confirmDone();
 		friend = target;
 		Log.d(TAG, "friend is : "+friend);
+		//TODO: get time according to friend intimate
+		// for test: set 10 as default wait time
+		int wait_x_time = 10;
+		
+	    // save to db
+        String content = edit_content.getText().toString();
+        // Do nothing if content is empty
+        if (content.length() > 0) {
+            tr = new TimeRecord(content);
+            if(fileName != null) {
+                //tr = new TimeRecord("/sdcard/Demo/"+fileName);
+                tr.setPhoto(fileName);
+                new SyncPhotoTask().execute();
+                tr.setContentType(TalkUtil.MEDIA_TYPE_PHOTO_TEXT);
+            } else {
+                tr.setContentType(TalkUtil.MEDIA_TYPE_TEXT);
+            }
+            
+            // save link object
+            tr.setLink(target);
+            rMgr.addRecord(tr);
+        }
+		//TODO: start Alarm Manager to send message after wait time
+        AlarmManagerUtil.sendUpdateBroadcast(this, wait_x_time*1000);
+        
 		if(friend != null) {
 			new ShareRecordTask().execute();
 		}
 
 	}
 	
+
+	
     private void confirmToTag(String tag) {
+        Log.d(TAG, "tag is : "+tag);
+        
         // save to db
         String content = edit_content.getText().toString();
         // Do nothing if content is empty
         if (content.length() > 0) {
             tr = new TimeRecord(content);
-            Log.d(TAG, "tag is : "+tag);
-            tr.setTag(tag);
+
             if (fileName != null) {
                 // tr = new TimeRecord("/sdcard/Demo/"+fileName);
                 tr.setPhoto(fileName);
@@ -293,6 +324,9 @@ public class DailyEditActivity extends Activity {
             } else {
                 tr.setContentType(TalkUtil.MEDIA_TYPE_TEXT);
             }
+            
+            // save tag object
+            tr.setTag(tag);
             rMgr.addRecord(tr);
         }
         //startActivity(new Intent(this, TagActivity.class));

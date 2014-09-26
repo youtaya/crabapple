@@ -70,6 +70,7 @@ public class RecordManager {
 		}
 		Log.d(TAG, "init data list");
 
+		//TODO: change to account user name
 		trlist = dbMgr.queryFromOthers("jinxp");
 
 		if (!time_record.isEmpty()) {

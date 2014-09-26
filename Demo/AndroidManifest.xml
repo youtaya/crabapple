@@ -224,6 +224,10 @@
                 android:resource="@xml/authenticator"/>
         </service>
         
+        <receiver 
+            android:name=".daily.UpdateReceiver">
+		</receiver>
+		
 		<provider
             android:name=".sync.ContentProviderAdapter"
             android:authorities="com.talk.sync"
