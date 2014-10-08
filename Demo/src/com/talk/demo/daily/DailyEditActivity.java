@@ -112,7 +112,7 @@ public class DailyEditActivity extends Activity {
 
 		});
 		mgr = new DBManager(this);
-		rMgr = new RecordManager(mgr);
+		rMgr = new RecordManager(mgr, this);
 		/*
 		new Thread(new Runnable() {
 

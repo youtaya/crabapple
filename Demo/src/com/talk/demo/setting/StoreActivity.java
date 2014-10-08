@@ -39,7 +39,7 @@ public class StoreActivity extends Activity {
         setContentView(R.layout.activity_store);
         
         mgr = new DBManager(this);
-        recordManager = new RecordManager(mgr);
+        recordManager = new RecordManager(mgr, this);
         
         time_record = new ArrayList<Map<String, String>>();
         record_cache = new ArrayList<RecordCache>();
@@ -50,7 +50,7 @@ public class StoreActivity extends Activity {
     private void initListView() {
         if(cardLv == null)
             return;
-        time_record = recordManager.initDataListTalk(record_cache);
+        time_record = recordManager.initStoreDataListTalk(record_cache);
         
         cardAdapter = new CardAdapter<Card>(this,android.R.color.holo_blue_dark);
         

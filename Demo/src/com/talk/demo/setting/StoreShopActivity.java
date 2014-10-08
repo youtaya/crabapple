@@ -33,7 +33,7 @@ public class StoreShopActivity extends Activity {
         setContentView(R.layout.activity_record);
         
         mgr = new DBManager(this);
-        recordManager = new RecordManager(mgr);
+        recordManager = new RecordManager(mgr, this);
         list = new ArrayList<HashMap<String, Object>>();
         
         list = recordManager.initDataListRecord(status);

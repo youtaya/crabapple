@@ -1,10 +1,14 @@
 package com.talk.demo.core;
 
+import android.accounts.Account;
+import android.content.Context;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.talk.demo.persistence.DBManager;
 import com.talk.demo.persistence.RecordCache;
 import com.talk.demo.persistence.TimeRecord;
+import com.talk.demo.util.AccountUtils;
 import com.talk.demo.util.TalkUtil;
 
 import java.text.SimpleDateFormat;
@@ -19,9 +23,11 @@ public class RecordManager {
 	private static String TAG = "RecordManager";
 	private List<TimeRecord> trlist;
 	private DBManager dbMgr;
-	public RecordManager(DBManager mgr) {
+	private Context context;
+	public RecordManager(DBManager mgr, Context ctx) {
 		trlist = new ArrayList<TimeRecord>();
 		dbMgr = mgr;
+		context = ctx;
 	}
 
 	public ArrayList<HashMap<String, Object>> initDataListRecord(int[] status) {
@@ -69,9 +75,13 @@ public class RecordManager {
 			trlist.clear();
 		}
 		Log.d(TAG, "init data list");
-
-		//TODO: change to account user name
-		trlist = dbMgr.queryFromOthers("jinxp");
+		
+        Account accout = AccountUtils.getPasswordAccessibleAccount(context);
+        if (accout != null && !TextUtils.isEmpty(accout.name)) {
+        	Log.d(TAG,"ccount name: "+accout.name);
+        }
+        
+		trlist = dbMgr.queryFromOthers(accout.name);
 
 		if (!time_record.isEmpty()) {
 			time_record.clear();
@@ -106,6 +116,48 @@ public class RecordManager {
 		return time_record;
 	}
 
+	public ArrayList<Map<String, String>> initStoreDataListTalk(ArrayList<RecordCache> record_cache) {
+		ArrayList<Map<String, String>> time_record = new ArrayList<Map<String, String>>();
+		if (!trlist.isEmpty()) {
+			trlist.clear();
+		}
+		Log.d(TAG, "init data list");
+
+		trlist = dbMgr.query();
+
+		if (!time_record.isEmpty()) {
+			time_record.clear();
+		}
+		
+		if(!record_cache.isEmpty()) {
+			record_cache.clear();
+		}
+
+		for (TimeRecord tr : trlist) {
+			HashMap<String, String> map = new HashMap<String, String>();
+			RecordCache rc = new RecordCache();
+			if (tr.content_type == TalkUtil.MEDIA_TYPE_PHOTO)
+				map.put("content", "惊鸿一瞥");
+			else if (tr.content_type == TalkUtil.MEDIA_TYPE_AUDIO)
+				map.put("content", "口若兰花");
+			else
+				map.put("content", tr.content);
+
+			rc.setId(tr._id);
+			rc.setContent(tr.content);
+			map.put("calc_date", tr.calc_date);
+			rc.setCreateDate(tr.calc_date);
+			map.put("create_time", tr.create_time);
+			map.put("link", tr.link);
+			rc.setCreateTime(tr.create_time);
+			rc.setMediaType(tr.content_type);
+			record_cache.add(rc);
+			time_record.add(map);
+		}
+
+		return time_record;
+	}
+	
 	private boolean exsitDateItem(List<String> list, String date) {
 		if(list.isEmpty()) {
 			return false;
