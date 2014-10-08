@@ -117,6 +117,14 @@
 			    android:value=".MainActivity"/>
 		</activity>	
 		<activity
+            android:name=".setting.StoreActivity"
+            android:label="仓库"
+            android:parentActivityName=".MainActivity">
+			<meta-data
+			    android:name="android.support.PARENT_ACTIVITY"
+			    android:value=".MainActivity"/>
+		</activity>			
+		<activity
             android:name=".setting.AboutActivity"
             android:label="关于"
             android:parentActivityName=".MainActivity">

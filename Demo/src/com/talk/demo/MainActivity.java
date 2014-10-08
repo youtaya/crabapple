@@ -187,7 +187,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         	callOtherActivity(FindDSourceFriendsActivity.class);
             return true;
         case R.id.action_store:
-        	callOtherActivity(StoreShopActivity.class);
+        	callOtherActivity(StoreActivity.class);
             return true; 
         case R.id.action_setting:
         	callOtherActivity(SettingActivity.class);
