@@ -5,13 +5,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.ListView;
 
-import com.talk.demo.Card;
-import com.talk.demo.CardAdapter;
-import com.talk.demo.CardBase;
-import com.talk.demo.CardClickListener;
-import com.talk.demo.CardListView;
+import com.afollestad.cardsui.Card;
+import com.afollestad.cardsui.CardAdapter;
+import com.afollestad.cardsui.CardBase;
+import com.afollestad.cardsui.CardListView;
+import com.afollestad.cardsui.CardListView.CardClickListener;
 import com.talk.demo.R;
 import com.talk.demo.core.RecordManager;
 import com.talk.demo.persistence.DBManager;
@@ -19,7 +18,6 @@ import com.talk.demo.persistence.RecordCache;
 import com.talk.demo.share.ShareTalkActivity;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Map;
 
 public class StoreActivity extends Activity {
@@ -54,7 +52,7 @@ public class StoreActivity extends Activity {
             return;
         time_record = recordManager.initDataListTalk(record_cache);
         
-        cardAdapter = new CardAdapter<Card>(this.getActivity().getApplicationContext(),android.R.color.holo_blue_dark);
+        cardAdapter = new CardAdapter<Card>(this,android.R.color.holo_blue_dark);
         
         // Add a basic header and cards below it
         for(Map<String,String> map : time_record) {
@@ -67,7 +65,7 @@ public class StoreActivity extends Activity {
             @Override
             public void onCardClick(int index, CardBase card, View view) {
                 Log.d(TAG, "index: "+index+" card title: "+card.getTitle()+" card content: "+card.getContent());
-                Intent mIntent = new Intent(getActivity(), ShareTalkActivity.class);
+                Intent mIntent = new Intent(StoreActivity.this, ShareTalkActivity.class);
                 Bundle mBundle = new Bundle();
                 //1,3,5,7 ==> 0,1,2,3
                 int position = (index - 1)/2;

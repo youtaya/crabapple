@@ -28,7 +28,7 @@ import com.talk.demo.setting.FindDSourceFriendsActivity;
 import com.talk.demo.setting.IntimateActivity;
 import com.talk.demo.setting.PreviewActivity;
 import com.talk.demo.setting.SettingActivity;
-import com.talk.demo.setting.StoreShopActivity;
+import com.talk.demo.setting.StoreActivity;
 import com.talk.demo.setting.UserActivity;
 
 import java.lang.reflect.Field;
