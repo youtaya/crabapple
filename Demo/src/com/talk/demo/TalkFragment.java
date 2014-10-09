@@ -36,6 +36,7 @@ public class TalkFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_talk, container, false);
         
         cardLv = (ListView)rootView.findViewById(R.id.talk_list);
+        time_record = recordManager.initDataListTalk(record_cache, false);
         
         CloudKite[] tasks = initTasks();
         TalkListAdapter adapter = new TalkListAdapter(this.getActivity().getApplicationContext(), tasks);
@@ -65,10 +66,13 @@ public class TalkFragment extends Fragment {
     }
     
     CloudKite[] initTasks() {
-        final int count = 10;
+    	
+        final int count = time_record.size();
         CloudKite[] result = new CloudKite[count];
-        for (int i = 0; i < count; i++) {
-            result[i] = new CloudKite("TASK::" + i);
+        int i = 0;
+        for(Map<String,String> map : time_record) {
+        	result[i] = new CloudKite(map.get("content"));
+        	i++;
         }
 
         return result;
