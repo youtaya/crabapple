@@ -1,25 +1,16 @@
 package com.talk.demo;
 
 import android.app.Activity;
-import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.ProgressBar;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.widget.ListView;
 
 import com.talk.demo.core.RecordManager;
 import com.talk.demo.persistence.RecordCache;
-import com.talk.demo.share.ShareTalkActivity;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -47,7 +38,7 @@ public class TalkFragment extends Fragment {
         cardLv = (ListView)rootView.findViewById(R.id.talk_list);
         
         CloudKite[] tasks = initTasks();
-        TalkListAdapter adapter = new TalkListAdapter(this, tasks);
+        TalkListAdapter adapter = new TalkListAdapter(this.getActivity().getApplicationContext(), tasks);
         cardLv.setAdapter(adapter);
 
         for (CloudKite t : tasks)
