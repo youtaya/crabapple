@@ -50,7 +50,7 @@ public class StoreActivity extends Activity {
     private void initListView() {
         if(cardLv == null)
             return;
-        time_record = recordManager.initStoreDataListTalk(record_cache);
+        time_record = recordManager.initDataListTalk(record_cache, true);
         
         cardAdapter = new CardAdapter<Card>(this,android.R.color.holo_blue_dark);
         
