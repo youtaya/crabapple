@@ -1,63 +1,39 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginTop="6dp"
-    android:descendantFocusability="blocksDescendants"
-    android:orientation="horizontal"
-    android:paddingBottom="8dp"
-    android:paddingLeft="0dp"
-    android:paddingRight="0dp" >
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="?android:attr/listPreferredItemHeight"
+    android:padding="6dip" >
 
+    <ImageView
+        android:id="@+id/icon"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="6dip"
+        android:contentDescription="photo"
+        android:src="@drawable/tab_main_nav_me_boy_off" />
 
-	<ImageView
-        android:id="@+id/friend_avatar"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:paddingLeft="4dp"
-        android:paddingRight="4dp"
-        android:src="@drawable/tab_main_nav_me_boy_off"
-        android:textColor="#ff707070"
-        android:textSize="23sp" />
-	
-	<LinearLayout 
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:orientation="vertical" >
-	    <TextView
-	        android:id="@+id/content"
-	        android:layout_width="match_parent"
-	        android:layout_height="wrap_content"
-	        android:paddingLeft="4dp"
-	        android:paddingRight="4dp"
-	        android:textColor="#ff707070"
-	        android:textSize="23sp" />
-	
-	    <View
-	        android:id="@+id/cardStatus"
-	        android:layout_width="fill_parent"
-	        android:layout_height="1dp"
-	        android:layout_marginTop="4dp"
-	        android:background="@android:color/holo_blue_light"
-	        android:visibility="visible" />
-	
-	    <LinearLayout 
-	        android:layout_width="match_parent"
-	        android:layout_height="match_parent"
-	        android:orientation="horizontal" >
+    <ProgressBar
+        android:id="@+id/pbTask"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_toRightOf="@id/icon"
+        android:layout_marginTop="6dp"
+        android:max="100"
+        android:progress="0"
+        android:progressDrawable="@drawable/custom_progressbar" />
 
-		    <TextView
-		        android:id="@+id/create_time"
-		        android:layout_width="wrap_content"
-		        android:layout_height="match_parent"
-		        android:layout_marginTop="4dp"
-		        android:maxLines="3"
-		        android:paddingLeft="4dp"
-		        android:paddingRight="4dp"
-		        android:textColor="#ff8d8d8d"
-		        android:textSize="16sp" />
-	    </LinearLayout>
-	</LinearLayout>
+    <TextView
+        android:id="@+id/tvTaskDesc"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/pbTask"
+        android:layout_alignParentTop="true"
+        android:layout_alignWithParentIfMissing="true"
+        android:layout_toRightOf="@id/icon"
+        android:layout_marginBottom="3dp"
+        android:text="My Task" />
 
-</LinearLayout>
+</RelativeLayout>

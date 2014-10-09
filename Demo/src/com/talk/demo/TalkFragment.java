@@ -1,19 +1,32 @@
 package com.talk.demo;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.afollestad.cardsui.Card;
 import com.afollestad.cardsui.CardAdapter;
 import com.afollestad.cardsui.CardBase;
 import com.afollestad.cardsui.CardListView;
 import com.afollestad.cardsui.CardListView.CardClickListener;
+import com.dj.listviewsample01.R;
+import com.dj.listviewsample01.Task;
+import com.dj.listviewsample01.MainActivity.MyAdapter;
+import com.dj.listviewsample01.MainActivity.MyAdapter.ViewHolder;
+import com.dj.listviewsample01.Task.taskListener;
 import com.talk.demo.core.RecordManager;
 import com.talk.demo.persistence.RecordCache;
 import com.talk.demo.share.ShareTalkActivity;
@@ -24,10 +37,9 @@ import java.util.Map;
 public class TalkFragment extends Fragment {
     
     private static String TAG = "TalkFragment";
-    private CardListView cardLv;
+    private ListView cardLv;
     private ArrayList<Map<String, String>> time_record;
     private ArrayList<RecordCache> record_cache;
-    private CardAdapter<Card> cardAdapter;
     private RecordManager recordManager;
     
     public TalkFragment(RecordManager recordMgr) {
@@ -42,10 +54,14 @@ public class TalkFragment extends Fragment {
             Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_talk, container, false);
         
-        cardLv = (CardListView)rootView.findViewById(R.id.talk_list);
+        cardLv = (ListView)rootView.findViewById(R.id.talk_list);
         
-        initListView();
-        	
+        CloudKite[] tasks = initTasks();
+        MyAdapter adapter = new MyAdapter(this, tasks);
+        cardLv.setAdapter(adapter);
+
+        for (CloudKite t : tasks)
+            new Thread(t).start();
 
         return rootView;
     }
@@ -53,38 +69,6 @@ public class TalkFragment extends Fragment {
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-    }
-
-    private void initListView() {
-        if(cardLv == null)
-            return;
-        time_record = recordManager.initDataListTalk(record_cache);
-        
-        cardAdapter = new CardAdapter<Card>(this.getActivity().getApplicationContext(),android.R.color.holo_blue_dark);
-        
-        // Add a basic header and cards below it
-        for(Map<String,String> map : time_record) {
-        	//cardAdapter.add(new CardHeader(map.get("create_time")));
-        	cardAdapter.add(new Card(map.get("content"), map.get("create_time")));
-        }
-        cardLv.setAdapter(cardAdapter);  
-        cardLv.setOnCardClickListener(new CardClickListener() {
-
-			@Override
-			public void onCardClick(int index, CardBase card, View view) {
-				Log.d(TAG, "index: "+index+" card title: "+card.getTitle()+" card content: "+card.getContent());
-		        Intent mIntent = new Intent(getActivity(), ShareTalkActivity.class);
-		        Bundle mBundle = new Bundle();
-		        //1,3,5,7 ==> 0,1,2,3
-		        int position = (index - 1)/2;
-		        mBundle.putString("createtime", time_record.get(position).get("create_time"));
-		        mBundle.putString("link", time_record.get(position).get("link"));
-		        mBundle.putParcelable("recordcache", record_cache.get(position));
-		        mIntent.putExtras(mBundle);
-		        startActivity(mIntent);				
-			}
-        	
-        });
     }
     
     @Override
@@ -97,7 +81,115 @@ public class TalkFragment extends Fragment {
         super.onResume();
         Log.d(TAG, "on Resume");
      
-        initListView();
     }
+    
+    CloudKite[] initTasks() {
+        final int count = 10;
+        CloudKite[] result = new CloudKite[count];
+        for (int i = 0; i < count; i++) {
+            result[i] = new CloudKite("TASK::" + i);
+        }
 
+        return result;
+    }
+    
+    public static class MyAdapter extends BaseAdapter {
+        private final Context context;
+        private CloudKite[] tasks;
+        private LayoutInflater inflater;
+
+        final static Handler mHandler = new Handler();
+
+        public MyAdapter(Context context, CloudKite[] tasks) {
+            this.context = context;
+            this.tasks = tasks;
+            inflater = (LayoutInflater) context
+                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        }
+
+        @Override
+        public View getView(int position, View convertView, final ViewGroup parent) {
+            final ViewHolder viewHolder;
+            if (convertView == null) {
+                convertView = inflater.inflate(R.layout.talk_listitem, parent, false);
+                viewHolder = new ViewHolder(convertView);
+                convertView.setTag(viewHolder);
+            } else {
+                viewHolder = (ViewHolder) convertView.getTag();
+            }
+            final CloudKite aTask = tasks[position];
+            viewHolder.setNewTask(aTask);
+
+            return convertView;
+        }
+
+        final static class ViewHolder {
+            public ImageView imageType;
+            public TextView tvTaskDesc;
+            public ProgressBar pbTask;
+
+            public CloudKite linkTask;
+            public CloudKite.taskListener l;
+
+            public void removeListener() {
+                if (linkTask != null && l != null)
+                    linkTask.removeListener(l);
+            }
+
+            public void addListener() {
+                if (linkTask != null)
+                    linkTask.addListener(l);
+            }
+
+            public void setNewTask(CloudKite t) {
+                removeListener();
+                this.linkTask = t;
+                this.tvTaskDesc.setText(t.getDesc());
+                this.pbTask.setProgress(t.getProgress());
+                addListener();
+            }
+
+            public ViewHolder(View convertView) {
+                this.imageType = (ImageView) convertView
+                        .findViewById(R.id.icon);
+                this.tvTaskDesc = (TextView) convertView
+                        .findViewById(R.id.tvTaskDesc);
+                this.pbTask = (ProgressBar) convertView
+                        .findViewById(R.id.pbTask);
+                this.l = new taskListener() {
+                    @Override
+                    public void onProgressChanged(final int progress) {
+
+                        mHandler.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                pbTask.setProgress(progress);
+
+                            }
+                        });
+                    }
+                };
+
+            }
+        }
+
+        @Override
+        public int getCount() {
+
+            return tasks.length;
+        }
+
+        @Override
+        public CloudKite getItem(int position) {
+
+            return tasks[position];
+        }
+
+        @Override
+        public long getItemId(int position) {
+
+            return position;
+        }
+
+    }
 }

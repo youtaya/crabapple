@@ -18,7 +18,7 @@
 			android:textColor="@color/ivorywhite"
 			android:textSize="18sp"/>
         
-        <com.afollestad.cardsui.CardListView
+        <ListView
             android:id="@+id/talk_list"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
