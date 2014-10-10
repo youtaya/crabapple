@@ -30,13 +30,18 @@ public class CloudKite implements Runnable {
 	public void run() {
 		Random random = new Random();
 		try {
-			Thread.sleep(random.nextInt(9)*1000);
+			
 			progress = measureProgress();
+			setProgress(progress);
+			
+			Thread.sleep(random.nextInt(9)*1000);
+			
 			while(progress < 100) {
 			    Thread.sleep(1000);
 			    progress = measureProgress();
 			    setProgress(progress);
 			}
+			
 		} catch (InterruptedException e) {
 			setProgress(0);
 		} catch (Exception generalEcc) {
