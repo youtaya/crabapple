@@ -37,6 +37,8 @@ public class DBHelper extends SQLiteOpenHelper {
                 + " content TEXT default '',"
                 + " calc_date TEXT,"
                 + " create_time TEXT,"
+                + " send_interval_time INTEGER,"
+                + " send_done_time TEXT,"
                 + " content_type INTEGER default 0,"
                 + " photo TEXT default '',"
                 + " audio TEXT default '',"

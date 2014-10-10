@@ -1,6 +1,9 @@
 package com.talk.demo;
 
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Random;
 import java.util.Vector;
 
@@ -10,13 +13,17 @@ public class CloudKite implements Runnable {
 	}
 	private String desc;
 	private int progress;
+	private int interval;
+	private String done_time;
 	
 	private Vector<CloudKite.taskListener> listenerList;
 
-	public CloudKite(String desc) {
+	public CloudKite(String desc, int val, String done) {
 		progress=0;
 		listenerList=new Vector<CloudKite.taskListener>();
 		this.desc=desc;
+		interval = val;
+		done_time = done;
 	}
 	
 	@Override
@@ -24,12 +31,12 @@ public class CloudKite implements Runnable {
 		Random random = new Random();
 		try {
 			Thread.sleep(random.nextInt(9)*1000);
-			progress = 0;
-			for (int i = 0; i < 10; i++) {				
-				Thread.sleep(1000);
-				incrementProgress(10);
+			progress = measureProgress();
+			while(progress < 100) {
+			    Thread.sleep(1000);
+			    progress = measureProgress();
+			    setProgress(progress);
 			}
-			setProgress(100);
 		} catch (InterruptedException e) {
 			setProgress(0);
 		} catch (Exception generalEcc) {
@@ -38,6 +45,29 @@ public class CloudKite implements Runnable {
 			Thread.interrupted();
 		}
 
+	}
+	
+	private int measureProgress() {
+        int result = progress;
+        
+        Calendar calendar = Calendar.getInstance();
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
+        Date date = new Date();
+        try {
+            Date recordDate = formatter.parse(done_time);
+            long diff = recordDate.getTime() - date.getTime();
+            if (diff < 0) {
+                result = 100;
+                return result;
+            }
+            result = (interval-(int)diff)/interval * 100;
+            return result;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+        return result;
+        
 	}
 
 	public void addListener(taskListener l) {

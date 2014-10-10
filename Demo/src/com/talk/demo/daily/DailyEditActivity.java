@@ -1,5 +1,6 @@
 package com.talk.demo.daily;
 
+import android.R.integer;
 import android.accounts.Account;
 import android.annotation.TargetApi;
 import android.app.Activity;
@@ -46,6 +47,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 public class DailyEditActivity extends Activity {
@@ -200,13 +202,13 @@ public class DailyEditActivity extends Activity {
 		return true;
 	}
 
-	//TODO
 	private String shareToFriend(TimeRecord time, String name) {
 		String result = "ok";
         Account accout = AccountUtils.getPasswordAccessibleAccount(this);
         if (accout != null && !TextUtils.isEmpty(accout.name)) {
         	Log.d(TAG,"ccount name: "+accout.name);
         }
+        //TODO 
 		RawRecord raw = RawRecord.create(accout.name, friend, "test", time.content,
 				time.calc_date, time.create_time, time.content_type, null,
 				null, null, false, 11, 12, -1, true);
@@ -272,7 +274,7 @@ public class DailyEditActivity extends Activity {
 		Log.d(TAG, "friend is : "+friend);
 		//TODO: get time according to friend intimate
 		// for test: set 10 as default wait time
-		int wait_x_time = 10;
+		int wait_x_time = 20;
 		
 	    // save to db
         String content = edit_content.getText().toString();
@@ -287,6 +289,19 @@ public class DailyEditActivity extends Activity {
             } else {
                 tr.setContentType(TalkUtil.MEDIA_TYPE_TEXT);
             }
+            //TODO: add msg_interval_time and msg_done_time
+ 
+            tr.setSendInterval(wait_x_time);
+            //current+interval
+            Calendar calendar = Calendar.getInstance();
+
+            int doneSeconds = calendar.get(Calendar.SECOND) + wait_x_time;
+            calendar.set(Calendar.SECOND, doneSeconds);
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
+            Date date = new Date();
+            String done_time = formatter.format(date);
+            Log.d(TAG , "done time "+done_time);
+            tr.setSendDoneTime(done_time);
             
             // save link object
             tr.setLink(target);

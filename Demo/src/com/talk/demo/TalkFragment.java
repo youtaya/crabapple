@@ -1,5 +1,6 @@
 package com.talk.demo;
 
+import android.R.integer;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -71,7 +72,9 @@ public class TalkFragment extends Fragment {
         CloudKite[] result = new CloudKite[count];
         int i = 0;
         for(Map<String,String> map : time_record) {
-        	result[i] = new CloudKite(map.get("content"));
+        	result[i] = new CloudKite(map.get("content"), 
+        	        Integer.parseInt(map.get("send_interval_time")),
+        	        map.get("send_done_time"));
         	i++;
         }
 

@@ -111,6 +111,8 @@ public class RecordManager {
 			map.put("calc_date", tr.calc_date);
 			rc.setCreateDate(tr.calc_date);
 			map.put("create_time", tr.create_time);
+			map.put("send_interval_time", String.valueOf(tr.send_interval_time));
+			map.put("send_done_time", tr.send_done_time);
 			map.put("link", tr.link);
 			rc.setCreateTime(tr.create_time);
 			rc.setMediaType(tr.content_type);

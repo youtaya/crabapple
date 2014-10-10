@@ -11,7 +11,7 @@ public class RecordOperations {
     
     public static void recordExecSQL(SQLiteDatabase db, TimeRecord tr, boolean isDirty) {
         db.execSQL("INSERT INTO "+DATABASE_TABLE+""
-                + " VALUES(null, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", 
+                + " VALUES(null, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", 
                 new Object[]{
                     tr.server_id,
                     tr.userName, 
@@ -20,6 +20,8 @@ public class RecordOperations {
                     tr.content, 
                     tr.calc_date, 
                     tr.create_time,
+                    tr.send_interval_time,
+                    tr.send_done_time,
                     tr.content_type,
                     tr.photo,
                     tr.audio,
@@ -36,7 +38,9 @@ public class RecordOperations {
         tr.link = c.getString(c.getColumnIndex("link"));
         tr.content = c.getString(c.getColumnIndex("content")); 
         tr.calc_date = c.getString(c.getColumnIndex("calc_date"));
-        tr.create_time = c.getString(c.getColumnIndex("create_time"));  
+        tr.create_time = c.getString(c.getColumnIndex("create_time")); 
+        tr.send_interval_time = c.getInt(c.getColumnIndex("send_interval_time")); 
+        tr.send_done_time = c.getString(c.getColumnIndex("send_done_time")); 
         tr.content_type = c.getInt(c.getColumnIndex("content_type"));
         tr.photo = c.getString(c.getColumnIndex("photo")); 
         tr.audio = c.getString(c.getColumnIndex("audio"));

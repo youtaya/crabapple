@@ -11,6 +11,8 @@ public class TimeRecord {
     public String content;
     public String calc_date;
     public String create_time;
+    public int send_interval_time;
+    public String send_done_time;
     public int content_type;
     
     public String userName;
@@ -77,6 +79,15 @@ public class TimeRecord {
     public void setLink(String v) {
     	link = v;
     }
+    
+    public void setSendInterval(int v) {
+        send_interval_time = v;
+    }
+    
+    public void setSendDoneTime(String v) {
+        send_done_time = v;
+    }
+    
     public void setContent(String v) {
     	content = v;
     }
