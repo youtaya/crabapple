@@ -1,6 +1,5 @@
 package com.talk.demo.daily;
 
-import android.R.integer;
 import android.accounts.Account;
 import android.annotation.TargetApi;
 import android.app.Activity;
@@ -20,6 +19,7 @@ import android.renderscript.Allocation;
 import android.renderscript.RenderScript;
 import android.renderscript.ScriptIntrinsicBlur;
 import android.text.TextUtils;
+import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -299,8 +299,9 @@ public class DailyEditActivity extends Activity {
             calendar.set(Calendar.SECOND, doneSeconds);
             SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
             Date date = new Date();
-            String done_time = formatter.format(date);
-            Log.d(TAG , "done time "+done_time);
+            String done_time = DateFormat.format("yyyyMMddHHmmss", calendar.getTime()).toString();
+            String test_time = formatter.format(date);
+            Log.d(TAG , "done time "+done_time+" test time "+test_time);
             tr.setSendDoneTime(done_time);
             
             // save link object
@@ -479,6 +480,8 @@ public class DailyEditActivity extends Activity {
                         confirmToTag(tag);
                         break;                        
                 }
+                
+                finish();
                 
             }
             break;            
