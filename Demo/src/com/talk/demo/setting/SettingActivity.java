@@ -1,5 +1,7 @@
 package com.talk.demo.setting;
 
+import android.accounts.Account;
+import android.accounts.AccountManager;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.ComponentName;
@@ -12,12 +14,15 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import br.com.dina.ui.widget.UITableView;
 import br.com.dina.ui.widget.UITableView.ClickListener;
 
 import com.talk.demo.R;
+import com.talk.demo.account.AccountConstants;
+import com.talk.demo.account.AppMainActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,16 +30,35 @@ import java.util.List;
 public class SettingActivity extends Activity {
 	private static String TAG = "SettingActivity";
 	private UITableView tableView;
-	
+	private LinearLayout logout;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting);
         
+        logout = (LinearLayout)findViewById(R.id.logout);
+        logout.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				removeAccount();
+				startActivity(new Intent(SettingActivity.this, AppMainActivity.class));
+			}
+        	
+        });
         tableView = (UITableView) findViewById(R.id.tableView);        
         createList();        
         Log.d(TAG, "total items: " + tableView.getCount());        
         tableView.commit();
+    }
+    
+    private void removeAccount() {
+    	AccountManager manager = AccountManager.get(this);
+        Account[] accounts = manager.getAccountsByType(AccountConstants.ACCOUNT_TYPE);
+        for (int index = 0; index < accounts.length; index++) {
+        	manager.removeAccount(accounts[index], null, null);
+        }
     }
     
     private void createList() {

@@ -26,6 +26,10 @@
     <string name="take_cancel">Cancel</string>
     <string name="dis_account">account status</string>
     <string name="rich_measure">diamond count</string>
+    <string name="whole_txt">all daily</string>
+    <string name="collect_txt">collect</string>
+    <string name="preview_txt">preview</string>
+    <string name="setting_txt">setting</string>
     <string name="dis_preview">time preview</string>
     <string name="dis_preview_hint">numbers of time preview</string>
     <string name="action_confirm">confirm</string>

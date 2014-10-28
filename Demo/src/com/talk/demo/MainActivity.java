@@ -1,8 +1,6 @@
 
 package com.talk.demo;
 
-import android.accounts.Account;
-import android.accounts.AccountManager;
 import android.app.ActionBar;
 import android.app.FragmentTransaction;
 import android.content.Intent;
@@ -19,15 +17,11 @@ import android.view.MenuItem;
 import android.view.ViewConfiguration;
 import android.widget.Toast;
 
-import com.talk.demo.account.AccountConstants;
-import com.talk.demo.account.AppMainActivity;
 import com.talk.demo.core.RecordManager;
 import com.talk.demo.persistence.DBManager;
 import com.talk.demo.prewrite.PreWrite;
 import com.talk.demo.setting.FindDSourceFriendsActivity;
 import com.talk.demo.setting.IntimateActivity;
-import com.talk.demo.setting.PreviewActivity;
-import com.talk.demo.setting.SettingActivity;
 import com.talk.demo.setting.StoreActivity;
 import com.talk.demo.setting.UserActivity;
 
@@ -163,22 +157,13 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         startActivity(intent);
     }
     
-    private void removeAccount() {
-    	AccountManager manager = AccountManager.get(this);
-        Account[] accounts = manager.getAccountsByType(AccountConstants.ACCOUNT_TYPE);
-        for (int index = 0; index < accounts.length; index++) {
-        	manager.removeAccount(accounts[index], null, null);
-        }
-    }
+
     
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
         case R.id.action_user:
         	callOtherActivity(UserActivity.class);
-            return true;
-        case R.id.action_preview:
-        	callOtherActivity(PreviewActivity.class);
             return true;
         case R.id.action_friend:
         	callOtherActivity(IntimateActivity.class);
@@ -188,14 +173,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
             return true;
         case R.id.action_store:
         	callOtherActivity(StoreActivity.class);
-            return true; 
-        case R.id.action_setting:
-        	callOtherActivity(SettingActivity.class);
-            return true;              
-        case R.id.action_logout:
-        	removeAccount();
-        	callOtherActivity(AppMainActivity.class);
-            return true;               
+            return true;         
         default:
             return super.onOptionsItemSelected(item);
         }

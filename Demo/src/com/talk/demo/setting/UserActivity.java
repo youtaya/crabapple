@@ -2,37 +2,30 @@ package com.talk.demo.setting;
 
 import android.accounts.Account;
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.talk.demo.R;
-import com.talk.demo.time.TimeAllItem;
 import com.talk.demo.util.AccountUtils;
 import com.talk.demo.util.TalkUtil;
 
 import net.sectorsieteg.avatars.AvatarDrawableFactory;
 
-import java.io.File;
-
 public class UserActivity extends Activity {
 	private static String TAG = "UserActivity";
-	private TextView tv_rich, user_name, tv_luck;
-    // Get rich values
-    private RichPresent rp;
-    
+	private LinearLayout whole, collect, preview, setting;
+    private TextView user_name;
     private String account_name;
     private ImageView user_avatar;
     private Uri uri;
@@ -40,13 +33,31 @@ public class UserActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user);
-        
-        tv_rich = (TextView)findViewById(R.id.rich_number);
         user_name = (TextView)findViewById(R.id.my_name);
-        tv_luck = (TextView)findViewById(R.id.my_luck_day);
-        // Get values
-        rp = RichPresent.getInstance(this);
-        tv_rich.setText(String.valueOf(rp.getRich()));
+        
+        whole = (LinearLayout)findViewById(R.id.whole_daily);
+        collect = (LinearLayout)findViewById(R.id.collect);
+        preview = (LinearLayout)findViewById(R.id.preview_daily);
+        preview.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				startActivity(new Intent(UserActivity.this, PreviewActivity.class));
+			}
+        	
+        });
+        setting = (LinearLayout)findViewById(R.id.setting);
+        setting.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				startActivity(new Intent(UserActivity.this, SettingActivity.class));
+			}
+        	
+        });
+
         Account accout = AccountUtils.getPasswordAccessibleAccount(this);
         if (accout != null && !TextUtils.isEmpty(accout.name)) {
         	Log.d(TAG,"ccount name: "+accout.name);
@@ -92,12 +103,6 @@ public class UserActivity extends Activity {
     @Override
     public void onResume() {
         super.onResume();
-        tv_rich.setText(String.valueOf(rp.getRich()));
-        // Get luck day
-        SharedPreferences sPreferences = getSharedPreferences("luck_day", Context.MODE_PRIVATE);
-        int sMonth = sPreferences.getInt("Month", 0);
-        int sDay = sPreferences.getInt("Day", 0);
-        tv_luck.setText(sMonth+" 月 "+sDay+" 日 ");
     }
    
    

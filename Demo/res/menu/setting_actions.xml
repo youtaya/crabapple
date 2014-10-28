@@ -5,42 +5,23 @@
         android:orderInCategory="1"
         android:showAsAction="ifRoom|withText"
         android:icon="@drawable/newbie"
-        android:title="@string/user"/>
-    <item
-        android:id="@+id/action_preview"
-        android:orderInCategory="2"
-        android:showAsAction="ifRoom|withText"
-        android:icon="@android:drawable/ic_popup_reminder"
-        android:title="@string/dis_preview"/>    
+        android:title="@string/user"/> 
     <item
         android:id="@+id/action_friend"
-        android:orderInCategory="3"
-        android:showAsAction="withText"
-        android:icon="@drawable/ic_popup_menu"
+        android:orderInCategory="2"
+        android:showAsAction="ifRoom|withText"
+        android:icon="@drawable/ic_popup_reminder"
         android:title="@string/friend"/>
     <item
         android:id="@+id/action_add_friend"
-        android:orderInCategory="4"
+        android:orderInCategory="3"
         android:showAsAction="withText"
         android:icon="@drawable/ic_popup_menu"
         android:title="@string/add_friend"/>      
 	<item
         android:id="@+id/action_store"
-        android:orderInCategory="5"
+        android:orderInCategory="4"
         android:showAsAction="withText"
         android:icon="@drawable/ic_popup_menu"
         android:title="@string/store"/>
-	<item
-        android:id="@+id/action_setting"
-        android:orderInCategory="6"
-        android:showAsAction="withText"
-        android:icon="@drawable/ic_popup_menu"
-        android:title="@string/setting"/>
-	<item
-        android:id="@+id/action_logout"
-        android:orderInCategory="7"
-        android:showAsAction="withText"
-        android:icon="@drawable/ic_popup_menu"
-        android:title="@string/logout"/>	
-
 </menu>
