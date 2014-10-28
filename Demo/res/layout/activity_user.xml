@@ -38,7 +38,7 @@
 	        android:layout_height="wrap_content"
 	        android:paddingLeft="10dp"
 	        android:paddingRight="4dp"
-	        android:src="@drawable/default_avatar"
+	        android:src="@drawable/more_my_album"
 	        android:textColor="#ff707070"
 	        android:textSize="23sp" />			
 		<TextView
@@ -61,7 +61,7 @@
 	        android:layout_height="wrap_content"
 	        android:paddingLeft="10dp"
 	        android:paddingRight="4dp"
-	        android:src="@drawable/default_avatar"
+	        android:src="@drawable/more_my_favorite"
 	        android:textColor="#ff707070"
 	        android:textSize="23sp" />			
 		<TextView
@@ -84,7 +84,7 @@
 	        android:layout_height="wrap_content"
 	        android:paddingLeft="10dp"
 	        android:paddingRight="4dp"
-	        android:src="@drawable/default_avatar"
+	        android:src="@drawable/more_my_bank_card"
 	        android:textColor="#ff707070"
 	        android:textSize="23sp" />			
 		<TextView
@@ -107,7 +107,7 @@
 	        android:layout_height="wrap_content"
 	        android:paddingLeft="10dp"
 	        android:paddingRight="4dp"
-	        android:src="@drawable/default_avatar"
+	        android:src="@drawable/more_setting"
 	        android:textColor="#ff707070"
 	        android:textSize="23sp" />			
 		<TextView

@@ -13,7 +13,7 @@
 	        android:layout_height="wrap_content"
 	        android:paddingLeft="10dp"
 	        android:paddingRight="4dp"
-	        android:src="@drawable/default_avatar"
+	        android:src="@drawable/searadd_icon"
 	        android:textColor="#ff707070"
 	        android:textSize="23sp" />			
 		<TextView
