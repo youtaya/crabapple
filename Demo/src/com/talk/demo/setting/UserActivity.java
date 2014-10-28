@@ -36,6 +36,15 @@ public class UserActivity extends Activity {
         user_name = (TextView)findViewById(R.id.my_name);
         
         whole = (LinearLayout)findViewById(R.id.whole_daily);
+        whole.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				startActivity(new Intent(UserActivity.this, StoreActivity.class));
+			}
+        	
+        });
         collect = (LinearLayout)findViewById(R.id.collect);
         preview = (LinearLayout)findViewById(R.id.preview_daily);
         preview.setOnClickListener(new OnClickListener() {

@@ -168,12 +168,6 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         case R.id.action_friend:
         	callOtherActivity(IntimateActivity.class);
             return true;  
-        case R.id.action_add_friend:
-        	callOtherActivity(FindDSourceFriendsActivity.class);
-            return true;
-        case R.id.action_store:
-        	callOtherActivity(StoreActivity.class);
-            return true;         
         default:
             return super.onOptionsItemSelected(item);
         }

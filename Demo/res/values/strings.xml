@@ -30,6 +30,7 @@
     <string name="collect_txt">collect</string>
     <string name="preview_txt">preview</string>
     <string name="setting_txt">setting</string>
+    <string name="new_txt">new friend</string>
     <string name="dis_preview">time preview</string>
     <string name="dis_preview_hint">numbers of time preview</string>
     <string name="action_confirm">confirm</string>

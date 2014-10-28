@@ -11,17 +11,5 @@
         android:orderInCategory="2"
         android:showAsAction="ifRoom|withText"
         android:icon="@drawable/ic_popup_reminder"
-        android:title="@string/friend"/>
-    <item
-        android:id="@+id/action_add_friend"
-        android:orderInCategory="3"
-        android:showAsAction="withText"
-        android:icon="@drawable/ic_popup_menu"
-        android:title="@string/add_friend"/>      
-	<item
-        android:id="@+id/action_store"
-        android:orderInCategory="4"
-        android:showAsAction="withText"
-        android:icon="@drawable/ic_popup_menu"
-        android:title="@string/store"/>
+        android:title="@string/friend"/>   
 </menu>

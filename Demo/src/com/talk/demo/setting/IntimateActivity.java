@@ -1,11 +1,14 @@
 package com.talk.demo.setting;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -21,7 +24,7 @@ public class IntimateActivity extends Activity {
 	ArrayList<String> friends;
 	IntimateListAdapter adapter;
     ListView view;
-    
+    private LinearLayout new_friend;
     private DBManager mgr;
     private List<FriendRecord> frList;
     
@@ -30,6 +33,18 @@ public class IntimateActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_intimate);
+        
+        new_friend = (LinearLayout)findViewById(R.id.new_friend);
+        new_friend.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				startActivity(new Intent(IntimateActivity.this, FindDSourceFriendsActivity.class));
+			}
+        	
+        });
+        
         view = (ListView) findViewById(R.id.intimate_list);
         view.setOnItemClickListener(new OnItemClickListener() {
 
