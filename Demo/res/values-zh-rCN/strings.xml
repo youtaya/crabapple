@@ -26,6 +26,11 @@
     <string name="take_cancel">取消</string>
     <string name="dis_account">账号状态</string>
     <string name="rich_measure">宝石数</string>
+    <string name="whole_txt">全部笔记</string>
+    <string name="collect_txt">收藏</string>
+    <string name="preview_txt">预览</string>
+    <string name="setting_txt">设置</string>
+    <string name="new_txt">新的朋友</string>    
     <string name="dis_preview">时光预览</string>
     <string name="dis_preview_hint">时光预览数</string>
     <string name="action_confirm">确定</string>
