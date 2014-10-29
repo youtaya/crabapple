@@ -77,14 +77,4 @@
         android:layout_below="@+id/add_media"
         android:background="@drawable/tab_bg" />
 
-    <TextView
-        android:id="@+id/bluestone"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_below="@+id/tab2"
-        android:layout_centerHorizontal="true"
-        android:gravity="center"
-        android:text="@string/bluestone" />
-
 </RelativeLayout>

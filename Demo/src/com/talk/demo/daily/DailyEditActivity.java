@@ -104,15 +104,6 @@ public class DailyEditActivity extends Activity {
 			
 		});
 
-		tv = (TextView) findViewById(R.id.bluestone);
-		tv.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				//TODO: select friends, and choose one
-				hintDialog();
-			}
-
-		});
 		mgr = new DBManager(this);
 		rMgr = new RecordManager(mgr, this);
 		/*
@@ -126,24 +117,6 @@ public class DailyEditActivity extends Activity {
 		*/
 	}
 	
-    protected void hintDialog() {
-        AlertDialog.Builder builder = new Builder(this);
-        builder.setMessage("想好发送给谁吗？");
-        builder.setTitle("选择发送");
-        builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
-
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
-        });
-        builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-                
-            }
-        });
-        builder.create().show();
-    }
     
 	private void applyBlur() {
 		content_bg.getViewTreeObserver().addOnPreDrawListener(

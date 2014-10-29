@@ -42,10 +42,10 @@
 	<!-- Do not translate. Format of the timer that shows how much has been recorded so far -->
     <string name="timer_format" translatable="false"><xliff:g id="format">%02d:%02d</xliff:g></string>
     <string name="bluestone">Who will see this time?\n</string>
-    <string name="user">me</string>
+    <string name="user">about myself</string>
     <string name="user_name">user name</string>
     <string name="luck_day">lucky day</string>
-    <string name="friend">friend</string>
+    <string name="friend">about friends</string>
     <string name="add_friend">find friend</string>
     <string name="store">store</string>
     <string name="setting">setting</string>
