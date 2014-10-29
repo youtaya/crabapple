@@ -34,6 +34,8 @@
     <string name="dis_preview">time preview</string>
     <string name="dis_preview_hint">numbers of time preview</string>
     <string name="action_confirm">confirm</string>
+    <string name="action_search">search</string>
+    <string name="action_plus">plus</string>
     <string name="send">send</string>
     <string name="setting_date">设定幸运日期，幸运日会将往事时
         光全部呈现\n如跳过设定，默认为当前日期\n可以在设定菜单中重新设置幸运日期</string>

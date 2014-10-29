@@ -1,15 +1,15 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
 
     <item
-        android:id="@+id/action_user"
-        android:orderInCategory="1"
-        android:showAsAction="ifRoom|withText"
-        android:icon="@drawable/newbie"
-        android:title="@string/user"/> 
+        android:id="@+id/action_search"
+        android:actionViewClass="android.widget.SearchView"
+        android:showAsAction="ifRoom|collapseActionView"
+        android:icon="@drawable/actionbar_search_icon"
+        android:title="@string/action_search"/> 
     <item
-        android:id="@+id/action_friend"
-        android:orderInCategory="2"
-        android:showAsAction="ifRoom|withText"
-        android:icon="@drawable/ic_popup_reminder"
-        android:title="@string/friend"/>   
+        android:id="@+id/action_plus"
+        android:actionProviderClass="com.talk.demo.PlusActionProvider"
+        android:showAsAction="ifRoom"
+        android:icon="@drawable/actionbar_add_icon"
+        android:title="@string/action_plus"/>   
 </menu>

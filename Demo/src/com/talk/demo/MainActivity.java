@@ -151,7 +151,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
             e.printStackTrace();
         }
     }
-    
+    /*
     private void callOtherActivity(Class<?> cls) {
         Intent intent = new Intent(this, cls);
         startActivity(intent);
@@ -172,6 +172,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
             return super.onOptionsItemSelected(item);
         }
     }
+    */
     @Override
     public void onTabSelected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
         // When the given tab is selected, switch to the corresponding page in
