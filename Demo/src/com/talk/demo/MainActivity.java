@@ -3,7 +3,6 @@ package com.talk.demo;
 
 import android.app.ActionBar;
 import android.app.FragmentTransaction;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -13,17 +12,12 @@ import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.ViewConfiguration;
 import android.widget.Toast;
 
 import com.talk.demo.core.RecordManager;
 import com.talk.demo.persistence.DBManager;
 import com.talk.demo.prewrite.PreWrite;
-import com.talk.demo.setting.FindDSourceFriendsActivity;
-import com.talk.demo.setting.IntimateActivity;
-import com.talk.demo.setting.StoreActivity;
-import com.talk.demo.setting.UserActivity;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -132,6 +126,8 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
    }  
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+    	super.onCreateOptionsMenu(menu);
+    	
         // Inflate the menu; this adds items to the action bar if it is present.
     	MenuInflater inflater = getMenuInflater();
     	//inflater.inflate(R.menu.main_actions, menu);

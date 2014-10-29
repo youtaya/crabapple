@@ -14,7 +14,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import br.com.dina.ui.widget.UITableView;
@@ -30,23 +29,12 @@ import java.util.List;
 public class SettingActivity extends Activity {
 	private static String TAG = "SettingActivity";
 	private UITableView tableView;
-	private LinearLayout logout;
+	
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting);
         
-        logout = (LinearLayout)findViewById(R.id.logout);
-        logout.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				removeAccount();
-				startActivity(new Intent(SettingActivity.this, AppMainActivity.class));
-			}
-        	
-        });
         tableView = (UITableView) findViewById(R.id.tableView);        
         createList();        
         Log.d(TAG, "total items: " + tableView.getCount());        
@@ -66,6 +54,7 @@ public class SettingActivity extends Activity {
     	tableView.setClickListener(listener);
     	tableView.addBasicItem("分享", "邀请朋友");
     	tableView.addBasicItem("关于西窗话", "版本信息");
+    	tableView.addBasicItem("注销");
     }
     
 	private void mySetOnClick(View v, AppInfo info, String argu ) {
@@ -229,7 +218,11 @@ public class SettingActivity extends Activity {
                 break;
             case 1:
                 callOtherActivity(AboutActivity.class);
-                break;              
+                break;
+            case 2:
+            	removeAccount();
+            	callOtherActivity(AppMainActivity.class);
+            	break;
             }
         }
     }

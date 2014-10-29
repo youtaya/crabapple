@@ -8,25 +8,8 @@
 	
 	<br.com.dina.ui.widget.UITableView 
 		android:id="@+id/tableView" 
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"		
 	    style="@style/UITableView" />
 
-	<TextView
-	    android:layout_width="match_parent"
-	    android:layout_height="30dp"
-	    android:background="@color/grey"/>
-	
-	<LinearLayout
-	    android:id="@+id/logout"
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:orientation="horizontal">
-		<TextView
-		    android:id="@+id/logout_txt"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:padding="10dp"
-            android:text="@string/logout"
-            android:textSize="22sp" />
-	</LinearLayout>
 </LinearLayout>
