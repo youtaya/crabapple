@@ -37,19 +37,12 @@
         </FrameLayout>
     </ScrollView>
 
-    <ImageView
-        android:id="@+id/tab1"
-        android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:layout_below="@+id/scrollView1"
-        android:background="@drawable/tab_bg" />
-
     <RelativeLayout
         android:id="@+id/add_media"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:layout_below="@+id/tab1" >
+        android:layout_below="@+id/scrollView1" >
 
         <ImageView
             android:id="@+id/add_photo"
@@ -69,12 +62,5 @@
             android:paddingTop="5dp"
             android:src="@drawable/toolbar_sound_selector" />
     </RelativeLayout>
-
-    <ImageView
-        android:id="@+id/tab2"
-        android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:layout_below="@+id/add_media"
-        android:background="@drawable/tab_bg" />
 
 </RelativeLayout>
