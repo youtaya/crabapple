@@ -27,7 +27,12 @@
             android:padding="10dp"
             android:textSize="20sp" />	
 	</LinearLayout>
-	 
+	
+	<TextView
+	    android:layout_width="match_parent"
+	    android:layout_height="30dp"
+	    android:background="@color/grey"/>
+	
 	<LinearLayout
 	    android:id="@+id/whole_daily"
 		android:layout_width="match_parent"
@@ -74,6 +79,11 @@
             android:textSize="22sp" />
 	</LinearLayout>
 	
+	<TextView
+	    android:layout_width="match_parent"
+	    android:layout_height="30dp"
+	    android:background="@color/grey"/>
+	
 	<LinearLayout
 	    android:id="@+id/preview_daily"
 		android:layout_width="match_parent"
@@ -97,6 +107,11 @@
             android:textSize="22sp" />
 	</LinearLayout>	
 	
+	<TextView
+	    android:layout_width="match_parent"
+	    android:layout_height="30dp"
+	    android:background="@color/grey"/>
+		
 	<LinearLayout
 	    android:id="@+id/setting"
 		android:layout_width="match_parent"
