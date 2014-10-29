@@ -151,28 +151,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
             e.printStackTrace();
         }
     }
-    /*
-    private void callOtherActivity(Class<?> cls) {
-        Intent intent = new Intent(this, cls);
-        startActivity(intent);
-    }
-    
 
-    
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-        case R.id.action_user:
-        	callOtherActivity(UserActivity.class);
-            return true;
-        case R.id.action_friend:
-        	callOtherActivity(IntimateActivity.class);
-            return true;  
-        default:
-            return super.onOptionsItemSelected(item);
-        }
-    }
-    */
     @Override
     public void onTabSelected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
         // When the given tab is selected, switch to the corresponding page in

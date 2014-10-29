@@ -133,5 +133,10 @@
             android:padding="10dp"
             android:text="@string/setting_txt"
             android:textSize="22sp" />
-	</LinearLayout>	
+	</LinearLayout>
+	
+	<TextView
+	    android:layout_width="match_parent"
+	    android:layout_height="30dp"
+	    android:background="@color/grey"/>		
 </LinearLayout>

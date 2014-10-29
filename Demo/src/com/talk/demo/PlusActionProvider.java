@@ -1,11 +1,15 @@
 package com.talk.demo;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.ActionProvider;
 import android.view.MenuItem;
 import android.view.MenuItem.OnMenuItemClickListener;
 import android.view.SubMenu;
 import android.view.View;
+
+import com.talk.demo.setting.IntimateActivity;
+import com.talk.demo.setting.UserActivity;
 
 public class PlusActionProvider extends ActionProvider {
 
@@ -45,8 +49,8 @@ public class PlusActionProvider extends ActionProvider {
 	}
 	
     private void callOtherActivity(Class<?> cls) {
-        Intent intent = new Intent(this, cls);
-        startActivity(intent);
+        Intent intent = new Intent(context, cls);
+        context.startActivity(intent);
     }
     
 
