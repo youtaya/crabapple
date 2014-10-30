@@ -1,6 +1,5 @@
 package com.talk.demo;
 
-import android.R.integer;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;

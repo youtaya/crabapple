@@ -50,16 +50,6 @@ public class TimeFragment extends Fragment {
         
         lv = (ListView)rootView.findViewById(R.id.time_list);
         
-        /*
-        lv.setOnRefreshListener(new OnRefreshListener<ListView>() {
-            @Override
-            public void onRefresh(PullToRefreshBase<ListView> refreshView) {
-                // Do work to refresh the list here.
-                new ManualSyncTask().execute();
-            }
-        });
-        */
-        
         initListView();
         
         return rootView;

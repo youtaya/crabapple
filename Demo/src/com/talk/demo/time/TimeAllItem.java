@@ -8,6 +8,8 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.EditText;
@@ -162,6 +164,13 @@ public class TimeAllItem extends FragmentActivity {
         @Override
         public void onPageScrollStateChanged(int arg0) {
         }
+    }
+    
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+    	MenuInflater inflater = getMenuInflater();
+    	inflater.inflate(R.menu.add_tag_actions, menu);
+    	return super.onCreateOptionsMenu(menu);
     }
 
 }
