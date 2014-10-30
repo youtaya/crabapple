@@ -70,12 +70,16 @@ public class DailyEditActivity extends Activity {
 		if(bundle != null)
 			pre_content = bundle.getString("precontent");
 		edit_content = (EditText) findViewById(R.id.edit_content);
+		
+		tv = (TextView) findViewById(R.id.daily_title);
+		
 		if(pre_content != null) {
-			edit_content.setText(pre_content);
-			edit_content.setSelection(pre_content.length());
+			tv.setVisibility(View.VISIBLE);
+			tv.setText(pre_content);
 		}
 		content_bg = (ImageView) findViewById(R.id.content_bg);
 		add_photo = (ImageView) findViewById(R.id.add_photo);
+		
 		
 		add_photo.setOnClickListener(new OnClickListener() {
 

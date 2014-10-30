@@ -2,86 +2,91 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
-    
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/yellow"
+        android:orientation="vertical" >
+        <ImageView
+            android:id="@+id/content_bg"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="fitXY"
+            android:src="@drawable/bg_feed_quesition" />
+    </LinearLayout>
+
     <LinearLayout
         android:id="@+id/title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_marginTop="10dp"
-        android:orientation="vertical">
+        android:orientation="vertical" >
+
         <TextView
             android:id="@+id/daily_title"
             android:layout_width="match_parent"
             android:layout_height="55dp"
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp"
-            android:textColor="@color/red"
+            android:layout_marginLeft="45dp"
+            android:layout_marginRight="45dp"
+            android:gravity="center"
             android:textSize="20sp"
-            android:hint="daily title"
-            android:background="@null" />
+            android:visibility="invisible"
+            android:textColor="@color/azure"
+            android:background="@color/pink" />
     </LinearLayout>
-    
-	<FrameLayout
-		android:layout_width="match_parent"
-		android:layout_height="match_parent"
-		android:focusable="true"  
-		android:focusableInTouchMode="true"
-		android:background="@color/yellow"
-		android:orientation="vertical" >
-		<ImageView
-             android:id="@+id/content_bg"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent"
-             android:src="@drawable/bg_feed_quesition"
-             android:scaleType="fitXY" />
-	 </FrameLayout>
 
-	<LinearLayout 
-	    android:id="@+id/add_media"
-	    android:layout_width="match_parent"
-	    android:layout_height="wrap_content"
-	    android:layout_alignParentBottom="true"
-		android:layout_marginLeft="15dp"
-		android:layout_marginRight="15dp"
-	    android:orientation="vertical">
-		<ImageView
-			android:id="@+id/add_photo"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:layout_marginBottom="30dp"
-			android:src="@drawable/toolbar_photo_selector" />
-	</LinearLayout>
-	
-    <ScrollView
-        android:id="@+id/scrollView1"
+    <LinearLayout
+        android:id="@+id/add_media"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/title"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:orientation="vertical" >
+
+        <ImageView
+            android:id="@+id/add_photo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="30dp"
+            android:src="@drawable/toolbar_photo_selector" />
+    </LinearLayout>
+
+    <ScrollView
+        android:id="@+id/content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_above="@+id/add_media"
-        android:layout_marginTop="10dp"
+        android:layout_below="@+id/title"
+        android:layout_centerInParent="true"
         android:layout_marginBottom="10dp"
-		android:layout_marginLeft="15dp"
-		android:layout_marginRight="15dp"        
-        android:layout_centerInParent="true" 
-        android:scrollbarStyle="outsideOverlay">
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="10dp" >
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical" >
-			<EditText
+
+            <EditText
                 android:id="@+id/edit_content"
-                android:layout_width="match_parent"
+                android:layout_width="240dp"
                 android:layout_height="0dp"
                 android:layout_weight="1"
+                android:textScaleX="1.5"
+                android:inputType="textMultiLine|textAutoComplete"
                 android:background="@null"
                 android:layout_gravity="center"
-                android:gravity="center"
+                android:textSize="16sp"
+                android:minLines="14"
+                android:typeface="monospace"
+                android:scrollbars="horizontal"
+                android:gravity="top"
                 android:hint="留下这段时光" />
-		</LinearLayout>
+        </LinearLayout>
     </ScrollView>
-    
-
 
 </RelativeLayout>
