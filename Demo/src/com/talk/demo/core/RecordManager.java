@@ -11,9 +11,7 @@ import com.talk.demo.persistence.TimeRecord;
 import com.talk.demo.util.AccountUtils;
 import com.talk.demo.util.TalkUtil;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -28,45 +26,6 @@ public class RecordManager {
 		trlist = new ArrayList<TimeRecord>();
 		dbMgr = mgr;
 		context = ctx;
-	}
-
-	public ArrayList<HashMap<String, Object>> initDataListRecord(int[] status) {
-		ArrayList<HashMap<String, Object>> time_record = new ArrayList<HashMap<String, Object>>();
-		if (!trlist.isEmpty()) {
-			trlist.clear();
-		}
-		Log.d(TAG, "init data list");
-		trlist = dbMgr.query();
-
-		if (!time_record.isEmpty()) {
-			time_record.clear();
-		}
-
-		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-		Date date1 = TalkUtil.Cal_Days(new Date(), -1);
-		Date date2 = TalkUtil.Cal_Days(new Date(), -3);
-		Date date3 = TalkUtil.Cal_Days(new Date(), -5);
-		Date date4 = TalkUtil.Cal_Days(new Date(), -7);
-		String revealDate1 = dateFormat.format(date1);
-		String revealDate2 = dateFormat.format(date2);
-		String revealDate3 = dateFormat.format(date3);
-		String revealDate4 = dateFormat.format(date4);
-
-		for (TimeRecord tr : trlist) {
-			HashMap<String, Object> map = new HashMap<String, Object>();
-			map.put("create_time", tr.create_time);
-			if (tr.calc_date.equalsIgnoreCase(revealDate1)
-					|| tr.calc_date.equalsIgnoreCase(revealDate2)
-					|| tr.calc_date.equalsIgnoreCase(revealDate3)
-					|| tr.calc_date.equalsIgnoreCase(revealDate4))
-				map.put("status", status[1]);
-			else
-				map.put("status", status[0]);
-			map.put("send_knows", status[2]);
-			time_record.add(map);
-		}
-
-		return time_record;
 	}
 
 	public ArrayList<Map<String, String>> initDataListTalk(ArrayList<RecordCache> record_cache,

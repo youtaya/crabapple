@@ -84,7 +84,7 @@
                 android:minLines="14"
                 android:typeface="monospace"
                 android:scrollbars="horizontal"
-                android:gravity="top"
+                android:gravity="bottom"
                 android:hint="留下这段时光" />
         </LinearLayout>
     </ScrollView>
