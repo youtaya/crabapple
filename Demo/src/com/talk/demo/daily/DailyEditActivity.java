@@ -31,6 +31,7 @@ import com.talk.demo.R;
 import com.talk.demo.core.RecordManager;
 import com.talk.demo.persistence.DBManager;
 import com.talk.demo.persistence.TimeRecord;
+import com.talk.demo.prewrite.PreWrite;
 import com.talk.demo.util.AccountUtils;
 import com.talk.demo.util.AlarmManagerUtil;
 import com.talk.demo.util.NetworkUtilities;
@@ -51,7 +52,7 @@ public class DailyEditActivity extends Activity {
 	private static String TAG = "DailyEditActivity";
 	private EditText edit_content;
 	private String pre_content;
-	private TextView tv;
+	private TextView tv, head;
 	private ImageView content_bg;
 	private ImageView add_photo;
 	
@@ -72,7 +73,12 @@ public class DailyEditActivity extends Activity {
 		edit_content = (EditText) findViewById(R.id.edit_content);
 		
 		tv = (TextView) findViewById(R.id.daily_title);
+		head = (TextView) findViewById(R.id.daily_head);
+		PreWrite pw = new PreWrite(this);
+		String when = pw.getWhen();
+		String where = pw.getWhere();
 		
+		head.setText(when+"\n"+where);
 		if(pre_content != null) {
 			tv.setVisibility(View.VISIBLE);
 			tv.setText(pre_content);

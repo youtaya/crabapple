@@ -28,15 +28,35 @@
             android:id="@+id/daily_title"
             android:layout_width="match_parent"
             android:layout_height="55dp"
-            android:layout_marginLeft="45dp"
-            android:layout_marginRight="45dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
             android:gravity="center"
             android:textSize="20sp"
             android:visibility="invisible"
             android:textColor="@color/azure"
             android:background="@color/pink" />
     </LinearLayout>
+    
+    <LinearLayout
+        android:id="@+id/head"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/title"
+        android:layout_marginTop="10dp"
+        android:orientation="vertical" >
 
+        <TextView
+            android:id="@+id/daily_head"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:layout_marginLeft="45dp"
+            android:layout_marginRight="45dp"
+            android:gravity="center"
+            android:textSize="20sp"
+            android:textColor="@color/azure"
+            android:background="@color/paleturquoise" />
+    </LinearLayout>
+    
     <LinearLayout
         android:id="@+id/add_media"
         android:layout_width="match_parent"
@@ -59,7 +79,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@+id/add_media"
-        android:layout_below="@+id/title"
+        android:layout_below="@+id/head"
         android:layout_centerInParent="true"
         android:layout_marginBottom="10dp"
         android:layout_marginLeft="15dp"
