@@ -8,6 +8,8 @@ import android.util.Log;
 import com.talk.demo.persistence.DBManager;
 import com.talk.demo.persistence.RecordCache;
 import com.talk.demo.persistence.TimeRecord;
+import com.talk.demo.time.TimeViewItem;
+import com.talk.demo.time.ViewAsItem;
 import com.talk.demo.util.AccountUtils;
 import com.talk.demo.util.TalkUtil;
 
@@ -113,13 +115,17 @@ public class RecordManager {
 	String month12[] = {"Jan", "Feb", "Mar","Apr", "May", 
 			"June", "July","Aug", "Sept", "Oct", "Nov", "Dec"
 	};
+	
+	String month12_zh[] = {"1月", "2月", "3月","4月", "5月", 
+			"6月", "7月","8月", "9月", "10月", "11月", "12月"
+	};
 	private String coverYearMonth(String yearMonth) {
 		String[] temp = yearMonth.split("-");
 		Log.d(TAG, "convert to : "+Integer.parseInt(temp[1]));
-		return month12[Integer.parseInt(temp[1])-1]+" "+temp[0];
+		return month12_zh[Integer.parseInt(temp[1])-1]+" "+temp[0];
 	}
-	public ArrayList<Map<String, Object>> initDataListTime(ArrayList<RecordCache> record_cache, boolean isLuckDay) {
-		ArrayList<Map<String, Object>> time_record = new ArrayList<Map<String, Object>>();
+	public ArrayList<TimeViewItem> initDataListTime(HashMap<String, ArrayList<RecordCache>> record_cache, boolean isLuckDay) {
+		ArrayList<TimeViewItem> time_records = new ArrayList<TimeViewItem>();
 		if (!trlist.isEmpty()) {
 			trlist.clear();
 		}
@@ -130,8 +136,8 @@ public class RecordManager {
 		} else
 			trlist = dbMgr.queryWithMultipleParams(TalkUtil.conditonDates());
 
-		if (!time_record.isEmpty()) {
-			time_record.clear();
+		if (!time_records.isEmpty()) {
+			time_records.clear();
 		}
 		
 		if(!record_cache.isEmpty()) {
@@ -142,57 +148,60 @@ public class RecordManager {
 		List<TimeRecord> tag_records = new ArrayList<TimeRecord>();
 		
 		for (int i = 0; i< trlist.size(); i ++) {
-			HashMap<String, Object> map = new HashMap<String, Object>();
-			HashMap<String, Object> section_map = new HashMap<String, Object>();
-			HashMap<String, Object> tag_map = new HashMap<String, Object>();
-			List<String> tag_items = new ArrayList<String>();
+			TimeViewItem tvi = new TimeViewItem();
 			
-			RecordCache rc = new RecordCache();
+			HashMap<String, ArrayList<RecordCache>> tagCache = new HashMap<String, ArrayList<RecordCache>>();
+			
 			TimeRecord tr = trlist.get(i);
 			
 			String mYearMonth = tr.calc_date.substring(0,7);
 			
 			if(!exsitDateItem(ourDateSet, mYearMonth)) {
 				ourDateSet.add(mYearMonth);
-				section_map.put("isSection", 1);
-				
-				section_map.put("header", coverYearMonth(mYearMonth));
+				TimeViewItem tvi_head = new TimeViewItem();
+				tvi_head.setType(0);
+				tvi_head.setHeadContent(coverYearMonth(mYearMonth));
 				Log.d(TAG, "put header: "+mYearMonth);
-				time_record.add(section_map);
+				time_records.add(tvi_head);
 			}
 			
 			if(tr.tag != null && !exsitTag(ourTagSet, tr.tag)) {
 				ourTagSet.add(tr.tag);
-				tag_map.put("isSection", 2);
+				tvi.setType(2);
 				Log.d(TAG, "tag is: "+tr.tag);
-				tag_map.put("title", tr.tag);
+				
+				ArrayList<RecordCache> listCache = new ArrayList<RecordCache>();
+				ArrayList<ViewAsItem> listViewAsItem = new ArrayList<ViewAsItem>();
+				
+				tvi.setTagTitle(tr.tag);
 				tag_records = dbMgr.queryTag(tr.tag);
 				for(TimeRecord item : tag_records) {
-					tag_items.add(item.content);
+					RecordCache rc = new RecordCache();
+					ViewAsItem vi = new ViewAsItem(item.calc_date,item.create_time,item.content,item.content_type,item.photo);
+					rc.setId(item._id);
+					rc.setContent(item.content);
+					rc.setCreateDate(item.calc_date);
+					rc.setCreateTime(item.create_time);
+					rc.setMediaType(item.content_type);
+					rc.setPhotoPath(item.photo);
+					
+					listCache.add(rc);
+					listViewAsItem.add(vi);
 				}
-				tag_map.put("tags", tag_items);
-				time_record.add(tag_map);
+				
+				tagCache.put(tr.tag, listCache);
+				tvi.setListViewItem(listViewAsItem);
+				time_records.add(tvi);
 				continue;
 			}
-			map.put("isSection", 0);
-			rc.setId(tr._id);
-			rc.setContent(tr.content);
-			map.put("calc_date", tr.calc_date);
-			map.put("content_type", tr.content_type);
-			rc.setCreateDate(tr.calc_date);
-			map.put("content", tr.content);
-			map.put("create_time", tr.create_time);
-			rc.setCreateTime(tr.create_time);
-			rc.setMediaType(tr.content_type);
-			map.put("photo", tr.photo);
-			rc.setPhotoPath(tr.photo);
-			
-			record_cache.add(rc);
-			time_record.add(map);
+			tvi.setType(1);
+			ViewAsItem vai = new ViewAsItem(tr.calc_date,tr.create_time,tr.content,tr.content_type,tr.photo);
+			tvi.setViewItem(vai);
+			time_records.add(tvi);
 
 		}
 
-		return time_record;
+		return time_records;
 	}
 	
 	public void addRecord(TimeRecord tr) {

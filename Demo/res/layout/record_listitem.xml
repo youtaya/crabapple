@@ -31,11 +31,12 @@
 		android:layout_marginRight="6dp"
 		android:orientation="vertical" >	
 		<TextView
-	        android:id="@+id/title"
+	        android:id="@+id/tag"
 	        android:layout_width="match_parent"
 	        android:layout_height="wrap_content"
 	        android:maxLines="1"
 	        android:ellipsize="end"
+	        android:visibility="gone"
 	        android:text="Day One"
 	        android:gravity="center|left"
 	        android:textStyle="bold|italic"

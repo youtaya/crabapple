@@ -24,20 +24,24 @@ import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 import com.talk.demo.persistence.RecordCache;
 import com.talk.demo.time.DateInfo;
+import com.talk.demo.time.TimeAllItem;
 import com.talk.demo.time.TimeTagsActivity;
+import com.talk.demo.time.TimeViewItem;
+import com.talk.demo.time.ViewAsItem;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 public class TimeListAdapter extends BaseAdapter {
 
 	private static String TAG = "TimeListAdapter";
     private final Context context;
-    private ArrayList<Map<String, Object>> values;
+    private ArrayList<TimeViewItem> values;
     private ViewHolder holder;
     private ViewTagHolder mTagHolder;
     private ViewHeaderHolder mHeaderHolder;
-    private ArrayList<RecordCache> record_cache;
+    private HashMap<String, ArrayList<RecordCache>> record_cache;
     protected ImageLoader imageLoader = ImageLoader.getInstance();
     protected DisplayImageOptions options;
     private ImageLoadingListener animateFirstListener = new AnimateFirstDisplayListener();
@@ -46,7 +50,7 @@ public class TimeListAdapter extends BaseAdapter {
     private static final int TYPE_ITEM = 1;
     private static final int TYPE_TAG_ITEM = 2; 
     
-    public TimeListAdapter(Context context, ArrayList<Map<String, Object>> data, ArrayList<RecordCache> recordCache) {
+    public TimeListAdapter(Context context, ArrayList<TimeViewItem> data, HashMap<String, ArrayList<RecordCache>> recordCache) {
     	this.context = context;
     	this.values = data;
     	this.record_cache = recordCache;
@@ -82,52 +86,85 @@ public class TimeListAdapter extends BaseAdapter {
 	  
 	        // 向ViewHolder中填入的数据 
 	
-	        if(null != values.get(position).get("content")) {
-	        	holder.content.setText(values.get(position).get("content").toString());
-	        	String time_info = values.get(position).get("create_time").toString();
-	        	DateInfo mDateInfo = new DateInfo(time_info);
-	        	mDateInfo.parseCreateTime();
-	        	holder.create_time.setText(mDateInfo.getTime());
-	        	holder.create_date.setText(mDateInfo.getDate());
-	        	holder.create_week.setText(mDateInfo.getWeekInfo());
-	        	int media_type = (Integer)values.get(position).get("content_type");
-	        	if(2 == media_type || 4 == media_type) {
-	        		Uri uri = null;
-	        		if(null != values.get(position).get("photo")) {
-		        		uri = Uri.parse("file://"+"/sdcard/Demo/"+values.get(position).get("photo").toString());
-	        		} else {
-	        			uri = Uri.parse("file://"+"/sdcard/Demo/"+"20140810231230");
-	        		}
-	        		Log.d(TAG, " image uri: "+uri.toString());
-	        		holder.image.setVisibility(View.VISIBLE);
-	        		imageLoader.displayImage(uri.toString(), holder.image, animateFirstListener);
-	        	}
-	        }
+            ViewAsItem view_item = values.get(position).getViewItem();
+        	holder.content.setText(view_item.getContent());
+        	String time_info = view_item.getCreateTime();
+        	DateInfo mDateInfo = new DateInfo(time_info);
+        	mDateInfo.parseCreateTime();
+        	final String createDate = mDateInfo.getDate();
+        	final String createTime = mDateInfo.getTime();
+        	holder.create_time.setText(mDateInfo.getTime());
+        	holder.create_date.setText(mDateInfo.getDate());
+        	holder.create_week.setText(mDateInfo.getWeekInfo());
+        	int media_type = view_item.getContentType();
+        	if(2 == media_type || 4 == media_type) {
+        		Uri uri = null;
+        		if(null != view_item.getPhoto()) {
+	        		uri = Uri.parse("file://"+"/sdcard/Demo/"+view_item.getPhoto());
+        		} else {
+        			uri = Uri.parse("file://"+"/sdcard/Demo/"+"20140810231230");
+        		}
+        		Log.d(TAG, " image uri: "+uri.toString());
+        		holder.image.setVisibility(View.VISIBLE);
+        		imageLoader.displayImage(uri.toString(), holder.image, animateFirstListener);
+        	}
+	        
+            convertView.setOnClickListener(new OnClickListener() {
+                
+                @Override
+                public void onClick(View v) {
+                	//TODO
+    		        Intent mIntent = new Intent(context, TimeAllItem.class);
+    		        Bundle mBundle = new Bundle();
+    		        Log.d(TAG, "create date : "+createDate);
+    		        mBundle.putString("createdate", createDate);
+    		        mBundle.putString("createtime", createTime);
+    		        mIntent.putExtras(mBundle);
+    		        context.startActivity(mIntent);
+                }
+            }); 
 	        break;
     	case TYPE_TAG_ITEM:
     	    mTagHolder = new ViewTagHolder();
-            convertView = LayoutInflater.from(context).inflate(R.layout.time_list_tags, null);
-            mTagHolder.tag_title = (TextView) convertView.findViewById(R.id.time_tag_title);
-            mTagHolder.tag_item1 = (TextView) convertView.findViewById(R.id.time_tag_1);
-            mTagHolder.tag_item2 = (TextView) convertView.findViewById(R.id.time_tag_2);
-            mTagHolder.tag_item3 = (TextView) convertView.findViewById(R.id.time_tag_3);
+            convertView = LayoutInflater.from(context).inflate(R.layout.record_listitem, null);
+            mTagHolder.image = (ImageView) convertView.findViewById(R.id.time_pic);
+            mTagHolder.tag = (TextView) convertView.findViewById(R.id.title);
+            mTagHolder.tag.setVisibility(View.VISIBLE);
+            mTagHolder.content = (TextView) convertView.findViewById(R.id.content);  
+            mTagHolder.create_time = (TextView) convertView.findViewById(R.id.create_time);
+            mTagHolder.create_date = (TextView) convertView.findViewById(R.id.create_date); 
+            mTagHolder.create_week = (TextView) convertView.findViewById(R.id.create_week); 
             convertView.setTag(mTagHolder);
             
-            mTagHolder.tag_title.setText(values.get(position).get("title").toString());
-            final String tag_title = values.get(position).get("title").toString();
-            final ArrayList<String> items = (ArrayList<String>) values.get(position).get("tags");
-            int nums = items.size();
-            if (nums == 1) {
-                mTagHolder.tag_item1.setText(items.get(0).toString());
-            } else if (nums == 2) {
-                mTagHolder.tag_item1.setText(items.get(0).toString());
-                mTagHolder.tag_item2.setText(items.get(1).toString());
-            } else {
-                mTagHolder.tag_item1.setText(items.get(0).toString());
-                mTagHolder.tag_item2.setText(items.get(1).toString());
-                mTagHolder.tag_item3.setText(items.get(2).toString());
-            }
+            TimeViewItem time_view_item = values.get(position);
+            mTagHolder.tag.setText(time_view_item.getTagTitle());
+            final String tag_title = time_view_item.getTagTitle();
             
+            // 向ViewHolder中填入的数据 
+            // get first item from tag items
+            ViewAsItem view_as_item = time_view_item.getListViewItem().get(0);
+            mTagHolder.content.setText(view_as_item.getContent());
+        	String timeInfo = view_as_item.getCreateTime();
+        	DateInfo mDateInfo2 = new DateInfo(timeInfo);
+        	mDateInfo2.parseCreateTime();
+        	final String createDate2 = mDateInfo2.getDate();
+        	final String createTime2 = mDateInfo2.getTime();
+        	mTagHolder.create_time.setText(mDateInfo2.getTime());
+        	mTagHolder.create_date.setText(mDateInfo2.getDate());
+        	mTagHolder.create_week.setText(mDateInfo2.getWeekInfo());
+        	int media_type2 = view_as_item.getContentType();
+        	if(2 == media_type2 || 4 == media_type2) {
+        		Uri uri = null;
+        		if(null != view_as_item.getPhoto()) {
+	        		uri = Uri.parse("file://"+"/sdcard/Demo/"+view_as_item.getPhoto());
+        		} else {
+        			uri = Uri.parse("file://"+"/sdcard/Demo/"+"20140810231230");
+        		}
+        		Log.d(TAG, " image uri: "+uri.toString());
+        		mTagHolder.image.setVisibility(View.VISIBLE);
+        		imageLoader.displayImage(uri.toString(), holder.image, animateFirstListener);
+        	}
+        	
             convertView.setOnClickListener(new OnClickListener() {
                 
                 @Override
@@ -137,8 +174,8 @@ public class TimeListAdapter extends BaseAdapter {
     		        Bundle mBundle = new Bundle();
     		        Log.d(TAG, "tag title : "+ tag_title);
     		        mBundle.putString("tag_title", tag_title);
-    		        mBundle.putStringArrayList("tag_items", items);
-    		        Log.d(TAG,"items size: "+ items.size());
+    		        mBundle.putParcelableArrayList("recordcache", record_cache.get(tag_title));
+    		        Log.d(TAG,"items size: "+ record_cache.get(tag_title).size());
         		    mIntent.putExtras(mBundle);
     		        context.startActivity(mIntent);	
                     
@@ -151,7 +188,7 @@ public class TimeListAdapter extends BaseAdapter {
             mHeaderHolder.list_section = (TextView) convertView.findViewById(R.id.time_list_header);
             convertView.setTag(mHeaderHolder);
             
-            mHeaderHolder.list_section.setText(values.get(position).get("header").toString());
+            mHeaderHolder.list_section.setText(values.get(position).getHeadContent());
     		break;
     	}
         return convertView; 
@@ -173,7 +210,7 @@ public class TimeListAdapter extends BaseAdapter {
      * ViewHolder类用以储存item中控件的引用 
      */  
     final class ViewHolder {  
-        ImageView image; 
+        ImageView image;
         TextView content;
         TextView create_time;
         TextView create_date;
@@ -181,10 +218,12 @@ public class TimeListAdapter extends BaseAdapter {
     }
     
     final class ViewTagHolder {  
-        TextView tag_title;
-        TextView tag_item1;
-        TextView tag_item2;
-        TextView tag_item3;
+        ImageView image;
+        TextView tag;
+        TextView content;
+        TextView create_time;
+        TextView create_date;
+        TextView create_week;
     }
     
     final class ViewHeaderHolder {  
@@ -214,14 +253,17 @@ public class TimeListAdapter extends BaseAdapter {
             return TYPE_ITEM;
         } 
         
-        Map<String, Object> item = values.get(position);
-        if (1 == (Integer)item.get("isSection")) {
-            return TYPE_CATEGORY_ITEM;
-        } else if (2 == (Integer)item.get("isSection")) {
-            return TYPE_TAG_ITEM;
-        } else {
+        int type = values.get(position).getType();
+        switch(type) {
+        case 0:
+        	return TYPE_CATEGORY_ITEM;
+        case 1:
         	return TYPE_ITEM;
+        case 2:
+        	return TYPE_TAG_ITEM;
         }
+        
+        return TYPE_ITEM;
     }
     
     @Override
