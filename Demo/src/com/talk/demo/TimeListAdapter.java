@@ -28,6 +28,7 @@ import com.talk.demo.time.TimeAllItem;
 import com.talk.demo.time.TimeTagsActivity;
 import com.talk.demo.time.TimeViewItem;
 import com.talk.demo.time.ViewAsItem;
+import com.talk.demo.time.ViewItemActivity;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -97,6 +98,7 @@ public class TimeListAdapter extends BaseAdapter {
         	holder.create_date.setText(mDateInfo.getDate());
         	holder.create_week.setText(mDateInfo.getWeekInfo());
         	int media_type = view_item.getContentType();
+        	final String itemContent = view_item.getContent();
         	if(2 == media_type || 4 == media_type) {
         		Uri uri = null;
         		if(null != view_item.getPhoto()) {
@@ -114,11 +116,12 @@ public class TimeListAdapter extends BaseAdapter {
                 @Override
                 public void onClick(View v) {
                 	//TODO
-    		        Intent mIntent = new Intent(context, TimeAllItem.class);
+    		        Intent mIntent = new Intent(context, ViewItemActivity.class);
     		        Bundle mBundle = new Bundle();
     		        Log.d(TAG, "create date : "+createDate);
     		        mBundle.putString("createdate", createDate);
     		        mBundle.putString("createtime", createTime);
+    		        mBundle.putString("content", itemContent);
     		        mIntent.putExtras(mBundle);
     		        context.startActivity(mIntent);
                 }
@@ -170,10 +173,12 @@ public class TimeListAdapter extends BaseAdapter {
                 @Override
                 public void onClick(View v) {
                     //TODO: fix bug
-    		        Intent mIntent = new Intent(context, TimeTagsActivity.class);
+    		        Intent mIntent = new Intent(context, TimeAllItem.class);
     		        Bundle mBundle = new Bundle();
     		        Log.d(TAG, "tag title : "+ tag_title);
     		        mBundle.putString("tag_title", tag_title);
+                    mBundle.putString("createdate", createDate2);
+                    mBundle.putString("createtime", createTime2);
     		        mBundle.putParcelableArrayList("recordcache", record_cache.get(tag_title));
     		        Log.d(TAG,"items size: "+ record_cache.get(tag_title).size());
         		    mIntent.putExtras(mBundle);
