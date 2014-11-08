@@ -3,24 +3,17 @@ package com.talk.demo.time;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.view.Gravity;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AbsListView;
-import android.widget.BaseExpandableListAdapter;
-import android.widget.ExpandableListView;
 import android.widget.TextView;
 
 import com.talk.demo.R;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class ViewItemActivity extends Activity {
     private String create_time;
     private String create_date;
     private String content;
 
+    private TextView item_time;
+    private TextView item_content;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,6 +22,12 @@ public class ViewItemActivity extends Activity {
         create_time = bundle.getString("createtime");
         create_date = bundle.getString("createdate");
         content = bundle.getString("content");
+        
+        item_time = (TextView)findViewById(R.id.item_time);
+        item_content = (TextView)findViewById(R.id.item_content);
+        
+        item_time.setText(create_date+" "+create_time);
+        item_content.setText(content);
 
     }
 

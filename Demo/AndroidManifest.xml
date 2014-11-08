@@ -177,7 +177,10 @@
 			<meta-data
 			    android:name="android.support.PARENT_ACTIVITY"
 			    android:value=".daily.SelectTagActivity"/>
-        </activity>              
+        </activity>
+        <activity
+            android:name=".time.ViewItemActivity">
+        </activity>            
 		<activity
             android:name=".share.ShareTalkActivity"
             android:label="分享" 

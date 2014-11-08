@@ -25,14 +25,12 @@ import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListene
 import com.talk.demo.persistence.RecordCache;
 import com.talk.demo.time.DateInfo;
 import com.talk.demo.time.TimeAllItem;
-import com.talk.demo.time.TimeTagsActivity;
 import com.talk.demo.time.TimeViewItem;
 import com.talk.demo.time.ViewAsItem;
 import com.talk.demo.time.ViewItemActivity;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 
 public class TimeListAdapter extends BaseAdapter {
 
@@ -131,7 +129,7 @@ public class TimeListAdapter extends BaseAdapter {
     	    mTagHolder = new ViewTagHolder();
             convertView = LayoutInflater.from(context).inflate(R.layout.record_listitem, null);
             mTagHolder.image = (ImageView) convertView.findViewById(R.id.time_pic);
-            mTagHolder.tag = (TextView) convertView.findViewById(R.id.title);
+            mTagHolder.tag = (TextView) convertView.findViewById(R.id.tag);
             mTagHolder.tag.setVisibility(View.VISIBLE);
             mTagHolder.content = (TextView) convertView.findViewById(R.id.content);  
             mTagHolder.create_time = (TextView) convertView.findViewById(R.id.create_time);

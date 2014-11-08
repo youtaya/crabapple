@@ -150,8 +150,6 @@ public class RecordManager {
 		for (int i = 0; i< trlist.size(); i ++) {
 			TimeViewItem tvi = new TimeViewItem();
 			
-			HashMap<String, ArrayList<RecordCache>> tagCache = new HashMap<String, ArrayList<RecordCache>>();
-			
 			TimeRecord tr = trlist.get(i);
 			
 			String mYearMonth = tr.calc_date.substring(0,7);
@@ -189,7 +187,7 @@ public class RecordManager {
 					listViewAsItem.add(vi);
 				}
 				
-				tagCache.put(tr.tag, listCache);
+				record_cache.put(tr.tag, listCache);
 				tvi.setListViewItem(listViewAsItem);
 				time_records.add(tvi);
 				continue;
