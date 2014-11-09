@@ -32,15 +32,18 @@
 		android:orientation="vertical" >	
 		<TextView
 	        android:id="@+id/tag"
-	        android:layout_width="match_parent"
+	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
 	        android:maxLines="1"
 	        android:ellipsize="end"
 	        android:visibility="gone"
+	        android:paddingLeft="6dp"
+	        android:paddingRight="6dp"
 	        android:text="Day One"
 	        android:gravity="center|left"
-	        android:textStyle="bold|italic"
+	        android:textStyle="bold"
 	        android:textColor="#ff707070"
+	        android:background="@drawable/textview_border"
 	        android:textSize="22sp" />
 		<TextView
 	        android:id="@+id/content"
