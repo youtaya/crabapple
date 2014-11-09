@@ -1,24 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/crowcyan"
     android:orientation="vertical" >
 
-	<TextView
-		android:id="@+id/item_time"
-		android:layout_width="match_parent"
+	<LinearLayout
+		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
-		android:paddingTop="5dip"
-		android:paddingBottom="8dip"
-		android:gravity="center"
-		android:textColor="@color/pager_title_background_top_end"
-		android:background="@color/rouge"
-		android:textSize="18.0dip" />
+		android:layout_alignParentBottom="true"
+		android:layout_alignParentRight="true" 
+		android:paddingRight="16dp"
+		android:paddingBottom="16dp">
+		
+		<TextView
+			android:id="@+id/item_time"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:gravity="center"
+			android:paddingLeft="6dp"
+			android:paddingRight="6dp"
+			android:paddingTop="6dp"
+			android:paddingBottom="6dp"
+			android:textColor="@color/pager_title_background_top_end"
+			android:background="@drawable/textview_border"
+			android:textSize="18.0dip" />
+	</LinearLayout>
 	
 	<LinearLayout
 		android:layout_width="match_parent"
 		android:layout_height="fill_parent"
-		android:background="@color/crowcyan" >
+		android:layout_below="@+id/item_time">
 	
 		<FrameLayout
 			android:layout_width="match_parent"
@@ -48,4 +60,4 @@
 		</FrameLayout>
 	</LinearLayout>
 	   
-</LinearLayout>
+</RelativeLayout>
