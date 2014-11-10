@@ -32,8 +32,6 @@ public class TimeAllItem extends FragmentActivity {
     private TextView mTv;
     private ViewPager mPager;
     private ArrayList<Fragment> fragmentsList;
-    private EditText time_comment;
-    private ImageView comment_save;
     private DBManager mgr;
     private MyOnPageChangeListener pageListener;
     
@@ -50,29 +48,7 @@ public class TimeAllItem extends FragmentActivity {
         initViewPager();
         
         mgr = new DBManager(this);
-        time_comment = (EditText)findViewById(R.id.time_comment);
-        comment_save = (ImageView)findViewById(R.id.comment_send);
-        comment_save.setOnClickListener(new OnClickListener() {
 
-			@Override
-			public void onClick(View v) {
-				String comment = time_comment.getText().toString();
-				if(comment.length() > 0) {
-					int index = mMyPagerAdapter.getCurrentPageIndex();
-					Log.d(TAG, "page index: "+index);
-					RecordCache rc = record_cache.get(index-1);
-					String origStr = rc.getContent();
-				
-					TimeRecord tr = new TimeRecord(rc);
-					tr.setContent(origStr+comment);
-					Log.d(TAG, "content: "+tr.content);
-					mgr.updateContent(tr);
-					
-					finish();
-				}
-			}
-        	
-        });
     }
     private int getIndexOf() {
     	int i = 0;
