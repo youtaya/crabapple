@@ -214,7 +214,8 @@
 			    android:value=".MainActivity"/>
         </activity>                        
 		<activity
-            android:name=".time.TimeAllItem">
+            android:name=".time.TimeAllItem"
+            android:theme="@style/titlestyle">
         </activity>
 		<activity
             android:name=".audio.AudioRecorderActivity"

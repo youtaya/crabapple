@@ -146,4 +146,11 @@
 		<!-- 模糊 -->
     </style>
     
+	<style name="TitleBackgroundColor">
+		<item name="android:background">@color/green</item>
+	</style>
+	<style name="titlestyle" parent="android:Theme" >
+		<item name="android:windowTitleSize">32dip</item>    
+		<item name="android:windowTitleBackgroundStyle">@style/TitleBackgroundColor</item>
+	</style>
 </resources>
