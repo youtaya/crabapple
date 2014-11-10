@@ -10,16 +10,12 @@ import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.EditText;
-import android.widget.ImageView;
+import android.view.Window;
 import android.widget.TextView;
 
 import com.talk.demo.R;
 import com.talk.demo.persistence.DBManager;
 import com.talk.demo.persistence.RecordCache;
-import com.talk.demo.persistence.TimeRecord;
 
 import java.util.ArrayList;
 
