@@ -1,6 +1,7 @@
 
 package com.talk.demo.time;
 
+import android.R.integer;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,6 +14,7 @@ import android.widget.TextView;
 import com.talk.demo.R;
 import com.talk.demo.daily.AddTagActivity;
 import com.talk.demo.daily.SelectTagActivity;
+import com.talk.demo.persistence.DBManager;
 import com.talk.demo.persistence.TagRecord;
 
 public class ViewItemActivity extends Activity {
@@ -23,6 +25,8 @@ public class ViewItemActivity extends Activity {
 
     private TextView item_time;
     private TextView item_content;
+    private int id;
+    private DBManager mgr;
     private static final int GET_TAG = 107;
     
     @Override
@@ -32,6 +36,8 @@ public class ViewItemActivity extends Activity {
         Bundle bundle = getIntent().getExtras();
         create_time = bundle.getString("createtime");
         create_date = bundle.getString("createdate");
+        id = bundle.getInt("item_id");
+        
         content = bundle.getString("content");
         
         item_time = (TextView)findViewById(R.id.item_time);
@@ -39,7 +45,8 @@ public class ViewItemActivity extends Activity {
         
         item_time.setText(create_date+" "+create_time);
         item_content.setText(content);
-
+        
+        mgr = new DBManager(this);
     }
     
     @Override
@@ -64,6 +71,7 @@ public class ViewItemActivity extends Activity {
     
     private void updateTag(String tag) {
         //TODO: update tag item in db
+        mgr.updateTag(id, tag);
     }
     
     @Override

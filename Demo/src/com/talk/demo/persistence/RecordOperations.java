@@ -60,6 +60,14 @@ public class RecordOperations {
 
     } 
     
+    public static void updateTag(SQLiteDatabase db,int id, String tag) {  
+        ContentValues cv = new ContentValues();  
+        cv.put("tag", tag);  
+        Log.d(TAG,"update id: "+id);
+        db.update(DATABASE_TABLE, cv, "id" + "='" +id+"'", null);
+
+    } 
+    
     public static void updateServerInfo(SQLiteDatabase db, TimeRecord tRecord) {  
         ContentValues cv = new ContentValues();  
         cv.put("server_id", tRecord.server_id); 

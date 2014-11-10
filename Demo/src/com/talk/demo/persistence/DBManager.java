@@ -113,6 +113,10 @@ public class DBManager {
     	RecordOperations.updateContent(db, tRecord);
         rp.addRich(1);
     }
+  
+    public void updateTag(int id, String tag) {
+        RecordOperations.updateTag(db, id, tag);
+    }
     
     public void updateServerInfo(TimeRecord tRecord) {
     	RecordOperations.updateServerInfo(db, tRecord);
