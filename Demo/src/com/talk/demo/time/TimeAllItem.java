@@ -40,7 +40,10 @@ public class TimeAllItem extends FragmentActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         
+        requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
         setContentView(R.layout.time_all_item);
+        getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.bar_title_item);
+        
         Bundle bundle = getIntent().getExtras();
         create_date = bundle.getString("createdate");
         create_time = bundle.getString("createtime");

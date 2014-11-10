@@ -214,12 +214,7 @@
 			    android:value=".MainActivity"/>
         </activity>                        
 		<activity
-            android:name=".time.TimeAllItem"
-            android:label="时光" 
-			android:parentActivityName=".MainActivity">
-			<meta-data
-			    android:name="android.support.PARENT_ACTIVITY"
-			    android:value=".MainActivity"/>
+            android:name=".time.TimeAllItem">
         </activity>
 		<activity
             android:name=".audio.AudioRecorderActivity"
