@@ -24,6 +24,7 @@ public class TimeAllItem extends FragmentActivity {
     private static String TAG = "TimeAllItem";
     private String create_date;
     private String create_time;
+    private String tag_title;
     private ArrayList<RecordCache> record_cache;
     private TextView mTv;
     private ViewPager mPager;
@@ -41,6 +42,7 @@ public class TimeAllItem extends FragmentActivity {
         getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.bar_title_item);
         
         Bundle bundle = getIntent().getExtras();
+        tag_title = bundle.getString("tag_title");
         create_date = bundle.getString("createdate");
         create_time = bundle.getString("createtime");
         record_cache = bundle.getParcelableArrayList("recordcache");

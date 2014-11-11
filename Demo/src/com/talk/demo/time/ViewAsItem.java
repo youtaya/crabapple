@@ -1,6 +1,7 @@
 package com.talk.demo.time;
 
 public class ViewAsItem {
+    private int item_id;
 	private String mCreateDate;
 	private String mCreateTime;
 	private String mContent;
@@ -10,14 +11,16 @@ public class ViewAsItem {
 	public ViewAsItem() {
 		
 	}
-	public ViewAsItem(String cd, String ct, String c, int contt) {
+	public ViewAsItem(int id, String cd, String ct, String c, int contt) {
+	    item_id = id;
 		mCreateDate = cd;
 		mCreateTime = ct;
 		mContent = c;
 		mContentType = contt;
 	}
 	
-	public ViewAsItem(String cd, String ct, String c, int contt, String p) {
+	public ViewAsItem(int id, String cd, String ct, String c, int contt, String p) {
+	    item_id = id;
 		mCreateDate = cd;
 		mCreateTime = ct;
 		mContent = c;
@@ -25,6 +28,9 @@ public class ViewAsItem {
 		mPhoto = p;
 	}
 	
+	public int getItemId() {
+	    return item_id;
+	}
 	public String getCreateDate() {
 		return mCreateDate;
 	}

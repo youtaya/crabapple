@@ -175,7 +175,7 @@ public class RecordManager {
 				tag_records = dbMgr.queryTag(tr.tag);
 				for(TimeRecord item : tag_records) {
 					RecordCache rc = new RecordCache();
-					ViewAsItem vi = new ViewAsItem(item.calc_date,item.create_time,item.content,item.content_type,item.photo);
+					ViewAsItem vi = new ViewAsItem(item._id, item.calc_date,item.create_time,item.content,item.content_type,item.photo);
 					rc.setId(item._id);
 					rc.setContent(item.content);
 					rc.setCreateDate(item.calc_date);
@@ -193,7 +193,7 @@ public class RecordManager {
 				continue;
 			}
 			tvi.setType(1);
-			ViewAsItem vai = new ViewAsItem(tr.calc_date,tr.create_time,tr.content,tr.content_type,tr.photo);
+			ViewAsItem vai = new ViewAsItem(tr._id, tr.calc_date,tr.create_time,tr.content,tr.content_type,tr.photo);
 			tvi.setViewItem(vai);
 			time_records.add(tvi);
 

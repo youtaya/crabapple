@@ -90,6 +90,7 @@ public class TimeListAdapter extends BaseAdapter {
         	String time_info = view_item.getCreateTime();
         	DateInfo mDateInfo = new DateInfo(time_info);
         	mDateInfo.parseCreateTime();
+        	final int item_id = view_item.getItemId();
         	final String createDate = mDateInfo.getDate();
         	final String createTime = mDateInfo.getTime();
         	holder.create_time.setText(mDateInfo.getTime());
@@ -117,6 +118,7 @@ public class TimeListAdapter extends BaseAdapter {
     		        Intent mIntent = new Intent(context, ViewItemActivity.class);
     		        Bundle mBundle = new Bundle();
     		        Log.d(TAG, "create date : "+createDate);
+    		        mBundle.putInt("item_id", item_id);
     		        mBundle.putString("createdate", createDate);
     		        mBundle.putString("createtime", createTime);
     		        mBundle.putString("content", itemContent);
