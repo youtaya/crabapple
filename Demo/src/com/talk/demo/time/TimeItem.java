@@ -51,7 +51,7 @@ public class TimeItem extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
         Log.d(TAG, "TestFragment-----onCreateView");
-        View view = inflater.inflate(R.layout.time_item, container, false);
+        View view = inflater.inflate(R.layout.activity_view_item, container, false);
         tvTime = (TextView) view.findViewById(R.id.item_time);
         tvTime.setText(creatTime);
         

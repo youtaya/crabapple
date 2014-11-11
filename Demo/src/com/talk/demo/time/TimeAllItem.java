@@ -8,8 +8,6 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
@@ -29,7 +27,7 @@ public class TimeAllItem extends FragmentActivity {
     private String create_time;
     private String tag_title;
     private ArrayList<RecordCache> record_cache;
-    private TextView mTv;
+    
     private ViewPager mPager;
     private TextView title_item;
     private ImageView back_item;
@@ -84,8 +82,6 @@ public class TimeAllItem extends FragmentActivity {
     }
     
     private void initViewPager() {
-        mTv = (TextView) findViewById(R.id.time_data);
-        mTv.setText(create_date);
         
         mPager = (ViewPager) findViewById(R.id.vPager);
         
@@ -161,11 +157,4 @@ public class TimeAllItem extends FragmentActivity {
         }
     }
     
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-    	MenuInflater inflater = getMenuInflater();
-    	inflater.inflate(R.menu.add_tag_actions, menu);
-    	return super.onCreateOptionsMenu(menu);
-    }
-
 }

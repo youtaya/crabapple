@@ -3,22 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
-   <LinearLayout
-        android:id="@+id/time_layout"
-        android:layout_width="fill_parent"
-        android:layout_height="100.0dip"
-        android:background="@color/azure" >
-        
-		<TextView
-            android:id="@+id/time_data"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:layout_weight="1.0"
-            android:gravity="center"
-            android:textColor="#669900"
-            android:textSize="22.0dip" />
-		
-    </LinearLayout>   
+    
 	<ImageView
         android:id="@+id/cursor"
         android:layout_width="fill_parent"

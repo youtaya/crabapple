@@ -150,7 +150,7 @@
 		<item name="android:background">@color/wheat</item>
 	</style>
 	<style name="titlestyle" parent="android:Theme" >
-		<item name="android:windowTitleSize">36dip</item>    
+		<item name="android:windowTitleSize">56dip</item>    
 		<item name="android:windowTitleBackgroundStyle">@style/TitleBackgroundColor</item>
 	</style>
 
