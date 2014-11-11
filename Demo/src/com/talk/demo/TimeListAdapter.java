@@ -1,7 +1,10 @@
 
 package com.talk.demo;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -10,10 +13,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -125,7 +130,16 @@ public class TimeListAdapter extends BaseAdapter {
     		        mIntent.putExtras(mBundle);
     		        context.startActivity(mIntent);
                 }
-            }); 
+            });
+            convertView.setOnLongClickListener(new OnLongClickListener() {
+
+				@Override
+				public boolean onLongClick(View v) {
+					ShowItemDialog().show();
+					return false;
+				}
+            	
+            });
 	        break;
     	case TYPE_TAG_ITEM:
     	    mTagHolder = new ViewTagHolder();
@@ -186,6 +200,16 @@ public class TimeListAdapter extends BaseAdapter {
                     
                 }
             });
+            
+            convertView.setOnLongClickListener(new OnLongClickListener() {
+
+				@Override
+				public boolean onLongClick(View v) {
+					ShowTagDialog(tag_title).show();
+					return false;
+				}
+            	
+            });
     	    break;
     	case TYPE_CATEGORY_ITEM:
     	    mHeaderHolder = new ViewHeaderHolder();
@@ -210,6 +234,39 @@ public class TimeListAdapter extends BaseAdapter {
 				imageView.setImageBitmap(loadedImage);
 			}
 		}
+	}
+	
+	private Dialog ShowItemDialog() {
+	    AlertDialog.Builder builder = new AlertDialog.Builder(context);
+	    
+	    builder.setItems(R.array.item_opt, new DialogInterface.OnClickListener() {
+	               public void onClick(DialogInterface dialog, int which) {
+	               switch(which) {
+	               case 0:
+	            	   Toast.makeText(context, "移除", 2000).show();
+	            	   break;
+	               case 1:
+	            	   Toast.makeText(context, "分享", 2000).show();
+	            	   break;
+	               case 2:
+	            	   Toast.makeText(context, "标签", 2000).show();
+	            	   break;
+	               }
+	           }
+	    });
+	    return builder.create();
+	}
+	
+	private Dialog ShowTagDialog(String tag) {
+	    AlertDialog.Builder builder = new AlertDialog.Builder(context);
+	    builder.setTitle(tag)
+	           .setItems(R.array.tag_opt, new DialogInterface.OnClickListener() {
+	               public void onClick(DialogInterface dialog, int which) {
+	               // The 'which' argument contains the index position
+	               // of the selected item
+	           }
+	    });
+	    return builder.create();
 	}
     /** 
      * ViewHolder类用以储存item中控件的引用 
