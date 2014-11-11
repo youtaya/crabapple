@@ -10,7 +10,10 @@ import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.Window;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.talk.demo.R;
@@ -28,6 +31,8 @@ public class TimeAllItem extends FragmentActivity {
     private ArrayList<RecordCache> record_cache;
     private TextView mTv;
     private ViewPager mPager;
+    private TextView title_item;
+    private ImageView back_item;
     private ArrayList<Fragment> fragmentsList;
     private DBManager mgr;
     private MyOnPageChangeListener pageListener;
@@ -41,11 +46,24 @@ public class TimeAllItem extends FragmentActivity {
         setContentView(R.layout.time_all_item);
         getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.bar_title_item);
         
+        title_item = (TextView)findViewById(R.id.title_item);
+        back_item = (ImageView)findViewById(R.id.back_item);
+        
         Bundle bundle = getIntent().getExtras();
         tag_title = bundle.getString("tag_title");
         create_date = bundle.getString("createdate");
         create_time = bundle.getString("createtime");
         record_cache = bundle.getParcelableArrayList("recordcache");
+        
+        title_item.setText(tag_title);
+        back_item.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				finish();
+			}
+        	
+        });
         initViewPager();
         
         mgr = new DBManager(this);

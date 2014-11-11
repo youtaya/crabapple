@@ -3,13 +3,22 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="horizontal" >
-
+    <ImageView
+        android:id="@+id/back_item"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingTop="3dp"
+        android:layout_alignParentLeft="true"
+        android:src="@drawable/abc_ic_ab_back_holo_light" />
+    
     <TextView
         android:id="@+id/title_item"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:text="This for test"
+		android:layout_alignParentRight="true"
+		android:textColor="@color/red"
+        android:gravity="center"
+        android:paddingRight="3dp"
         android:textSize="23sp" />
 
 </RelativeLayout>
