@@ -17,16 +17,10 @@
 			android:textColor="@color/ivorywhite"
 			android:textSize="18sp"/>   
 			    
-        <com.fortysevendeg.swipelistview.SwipeListView
-            xmlns:swipe="http://schemas.android.com/apk/res-auto"
+        <ListView
             android:id="@+id/time_list"
 			android:layout_width="fill_parent"
-	        android:layout_height="wrap_content"
-	        swipe:swipeBackView="@+id/back"
-	        swipe:swipeCloseAllItemsWhenMoveList="true"
-	        swipe:swipeFrontView="@+id/front"
-	        swipe:swipeOffsetLeft="230dp"
-	        swipe:swipeMode="left" 
+	        android:layout_height="fill_parent"
             android:divider="@drawable/dis_behind_side" />
     </FrameLayout>
     
