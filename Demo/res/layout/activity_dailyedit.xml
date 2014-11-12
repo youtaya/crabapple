@@ -68,10 +68,10 @@
 
         <ImageView
             android:id="@+id/add_photo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="52dp"
+            android:layout_height="52dp"
             android:layout_marginBottom="30dp"
-            android:src="@drawable/toolbar_photo_selector" />
+            android:src="@drawable/btn_newpic_normal" />
     </LinearLayout>
 
     <ScrollView
