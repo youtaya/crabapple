@@ -1,165 +1,33 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
- 
+
     <LinearLayout
         android:id="@+id/time_list_layout"
         android:layout_width="match_parent"
-        android:layout_weight="1"
-        android:layout_height="0dip"
+        android:layout_height="match_parent"
         android:background="@color/beige" >
-        
+
         <com.handmark.pulltorefresh.library.PullToRefreshListView
             android:id="@+id/daily_list"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent" />
     </LinearLayout>
     
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="bottom" 
-        android:background="@color/white">
-        
-	    <RelativeLayout  
-	        android:id="@+id/fast_record_layout"
-	        android:layout_width="match_parent"
-	        android:layout_height="50dp" >
-	        
-			<ImageView 
-			    android:id="@+id/btn_more"
-				android:layout_width="wrap_content"
-	            android:layout_height="wrap_content" 
-	            android:layout_marginTop="6dp"
-	            android:layout_marginBottom="6dp"
-				android:src="@drawable/quickmore_button_selector" />
-			
-			 <LinearLayout
-			    android:id="@+id/null_empty"
-				android:focusable="true"
-				android:focusableInTouchMode="true" 
-				android:layout_toRightOf="@+id/btn_more"
-				android:orientation="horizontal"
-				android:layout_width="0px"
-				android:layout_height="0px" />
-				
-	        <EditText
-	            android:id="@+id/fast_record"
-	            style="@style/MMEditText"
-	            android:layout_toRightOf="@+id/null_empty"
-	            android:layout_toLeftOf="@+id/btn_new"
-	            android:autoText="true"
-	            android:capitalize="sentences"
-	            android:hint="@string/fast_record"
-	            android:maxLines="5"
-	            android:layout_marginTop="6dp"
-	            android:layout_marginBottom="6dp"
-	            android:textSize="15sp" />
-	
-	        <ImageView
-	            android:id="@+id/btn_maximize"
-	            android:layout_width="wrap_content"
-	            android:layout_height="wrap_content"
-	            android:layout_alignRight="@+id/fast_record"
-	            android:visibility="gone"
-				android:paddingTop="5dp"
-	            android:paddingBottom="5dp"
-	            android:layout_marginTop="6dp"
-	            android:layout_marginBottom="6dp"
-	            android:src="@drawable/maximize_button_selector" />
-	        
-	        <ImageView
-	            android:id="@+id/btn_new"
-	            android:layout_width="wrap_content"
-	            android:layout_height="wrap_content"
-	            android:layout_marginTop="6dp"
-	            android:layout_marginBottom="6dp"
-	            android:layout_alignParentRight="true"
-	            android:src="@drawable/quicknew_button_selector" />	        
-	
-		</RelativeLayout>
-		
-	    <LinearLayout
-	        android:id="@+id/take_snap"
-			android:layout_width="match_parent"
-	        android:layout_height="wrap_content" 
-	        android:visibility="gone"
-	        android:background="@color/white"
-	        android:layout_below="@+id/fast_record_layout">
-	        <LinearLayout
-				android:layout_width="wrap_content"
-	        	android:layout_height="wrap_content" 
-	        	android:orientation="vertical"
-	        	android:layout_weight="1" >
-		        <ImageView 
-		            android:id="@+id/take_photo"
-		            android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:layout_marginTop="6dip"
-					android:layout_gravity="center"
-					android:src="@drawable/quickcamera_button_selector" />
-		        <TextView
-		            android:id="@+id/str_photo"
-		            android:layout_width="match_parent"
-		            android:layout_height="wrap_content"
-		            android:layout_marginTop="3dip"
-		            android:textStyle="bold"
-		            android:gravity="center"
-		            android:text="@string/take_photo" />
-	        </LinearLayout>
-	        <ImageView 
-	            android:layout_width="2dp"
-				android:layout_height="match_parent" 
-				android:scaleType="fitXY" 
-				android:src="@drawable/tab_bg" />	        
-			<LinearLayout
-				android:layout_width="wrap_content"
-	        	android:layout_height="wrap_content" 
-	        	android:orientation="vertical"
-	        	android:layout_weight="1" >
-		        <ImageView 
-		            android:id="@+id/take_gallery"
-		            android:layout_width="wrap_content"
-					android:layout_height="wrap_content" 
-					android:layout_marginTop="6dip"
-					android:layout_gravity="center"
-					android:src="@drawable/icon_album" />
-		        <TextView
-		            android:id="@+id/str_gallery"
-		            android:layout_width="match_parent"
-		            android:layout_height="wrap_content"
-		            android:layout_marginTop="3dip"
-		            android:textStyle="bold"
-		            android:gravity="center"
-		            android:text="@string/take_gallery" />		        
-			</LinearLayout>   
-	        <ImageView 
-	            android:layout_width="2dp"
-				android:layout_height="match_parent"
-				android:scaleType="fitXY" 
-				android:src="@drawable/tab_bg" />				
-			<LinearLayout
-				android:layout_width="wrap_content"
-	        	android:layout_height="wrap_content" 
-	        	android:orientation="vertical"
-	        	android:layout_weight="1" >
-		        <ImageView 
-		            android:id="@+id/take_tape"
-		            android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:layout_marginTop="6dip"
-					android:layout_gravity="center"
-					android:src="@drawable/quickrecord_button_selector" />
-		        <TextView
-		            android:id="@+id/str_tape"
-		            android:layout_width="match_parent"
-		            android:layout_height="wrap_content"
-		            android:layout_marginTop="3dip"
-		            android:textStyle="bold"
-		            android:gravity="center"
-		            android:text="@string/take_tape" />		        
-			</LinearLayout>		        	            
-	    </LinearLayout>
-	</RelativeLayout>
-</LinearLayout>
+	<LinearLayout
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_alignParentBottom="true"
+		android:layout_alignParentRight="true" >
+	    <ImageView
+	        android:id="@+id/btn_new"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_marginBottom="40.0dip"
+	        android:layout_marginRight="40.0dip"
+	        android:background="@drawable/btn_new02"
+	        android:src="@drawable/btn_new01" />
+    </LinearLayout>
+
+</RelativeLayout>
