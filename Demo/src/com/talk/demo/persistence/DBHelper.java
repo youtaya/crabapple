@@ -17,6 +17,8 @@ public class DBHelper extends SQLiteOpenHelper {
     private static final String NAME = "test.db";
     private final String TABLE_RECORD = "records";
     private final String TABLE_FRIEND = "friends";
+    private final String TABLE_ROOM = "rooms";
+    private final String TABLE_DIALOG = "dialogs";
     private final String TABLE_TAG = "tags";
 
     /**
@@ -58,6 +60,36 @@ public class DBHelper extends SQLiteOpenHelper {
                 + " dirty INTEGER,"
                 + " deleted INTEGER);");
         
+        db.execSQL("CREATE TABLE " + TABLE_ROOM
+                + " (id INTEGER PRIMARY KEY AUTOINCREMENT,"
+                + " server_id INTEGER,"
+                + " handle TEXT,"
+                + " username TEXT,"
+                + " last_msg_time TEXT,"
+                + " sync_time TEXT,"
+                + " dirty INTEGER,"
+                + " deleted INTEGER);");
+        
+        db.execSQL("CREATE TABLE " + TABLE_DIALOG
+                + " (id INTEGER PRIMARY KEY AUTOINCREMENT,"
+                + " server_id INTEGER,"
+                + " roomname TEXT,"
+                + " username TEXT,"
+                + " link TEXT,"
+                + " title TEXT default '',"
+                + " content TEXT default '',"
+                + " calc_date TEXT,"
+                + " create_time TEXT,"
+                + " send_interval_time INTEGER,"
+                + " send_done_time TEXT,"
+                + " content_type INTEGER default 0,"
+                + " photo TEXT default '',"
+                + " audio TEXT default '',"
+                + " tag TEXT default '',"
+                + " sync_time INTEGER,"
+                + " dirty INTEGER,"
+                + " deleted INTEGER);");      
+        
         db.execSQL("CREATE TABLE " + TABLE_TAG
                 + " (id INTEGER PRIMARY KEY AUTOINCREMENT,"
                 + " server_id INTEGER,"
@@ -73,6 +105,8 @@ public class DBHelper extends SQLiteOpenHelper {
             final int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS "+TABLE_RECORD);
         db.execSQL("DROP TABLE IF EXISTS "+TABLE_FRIEND);
+        db.execSQL("DROP TABLE IF EXISTS "+TABLE_ROOM);
+        db.execSQL("DROP TABLE IF EXISTS "+TABLE_DIALOG);
         db.execSQL("DROP TABLE IF EXISTS "+TABLE_TAG);
         onCreate(db);
     }
