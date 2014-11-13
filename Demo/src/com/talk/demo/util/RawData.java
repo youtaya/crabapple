@@ -41,12 +41,8 @@ public abstract class RawData {
     
     public abstract RawData valueOf(JSONObject tag);
     
-    public RawData create(String name, String handle,
-    		long serverTagId,long rawTagId) {
-    	return new RawData(name, handle, serverTagId, rawTagId, -1);
-    }
+    public abstract RawData create(String name, String handle,
+    		long serverTagId,long rawTagId);
     
-    public RawData createDeletedTag(long serverTagId, long rawTagId) {
-    	return new RawData(null, null, serverTagId, rawTagId, -1);
-    }
+    public abstract RawData createDeletedTag(long serverTagId, long rawTagId);
 }

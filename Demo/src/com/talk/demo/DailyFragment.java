@@ -18,9 +18,9 @@ import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ImageView;
 import android.widget.ListView;
 
+import com.faizmalkani.floatingactionbutton.FloatingActionButton;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
@@ -39,7 +39,7 @@ public class DailyFragment extends Fragment implements OnItemClickListener {
     private static String TAG = "DailyFragment";
     //private ListView lv;
     private PullToRefreshListView pullToRefreshView;
-    private Fab btn_new;
+    private FloatingActionButton btn_new;
     private RecordManager recordManager;
     private LinkedList<String> daily_record;
     private DailyListAdapter adapter;
@@ -76,7 +76,7 @@ public class DailyFragment extends Fragment implements OnItemClickListener {
         //lv = (ListView)rootView.findViewById(R.id.daily_list);
         
         
-        btn_new = (Fab)rootView.findViewById(R.id.btn_new);
+        btn_new = (FloatingActionButton)rootView.findViewById(R.id.btn_new);
         btn_new.setOnTouchListener(new OnTouchListener() {
 
 			@Override
@@ -120,10 +120,8 @@ public class DailyFragment extends Fragment implements OnItemClickListener {
 			public void onTextChanged(CharSequence s, int start, int before,
 					int count) {
 				if( s.length() > 0) {
-					btn_new.setImageResource(R.drawable.done_button_selector);
 					btn_new.setFocusable(true);
 				} else {
-					btn_new.setImageResource(R.drawable.quicknew_button_selector);
 					btn_new.setFocusable(false);
 				}
 			}

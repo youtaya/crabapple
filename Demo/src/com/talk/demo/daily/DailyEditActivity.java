@@ -23,10 +23,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewTreeObserver;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.faizmalkani.floatingactionbutton.FloatingActionButton;
 import com.talk.demo.R;
 import com.talk.demo.core.RecordManager;
 import com.talk.demo.persistence.DBManager;
@@ -55,6 +58,7 @@ public class DailyEditActivity extends Activity {
 	private TextView tv, head;
 	private ImageView content_bg;
 	private ImageView add_photo;
+	private FloatingActionButton btn_accept;
 	
 	private String fileName = null;
 	private DBManager mgr;
@@ -65,7 +69,12 @@ public class DailyEditActivity extends Activity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
+		/*set it to be no title*/ 
+		requestWindowFeature(Window.FEATURE_NO_TITLE); 
+		/*set it to be full screen*/ 
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,    
+        WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        
 		setContentView(R.layout.activity_dailyedit);
 		Bundle bundle = getIntent().getExtras();
 		if(bundle != null)
@@ -85,7 +94,6 @@ public class DailyEditActivity extends Activity {
 		}
 		content_bg = (ImageView) findViewById(R.id.content_bg);
 		add_photo = (ImageView) findViewById(R.id.add_photo);
-		
 		
 		add_photo.setOnClickListener(new OnClickListener() {
 
@@ -107,6 +115,16 @@ public class DailyEditActivity extends Activity {
 		        */
 		        startActivityForResult(Intent.createChooser(intent,
 		                "Select Picture"), TalkUtil.REQUEST_SELECT_PICTURE);
+			}
+			
+		});
+		
+		btn_accept = (FloatingActionButton) findViewById(R.id.btn_accept);
+		btn_accept.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				send_dialog();
 			}
 			
 		});
@@ -173,13 +191,6 @@ public class DailyEditActivity extends Activity {
 		view.setBackground(new BitmapDrawable(getResources(), overlay));
 
 		rs.destroy();
-	}
-
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.confirm_actions, menu);
-		return true;
 	}
 
 	private String shareToFriend(TimeRecord time, String name) {
@@ -351,19 +362,6 @@ public class DailyEditActivity extends Activity {
 		}
 	}
 
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-		case R.id.action_confirm:
-			//confirmDone();
-		    send_dialog();
-			return true;
-		default:
-			return super.onOptionsItemSelected(item);
-		}
-	}
-	
-   
     private void startPhotoZoom(Uri uri) {
         Intent intent = new Intent("com.android.camera.action.CROP");
         intent.setDataAndType(uri, "image/*");
