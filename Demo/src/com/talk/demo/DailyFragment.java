@@ -39,7 +39,7 @@ public class DailyFragment extends Fragment implements OnItemClickListener {
     private static String TAG = "DailyFragment";
     //private ListView lv;
     private PullToRefreshListView pullToRefreshView;
-    private ImageView btn_new;
+    private Fab btn_new;
     private RecordManager recordManager;
     private LinkedList<String> daily_record;
     private DailyListAdapter adapter;
@@ -76,7 +76,7 @@ public class DailyFragment extends Fragment implements OnItemClickListener {
         //lv = (ListView)rootView.findViewById(R.id.daily_list);
         
         
-        btn_new = (ImageView)rootView.findViewById(R.id.btn_new);
+        btn_new = (Fab)rootView.findViewById(R.id.btn_new);
         btn_new.setOnTouchListener(new OnTouchListener() {
 
 			@Override

@@ -20,10 +20,10 @@
 		android:layout_height="wrap_content"
 		android:layout_alignParentBottom="true"
 		android:layout_alignParentRight="true" >
-	    <ImageView
+	    <com.faizmalkani.floatingactionbutton.FloatingActionButton
 	        android:id="@+id/btn_new"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
+	        android:layout_width="72dp"
+	        android:layout_height="72dp"
 	        android:layout_marginBottom="40.0dip"
 	        android:layout_marginRight="40.0dip"
 	        android:background="@drawable/btn_new02"
