@@ -6,11 +6,10 @@ import android.util.Log;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-final public class RawRecord {
+final public class RawRecord extends RawData {
     /** The tag used to log to adb console. **/
     private static final String TAG = "RawRecord";
 
-    private final String mUserName;
     private final String mLink;
     private final String mTitle;
     private final String mContent;
@@ -23,20 +22,7 @@ final public class RawRecord {
     private final boolean mDeleted;
 
     private final boolean mDirty;
-    private final long mServerRecordId;
-    private final long mRawRecordId;
-    private final long mSyncState;
     
-    public long getServerContactId() {
-        return mServerRecordId;
-    }
-    public long getRawContactId() {
-        return mRawRecordId;
-    }
-    
-    public String getUserName() {
-        return mUserName;
-    }
     public String getTitle() {
         return mTitle;
     }
@@ -71,15 +57,12 @@ final public class RawRecord {
     public boolean isDirty() {
         return mDirty;
     }
-    public long getSyncState() {
-        return mSyncState;
-    } 
     
     public RawRecord(String name, String link, String title, String content, String createDate,
             String createTime, int contentType, String photo, String audio, String tag,
             boolean deleted, long serverRecordId,
             long rawRecordId, long syncState, boolean dirty) {
-        mUserName = name;
+    	super(name,serverRecordId, rawRecordId, syncState);
         mTitle = title;
         mContent = content;
         mCreateDate = createDate;
@@ -90,9 +73,6 @@ final public class RawRecord {
         mTag = tag;
         mLink = link;
         mDeleted = deleted;
-        mServerRecordId = serverRecordId;
-        mRawRecordId = rawRecordId;
-        mSyncState = syncState;
         mDirty = dirty;
     }
     
@@ -105,8 +85,8 @@ final public class RawRecord {
         JSONObject json = new JSONObject();
 
         try {
-            if (!TextUtils.isEmpty(mUserName)) {
-                json.put("user", mUserName);
+            if (!TextUtils.isEmpty(super.getHandle())) {
+                json.put("user", super.getHandle());
             }
             if (!TextUtils.isEmpty(mLink)) {
                 json.put("link", mLink);
@@ -135,11 +115,11 @@ final public class RawRecord {
             if (!TextUtils.isEmpty(mTag)) {
                 json.put("tag", mTag);
             }            
-            if (mServerRecordId > 0) {
-                json.put("sid", mServerRecordId);
+            if (super.getServerId() > 0) {
+                json.put("sid", super.getServerId());
             }
-            if (mRawRecordId > 0) {
-                json.put("cid", mRawRecordId);
+            if (super.getDataId() > 0) {
+                json.put("cid", super.getDataId());
             }
             if (mDeleted) {
                 json.put("del", mDeleted);

@@ -6,39 +6,20 @@ import android.util.Log;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-final public class RawTag {
+final public class RawTag extends RawData {
 
 	private static final String TAG = "RawTag";
 	
     private final String mTagName;
-    private final String mHandle;
-    private final long mServerTagId;
-    private final long mRawTagId;
-    private final long mSyncState;
     
     public String getTagName() {
         return mTagName;
     }
-    public String getHandle() {
-        return mHandle;
-    }
-    public long getServerTagId() {
-        return mServerTagId;
-    }
-    public long getRawTagId() {
-        return mRawTagId;
-    }
-    public long getSyncState() {
-        return mSyncState;
-    } 
     
     public RawTag(String name, String handle, long serverTagId,
     		long rawTagId, long syncState) {
+    	super(handle,serverTagId, rawTagId, syncState);
     	mTagName = name;
-    	mHandle = handle;
-    	mServerTagId = serverTagId;
-    	mRawTagId = rawTagId;
-    	mSyncState = syncState;
     }
     
     public JSONObject toJSONObject() {
@@ -47,14 +28,14 @@ final public class RawTag {
         	if (!TextUtils.isEmpty(mTagName)) {
         		json.put("t", mTagName);
         	}
-        	if (!TextUtils.isEmpty(mHandle)) {
-        		json.put("h", mHandle);
+        	if (!TextUtils.isEmpty(super.getHandle())) {
+        		json.put("h", super.getHandle());
         	}
-        	if (mServerTagId > 0) {
-        		json.put("s", mServerTagId);
+        	if (super.getServerId() > 0) {
+        		json.put("s", super.getServerId());
         	}
-        	if (mRawTagId > 0) {
-        		json.put("f", mRawTagId);
+        	if (super.getDataId() > 0) {
+        		json.put("f", super.getDataId());
         	}
 
         } catch (final Exception ex) {

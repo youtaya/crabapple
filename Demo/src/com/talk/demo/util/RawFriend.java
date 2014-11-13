@@ -6,23 +6,16 @@ import android.util.Log;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-final public class RawFriend {
+final public class RawFriend extends RawData {
 
 	private static final String TAG = "RawFriend";
 	
     private final String mUserName;
-    private final String mHandle;
     private final String mPhoneMobile;
     private final String mAvatar;
-    private final long mServerFriendId;
-    private final long mRawFriendId;
-    private final long mSyncState;
     
     public String getUserName() {
         return mUserName;
-    }
-    public String getHandle() {
-        return mHandle;
     }
     public String getPhoneMobile() {
         return mPhoneMobile;
@@ -30,25 +23,13 @@ final public class RawFriend {
     public String getAvatar() {
         return mAvatar;
     }    
-    public long getServerFriendId() {
-        return mServerFriendId;
-    }
-    public long getRawFriendId() {
-        return mRawFriendId;
-    }
-    public long getSyncState() {
-        return mSyncState;
-    } 
-    
+
     public RawFriend(String name, String handle, String phone, String avatar,
     		long serverFriendId,long rawFriendId, long syncState) {
+    	super(handle,serverFriendId, rawFriendId, syncState);
     	mUserName = name;
-    	mHandle = handle;
     	mPhoneMobile = phone;
     	mAvatar = avatar;
-    	mServerFriendId = serverFriendId;
-    	mRawFriendId = rawFriendId;
-    	mSyncState = syncState;
     }
     
     public JSONObject toJSONObject() {
@@ -57,8 +38,8 @@ final public class RawFriend {
         	if (!TextUtils.isEmpty(mUserName)) {
         		json.put("u", mUserName);
         	}
-        	if (!TextUtils.isEmpty(mHandle)) {
-        		json.put("h", mHandle);
+        	if (!TextUtils.isEmpty(super.getHandle())) {
+        		json.put("h", super.getHandle());
         	}
         	if (!TextUtils.isEmpty(mPhoneMobile)) {
         		json.put("p", mPhoneMobile);
@@ -66,11 +47,11 @@ final public class RawFriend {
             if (!TextUtils.isEmpty(mAvatar)) {
                 json.put("a", mAvatar);
             }        	
-        	if (mServerFriendId > 0) {
-        		json.put("s", mServerFriendId);
+        	if (super.getServerId() > 0) {
+        		json.put("s", super.getServerId());
         	}
-        	if (mRawFriendId > 0) {
-        		json.put("f", mRawFriendId);
+        	if (super.getDataId() > 0) {
+        		json.put("f", super.getDataId());
         	}
 
         } catch (final Exception ex) {

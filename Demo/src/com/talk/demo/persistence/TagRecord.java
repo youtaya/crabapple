@@ -23,8 +23,8 @@ public class TagRecord {
     }
     
     public TagRecord(RawTag rt) {
-        _id = (int)rt.getRawTagId();
-        server_id = (int)rt.getServerTagId();
+        _id = (int)rt.getDataId();
+        server_id = (int)rt.getServerId();
         tagName = rt.getTagName();
         handle = rt.getHandle();
         sync_time = rt.getSyncState();

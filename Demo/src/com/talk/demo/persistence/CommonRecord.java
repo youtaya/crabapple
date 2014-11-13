@@ -2,7 +2,7 @@ package com.talk.demo.persistence;
 
 import android.database.Cursor;
 
-import com.talk.demo.util.RawTag;
+import com.talk.demo.util.RawData;
 
 public abstract class CommonRecord {
     public int _id;
@@ -28,11 +28,11 @@ public abstract class CommonRecord {
     public abstract void getObjectItems(Object[] obj);
     public abstract void dumpRecord(Cursor c);
     
-    public CommonRecord(RawTag rt) {
-        _id = (int)rt.getRawTagId();
-        server_id = (int)rt.getServerTagId();
-        handle = rt.getHandle();
-        sync_time = rt.getSyncState();
+    public CommonRecord(RawData data) {
+        _id = (int)data.getDataId();
+        server_id = (int)data.getServerId();
+        handle = data.getHandle();
+        sync_time = data.getSyncState();
     }
     public CommonRecord(String v1) {
     	handle = v1;

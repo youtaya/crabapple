@@ -46,7 +46,7 @@ public class SyncCompaign {
                 dirtyTimes.add(rawContact);
             } else if (isDirty) {
                 RawRecord rawContact = getRawRecord(db, tr._id);
-                Log.i(TAG, "Contact Name: " + rawContact.getUserName());
+                Log.i(TAG, "Contact Name: " + rawContact.getHandle());
                 dirtyTimes.add(rawContact);
             }
     	}
@@ -66,11 +66,11 @@ public class SyncCompaign {
     	 */
         for(RawRecord rr: updateRecords) {
             TimeRecord tr = new TimeRecord(rr);
-            Log.d(TAG, "server id: " + rr.getServerContactId());
-            Log.d(TAG, "client id: " + rr.getRawContactId());
+            Log.d(TAG, "server id: " + rr.getServerId());
+            Log.d(TAG, "client id: " + rr.getDataId());
             Log.d(TAG, "content: " + rr.getContent());
             
-            if(rr.getRawContactId() == -1) {
+            if(rr.getDataId() == -1) {
             	Log.d(TAG, "[need add] server id: " + tr.server_id);
             	db.addFromServer(tr);
             } else {

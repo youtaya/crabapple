@@ -64,10 +64,10 @@ public class SyncCompaign2 {
     	 */
         for(RawFriend rf: updateFriends) {
             FriendRecord fr = new FriendRecord(rf);
-            Log.d(TAG, "server id: " + rf.getServerFriendId());
-            Log.d(TAG, "client id: " + rf.getRawFriendId());
+            Log.d(TAG, "server id: " + rf.getServerId());
+            Log.d(TAG, "client id: " + rf.getDataId());
             
-            if(rf.getRawFriendId() == -1) {
+            if(rf.getDataId() == -1) {
             	Log.d(TAG, "[need add] server id: " + fr.server_id);
             	db.addFriendFromServer(fr);
             } else {

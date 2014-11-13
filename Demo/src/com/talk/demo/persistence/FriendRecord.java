@@ -25,8 +25,8 @@ public class FriendRecord {
     }
     
     public FriendRecord(RawFriend rf) {
-        _id = (int)rf.getRawFriendId();
-        server_id = (int)rf.getServerFriendId();
+        _id = (int)rf.getDataId();
+        server_id = (int)rf.getServerId();
         userName = rf.getUserName();
         handle = rf.getHandle();
         phoneMobile = rf.getPhoneMobile();
