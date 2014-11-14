@@ -149,6 +149,7 @@
 		<activity
             android:name=".daily.DailyEditActivity"
             android:label="编辑日志" 
+            android:windowSoftInputMode="stateHidden|adjustPan" 
             android:parentActivityName=".MainActivity">
 			<meta-data
 			    android:name="android.support.PARENT_ACTIVITY"
