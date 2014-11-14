@@ -1,8 +1,10 @@
 package com.talk.demo.persistence;
 
+import android.database.Cursor;
+
 import com.talk.demo.util.RawTag;
 
-public class TagRecord {
+public class TagRecord extends CommonRecord {
     public int _id;
     public int server_id;
     public String tagName;
@@ -41,4 +43,26 @@ public class TagRecord {
     public String getTagName() {
         return tagName;
     }
+
+	@Override
+	public String getTableName() {
+		return "tags";
+	}
+
+	@Override
+	public int getNumItems() {
+		return 5;
+	}
+
+	@Override
+	public void getObjectItems(Object[] obj) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void dumpRecord(Cursor c) {
+		// TODO Auto-generated method stub
+		
+	}
 }

@@ -1,11 +1,13 @@
 package com.talk.demo.persistence;
 
+import android.database.Cursor;
+
 import com.talk.demo.util.RawRecord;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class TimeRecord {
+public class TimeRecord extends CommonRecord {
     public int _id;
     public int server_id;
     public String content;
@@ -122,5 +124,27 @@ public class TimeRecord {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss:SSSS"); 
         return dateFormat.format(date);
     }
+
+	@Override
+	public String getTableName() {
+		return "records";
+	}
+
+	@Override
+	public int getNumItems() {
+		return 16;
+	}
+
+	@Override
+	public void getObjectItems(Object[] obj) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void dumpRecord(Cursor c) {
+		// TODO Auto-generated method stub
+		
+	}
 
 }

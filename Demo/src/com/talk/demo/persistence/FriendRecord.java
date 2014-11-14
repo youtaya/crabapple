@@ -1,8 +1,10 @@
 package com.talk.demo.persistence;
 
+import android.database.Cursor;
+
 import com.talk.demo.util.RawFriend;
 
-public class FriendRecord {
+public class FriendRecord extends CommonRecord {
     public int _id;
     public int server_id;
     public String userName;
@@ -45,4 +47,26 @@ public class FriendRecord {
     public String getUserName() {
         return userName;
     }
+
+	@Override
+	public String getTableName() {
+		return "friends";
+	}
+
+	@Override
+	public int getNumItems() {
+		return 8;
+	}
+
+	@Override
+	public void getObjectItems(Object[] obj) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void dumpRecord(Cursor c) {
+		// TODO Auto-generated method stub
+		
+	}
 }
