@@ -2,7 +2,7 @@ package com.talk.demo.persistence;
 
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-
+/*
 public class TagOperations {
     private static final String TAG = "TagOperations";
     private static final String TABLE_TAG = "tags";
@@ -33,3 +33,4 @@ public class TagOperations {
         return c;  
     }
 }
+*/

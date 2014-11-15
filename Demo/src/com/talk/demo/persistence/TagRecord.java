@@ -5,32 +5,17 @@ import android.database.Cursor;
 import com.talk.demo.util.RawTag;
 
 public class TagRecord extends CommonRecord {
-    public int _id;
-    public int server_id;
+
     public String tagName;
-    public String handle;
-    public long sync_time;
- 	/*
- 	 * deleted flag :
- 	 * default : 0 mean don't delete, other: 1 mean need to delete
- 	 */
-    public int deleted = 0; 
- 	/*
- 	 * dirty flag :
- 	 * default : 1 mean dirty and need to sync, other: 0 mean not need sync
- 	 */
-    public int dirty = 1;
-    
+
     public TagRecord() {
     }
     
-    public TagRecord(RawTag rt) {
-        _id = (int)rt.getDataId();
-        server_id = (int)rt.getServerId();
-        tagName = rt.getTagName();
-        handle = rt.getHandle();
-        sync_time = rt.getSyncState();
+    public TagRecord(RawTag tag) {
+    	super(tag);
+        tagName = tag.getTagName();
     }
+    
     public TagRecord(String v1) {
     	tagName = v1;
        
@@ -51,18 +36,27 @@ public class TagRecord extends CommonRecord {
 
 	@Override
 	public int getNumItems() {
-		return 5;
+		return 6;
 	}
 
 	@Override
 	public void getObjectItems(Object[] obj) {
-		// TODO Auto-generated method stub
-		
+		obj[0] = super._id;
+		obj[1] = super.server_id;
+		obj[2] = super.handle;
+		obj[3] = tagName;
+		obj[4] = super.sync_time;
+		obj[5] = super.dirty;
+		obj[6] = super.deleted;
 	}
 
 	@Override
 	public void dumpRecord(Cursor c) {
-		// TODO Auto-generated method stub
+    	super._id = c.getInt(c.getColumnIndex("id"));
+    	super.server_id = c.getInt(c.getColumnIndex("server_id"));
+    	tagName = c.getString(c.getColumnIndex("tagname"));
+    	super.handle = c.getString(c.getColumnIndex("handle"));
+    	super.sync_time = c.getLong(c.getColumnIndex("sync_time"));
 		
 	}
 }

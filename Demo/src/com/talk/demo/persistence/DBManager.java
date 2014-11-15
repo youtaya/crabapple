@@ -83,14 +83,7 @@ public class DBManager {
     }
     
     public void addTag(TagRecord tagr) {  
-        db.beginTransaction();  //开始事务  
-        try {  
-            TagOperations.tagExecSQL(db, tagr, true);
-            db.setTransactionSuccessful();  //设置事务成功完成  
-        } finally {  
-            db.endTransaction();    //结束事务  
-        }
-        
+    	new DataOperation(db, tagr).insertRecord();
     }  
     
     /** 
@@ -239,11 +232,14 @@ public class DBManager {
 
     public List<TagRecord> queryTag() {  
         ArrayList<TagRecord> tagrList = new ArrayList<TagRecord>();  
-        Cursor c = TagOperations.queryTagCursor(db);  
+        //Cursor c = TagOperations.queryTagCursor(db);  
+        Cursor c = new DataOperation(db).queryCursorByName("tags", "tagname");
         
         while (c.moveToNext()) {  
         	TagRecord tagr = new TagRecord();  
-            TagOperations.dumpTagRecord(tagr, c);
+            //TagOperations.dumpTagRecord(tagr, c);
+        	tagr.dumpRecord(c);
+        	
             tagrList.add(tagr);  
         }  
         c.close();  

@@ -39,6 +39,7 @@ public class AddTagActivity extends Activity {
         	    //add tag item to database
         		TagRecord tagr = new TagRecord();
         		tagr.setTagName(mTagName);
+        		tagr.setDirty(1);
         	    mgr.addTag(tagr);
         	    
 	            Intent mIntent = new Intent();

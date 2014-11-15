@@ -73,8 +73,8 @@ public class DBHelper extends SQLiteOpenHelper {
         db.execSQL("CREATE TABLE " + TABLE_DIALOG
                 + " (id INTEGER PRIMARY KEY AUTOINCREMENT,"
                 + " server_id INTEGER,"
+                + " handle TEXT,"
                 + " roomname TEXT,"
-                + " username TEXT,"
                 + " link TEXT,"
                 + " title TEXT default '',"
                 + " content TEXT default '',"
