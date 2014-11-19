@@ -76,7 +76,7 @@ public class DBHelper extends SQLiteOpenHelper {
                 + " handle TEXT,"
                 + " roomname TEXT,"
                 + " link TEXT,"
-                + " title TEXT default '',"
+                + " direct INTEGER default 0,"
                 + " content TEXT default '',"
                 + " calc_date TEXT,"
                 + " create_time TEXT,"
@@ -85,7 +85,6 @@ public class DBHelper extends SQLiteOpenHelper {
                 + " content_type INTEGER default 0,"
                 + " photo TEXT default '',"
                 + " audio TEXT default '',"
-                + " tag TEXT default '',"
                 + " sync_time INTEGER,"
                 + " dirty INTEGER,"
                 + " deleted INTEGER);");      
