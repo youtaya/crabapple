@@ -6,6 +6,7 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.talk.demo.persistence.DBManager;
+import com.talk.demo.persistence.DialogRecord;
 import com.talk.demo.persistence.RecordCache;
 import com.talk.demo.persistence.TimeRecord;
 import com.talk.demo.time.TimeViewItem;
@@ -204,5 +205,9 @@ public class RecordManager {
 	
 	public void addRecord(TimeRecord tr) {
 		dbMgr.addTime(tr);
+	}
+	
+	public void addDialog(DialogRecord dr) {
+		dbMgr.addDialog(dr);
 	}
 }

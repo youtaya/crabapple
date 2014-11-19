@@ -18,8 +18,6 @@ import android.renderscript.ScriptIntrinsicBlur;
 import android.text.TextUtils;
 import android.text.format.DateFormat;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewTreeObserver;
@@ -33,6 +31,7 @@ import com.faizmalkani.floatingactionbutton.FloatingActionButton;
 import com.talk.demo.R;
 import com.talk.demo.core.RecordManager;
 import com.talk.demo.persistence.DBManager;
+import com.talk.demo.persistence.DialogRecord;
 import com.talk.demo.persistence.TimeRecord;
 import com.talk.demo.prewrite.PreWrite;
 import com.talk.demo.util.AccountUtils;
@@ -65,6 +64,7 @@ public class DailyEditActivity extends Activity {
 	private RecordManager rMgr;
 	private String friend = null;
 	private TimeRecord tr = null;
+	private DialogRecord dr = null;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -271,18 +271,22 @@ public class DailyEditActivity extends Activity {
         String content = edit_content.getText().toString();
         // Do nothing if content is empty
         if (content.length() > 0) {
-            tr = new TimeRecord(content);
+            dr = new DialogRecord(content);
+            /*
+             * direct: 1/ send to friend, 2/ receive from friend
+             */
+            dr.setDirect(1); 
             if(fileName != null) {
                 //tr = new TimeRecord("/sdcard/Demo/"+fileName);
-                tr.setPhoto(fileName);
+                dr.setPhoto(fileName);
                 new SyncPhotoTask().execute();
-                tr.setContentType(TalkUtil.MEDIA_TYPE_PHOTO_TEXT);
+                dr.setContentType(TalkUtil.MEDIA_TYPE_PHOTO_TEXT);
             } else {
-                tr.setContentType(TalkUtil.MEDIA_TYPE_TEXT);
+                dr.setContentType(TalkUtil.MEDIA_TYPE_TEXT);
             }
             //TODO: add msg_interval_time and msg_done_time
  
-            tr.setSendInterval(wait_x_time);
+            dr.setSendInterval(wait_x_time);
             //current+interval
             Calendar calendar = Calendar.getInstance();
 
@@ -293,11 +297,11 @@ public class DailyEditActivity extends Activity {
             String done_time = DateFormat.format("yyyyMMddHHmmss", calendar.getTime()).toString();
             String test_time = formatter.format(date);
             Log.d(TAG , "done time "+done_time+" test time "+test_time);
-            tr.setSendDoneTime(done_time);
+            dr.setSendDoneTime(done_time);
             
             // save link object
-            tr.setLink(target);
-            rMgr.addRecord(tr);
+            dr.setLink(target);
+            rMgr.addDialog(dr);
         }
 		//TODO: start Alarm Manager to send message after wait time
         AlarmManagerUtil.sendUpdateBroadcast(this, wait_x_time*1000);
