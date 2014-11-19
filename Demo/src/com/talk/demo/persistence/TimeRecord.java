@@ -20,16 +20,6 @@ public class TimeRecord extends CommonRecord {
     public String photo;
     public String audio;
     public String tag;
- 	/*
- 	 * deleted flag :
- 	 * default : 0 mean don't delete, other: 1 mean need to delete
- 	 */
-    public int deleted = 0; 
- 	/*
- 	 * dirty flag :
- 	 * default : 1 mean dirty and need to sync, other: 0 mean not need sync
- 	 */
-    public int dirty = 1;
     
     public TimeRecord() {
     }
@@ -127,23 +117,22 @@ public class TimeRecord extends CommonRecord {
 
 	@Override
 	public void getObjectItems(Object[] obj) {
-		obj[0] = super._id;
-		obj[1] = super.server_id;
-		obj[2] = super.handle;
-		obj[3] = link;
-		obj[4] = title;
-		obj[5] = content;
-		obj[6] = calc_date;
-		obj[7] = create_time;
-		obj[8] = send_interval_time;
-		obj[9] = send_done_time;
-		obj[10] = content_type;
-		obj[11] = photo;
-		obj[12] = audio;
-		obj[13] = tag;
-		obj[14] = super.sync_time;
-		obj[15] = super.dirty;
-		obj[16] = super.deleted;
+		obj[0] = super.server_id;
+		obj[1] = super.handle;
+		obj[2] = link;
+		obj[3] = title;
+		obj[4] = content;
+		obj[5] = calc_date;
+		obj[6] = create_time;
+		obj[7] = send_interval_time;
+		obj[8] = send_done_time;
+		obj[9] = content_type;
+		obj[10] = photo;
+		obj[11] = audio;
+		obj[12] = tag;
+		obj[13] = super.sync_time;
+		obj[14] = super.dirty;
+		obj[15] = super.deleted;
 		
 	}
 

@@ -36,13 +36,12 @@ public class TagRecord extends CommonRecord {
 
 	@Override
 	public void getObjectItems(Object[] obj) {
-		obj[0] = super._id;
-		obj[1] = super.server_id;
-		obj[2] = super.handle;
-		obj[3] = tagName;
-		obj[4] = super.sync_time;
-		obj[5] = super.dirty;
-		obj[6] = super.deleted;
+		obj[0] = super.server_id;
+		obj[1] = super.handle;
+		obj[2] = tagName;
+		obj[3] = super.sync_time;
+		obj[4] = super.dirty;
+		obj[5] = super.deleted;
 	}
 
 	@Override
