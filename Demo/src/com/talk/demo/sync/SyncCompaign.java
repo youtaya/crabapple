@@ -20,7 +20,7 @@ public class SyncCompaign {
     	String isDirty = (tr.dirty ==1)?"yes":"no";
     	String info = " id: "+String.valueOf(tr._id)+
     			" server id: "+String.valueOf(tr.server_id)+
-    			" user name: "+tr.userName+
+    			" user name: "+tr.handle+
     			" dirty: " +isDirty;
     	return info;
     }
@@ -109,7 +109,7 @@ public class SyncCompaign {
         
         TimeRecord tr = db.queryTimeTheParam(clientId);
         
-        name = tr.userName;
+        name = tr.handle;
         title = tr.title;
         content = tr.content;
         createDate = tr.calc_date;

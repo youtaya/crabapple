@@ -9,7 +9,7 @@ public class DBHelper extends SQLiteOpenHelper {
     /**
      * Version constant to increment when the database should be rebuilt
      */
-    private static final int VERSION = 4;
+    private static final int VERSION = 5;
 
     /**
      * Name of database file
@@ -33,7 +33,7 @@ public class DBHelper extends SQLiteOpenHelper {
         db.execSQL("CREATE TABLE " + TABLE_RECORD
                 + " (id INTEGER PRIMARY KEY AUTOINCREMENT,"
                 + " server_id INTEGER,"
-                + " username TEXT,"
+                + " handle TEXT,"
                 + " link TEXT,"
                 + " title TEXT default '',"
                 + " content TEXT default '',"

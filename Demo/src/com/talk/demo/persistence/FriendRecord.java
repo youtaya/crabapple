@@ -5,13 +5,9 @@ import android.database.Cursor;
 import com.talk.demo.util.RawFriend;
 
 public class FriendRecord extends CommonRecord {
-    public int _id;
-    public int server_id;
     public String userName;
-    public String handle;
     public String phoneMobile;
     public String avatar;
-    public long sync_time;
  	/*
  	 * deleted flag :
  	 * default : 0 mean don't delete, other: 1 mean need to delete
@@ -27,13 +23,10 @@ public class FriendRecord extends CommonRecord {
     }
     
     public FriendRecord(RawFriend rf) {
-        _id = (int)rf.getDataId();
-        server_id = (int)rf.getServerId();
+    	super(rf);
         userName = rf.getUserName();
-        handle = rf.getHandle();
         phoneMobile = rf.getPhoneMobile();
         avatar = rf.getAvatar();
-        sync_time = rf.getSyncState();
     }
     public FriendRecord(String v1) {
         userName = v1;
@@ -55,13 +48,27 @@ public class FriendRecord extends CommonRecord {
 
 	@Override
 	public void getObjectItems(Object[] obj) {
-		// TODO Auto-generated method stub
+		obj[0] = super._id;
+		obj[1] = super.server_id;
+		obj[2] = super.handle;
+		obj[3] = userName;
+		obj[4] = phoneMobile;
+		obj[5] = avatar;
+		obj[6] = super.sync_time;
+		obj[7] = super.dirty;
+		obj[8] = super.deleted;
 		
 	}
 
 	@Override
 	public void dumpRecord(Cursor c) {
-		// TODO Auto-generated method stub
+        super._id = c.getInt(c.getColumnIndex("id"));
+        super.server_id = c.getInt(c.getColumnIndex("server_id"));
+        userName = c.getString(c.getColumnIndex("username"));
+        super.handle = c.getString(c.getColumnIndex("handle"));
+        phoneMobile = c.getString(c.getColumnIndex("phone_mobile"));
+        avatar = c.getString(c.getColumnIndex("avatar"));
+        super.sync_time = c.getLong(c.getColumnIndex("sync_time"));
 		
 	}
 }

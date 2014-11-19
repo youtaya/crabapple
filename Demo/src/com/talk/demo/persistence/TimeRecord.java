@@ -8,8 +8,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class TimeRecord extends CommonRecord {
-    public int _id;
-    public int server_id;
     public String content;
     public String calc_date;
     public String create_time;
@@ -17,13 +15,11 @@ public class TimeRecord extends CommonRecord {
     public String send_done_time;
     public int content_type;
     
-    public String userName;
     public String link;
     public String title = "time";
     public String photo;
     public String audio;
     public String tag;
-    public long sync_time;
  	/*
  	 * deleted flag :
  	 * default : 0 mean don't delete, other: 1 mean need to delete
@@ -39,8 +35,7 @@ public class TimeRecord extends CommonRecord {
     }
     
     public TimeRecord(RawRecord rr) {
-        _id = (int)rr.getDataId();
-        server_id = (int)rr.getServerId();
+    	super(rr);
         if(null != rr.getLink())
         	link = rr.getLink();
         content = rr.getContent();
@@ -48,7 +43,6 @@ public class TimeRecord extends CommonRecord {
         create_time = rr.getCreateTime();
         content_type = rr.getContentType();
         title = rr.getTitle();
-        sync_time = rr.getSyncState();
     }
     
     public TimeRecord(RecordCache rc) {
@@ -133,13 +127,42 @@ public class TimeRecord extends CommonRecord {
 
 	@Override
 	public void getObjectItems(Object[] obj) {
-		// TODO Auto-generated method stub
+		obj[0] = super._id;
+		obj[1] = super.server_id;
+		obj[2] = super.handle;
+		obj[3] = link;
+		obj[4] = title;
+		obj[5] = content;
+		obj[6] = calc_date;
+		obj[7] = create_time;
+		obj[8] = send_interval_time;
+		obj[9] = send_done_time;
+		obj[10] = content_type;
+		obj[11] = photo;
+		obj[12] = audio;
+		obj[13] = tag;
+		obj[14] = super.sync_time;
+		obj[15] = super.dirty;
+		obj[16] = super.deleted;
 		
 	}
 
 	@Override
 	public void dumpRecord(Cursor c) {
-		// TODO Auto-generated method stub
+		super._id = c.getInt(c.getColumnIndex("id"));
+		super.server_id = c.getInt(c.getColumnIndex("server_id"));
+		super.handle = c.getString(c.getColumnIndex("handle"));
+        link = c.getString(c.getColumnIndex("link"));
+        content = c.getString(c.getColumnIndex("content")); 
+        calc_date = c.getString(c.getColumnIndex("calc_date"));
+        create_time = c.getString(c.getColumnIndex("create_time")); 
+        send_interval_time = c.getInt(c.getColumnIndex("send_interval_time")); 
+        send_done_time = c.getString(c.getColumnIndex("send_done_time")); 
+        content_type = c.getInt(c.getColumnIndex("content_type"));
+        photo = c.getString(c.getColumnIndex("photo")); 
+        audio = c.getString(c.getColumnIndex("audio"));
+        tag = c.getString(c.getColumnIndex("tag")); 
+        super.sync_time = c.getLong(c.getColumnIndex("sync_time"));
 		
 	}
 

@@ -30,7 +30,7 @@ public class DBManager {
     }  
    
     public void addTime(TimeRecord tr) {
-        new DataOperation(db, "times", tr).insertRecord();
+        new DataOperation(db, "records", tr).insertRecord();
         rp.addRich(2);
     }
     
@@ -38,7 +38,7 @@ public class DBManager {
     	//Cursor c = RecordOperations.queryCursorWithServerId(db, tr.server_id);
         Map<String, Object> sortVar = new HashMap<String, Object>();
         sortVar.put("server_id", tr.server_id);
-        DataOperation doa = new DataOperation(db, "times");
+        DataOperation doa = new DataOperation(db, "records");
         Cursor c = doa.queryCursorWithCond(sortVar);
         
     	if(c != null && c.moveToFirst()) {
@@ -53,7 +53,7 @@ public class DBManager {
         //Cursor c = FriendOperations.queryCursorWithServerId(db, fr.server_id);
         Map<String, Object> sortVar = new HashMap<String, Object>();
         sortVar.put("server_id", fr.server_id);
-        DataOperation doa = new DataOperation(db, "times");
+        DataOperation doa = new DataOperation(db, "records");
         Cursor c = doa.queryCursorWithCond(sortVar);
         
         if(c != null && c.moveToFirst()) {
@@ -85,16 +85,16 @@ public class DBManager {
     
     public void updateContent(TimeRecord tRecord) {
     	//RecordOperations.updateContent(db, tRecord);
-    	new DataOperation(db, "times").updateContent(tRecord, tRecord.content);
+    	new DataOperation(db, "records").updateContent(tRecord, tRecord.content);
         rp.addRich(1);
     }
   
     public void updateTag(int id, String tag) {
-    	new DataOperation(db, "times").updateTag(id, tag);
+    	new DataOperation(db, "records").updateTag(id, tag);
     }
     
     public void updateServerInfo(TimeRecord tRecord) {
-    	new DataOperation(db, "times").updateServerId(tRecord);
+    	new DataOperation(db, "records").updateServerId(tRecord);
     }
     
     public void  updateFriendServerInfo(FriendRecord fRecord) {
@@ -110,7 +110,7 @@ public class DBManager {
         //Cursor c = RecordOperations.queryCursorWithMultipleParams(db, params);
         String[] whereVar = {"calc_date","calc_date","calc_date","calc_date"};
         String[] sortVar = {"calc_date", "create_time"};
-        Cursor c = new DataOperation(db, "times").queryCursorWithComplexCond(whereVar,sortVar, params);
+        Cursor c = new DataOperation(db, "records").queryCursorWithComplexCond(whereVar,sortVar, params);
         while (c.moveToNext()) {  
             TimeRecord tr = new TimeRecord();  
             tr.dumpRecord(c);
@@ -128,7 +128,7 @@ public class DBManager {
         //Cursor c = RecordOperations.queryCursorWithParam(db, param);  
         String[] whereVar = {"calc_date"};
         String[] sortVar = {"calc_date", "create_time"};
-        Cursor c = new DataOperation(db, "times").queryCursorWithComplexCond(whereVar,sortVar, new String[]{param});
+        Cursor c = new DataOperation(db, "records").queryCursorWithComplexCond(whereVar,sortVar, new String[]{param});
         while (c.moveToNext()) {  
             TimeRecord tr = new TimeRecord();  
             tr.dumpRecord(c);
@@ -143,7 +143,7 @@ public class DBManager {
         //Cursor c = RecordOperations.queryCursorFromOthers(db, param);  
         String[] whereVar = {"link!"};
         String[] sortVar = {"calc_date", "create_time"};
-        Cursor c = new DataOperation(db, "times").queryCursorWithComplexCond(whereVar,sortVar, new String[]{param});
+        Cursor c = new DataOperation(db, "records").queryCursorWithComplexCond(whereVar,sortVar, new String[]{param});
         
         while (c.moveToNext()) {  
             TimeRecord tr = new TimeRecord();  
@@ -158,7 +158,7 @@ public class DBManager {
         //Cursor c = RecordOperations.queryCursorWithId(db, param); 
         Map<String, Object> sortVar = new HashMap<String, Object>();
         sortVar.put("id", param);
-        Cursor c = new DataOperation(db, "times").queryCursorWithCond(sortVar);
+        Cursor c = new DataOperation(db, "records").queryCursorWithCond(sortVar);
         
         TimeRecord tr = new TimeRecord();
         if((c != null) && c.moveToFirst()) {
@@ -173,7 +173,7 @@ public class DBManager {
         //Cursor c = RecordOperations.queryCursorWithTag(db, param); 
         Map<String, Object> sortVar = new HashMap<String, Object>();
         sortVar.put("tag", param);
-        Cursor c = new DataOperation(db, "times").queryCursorWithCond(sortVar);
+        Cursor c = new DataOperation(db, "records").queryCursorWithCond(sortVar);
         
         while (c.moveToNext()) {  
             TimeRecord tr = new TimeRecord();  
@@ -206,7 +206,7 @@ public class DBManager {
         ArrayList<TimeRecord> trList = new ArrayList<TimeRecord>();  
         //Cursor c = RecordOperations.queryTheCursor(db);
         String[] sortVar = {"calc_date", "create_time"};
-        Cursor c = new DataOperation(db, "times").queryCursorByName(sortVar);
+        Cursor c = new DataOperation(db, "records").queryCursorByName(sortVar);
         while (c.moveToNext()) {  
             TimeRecord tr = new TimeRecord();  
             tr.dumpRecord(c);
