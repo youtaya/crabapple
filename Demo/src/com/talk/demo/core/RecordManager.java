@@ -39,14 +39,14 @@ public class RecordManager {
 		Log.d(TAG, "init data list");
 		
 		if(isStore) { 
-		    trlist = dbMgr.query();
+		    trlist = dbMgr.queryTime();
 		} else {
             Account accout = AccountUtils.getPasswordAccessibleAccount(context);
             if (accout != null && !TextUtils.isEmpty(accout.name)) {
             	Log.d(TAG,"ccount name: "+accout.name);
             }
             
-    		trlist = dbMgr.queryFromOthers(accout.name);
+    		trlist = dbMgr.queryTimeFromOthers(accout.name);
 		}
 
 		if (!time_record.isEmpty()) {
@@ -132,9 +132,9 @@ public class RecordManager {
 		Log.d(TAG, "init data list");
 		
 		if (true) {
-			trlist = dbMgr.query();
+			trlist = dbMgr.queryTime();
 		} else
-			trlist = dbMgr.queryWithMultipleParams(TalkUtil.conditonDates());
+			trlist = dbMgr.queryTimeWithMultipleParams(TalkUtil.conditonDates());
 
 		if (!time_records.isEmpty()) {
 			time_records.clear();
@@ -172,7 +172,7 @@ public class RecordManager {
 				ArrayList<ViewAsItem> listViewAsItem = new ArrayList<ViewAsItem>();
 				
 				tvi.setTagTitle(tr.tag);
-				tag_records = dbMgr.queryTag(tr.tag);
+				tag_records = dbMgr.queryTimeTag(tr.tag);
 				for(TimeRecord item : tag_records) {
 					RecordCache rc = new RecordCache();
 					ViewAsItem vi = new ViewAsItem(item._id, item.calc_date,item.create_time,item.content,item.content_type,item.photo);
@@ -203,6 +203,6 @@ public class RecordManager {
 	}
 	
 	public void addRecord(TimeRecord tr) {
-		dbMgr.add(tr);
+		dbMgr.addTime(tr);
 	}
 }

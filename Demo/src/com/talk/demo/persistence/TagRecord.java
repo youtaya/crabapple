@@ -30,11 +30,6 @@ public class TagRecord extends CommonRecord {
     }
 
 	@Override
-	public String getTableName() {
-		return "tags";
-	}
-
-	@Override
 	public int getNumItems() {
 		return 6;
 	}

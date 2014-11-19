@@ -49,11 +49,6 @@ public class FriendRecord extends CommonRecord {
     }
 
 	@Override
-	public String getTableName() {
-		return "friends";
-	}
-
-	@Override
 	public int getNumItems() {
 		return 8;
 	}

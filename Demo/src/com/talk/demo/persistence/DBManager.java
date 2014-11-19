@@ -8,7 +8,9 @@ import android.util.Log;
 import com.talk.demo.setting.RichPresent;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
   
 public class DBManager {  
     private static String TAG = "DBManager";
@@ -27,109 +29,91 @@ public class DBManager {
         rp = RichPresent.getInstance(context);
     }  
    
-    public void add(TimeRecord tr) {  
-        db.beginTransaction();  //开始事务  
-        try {  
-            RecordOperations.recordExecSQL(db, tr, true);
-            db.setTransactionSuccessful();  //设置事务成功完成  
-        } finally {  
-            db.endTransaction();    //结束事务  
-        }
+    public void addTime(TimeRecord tr) {
+        new DataOperation(db, "times", tr).insertRecord();
         rp.addRich(2);
     }
     
-    public void addFromServer(TimeRecord tr) {
-    	Cursor c = RecordOperations.queryCursorWithServerId(db, tr.server_id);
+    public void addTimeFromServer(TimeRecord tr) {
+    	//Cursor c = RecordOperations.queryCursorWithServerId(db, tr.server_id);
+        Map<String, Object> sortVar = new HashMap<String, Object>();
+        sortVar.put("server_id", tr.server_id);
+        DataOperation doa = new DataOperation(db, "times");
+        Cursor c = doa.queryCursorWithCond(sortVar);
+        
     	if(c != null && c.moveToFirst()) {
     		Log.d(TAG, "No need to creat new record!");
-    		RecordOperations.updateServerInfo(db, tr);
+    		doa.updateServerId(tr);
     	} else {
-	        db.beginTransaction();  //开始事务  
-	        try {  
-	            RecordOperations.recordExecSQL(db, tr, false);
-	            db.setTransactionSuccessful();  //设置事务成功完成  
-	        } finally {  
-	            db.endTransaction();    //结束事务  
-	        }
+	        addTime(tr);
     	}
     }  
     
     public void addFriendFromServer(FriendRecord fr) {
-        Cursor c = FriendOperations.queryCursorWithServerId(db, fr.server_id);
+        //Cursor c = FriendOperations.queryCursorWithServerId(db, fr.server_id);
+        Map<String, Object> sortVar = new HashMap<String, Object>();
+        sortVar.put("server_id", fr.server_id);
+        DataOperation doa = new DataOperation(db, "times");
+        Cursor c = doa.queryCursorWithCond(sortVar);
+        
         if(c != null && c.moveToFirst()) {
             Log.d(TAG, "No need to creat new record!");
-            FriendOperations.updateFriendServerInfo(db, fr);
+            doa.updateServerId(fr);
         } else {
-            db.beginTransaction();  //开始事务  
-            try {  
-                FriendOperations.friendExecSQL(db, fr, false);
-                db.setTransactionSuccessful();  //设置事务成功完成  
-            } finally {  
-                db.endTransaction();    //结束事务  
-            }
+        	addFriend(fr);
         }
     }  
 
     
-    public void addFriend(FriendRecord fr) {  
-        db.beginTransaction();  //开始事务  
-        try {  
-            FriendOperations.friendExecSQL(db, fr, true);
-            db.setTransactionSuccessful();  //设置事务成功完成  
-        } finally {  
-            db.endTransaction();    //结束事务  
-        }
-        
+    public void addFriend(FriendRecord fr) {
+    	new DataOperation(db, "friends", fr).insertRecord();
     }
     
     public void addTag(TagRecord tagr) {  
-    	new DataOperation(db, tagr).insertRecord();
+    	new DataOperation(db, "tags", tagr).insertRecord();
     }  
     
     /** 
-     * add record 
+     * add multiple time records 
      * @param TimeRecord 
      */  
-    public void add(List<TimeRecord> tRecord) {  
-        db.beginTransaction();  //开始事务  
-        try {  
-            for (TimeRecord tr : tRecord) {  
-                RecordOperations.recordExecSQL(db, tr, true);
-            }  
-            db.setTransactionSuccessful();  //设置事务成功完成  
-        } finally {  
-            db.endTransaction();    //结束事务  
+    public void addMultipleTimes(List<TimeRecord> tRecord) {
+        for (TimeRecord tr : tRecord) {  
+        	addTime(tr);
         }  
     }
     
     public void updateContent(TimeRecord tRecord) {
-    	RecordOperations.updateContent(db, tRecord);
+    	//RecordOperations.updateContent(db, tRecord);
+    	new DataOperation(db, "times").updateContent(tRecord, tRecord.content);
         rp.addRich(1);
     }
   
     public void updateTag(int id, String tag) {
-        RecordOperations.updateTag(db, id, tag);
+    	new DataOperation(db, "times").updateTag(id, tag);
     }
     
     public void updateServerInfo(TimeRecord tRecord) {
-    	RecordOperations.updateServerInfo(db, tRecord);
+    	new DataOperation(db, "times").updateServerId(tRecord);
     }
     
     public void  updateFriendServerInfo(FriendRecord fRecord) {
-    	FriendOperations.updateFriendServerInfo(db, fRecord);
+    	new DataOperation(db, "friends").updateServerId(fRecord);
     }
     
     /** 
      * query all content, return list 
      * @return List<TimeRecord> 
      */  
-    public List<TimeRecord> queryWithMultipleParams(String[] params) {  
+    public List<TimeRecord> queryTimeWithMultipleParams(String[] params) {  
         ArrayList<TimeRecord> trList = new ArrayList<TimeRecord>();  
-        Cursor c = RecordOperations.queryCursorWithMultipleParams(db, params);  
-        
+        //Cursor c = RecordOperations.queryCursorWithMultipleParams(db, params);
+        String[] whereVar = {"calc_date","calc_date","calc_date","calc_date"};
+        String[] sortVar = {"calc_date", "create_time"};
+        Cursor c = new DataOperation(db, "times").queryCursorWithComplexCond(whereVar,sortVar, params);
         while (c.moveToNext()) {  
             TimeRecord tr = new TimeRecord();  
-            RecordOperations.dumpRecord(tr, c);
+            tr.dumpRecord(c);
             trList.add(tr);  
         }  
         c.close();  
@@ -139,50 +123,61 @@ public class DBManager {
      * query all content, return list 
      * @return List<TimeRecord> 
      */  
-    public List<TimeRecord> queryWithParam(String param) {  
+    public List<TimeRecord> queryTimeWithParam(String param) {  
         ArrayList<TimeRecord> trList = new ArrayList<TimeRecord>();  
-        Cursor c = RecordOperations.queryCursorWithParam(db, param);  
-        
+        //Cursor c = RecordOperations.queryCursorWithParam(db, param);  
+        String[] whereVar = {"calc_date"};
+        String[] sortVar = {"calc_date", "create_time"};
+        Cursor c = new DataOperation(db, "times").queryCursorWithComplexCond(whereVar,sortVar, new String[]{param});
         while (c.moveToNext()) {  
             TimeRecord tr = new TimeRecord();  
-            RecordOperations.dumpRecord(tr, c);
+            tr.dumpRecord(c);
             trList.add(tr);  
         }  
         c.close();  
         return trList;  
     }
     
-    public List<TimeRecord> queryFromOthers(String param) {  
+    public List<TimeRecord> queryTimeFromOthers(String param) {  
         ArrayList<TimeRecord> trList = new ArrayList<TimeRecord>();  
-        Cursor c = RecordOperations.queryCursorFromOthers(db, param);  
+        //Cursor c = RecordOperations.queryCursorFromOthers(db, param);  
+        String[] whereVar = {"link!"};
+        String[] sortVar = {"calc_date", "create_time"};
+        Cursor c = new DataOperation(db, "times").queryCursorWithComplexCond(whereVar,sortVar, new String[]{param});
         
         while (c.moveToNext()) {  
             TimeRecord tr = new TimeRecord();  
-            RecordOperations.dumpRecord(tr, c);
+            tr.dumpRecord(c);
             trList.add(tr);  
         }  
         c.close();  
         return trList;  
     }   
     
-    public TimeRecord queryTheParam(int param) {  
-        Cursor c = RecordOperations.queryCursorWithId(db, param); 
+    public TimeRecord queryTimeTheParam(int param) {  
+        //Cursor c = RecordOperations.queryCursorWithId(db, param); 
+        Map<String, Object> sortVar = new HashMap<String, Object>();
+        sortVar.put("id", param);
+        Cursor c = new DataOperation(db, "times").queryCursorWithCond(sortVar);
         
         TimeRecord tr = new TimeRecord();
         if((c != null) && c.moveToFirst()) {
-            RecordOperations.dumpRecord(tr, c);
+            tr.dumpRecord(c);
         }
         c.close();  
         return tr;  
     }
     
-    public List<TimeRecord> queryTag(String param) {
+    public List<TimeRecord> queryTimeTag(String param) {
     	ArrayList<TimeRecord> trList = new ArrayList<TimeRecord>();  
-        Cursor c = RecordOperations.queryCursorWithTag(db, param); 
+        //Cursor c = RecordOperations.queryCursorWithTag(db, param); 
+        Map<String, Object> sortVar = new HashMap<String, Object>();
+        sortVar.put("tag", param);
+        Cursor c = new DataOperation(db, "times").queryCursorWithCond(sortVar);
         
         while (c.moveToNext()) {  
             TimeRecord tr = new TimeRecord();  
-            RecordOperations.dumpRecord(tr, c);
+            tr.dumpRecord(c);
             trList.add(tr);  
         }  
         c.close();  
@@ -190,11 +185,14 @@ public class DBManager {
     }
     
     public FriendRecord queryFriendTheParam(int param) {  
-        Cursor c = FriendOperations.queryFriendCursorWithId(db, param); 
+        //Cursor c = FriendOperations.queryFriendCursorWithId(db, param); 
+        Map<String, Object> sortVar = new HashMap<String, Object>();
+        sortVar.put("id", param);
+        Cursor c = new DataOperation(db, "friends").queryCursorWithCond(sortVar);
         
         FriendRecord fr = new FriendRecord();
         if((c != null) && c.moveToFirst()) {
-            FriendOperations.dumpFriendRecord(fr, c);
+            fr.dumpRecord(c);
         }
         c.close();  
         return fr;  
@@ -204,13 +202,14 @@ public class DBManager {
      * query all content, return list 
      * @return List<TimeRecord> 
      */  
-    public List<TimeRecord> query() {  
+    public List<TimeRecord> queryTime() {  
         ArrayList<TimeRecord> trList = new ArrayList<TimeRecord>();  
-        Cursor c = RecordOperations.queryTheCursor(db);  
-        
+        //Cursor c = RecordOperations.queryTheCursor(db);
+        String[] sortVar = {"calc_date", "create_time"};
+        Cursor c = new DataOperation(db, "times").queryCursorByName(sortVar);
         while (c.moveToNext()) {  
             TimeRecord tr = new TimeRecord();  
-            RecordOperations.dumpRecord(tr, c);
+            tr.dumpRecord(c);
             trList.add(tr);  
         }  
         c.close();  
@@ -219,31 +218,33 @@ public class DBManager {
     
     public List<FriendRecord> queryFriend() {  
         ArrayList<FriendRecord> frList = new ArrayList<FriendRecord>();  
-        Cursor c = FriendOperations.queryFriendCursor(db);  
-        
+        //Cursor c = FriendOperations.queryFriendCursor(db);
+        String[] sortVar = {"username"};
+        Cursor c = new DataOperation(db, "friends").queryCursorByName(sortVar);
         while (c.moveToNext()) {  
             FriendRecord fr = new FriendRecord();  
-            FriendOperations.dumpFriendRecord(fr, c);
+            fr.dumpRecord(c);
             frList.add(fr);  
         }  
         c.close();  
         return frList;  
     } 
 
+
     public List<TagRecord> queryTag() {  
         ArrayList<TagRecord> tagrList = new ArrayList<TagRecord>();  
         //Cursor c = TagOperations.queryTagCursor(db);  
-        Cursor c = new DataOperation(db).queryCursorByName("tags", "tagname");
+        String[] sortVar = {"tagname"};
+        Cursor c = new DataOperation(db, "tags").queryCursorByName(sortVar);
         
         while (c.moveToNext()) {  
         	TagRecord tagr = new TagRecord();  
-            //TagOperations.dumpTagRecord(tagr, c);
         	tagr.dumpRecord(c);
         	
             tagrList.add(tagr);  
         }  
         c.close();  
-        return tagrList;  
+        return tagrList;
     } 
     /** 
      * close database 

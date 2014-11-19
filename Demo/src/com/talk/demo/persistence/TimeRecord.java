@@ -125,10 +125,6 @@ public class TimeRecord extends CommonRecord {
         return dateFormat.format(date);
     }
 
-	@Override
-	public String getTableName() {
-		return "records";
-	}
 
 	@Override
 	public int getNumItems() {

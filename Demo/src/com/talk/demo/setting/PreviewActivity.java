@@ -92,12 +92,12 @@ public class PreviewActivity extends Activity {
     }
     
     public int getDailyNumber(Date v) {
-	    int numbers = mgr.queryWithParam(TalkUtil.dailyDate(v)).size();
+	    int numbers = mgr.queryTimeWithParam(TalkUtil.dailyDate(v)).size();
 	    return numbers; 
     }
     
     public int getPreviewNumber(Date v) {
-	    int numbers = mgr.queryWithMultipleParams(TalkUtil.preConditonDates(v)).size();
+	    int numbers = mgr.queryTimeWithMultipleParams(TalkUtil.preConditonDates(v)).size();
 	    return numbers; 
     }
     

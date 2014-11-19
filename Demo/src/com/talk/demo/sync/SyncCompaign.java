@@ -33,7 +33,7 @@ public class SyncCompaign {
         /*
          *  get dirty records from db
          */
-    	List<TimeRecord> trlist = db.query();
+    	List<TimeRecord> trlist = db.queryTime();
     	for(TimeRecord tr: trlist) {
     		Log.d(TAG, "time record: "+myLog(tr));
     	    //check the dirty and deleted flag
@@ -72,7 +72,7 @@ public class SyncCompaign {
             
             if(rr.getDataId() == -1) {
             	Log.d(TAG, "[need add] server id: " + tr.server_id);
-            	db.addFromServer(tr);
+            	db.addTimeFromServer(tr);
             } else {
             	Log.d(TAG, "[update] server id: " + tr.server_id);
             	db.updateServerInfo(tr);
@@ -107,7 +107,7 @@ public class SyncCompaign {
         boolean dirty = false;
         boolean deleted = false;
         
-        TimeRecord tr = db.queryTheParam(clientId);
+        TimeRecord tr = db.queryTimeTheParam(clientId);
         
         name = tr.userName;
         title = tr.title;
