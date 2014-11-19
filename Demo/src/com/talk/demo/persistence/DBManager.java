@@ -28,14 +28,29 @@ public class DBManager {
         db = helper.getWritableDatabase();  
         rp = RichPresent.getInstance(context);
     }  
-   
+
     public void addTime(TimeRecord tr) {
         new DataOperation(db, "records", tr).insertRecord();
         rp.addRich(2);
     }
     
+    public void addFriend(FriendRecord fr) {
+    	new DataOperation(db, "friends", fr).insertRecord();
+    }
+    
+    public void addRoom(RoomRecord rr) {
+    	new DataOperation(db, "rooms", rr).insertRecord();
+    }
+    
+    public void addDialog(DialogRecord dr) {
+    	new DataOperation(db, "dialogs", dr).insertRecord();
+    }
+    
+    public void addTag(TagRecord tagr) {  
+    	new DataOperation(db, "tags", tagr).insertRecord();
+    }  
+    
     public void addTimeFromServer(TimeRecord tr) {
-    	//Cursor c = RecordOperations.queryCursorWithServerId(db, tr.server_id);
         Map<String, Object> sortVar = new HashMap<String, Object>();
         sortVar.put("server_id", tr.server_id);
         DataOperation doa = new DataOperation(db, "records");
@@ -50,7 +65,6 @@ public class DBManager {
     }  
     
     public void addFriendFromServer(FriendRecord fr) {
-        //Cursor c = FriendOperations.queryCursorWithServerId(db, fr.server_id);
         Map<String, Object> sortVar = new HashMap<String, Object>();
         sortVar.put("server_id", fr.server_id);
         DataOperation doa = new DataOperation(db, "records");
@@ -63,16 +77,7 @@ public class DBManager {
         	addFriend(fr);
         }
     }  
-
-    
-    public void addFriend(FriendRecord fr) {
-    	new DataOperation(db, "friends", fr).insertRecord();
-    }
-    
-    public void addTag(TagRecord tagr) {  
-    	new DataOperation(db, "tags", tagr).insertRecord();
-    }  
-    
+ 
     /** 
      * add multiple time records 
      * @param TimeRecord 
@@ -84,7 +89,6 @@ public class DBManager {
     }
     
     public void updateContent(TimeRecord tRecord) {
-    	//RecordOperations.updateContent(db, tRecord);
     	new DataOperation(db, "records").updateContent(tRecord, tRecord.content);
         rp.addRich(1);
     }
@@ -107,7 +111,6 @@ public class DBManager {
      */  
     public List<TimeRecord> queryTimeWithMultipleParams(String[] params) {  
         ArrayList<TimeRecord> trList = new ArrayList<TimeRecord>();  
-        //Cursor c = RecordOperations.queryCursorWithMultipleParams(db, params);
         String[] whereVar = {"calc_date","calc_date","calc_date","calc_date"};
         String[] sortVar = {"calc_date", "create_time"};
         Cursor c = new DataOperation(db, "records").queryCursorWithComplexCond(whereVar,sortVar, params);
@@ -125,7 +128,6 @@ public class DBManager {
      */  
     public List<TimeRecord> queryTimeWithParam(String param) {  
         ArrayList<TimeRecord> trList = new ArrayList<TimeRecord>();  
-        //Cursor c = RecordOperations.queryCursorWithParam(db, param);  
         String[] whereVar = {"calc_date"};
         String[] sortVar = {"calc_date", "create_time"};
         Cursor c = new DataOperation(db, "records").queryCursorWithComplexCond(whereVar,sortVar, new String[]{param});
@@ -140,7 +142,6 @@ public class DBManager {
     
     public List<TimeRecord> queryTimeFromOthers(String param) {  
         ArrayList<TimeRecord> trList = new ArrayList<TimeRecord>();  
-        //Cursor c = RecordOperations.queryCursorFromOthers(db, param);  
         String[] whereVar = {"link!"};
         String[] sortVar = {"calc_date", "create_time"};
         Cursor c = new DataOperation(db, "records").queryCursorWithComplexCond(whereVar,sortVar, new String[]{param});
@@ -155,7 +156,6 @@ public class DBManager {
     }   
     
     public TimeRecord queryTimeTheParam(int param) {  
-        //Cursor c = RecordOperations.queryCursorWithId(db, param); 
         Map<String, Object> sortVar = new HashMap<String, Object>();
         sortVar.put("id", param);
         Cursor c = new DataOperation(db, "records").queryCursorWithCond(sortVar);
@@ -170,7 +170,6 @@ public class DBManager {
     
     public List<TimeRecord> queryTimeTag(String param) {
     	ArrayList<TimeRecord> trList = new ArrayList<TimeRecord>();  
-        //Cursor c = RecordOperations.queryCursorWithTag(db, param); 
         Map<String, Object> sortVar = new HashMap<String, Object>();
         sortVar.put("tag", param);
         Cursor c = new DataOperation(db, "records").queryCursorWithCond(sortVar);
@@ -185,7 +184,6 @@ public class DBManager {
     }
     
     public FriendRecord queryFriendTheParam(int param) {  
-        //Cursor c = FriendOperations.queryFriendCursorWithId(db, param); 
         Map<String, Object> sortVar = new HashMap<String, Object>();
         sortVar.put("id", param);
         Cursor c = new DataOperation(db, "friends").queryCursorWithCond(sortVar);
@@ -199,12 +197,11 @@ public class DBManager {
     }
     
     /** 
-     * query all content, return list 
+     * query all time records, return list 
      * @return List<TimeRecord> 
      */  
     public List<TimeRecord> queryTime() {  
         ArrayList<TimeRecord> trList = new ArrayList<TimeRecord>();  
-        //Cursor c = RecordOperations.queryTheCursor(db);
         String[] sortVar = {"calc_date", "create_time"};
         Cursor c = new DataOperation(db, "records").queryCursorByName(sortVar);
         while (c.moveToNext()) {  
@@ -214,11 +211,14 @@ public class DBManager {
         }  
         c.close();  
         return trList;  
-    }  
+    }
     
+    /** 
+     * query all friend records, return list 
+     * @return List<FriendRecord> 
+     */  
     public List<FriendRecord> queryFriend() {  
         ArrayList<FriendRecord> frList = new ArrayList<FriendRecord>();  
-        //Cursor c = FriendOperations.queryFriendCursor(db);
         String[] sortVar = {"username"};
         Cursor c = new DataOperation(db, "friends").queryCursorByName(sortVar);
         while (c.moveToNext()) {  
@@ -230,10 +230,24 @@ public class DBManager {
         return frList;  
     } 
 
-
+    public List<DialogRecord> queryDialog() {
+        ArrayList<DialogRecord> drList = new ArrayList<DialogRecord>();  
+        String[] sortVar = {"calc_date", "create_time"};
+        Cursor c = new DataOperation(db, "dialogs").queryCursorByName(sortVar);
+        while (c.moveToNext()) {  
+        	DialogRecord dr = new DialogRecord();  
+            dr.dumpRecord(c);
+            drList.add(dr);  
+        }  
+        c.close();  
+        return drList;  
+    }
+    /** 
+     * query all tag records, return list 
+     * @return List<TagRecord> 
+     */  
     public List<TagRecord> queryTag() {  
         ArrayList<TagRecord> tagrList = new ArrayList<TagRecord>();  
-        //Cursor c = TagOperations.queryTagCursor(db);  
         String[] sortVar = {"tagname"};
         Cursor c = new DataOperation(db, "tags").queryCursorByName(sortVar);
         
