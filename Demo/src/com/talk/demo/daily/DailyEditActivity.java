@@ -37,7 +37,7 @@ import com.talk.demo.prewrite.PreWrite;
 import com.talk.demo.util.AccountUtils;
 import com.talk.demo.util.AlarmManagerUtil;
 import com.talk.demo.util.NetworkUtilities;
-import com.talk.demo.util.RawRecord;
+import com.talk.demo.util.RawDialog;
 import com.talk.demo.util.TalkUtil;
 
 import org.apache.http.ParseException;
@@ -193,16 +193,16 @@ public class DailyEditActivity extends Activity {
 		rs.destroy();
 	}
 
-	private String shareToFriend(TimeRecord time, String name) {
+	private String shareToFriend(DialogRecord dialog, String name) {
 		String result = "ok";
         Account accout = AccountUtils.getPasswordAccessibleAccount(this);
         if (accout != null && !TextUtils.isEmpty(accout.name)) {
         	Log.d(TAG,"ccount name: "+accout.name);
         }
         //TODO 
-		RawRecord raw = RawRecord.create(accout.name, friend, "test", time.content,
-				time.calc_date, time.create_time, time.content_type, null,
-				null, null, false, 11, 12, -1, true);
+		RawDialog raw = RawDialog.create(accout.name, friend, friend, dialog.content,
+				dialog.calc_date, dialog.create_time, dialog.content_type, null,
+				null, 1, false, 11, 12, -1, true);
 		try {
 			NetworkUtilities.shareRecord(raw, accout.name, name);
 		} catch (ParseException e) {
@@ -354,7 +354,7 @@ public class DailyEditActivity extends Activity {
 	private class ShareRecordTask extends AsyncTask<Void, Void, String> {
 		@Override
 		protected String doInBackground(Void... params) {
-			return shareToFriend(tr, friend);
+			return shareToFriend(dr, friend);
 		}
 
 		@Override

@@ -362,7 +362,7 @@ final public class NetworkUtilities {
         return mItems;
     }
     
-    public static void shareRecord(RawRecord raw, String oring, String target) 
+    public static void shareRecord(RawDialog raw, String oring, String target) 
             throws JSONException, ParseException, IOException {
         HttpURLConnection conn = HttpRequest.get(AUTH_URI)
                 .getConnection();
