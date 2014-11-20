@@ -23,6 +23,7 @@ import java.util.Map;
 public class RecordManager {
 	private static String TAG = "RecordManager";
 	private List<TimeRecord> trlist;
+	private List<DialogRecord> drlist;
 	private DBManager dbMgr;
 	private Context context;
 	public RecordManager(DBManager mgr, Context ctx) {
@@ -33,56 +34,47 @@ public class RecordManager {
 
 	public ArrayList<Map<String, String>> initDataListTalk(ArrayList<RecordCache> record_cache,
 	        boolean isStore) {
-		ArrayList<Map<String, String>> time_record = new ArrayList<Map<String, String>>();
+		ArrayList<Map<String, String>> dialog_record = new ArrayList<Map<String, String>>();
 		if (!trlist.isEmpty()) {
 			trlist.clear();
 		}
 		Log.d(TAG, "init data list");
 		
-		if(isStore) { 
-		    trlist = dbMgr.queryTime();
-		} else {
-            Account accout = AccountUtils.getPasswordAccessibleAccount(context);
-            if (accout != null && !TextUtils.isEmpty(accout.name)) {
-            	Log.d(TAG,"ccount name: "+accout.name);
-            }
-            
-    		trlist = dbMgr.queryTimeFromOthers(accout.name);
-		}
+	    drlist = dbMgr.queryDialog();
 
-		if (!time_record.isEmpty()) {
-			time_record.clear();
+		if (!dialog_record.isEmpty()) {
+		    dialog_record.clear();
 		}
 		
 		if(!record_cache.isEmpty()) {
 			record_cache.clear();
 		}
 
-		for (TimeRecord tr : trlist) {
+		for (DialogRecord dr : drlist) {
 			HashMap<String, String> map = new HashMap<String, String>();
 			RecordCache rc = new RecordCache();
-			if (tr.content_type == TalkUtil.MEDIA_TYPE_PHOTO)
+			if (dr.content_type == TalkUtil.MEDIA_TYPE_PHOTO)
 				map.put("content", "惊鸿一瞥");
-			else if (tr.content_type == TalkUtil.MEDIA_TYPE_AUDIO)
+			else if (dr.content_type == TalkUtil.MEDIA_TYPE_AUDIO)
 				map.put("content", "口若兰花");
 			else
-				map.put("content", tr.content);
+				map.put("content", dr.content);
 
-			rc.setId(tr._id);
-			rc.setContent(tr.content);
-			map.put("calc_date", tr.calc_date);
-			rc.setCreateDate(tr.calc_date);
-			map.put("create_time", tr.create_time);
-			map.put("send_interval_time", String.valueOf(tr.send_interval_time));
-			map.put("send_done_time", tr.send_done_time);
-			map.put("link", tr.link);
-			rc.setCreateTime(tr.create_time);
-			rc.setMediaType(tr.content_type);
+			rc.setId(dr._id);
+			rc.setContent(dr.content);
+			map.put("calc_date", dr.calc_date);
+			rc.setCreateDate(dr.calc_date);
+			map.put("create_time", dr.create_time);
+			map.put("send_interval_time", String.valueOf(dr.send_interval_time));
+			map.put("send_done_time", dr.send_done_time);
+			map.put("link", dr.link);
+			rc.setCreateTime(dr.create_time);
+			rc.setMediaType(dr.content_type);
 			record_cache.add(rc);
-			time_record.add(map);
+			dialog_record.add(map);
 		}
 
-		return time_record;
+		return dialog_record;
 	}
 
 	private boolean exsitDateItem(List<String> list, String date) {
