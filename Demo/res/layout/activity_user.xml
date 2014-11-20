@@ -33,7 +33,7 @@
 	<TextView
 	    android:layout_width="match_parent"
 	    android:layout_height="30dp"
-	    android:background="@color/grey"/>
+	    android:background="@color/whitetea"/>
 	
 	<LinearLayout
 	    android:id="@+id/whole_daily"
@@ -58,10 +58,10 @@
             android:textSize="22sp" />
 	</LinearLayout>
 	
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:background="@drawable/tab_bg" />
+	<TextView
+	    android:layout_width="match_parent"
+	    android:layout_height="2dp"
+	    android:background="@color/whitetea"/>
     
 	<LinearLayout
 	    android:id="@+id/collect"
@@ -89,7 +89,7 @@
 	<TextView
 	    android:layout_width="match_parent"
 	    android:layout_height="30dp"
-	    android:background="@color/grey"/>
+	    android:background="@color/whitetea"/>
 	
 	<LinearLayout
 	    android:id="@+id/preview_daily"
@@ -117,7 +117,7 @@
 	<TextView
 	    android:layout_width="match_parent"
 	    android:layout_height="30dp"
-	    android:background="@color/grey"/>
+	    android:background="@color/whitetea"/>
 		
 	<LinearLayout
 	    android:id="@+id/setting"
@@ -145,5 +145,5 @@
 	<TextView
 	    android:layout_width="match_parent"
 	    android:layout_height="30dp"
-	    android:background="@color/grey"/>		
+	    android:background="@color/whitetea"/>		
 </LinearLayout>
