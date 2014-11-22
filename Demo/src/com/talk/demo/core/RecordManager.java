@@ -70,6 +70,8 @@ public class RecordManager {
 		
 		for (DialogRecord dr : drlist) {
 			if(!exsitRoom(roomSet, dr.link)) {
+				roomSet.add(dr.link);
+				
 				TalkViewItem tvi = new TalkViewItem();
 				ArrayList<DialogCache> cache = new ArrayList<DialogCache>();
 				roomlist = dbMgr.queryDialogLink(dr.link);
