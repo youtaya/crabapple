@@ -2,6 +2,7 @@ package com.talk.demo.persistence;
 
 import android.database.Cursor;
 
+import com.talk.demo.time.TimeCache;
 import com.talk.demo.util.RawDialog;
 
 import java.text.SimpleDateFormat;
@@ -36,7 +37,7 @@ public class DialogRecord extends CommonRecord {
         room_name = rr.getRoomName();
     }
     
-    public DialogRecord(RecordCache rc) {
+    public DialogRecord(TimeCache rc) {
     	_id = rc.getId();
     	content = rc.getContent();
     	calc_date = rc.getCreateDate();

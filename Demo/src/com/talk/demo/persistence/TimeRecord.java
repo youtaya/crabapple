@@ -2,6 +2,7 @@ package com.talk.demo.persistence;
 
 import android.database.Cursor;
 
+import com.talk.demo.time.TimeCache;
 import com.talk.demo.util.RawRecord;
 
 import java.text.SimpleDateFormat;
@@ -35,7 +36,7 @@ public class TimeRecord extends CommonRecord {
         title = rr.getTitle();
     }
     
-    public TimeRecord(RecordCache rc) {
+    public TimeRecord(TimeCache rc) {
     	_id = rc.getId();
     	content = rc.getContent();
     	calc_date = rc.getCreateDate();

@@ -10,24 +10,27 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 
 import com.talk.demo.core.RecordManager;
-import com.talk.demo.persistence.RecordCache;
+import com.talk.demo.talk.DialogCache;
+import com.talk.demo.talk.TalkViewItem;
+import com.talk.demo.time.TimeCache;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 public class TalkFragment extends Fragment {
     
     private static String TAG = "TalkFragment";
-    private ListView cardLv;
-    private ArrayList<Map<String, String>> time_record;
-    private ArrayList<RecordCache> record_cache;
+    private ListView mListView;
+    private ArrayList<TalkViewItem> talk_record;
+    private HashMap<String, ArrayList<DialogCache>> dialog_cache;
     private RecordManager recordManager;
     
     public TalkFragment(RecordManager recordMgr) {
-        time_record = new ArrayList<Map<String, String>>();
+        talk_record = new ArrayList<TalkViewItem>();
         recordManager = recordMgr;
         //talk_cache = new ArrayList<TalkCache>();
-        record_cache = new ArrayList<RecordCache>();
+        dialog_cache = new HashMap<String, ArrayList<DialogCache>>();
     }
 
      
@@ -35,16 +38,21 @@ public class TalkFragment extends Fragment {
             Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_talk, container, false);
         
-        cardLv = (ListView)rootView.findViewById(R.id.talk_list);
-        time_record = recordManager.initDataListTalk(record_cache, false);
+        mListView = (ListView)rootView.findViewById(R.id.talk_list);
+        talk_record = recordManager.initDataListTalk(dialog_cache, false);
         
-        CloudKite[] tasks = initTasks();
-        TalkListAdapter adapter = new TalkListAdapter(this.getActivity().getApplicationContext(), tasks);
-        cardLv.setAdapter(adapter);
-
+        //CloudKite[] tasks = initTasks();
+        /*
+        TalkListAdapter adapter = new TalkListAdapter(this.getActivity().getApplicationContext(), 
+        		talk_record, dialog_cache, tasks);
+        */
+        TalkListAdapter adapter = new TalkListAdapter(this.getActivity().getApplicationContext(), 
+        		talk_record, dialog_cache);
+        mListView.setAdapter(adapter);
+        /*
         for (CloudKite t : tasks)
             new Thread(t).start();
-
+		*/
         return rootView;
     }
     
@@ -67,13 +75,13 @@ public class TalkFragment extends Fragment {
     
     CloudKite[] initTasks() {
     	
-        final int count = time_record.size();
+        final int count = talk_record.size();
         CloudKite[] result = new CloudKite[count];
         int i = 0;
-        for(Map<String,String> map : time_record) {
-        	result[i] = new CloudKite(map.get("content"), 
-        	        Integer.parseInt(map.get("send_interval_time")),
-        	        map.get("send_done_time"));
+        for(TalkViewItem talk : talk_record) {
+        	result[i] = new CloudKite(talk.getDialogItem().getContent(), 
+        	        talk.getDialogItem().getIntervalTime(),
+        	        talk.getDialogItem().getDoneTime());
         	i++;
         }
 

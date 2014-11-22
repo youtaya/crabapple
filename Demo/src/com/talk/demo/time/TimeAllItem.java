@@ -16,7 +16,6 @@ import android.widget.TextView;
 
 import com.talk.demo.R;
 import com.talk.demo.persistence.DBManager;
-import com.talk.demo.persistence.RecordCache;
 
 import java.util.ArrayList;
 
@@ -26,7 +25,7 @@ public class TimeAllItem extends FragmentActivity {
     private String create_date;
     private String create_time;
     private String tag_title;
-    private ArrayList<RecordCache> record_cache;
+    private ArrayList<TimeCache> record_cache;
     
     private ViewPager mPager;
     private TextView title_item;

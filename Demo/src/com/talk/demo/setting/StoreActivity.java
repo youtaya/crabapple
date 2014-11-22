@@ -14,10 +14,12 @@ import com.afollestad.cardsui.CardListView.CardClickListener;
 import com.talk.demo.R;
 import com.talk.demo.core.RecordManager;
 import com.talk.demo.persistence.DBManager;
-import com.talk.demo.persistence.RecordCache;
 import com.talk.demo.share.ShareTalkActivity;
+import com.talk.demo.time.TimeCache;
+import com.talk.demo.time.TimeViewItem;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 public class StoreActivity extends Activity {
@@ -27,8 +29,8 @@ public class StoreActivity extends Activity {
     private RecordManager recordManager;
     
     private CardListView cardLv;
-    private ArrayList<Map<String, String>> time_record;
-    private ArrayList<RecordCache> record_cache;
+    private ArrayList<TimeViewItem> time_record;
+    private HashMap<String, ArrayList<TimeCache>> record_cache;
     private CardAdapter<Card> cardAdapter;
     
     
@@ -41,8 +43,8 @@ public class StoreActivity extends Activity {
         mgr = new DBManager(this);
         recordManager = new RecordManager(mgr, this);
         
-        time_record = new ArrayList<Map<String, String>>();
-        record_cache = new ArrayList<RecordCache>();
+        time_record = new ArrayList<TimeViewItem>();
+        record_cache = new HashMap<String, ArrayList<TimeCache>>();
         cardLv = (CardListView)findViewById(R.id.store_list);
         initListView();
         
@@ -50,14 +52,14 @@ public class StoreActivity extends Activity {
     private void initListView() {
         if(cardLv == null)
             return;
-        time_record = recordManager.initDataListTalk(record_cache, true);
+        time_record = recordManager.initDataListTime(record_cache, true);
         
         cardAdapter = new CardAdapter<Card>(this,android.R.color.holo_blue_dark);
         
         // Add a basic header and cards below it
-        for(Map<String,String> map : time_record) {
+        for(TimeViewItem item : time_record) {
             //cardAdapter.add(new CardHeader(map.get("create_time")));
-            cardAdapter.add(new Card(map.get("content"), map.get("create_time")));
+            cardAdapter.add(new Card(item.getViewItem().getContent(), item.getViewItem().getCreateTime()));
         }
         cardLv.setAdapter(cardAdapter);  
         cardLv.setOnCardClickListener(new CardClickListener() {
@@ -69,9 +71,8 @@ public class StoreActivity extends Activity {
                 Bundle mBundle = new Bundle();
                 //1,3,5,7 ==> 0,1,2,3
                 int position = (index - 1)/2;
-                mBundle.putString("createtime", time_record.get(position).get("create_time"));
-                mBundle.putString("link", time_record.get(position).get("link"));
-                mBundle.putParcelable("recordcache", record_cache.get(position));
+                mBundle.putString("createtime", time_record.get(position).getViewItem().getCreateTime());
+                mBundle.putString("link", time_record.get(position).getViewItem().getCreateDate());
                 mIntent.putExtras(mBundle);
                 startActivity(mIntent);             
             }

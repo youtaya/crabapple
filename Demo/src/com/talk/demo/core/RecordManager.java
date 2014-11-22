@@ -1,24 +1,23 @@
 package com.talk.demo.core;
 
-import android.accounts.Account;
 import android.content.Context;
-import android.text.TextUtils;
 import android.util.Log;
 
 import com.talk.demo.persistence.DBManager;
 import com.talk.demo.persistence.DialogRecord;
-import com.talk.demo.persistence.RecordCache;
 import com.talk.demo.persistence.TimeRecord;
+import com.talk.demo.talk.DialogCache;
+import com.talk.demo.talk.DialogItem;
+import com.talk.demo.talk.TalkViewItem;
+import com.talk.demo.time.TimeCache;
 import com.talk.demo.time.TimeViewItem;
 import com.talk.demo.time.ViewAsItem;
-import com.talk.demo.util.AccountUtils;
 import com.talk.demo.util.TalkUtil;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 
 public class RecordManager {
 	private static String TAG = "RecordManager";
@@ -26,19 +25,35 @@ public class RecordManager {
 	private List<DialogRecord> drlist;
 	private DBManager dbMgr;
 	private Context context;
+	
 	public RecordManager(DBManager mgr, Context ctx) {
 		trlist = new ArrayList<TimeRecord>();
+		drlist = new ArrayList<DialogRecord>();
 		dbMgr = mgr;
 		context = ctx;
 	}
 
-	public ArrayList<Map<String, String>> initDataListTalk(ArrayList<RecordCache> record_cache,
-	        boolean isStore) {
-		ArrayList<Map<String, String>> dialog_record = new ArrayList<Map<String, String>>();
-		if (!trlist.isEmpty()) {
-			trlist.clear();
+	private boolean exsitRoom(List<String> room, String link) {
+		if(room.isEmpty()) {
+			return false;
 		}
-		Log.d(TAG, "init data list");
+		
+		for(String str: room) {
+			if(str.equalsIgnoreCase(link)) {
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
+	public ArrayList<TalkViewItem> initDataListTalk(HashMap<String, ArrayList<DialogCache>> dialog_cache,
+	        boolean isStore) {
+		ArrayList<TalkViewItem> dialog_record = new ArrayList<TalkViewItem>();
+		if (!drlist.isEmpty()) {
+			drlist.clear();
+		}
+		Log.d(TAG, "init talk list");
 		
 	    drlist = dbMgr.queryDialog();
 
@@ -46,32 +61,47 @@ public class RecordManager {
 		    dialog_record.clear();
 		}
 		
-		if(!record_cache.isEmpty()) {
-			record_cache.clear();
+		if(!dialog_cache.isEmpty()) {
+			dialog_cache.clear();
 		}
 
+		List<String> roomSet = new LinkedList<String>();
+		List<DialogRecord> roomlist = new ArrayList<DialogRecord>();
+		
 		for (DialogRecord dr : drlist) {
-			HashMap<String, String> map = new HashMap<String, String>();
-			RecordCache rc = new RecordCache();
-			if (dr.content_type == TalkUtil.MEDIA_TYPE_PHOTO)
-				map.put("content", "惊鸿一瞥");
-			else if (dr.content_type == TalkUtil.MEDIA_TYPE_AUDIO)
-				map.put("content", "口若兰花");
-			else
-				map.put("content", dr.content);
+			if(!exsitRoom(roomSet, dr.link)) {
+				TalkViewItem tvi = new TalkViewItem();
+				ArrayList<DialogCache> cache = new ArrayList<DialogCache>();
+				roomlist = dbMgr.queryDialogLink(dr.link);
+				
+				ArrayList<DialogItem> dItems = new ArrayList<DialogItem>();
+				
+				tvi.setLinkName(dr.link);
+				
+				for(DialogRecord r: roomlist) {
+					DialogItem di = new DialogItem(r._id, r.link, r.direct,  
+							r.calc_date, r.create_time, r.content, r.content_type);
 
-			rc.setId(dr._id);
-			rc.setContent(dr.content);
-			map.put("calc_date", dr.calc_date);
-			rc.setCreateDate(dr.calc_date);
-			map.put("create_time", dr.create_time);
-			map.put("send_interval_time", String.valueOf(dr.send_interval_time));
-			map.put("send_done_time", dr.send_done_time);
-			map.put("link", dr.link);
-			rc.setCreateTime(dr.create_time);
-			rc.setMediaType(dr.content_type);
-			record_cache.add(rc);
-			dialog_record.add(map);
+					di.setIntervalTime(r.send_interval_time);
+					di.setDoneTime(r.send_done_time);
+					
+					DialogCache dc = new DialogCache();
+					dc.setId(r._id);
+					dc.setLink(r.link);
+					dc.setDirect(r.direct);
+					dc.setContent(r.content);
+					dc.setCreateDate(r.calc_date);
+					dc.setCreateTime(r.create_time);
+					dc.setMediaType(r.content_type);
+					
+					dItems.add(di);
+					cache.add(dc);
+				}
+				
+				tvi.setListViewItem(dItems);
+				dialog_cache.put(dr.link, cache);
+				dialog_record.add(tvi);
+			}
 		}
 
 		return dialog_record;
@@ -117,7 +147,8 @@ public class RecordManager {
 		Log.d(TAG, "convert to : "+Integer.parseInt(temp[1]));
 		return month12_zh[Integer.parseInt(temp[1])-1]+" "+temp[0];
 	}
-	public ArrayList<TimeViewItem> initDataListTime(HashMap<String, ArrayList<RecordCache>> record_cache, boolean isLuckDay) {
+	public ArrayList<TimeViewItem> initDataListTime(HashMap<String, ArrayList<TimeCache>> record_cache, 
+			boolean isLuckDay) {
 		ArrayList<TimeViewItem> time_records = new ArrayList<TimeViewItem>();
 		if (!trlist.isEmpty()) {
 			trlist.clear();
@@ -161,14 +192,15 @@ public class RecordManager {
 				tvi.setType(2);
 				Log.d(TAG, "tag is: "+tr.tag);
 				
-				ArrayList<RecordCache> listCache = new ArrayList<RecordCache>();
+				ArrayList<TimeCache> listCache = new ArrayList<TimeCache>();
 				ArrayList<ViewAsItem> listViewAsItem = new ArrayList<ViewAsItem>();
 				
 				tvi.setTagTitle(tr.tag);
 				tag_records = dbMgr.queryTimeTag(tr.tag);
 				for(TimeRecord item : tag_records) {
-					RecordCache rc = new RecordCache();
-					ViewAsItem vi = new ViewAsItem(item._id, item.calc_date,item.create_time,item.content,item.content_type,item.photo);
+					TimeCache rc = new TimeCache();
+					ViewAsItem vi = new ViewAsItem(item._id, item.calc_date,item.create_time,
+							item.content,item.content_type,item.photo);
 					rc.setId(item._id);
 					rc.setContent(item.content);
 					rc.setCreateDate(item.calc_date);

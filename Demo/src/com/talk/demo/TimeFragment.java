@@ -17,7 +17,7 @@ import android.widget.ListView;
 
 import com.talk.demo.account.AccountConstants;
 import com.talk.demo.core.RecordManager;
-import com.talk.demo.persistence.RecordCache;
+import com.talk.demo.time.TimeCache;
 import com.talk.demo.time.TimeViewItem;
 import com.talk.demo.util.AccountUtils;
 
@@ -30,13 +30,13 @@ public class TimeFragment extends Fragment {
     private static String TAG = "TimeFragment";
     private ListView lv;
     private ArrayList<TimeViewItem> time_record;
-    private HashMap<String, ArrayList<RecordCache>> record_cache;
+    private HashMap<String, ArrayList<TimeCache>> record_cache;
     private TimeListAdapter tAdapter;
     private RecordManager recordManager;
     
     public TimeFragment(RecordManager recordMgr) {
         time_record = new ArrayList<TimeViewItem>();
-        record_cache = new HashMap<String, ArrayList<RecordCache>>();
+        record_cache = new HashMap<String, ArrayList<TimeCache>>();
         recordManager = recordMgr;
     }
 

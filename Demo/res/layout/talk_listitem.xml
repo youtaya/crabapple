@@ -40,13 +40,13 @@
 	        android:layout_marginTop="3dp"
 	        android:text="dialog time" />
 		<TextView
-	        android:id="@+id/tvTaskDesc"
+	        android:id="@+id/dialog_content"
 	        android:layout_width="fill_parent"
 	        android:layout_height="wrap_content"
 	        android:layout_alignParentBottom="true"
 	        android:maxLines="2"
 	        android:layout_alignWithParentIfMissing="true"
 	        android:layout_marginBottom="3dp"
-	        android:text="My Task" />
+	        android:text="dialog content" />
 	</RelativeLayout>
 </LinearLayout>

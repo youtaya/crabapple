@@ -196,6 +196,21 @@ public class DBManager {
         return fr;  
     }
     
+    public List<DialogRecord> queryDialogLink(String param) {
+    	ArrayList<DialogRecord> drList = new ArrayList<DialogRecord>();  
+        Map<String, Object> sortVar = new HashMap<String, Object>();
+        sortVar.put("link", param);
+        Cursor c = new DataOperation(db, "dialogs").queryCursorWithCond(sortVar);
+        
+        while (c.moveToNext()) {  
+        	DialogRecord dr = new DialogRecord();  
+            dr.dumpRecord(c);
+            drList.add(dr);  
+        }  
+        c.close();  
+        return drList;  
+    }
+    
     /** 
      * query all time records, return list 
      * @return List<TimeRecord> 

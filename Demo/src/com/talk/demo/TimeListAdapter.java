@@ -27,8 +27,8 @@ import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
-import com.talk.demo.persistence.RecordCache;
 import com.talk.demo.time.DateInfo;
+import com.talk.demo.time.TimeCache;
 import com.talk.demo.time.TimeAllItem;
 import com.talk.demo.time.TimeViewItem;
 import com.talk.demo.time.ViewAsItem;
@@ -45,7 +45,7 @@ public class TimeListAdapter extends BaseAdapter {
     private ViewHolder holder;
     private ViewTagHolder mTagHolder;
     private ViewHeaderHolder mHeaderHolder;
-    private HashMap<String, ArrayList<RecordCache>> record_cache;
+    private HashMap<String, ArrayList<TimeCache>> record_cache;
     protected ImageLoader imageLoader = ImageLoader.getInstance();
     protected DisplayImageOptions options;
     private ImageLoadingListener animateFirstListener = new AnimateFirstDisplayListener();
@@ -54,7 +54,7 @@ public class TimeListAdapter extends BaseAdapter {
     private static final int TYPE_ITEM = 1;
     private static final int TYPE_TAG_ITEM = 2; 
     
-    public TimeListAdapter(Context context, ArrayList<TimeViewItem> data, HashMap<String, ArrayList<RecordCache>> recordCache) {
+    public TimeListAdapter(Context context, ArrayList<TimeViewItem> data, HashMap<String, ArrayList<TimeCache>> recordCache) {
     	this.context = context;
     	this.values = data;
     	this.record_cache = recordCache;
