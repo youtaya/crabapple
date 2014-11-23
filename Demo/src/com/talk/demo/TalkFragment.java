@@ -39,7 +39,7 @@ public class TalkFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_talk, container, false);
         
         mListView = (ListView)rootView.findViewById(R.id.talk_list);
-        talk_record = recordManager.initDataListTalk(dialog_cache, false);
+        talk_record = recordManager.initDataListTalk(dialog_cache);
         
         //CloudKite[] tasks = initTasks();
         /*

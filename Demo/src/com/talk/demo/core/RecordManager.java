@@ -47,8 +47,7 @@ public class RecordManager {
 		return false;
 	}
 	
-	public ArrayList<TalkViewItem> initDataListTalk(HashMap<String, ArrayList<DialogCache>> dialog_cache,
-	        boolean isStore) {
+	public ArrayList<TalkViewItem> initDataListTalk(HashMap<String, ArrayList<DialogCache>> dialog_cache) {
 		ArrayList<TalkViewItem> dialog_record = new ArrayList<TalkViewItem>();
 		if (!drlist.isEmpty()) {
 			drlist.clear();
@@ -222,6 +221,46 @@ public class RecordManager {
 			tvi.setType(1);
 			ViewAsItem vai = new ViewAsItem(tr._id, tr.calc_date,tr.create_time,tr.content,tr.content_type,tr.photo);
 			tvi.setViewItem(vai);
+			time_records.add(tvi);
+
+		}
+
+		return time_records;
+	}
+	
+	public ArrayList<TimeViewItem> initStoreListTime(ArrayList<TimeCache> record_cache) {
+		ArrayList<TimeViewItem> time_records = new ArrayList<TimeViewItem>();
+		if (!trlist.isEmpty()) {
+			trlist.clear();
+		}
+		Log.d(TAG, "init data list");
+		
+		trlist = dbMgr.queryTime();
+
+		if (!time_records.isEmpty()) {
+			time_records.clear();
+		}
+		
+		if(!record_cache.isEmpty()) {
+			record_cache.clear();
+		}
+		
+		for (int i = 0; i< trlist.size(); i ++) {
+			
+			TimeRecord tr = trlist.get(i);
+			TimeViewItem tvi = new TimeViewItem();
+			TimeCache rc = new TimeCache();
+			ViewAsItem vi = new ViewAsItem(tr._id, tr.calc_date,tr.create_time,
+					tr.content,tr.content_type,tr.photo);
+			rc.setId(tr._id);
+			rc.setContent(tr.content);
+			rc.setCreateDate(tr.calc_date);
+			rc.setCreateTime(tr.create_time);
+			rc.setMediaType(tr.content_type);
+			rc.setPhotoPath(tr.photo);
+			
+			record_cache.add(rc);
+			tvi.setViewItem(vi);
 			time_records.add(tvi);
 
 		}

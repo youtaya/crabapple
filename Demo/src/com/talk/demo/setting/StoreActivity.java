@@ -30,7 +30,7 @@ public class StoreActivity extends Activity {
     
     private CardListView cardLv;
     private ArrayList<TimeViewItem> time_record;
-    private HashMap<String, ArrayList<TimeCache>> record_cache;
+    private ArrayList<TimeCache> record_cache;
     private CardAdapter<Card> cardAdapter;
     
     
@@ -44,7 +44,7 @@ public class StoreActivity extends Activity {
         recordManager = new RecordManager(mgr, this);
         
         time_record = new ArrayList<TimeViewItem>();
-        record_cache = new HashMap<String, ArrayList<TimeCache>>();
+        record_cache = new ArrayList<TimeCache>();
         cardLv = (CardListView)findViewById(R.id.store_list);
         initListView();
         
@@ -52,7 +52,7 @@ public class StoreActivity extends Activity {
     private void initListView() {
         if(cardLv == null)
             return;
-        time_record = recordManager.initDataListTime(record_cache, true);
+        time_record = recordManager.initStoreListTime(record_cache);
         
         cardAdapter = new CardAdapter<Card>(this,android.R.color.holo_blue_dark);
         
@@ -73,6 +73,7 @@ public class StoreActivity extends Activity {
                 int position = (index - 1)/2;
                 mBundle.putString("createtime", time_record.get(position).getViewItem().getCreateTime());
                 mBundle.putString("link", time_record.get(position).getViewItem().getCreateDate());
+                mBundle.putParcelable("recordcache", record_cache.get(position));
                 mIntent.putExtras(mBundle);
                 startActivity(mIntent);             
             }
