@@ -219,6 +219,10 @@
             android:theme="@style/titlestyle">
         </activity>
 		<activity
+            android:name=".talk.TalkAllItem"
+            android:theme="@style/titlestyle">
+        </activity>        
+		<activity
             android:name=".audio.AudioRecorderActivity"
             android:label="录音" >
         </activity>        

@@ -19,8 +19,6 @@ import com.talk.demo.time.TimeCache;
 import com.talk.demo.time.TimeViewItem;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 public class StoreActivity extends Activity {
     private static String TAG = "StoreActivity";

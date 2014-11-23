@@ -1,9 +1,13 @@
 package com.talk.demo;
 
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
@@ -13,12 +17,14 @@ import android.widget.TextView;
 import com.talk.demo.CloudKite.taskListener;
 import com.talk.demo.talk.DialogCache;
 import com.talk.demo.talk.DialogItem;
+import com.talk.demo.talk.TalkAllItem;
 import com.talk.demo.talk.TalkViewItem;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
 public class TalkListAdapter extends BaseAdapter {
+	private static String TAG = "TalkListAdapter";
 	private final Context context;
 	private CloudKite[] tasks;
 	private ViewHolder viewHolder;
@@ -57,8 +63,13 @@ public class TalkListAdapter extends BaseAdapter {
 			
 			DialogItem dialog_item = mTalkItems.get(position).getListViewItem().get(0);
 			viewHolder.friendName.setText(dialog_item.getLink());
+			final String tag_title = dialog_item.getLink();
 			viewHolder.dialogTime.setText(dialog_item.getCreateTime());
+			final String createDate = dialog_item.getCreateDate();
+			final String createTime = dialog_item.getCreateTime();
 			viewHolder.dialogContent.setText(dialog_item.getContent());
+			
+
 		} else {
 			viewHolder = (ViewHolder) convertView.getTag();
 		}

@@ -1,22 +1,26 @@
 package com.talk.demo;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
 import com.talk.demo.core.RecordManager;
 import com.talk.demo.talk.DialogCache;
+import com.talk.demo.talk.DialogItem;
+import com.talk.demo.talk.TalkAllItem;
 import com.talk.demo.talk.TalkViewItem;
-import com.talk.demo.time.TimeCache;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 
 public class TalkFragment extends Fragment {
     
@@ -49,6 +53,29 @@ public class TalkFragment extends Fragment {
         TalkListAdapter adapter = new TalkListAdapter(this.getActivity().getApplicationContext(), 
         		talk_record, dialog_cache);
         mListView.setAdapter(adapter);
+        mListView.setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view,
+					int position, long id) {
+				Context ctx = TalkFragment.this.getActivity().getApplicationContext();
+				
+		        Intent mIntent = new Intent(ctx, TalkAllItem.class);
+		        Bundle mBundle = new Bundle();
+		        DialogItem dialog_item = talk_record.get(position).getListViewItem().get(0);
+		        Log.d(TAG, "tag title : "+ dialog_item.getLink());
+		        mBundle.putString("tag_title", dialog_item.getLink());
+	            mBundle.putString("createdate", dialog_item.getCreateDate());
+	            mBundle.putString("createtime", dialog_item.getCreateTime());
+		        mBundle.putParcelableArrayList("recordcache", dialog_cache.get(dialog_item.getLink()));
+		        Log.d(TAG,"items size: "+ dialog_cache.get(dialog_item.getLink()).size());
+			    mIntent.putExtras(mBundle);
+			    mIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+			    ctx.startActivity(mIntent);	
+				
+			}
+        	
+        });
         /*
         for (CloudKite t : tasks)
             new Thread(t).start();
