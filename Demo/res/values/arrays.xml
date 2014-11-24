@@ -10,5 +10,11 @@
 		<item>移除</item>
 		<item>分享</item>
 		<item>导出</item>
-	</string-array>	
+	</string-array>
+	
+	<string-array name="talk_opt">
+		<item>移除</item>
+		<item>置顶</item>
+		<item>导出</item>
+	</string-array>		
 </resources>

@@ -1,7 +1,10 @@
 package com.talk.demo;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -11,7 +14,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.talk.demo.core.RecordManager;
 import com.talk.demo.talk.DialogCache;
@@ -25,6 +30,7 @@ import java.util.HashMap;
 public class TalkFragment extends Fragment {
     
     private static String TAG = "TalkFragment";
+    private Context ctx;
     private ListView mListView;
     private ArrayList<TalkViewItem> talk_record;
     private HashMap<String, ArrayList<DialogCache>> dialog_cache;
@@ -41,6 +47,7 @@ public class TalkFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_talk, container, false);
+        ctx = TalkFragment.this.getActivity();
         
         mListView = (ListView)rootView.findViewById(R.id.talk_list);
         talk_record = recordManager.initDataListTalk(dialog_cache);
@@ -58,7 +65,6 @@ public class TalkFragment extends Fragment {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
-				Context ctx = TalkFragment.this.getActivity();
 				
 		        Intent mIntent = new Intent(ctx, TalkAllItem.class);
 		        Bundle mBundle = new Bundle();
@@ -73,6 +79,17 @@ public class TalkFragment extends Fragment {
 			    //mIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 			    ctx.startActivity(mIntent);	
 				
+			}
+        	
+        });
+        
+        mListView.setOnItemLongClickListener(new OnItemLongClickListener() {
+
+			@Override
+			public boolean onItemLongClick(AdapterView<?> parent, View view,
+					int position, long id) {
+				ShowTalkDialog().show();
+				return true;
 			}
         	
         });
@@ -99,6 +116,27 @@ public class TalkFragment extends Fragment {
         Log.d(TAG, "on Resume");
      
     }
+    
+	private Dialog ShowTalkDialog() {
+	    AlertDialog.Builder builder = new AlertDialog.Builder(ctx);
+	    
+	    builder.setItems(R.array.talk_opt, new DialogInterface.OnClickListener() {
+	               public void onClick(DialogInterface dialog, int which) {
+	               switch(which) {
+	               case 0:
+	            	   Toast.makeText(ctx, "移除", 2000).show();
+	            	   break;
+	               case 1:
+	            	   Toast.makeText(ctx, "置顶", 2000).show();
+	            	   break;
+	               case 2:
+	            	   Toast.makeText(ctx, "导出", 2000).show();
+	            	   break;
+	               }
+	           }
+	    });
+	    return builder.create();
+	}
     
     CloudKite[] initTasks() {
     	
