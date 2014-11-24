@@ -93,6 +93,10 @@
 			    android:value=".MainActivity"/>
 		</activity>
 		<activity
+            android:name=".intimate.EditIntimateActivity"
+            android:label="编辑好友">
+		</activity>		
+		<activity
             android:name=".intimate.FindDSourceFriendsActivity"
             android:label="添加好友"
             android:parentActivityName=".MainActivity">

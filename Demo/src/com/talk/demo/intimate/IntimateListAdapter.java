@@ -21,7 +21,7 @@ import java.util.HashMap;
 public class IntimateListAdapter extends BaseAdapter {
     private class ViewHolder {
     	ImageView friend_avatar;
-    	TextView friend_find_name;
+    	TextView friend_name;
     }
     
     private ArrayList<String> mIntimateList;
@@ -67,17 +67,17 @@ public class IntimateListAdapter extends BaseAdapter {
         if (convertView != null) {
             holder = (ViewHolder) convertView.getTag();
         } else {
-            convertView = mInflater.inflate(R.layout.friend_find_listitem, null);
+            convertView = mInflater.inflate(R.layout.friend_listitem, null);
             holder = new ViewHolder();
             holder.friend_avatar = (ImageView)convertView.findViewById(valueViewID[0]);
-            holder.friend_find_name = (TextView)convertView.findViewById(valueViewID[1]);
+            holder.friend_name = (TextView)convertView.findViewById(valueViewID[1]);
             convertView.setTag(holder);
         }
         
         String intimateInfo = mIntimateList.get(position);
         if (intimateInfo != null) {
             String friendName = intimateInfo;
-            holder.friend_find_name.setText(friendName);
+            holder.friend_name.setText(friendName);
             
             BitmapFactory.Options options = new BitmapFactory.Options();
             options.inMutable = false;

@@ -15,6 +15,8 @@ import android.widget.TextView;
 import com.talk.demo.R;
 import com.talk.demo.persistence.DBManager;
 import com.talk.demo.persistence.FriendRecord;
+import com.talk.demo.talk.DialogItem;
+import com.talk.demo.talk.TalkAllItem;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,6 +57,11 @@ public class IntimateActivity extends Activity {
 				TextView name = (TextView)view.findViewById(R.id.friend_name);
 				friendName = name.getText().toString();
 				//Todo:start daily edit activity
+		        Intent mIntent = new Intent(IntimateActivity.this, EditIntimateActivity.class);
+		        Bundle mBundle = new Bundle();
+		        mBundle.putString("friend", friendName);
+		        mIntent.putExtras(mBundle);
+			    startActivity(mIntent);	
             }
         });
         mgr = new DBManager(this);
@@ -74,7 +81,7 @@ public class IntimateActivity extends Activity {
         //adapter= new ArrayAdapter<String>(this, R.layout.friend_listitem, R.id.friend_name, friends);
         adapter= new IntimateListAdapter(this, friends, R.layout.friend_listitem,
         		new String[]{"avatar", "friend_name"}, 
-                new int[]{R.id.friend_avatar, R.id.friend_find_name});
+                new int[]{R.id.friend_avatar, R.id.friend_name});
         view.setAdapter(adapter);
     }
 }
