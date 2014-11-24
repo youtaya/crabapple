@@ -8,7 +8,7 @@ import android.view.MenuItem.OnMenuItemClickListener;
 import android.view.SubMenu;
 import android.view.View;
 
-import com.talk.demo.setting.IntimateActivity;
+import com.talk.demo.intimate.IntimateActivity;
 import com.talk.demo.setting.UserActivity;
 
 public class PlusActionProvider extends ActionProvider {

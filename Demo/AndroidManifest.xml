@@ -85,7 +85,7 @@
 			    android:value=".MainActivity"/>
 		</activity>		
 		<activity
-            android:name=".setting.IntimateActivity"
+            android:name=".intimate.IntimateActivity"
             android:label="好友"
             android:parentActivityName=".MainActivity">
 			<meta-data
@@ -93,7 +93,7 @@
 			    android:value=".MainActivity"/>
 		</activity>
 		<activity
-            android:name=".setting.FindDSourceFriendsActivity"
+            android:name=".intimate.FindDSourceFriendsActivity"
             android:label="添加好友"
             android:parentActivityName=".MainActivity">
 			<meta-data
@@ -101,7 +101,7 @@
 			    android:value=".MainActivity"/>
 		</activity>			
 		<activity
-            android:name=".setting.FindIntimateActivity"
+            android:name=".intimate.FindIntimateActivity"
             android:label="网络好友"
             android:parentActivityName=".MainActivity">
 			<meta-data
