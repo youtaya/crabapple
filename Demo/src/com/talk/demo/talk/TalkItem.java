@@ -20,12 +20,14 @@ import com.talk.demo.util.TalkUtil;
 public class TalkItem extends Fragment {
     private static String TAG = "TalkItem";
     private String valueContent;
+    private String link;
     private String creatTime;
     private int media_type;
     private String photo;
     private ImageView item_bg;
     private TextView item_content;
     private TextView tvTime;
+    private TextView linkName;
     
     static TalkItem newInstance(DialogCache content) {
         TalkItem newFragment = new TalkItem(content);
@@ -35,6 +37,7 @@ public class TalkItem extends Fragment {
     
     public TalkItem(DialogCache content) {
         valueContent = content.getContent();
+        link = content.getLink();
         creatTime = content.getCreateTime();
         media_type = content.getMediaType();
         photo = content.getPhotoPath();
@@ -50,6 +53,9 @@ public class TalkItem extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
         Log.d(TAG, "TestFragment-----onCreateView");
         View view = inflater.inflate(R.layout.fragment_dialog_item, container, false);
+        linkName = (TextView) view.findViewById(R.id.item_sign);
+        linkName.setText(link);
+        
         tvTime = (TextView) view.findViewById(R.id.item_time);
         tvTime.setText(creatTime);
         

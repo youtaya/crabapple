@@ -50,7 +50,7 @@ public class TalkFragment extends Fragment {
         TalkListAdapter adapter = new TalkListAdapter(this.getActivity().getApplicationContext(), 
         		talk_record, dialog_cache, tasks);
         */
-        TalkListAdapter adapter = new TalkListAdapter(this.getActivity().getApplicationContext(), 
+        TalkListAdapter adapter = new TalkListAdapter(this.getActivity(), 
         		talk_record, dialog_cache);
         mListView.setAdapter(adapter);
         mListView.setOnItemClickListener(new OnItemClickListener() {
@@ -58,19 +58,19 @@ public class TalkFragment extends Fragment {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
-				Context ctx = TalkFragment.this.getActivity().getApplicationContext();
+				Context ctx = TalkFragment.this.getActivity();
 				
 		        Intent mIntent = new Intent(ctx, TalkAllItem.class);
 		        Bundle mBundle = new Bundle();
 		        DialogItem dialog_item = talk_record.get(position).getListViewItem().get(0);
-		        Log.d(TAG, "tag title : "+ dialog_item.getLink());
-		        mBundle.putString("tag_title", dialog_item.getLink());
+		        Log.d(TAG, "link : "+ dialog_item.getLink());
+		        mBundle.putString("link", dialog_item.getLink());
 	            mBundle.putString("createdate", dialog_item.getCreateDate());
 	            mBundle.putString("createtime", dialog_item.getCreateTime());
 		        mBundle.putParcelableArrayList("recordcache", dialog_cache.get(dialog_item.getLink()));
 		        Log.d(TAG,"items size: "+ dialog_cache.get(dialog_item.getLink()).size());
 			    mIntent.putExtras(mBundle);
-			    mIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+			    //mIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 			    ctx.startActivity(mIntent);	
 				
 			}

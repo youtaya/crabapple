@@ -24,11 +24,11 @@ public class TalkAllItem extends FragmentActivity {
     private static String TAG = "TalkAllItem";
     private String create_date;
     private String create_time;
-    private String tag_title;
+    private String link;
     private ArrayList<DialogCache> record_cache;
     
     private ViewPager mPager;
-    private TextView title_item;
+    private TextView reply_item;
     private ImageView back_item;
     private ArrayList<Fragment> fragmentsList;
     private DBManager mgr;
@@ -41,18 +41,18 @@ public class TalkAllItem extends FragmentActivity {
         
         requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
         setContentView(R.layout.talk_all_item);
-        getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.bar_title_item);
+        getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.talk_bar_title_item);
         
-        title_item = (TextView)findViewById(R.id.title_item);
+        reply_item = (TextView)findViewById(R.id.reply_item);
         back_item = (ImageView)findViewById(R.id.back_item);
         
         Bundle bundle = getIntent().getExtras();
-        tag_title = bundle.getString("tag_title");
+        link = bundle.getString("link");
         create_date = bundle.getString("createdate");
         create_time = bundle.getString("createtime");
         record_cache = bundle.getParcelableArrayList("recordcache");
         
-        title_item.setText(tag_title);
+        reply_item.setText(link);
         back_item.setOnClickListener(new OnClickListener() {
 
 			@Override
