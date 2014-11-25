@@ -7,11 +7,92 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal" >
-        <TextView
-            android:id="@+id/friend_name"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent" 
-            android:text="test" />
+		<ImageView
+	        android:id="@+id/friend_avatar"
+	        android:layout_width="72dp"
+	        android:layout_height="72dp"
+	        android:paddingLeft="4dp"
+	        android:paddingRight="4dp"
+	        android:src="@drawable/default_avatar"
+	        android:textColor="#ff707070"
+	        android:textSize="23sp" />        
+	    <TextView
+	        android:id="@+id/friend_name"
+	        android:layout_width="wrap_content"
+	        android:layout_height="match_parent"
+	        android:paddingLeft="6dp"
+	        android:paddingRight="6dp"
+	        android:gravity="center"
+	        android:textColor="#ff707070"
+	        android:textSize="23sp" />
     </LinearLayout>
-
+	<TextView
+	    android:layout_width="match_parent"
+	    android:layout_height="30dp"
+	    android:background="@color/whitetea"/>    
+    <LinearLayout 
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+  	    <TextView
+	        android:id="@+id/linkage_to"
+	        android:layout_width="wrap_content"
+	        android:layout_height="match_parent"
+	        android:layout_weight="1"
+	        android:paddingLeft="6dp"
+	        android:paddingRight="6dp"
+	        android:gravity="center"
+	        android:textColor="#ff707070"
+	        android:text="I with xxx"
+	        android:textSize="23sp" />
+	    <TextView
+	        android:id="@+id/linkage_from"
+	        android:layout_width="wrap_content"
+	        android:layout_height="match_parent"
+	        android:layout_weight="1"
+	        android:paddingLeft="6dp"
+	        android:paddingRight="6dp"
+	        android:gravity="center"
+	        android:textColor="#ff707070"
+	        android:text="xxx to me"
+	        android:textSize="23sp" />  	       
+    </LinearLayout>
+	<TextView
+	    android:layout_width="match_parent"
+	    android:layout_height="30dp"
+	    android:background="@color/whitetea"/>
+    <LinearLayout 
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+  	    <TextView
+	        android:id="@+id/add_press"
+	        android:layout_width="wrap_content"
+	        android:layout_height="match_parent"
+	        android:paddingLeft="6dp"
+	        android:paddingRight="6dp"
+	        android:gravity="center"
+	        android:textColor="#ff707070"
+	        android:text="press with xxx"
+	        android:textSize="23sp" />	    
+	</LinearLayout>
+	<TextView
+	    android:layout_width="match_parent"
+	    android:layout_height="30dp"
+	    android:background="@color/whitetea"/>
+    <LinearLayout 
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+  	    <TextView
+	        android:id="@+id/subject_wall"
+	        android:layout_width="wrap_content"
+	        android:layout_height="match_parent"
+	        android:paddingLeft="6dp"
+	        android:paddingRight="6dp"
+	        android:gravity="center"
+	        android:textColor="#ff707070"
+	        android:text="channel update"
+	        android:textSize="23sp" />	    
+	</LinearLayout>		
 </LinearLayout>
