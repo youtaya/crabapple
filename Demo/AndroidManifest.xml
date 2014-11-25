@@ -95,7 +95,11 @@
 		<activity
             android:name=".intimate.EditIntimateActivity"
             android:label="编辑好友">
-		</activity>		
+		</activity>
+		<activity
+            android:name=".intimate.AddPressActivity"
+            android:label="印象标签">
+		</activity>				
 		<activity
             android:name=".intimate.IntimateChannelActivity"
             android:label="好友频道">

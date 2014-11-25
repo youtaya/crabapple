@@ -21,6 +21,7 @@ public class EditIntimateActivity extends Activity {
 	private ImageView ivAvatar;
 	private TextView tvLinkageTo, tvLinkageFrom;
 	private TextView tvNumberTo, tvNumberFrom;
+	private TextView tvPressAdd;
 	private TextView tvChannel;
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -48,6 +49,17 @@ public class EditIntimateActivity extends Activity {
         tvLinkageFrom = (TextView) findViewById(R.id.linkage_to);
         tvLinkageFrom.setText(friend_name+"对我亲密度");
         tvNumberFrom = (TextView) findViewById(R.id.number_to);
+        
+        tvPressAdd = (TextView) findViewById(R.id.press_add);
+        tvPressAdd.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				Intent newIntent = new Intent(EditIntimateActivity.this, AddPressActivity.class);
+				startActivityForResult(newIntent, 0);
+			}
+        	
+        });
         
         tvChannel = (TextView) findViewById(R.id.subject_wall);
         tvChannel.setOnClickListener(new OnClickListener() {
