@@ -8,6 +8,9 @@
     <string name="old_time">何当共剪西窗烛\n
 		却话巴山夜雨时\n&#160; &#160;&#160; &#160;  
         &#160; &#160; &#160; &#160; --李商隐\n\n</string> 
+    <string name="inti_channel">无为在歧路\n
+		儿女共沾巾\n&#160; &#160;&#160; &#160;  
+        &#160;--王勃\n\n</string>         
     <string name="long_letter">三人行必有我师\n
         &#160; &#160;&#160; &#160; &#160; &#160;
         &#160; &#160;&#160; &#160; --孔子\n\n</string>                
@@ -54,7 +57,8 @@
 	<string name="save">save</string>
 	<string name="tag_name">tag name</string>
 	<string name="input_tag">input tag name, such as sun moon star etc</string>
-	
+	<string name="press">Relation/Press Tags</string>
+	<string name="channel">Channel Update</string>
 
     <string name="share_dialog_send_method">Please select</string>
     <string name="share_dialog_send_to_me">Send to Me</string>

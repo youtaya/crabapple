@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.talk.demo"
-    android:versionCode="26"
-    android:versionName="0.26" >
+    android:versionCode="27"
+    android:versionName="0.27" >
 
     <uses-sdk
         android:minSdkVersion="15"
@@ -96,6 +96,10 @@
             android:name=".intimate.EditIntimateActivity"
             android:label="编辑好友">
 		</activity>		
+		<activity
+            android:name=".intimate.IntimateChannelActivity"
+            android:label="好友频道">
+		</activity>				
 		<activity
             android:name=".intimate.FindDSourceFriendsActivity"
             android:label="添加好友"

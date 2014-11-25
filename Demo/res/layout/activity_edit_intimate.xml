@@ -6,6 +6,10 @@
     <LinearLayout 
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:paddingTop="6dp"
+        android:paddingLeft="6dp"
+        android:paddingRight="6dp"
+        android:paddingBottom="6dp"           
         android:orientation="horizontal" >
 		<ImageView
 	        android:id="@+id/friend_avatar"
@@ -33,29 +37,73 @@
     <LinearLayout 
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:paddingTop="6dp"
+        android:paddingLeft="6dp"
+        android:paddingRight="6dp"
+        android:paddingBottom="6dp"           
         android:orientation="horizontal" >
-  	    <TextView
-	        android:id="@+id/linkage_to"
+	    <LinearLayout 
 	        android:layout_width="wrap_content"
 	        android:layout_height="match_parent"
 	        android:layout_weight="1"
-	        android:paddingLeft="6dp"
-	        android:paddingRight="6dp"
-	        android:gravity="center"
-	        android:textColor="#ff707070"
-	        android:text="I with xxx"
-	        android:textSize="23sp" />
-	    <TextView
-	        android:id="@+id/linkage_from"
+	        android:orientation="vertical" >
+	  	    <TextView
+		        android:id="@+id/linkage_to"
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content"
+		        android:layout_weight="1"
+		        android:paddingLeft="6dp"
+		        android:paddingRight="6dp"
+		        android:gravity="center"
+		        android:textColor="#ff707070"
+		        android:text="I with xxx"
+		        android:textSize="23sp" />
+		    <TextView
+		        android:id="@+id/number_to"
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content"
+		        android:layout_weight="1"
+		        android:paddingLeft="6dp"
+		        android:paddingRight="6dp"
+		        android:gravity="center"
+		        android:textColor="#ff707070"
+		        android:textStyle="bold"
+		        android:text="60"
+		        android:textSize="23sp" />
+		</LinearLayout>
+		<TextView
+		    android:layout_width="4dp"
+		    android:layout_height="match_parent"
+		    android:background="@color/darkorchid"/>  
+	    <LinearLayout 
 	        android:layout_width="wrap_content"
 	        android:layout_height="match_parent"
 	        android:layout_weight="1"
-	        android:paddingLeft="6dp"
-	        android:paddingRight="6dp"
-	        android:gravity="center"
-	        android:textColor="#ff707070"
-	        android:text="xxx to me"
-	        android:textSize="23sp" />  	       
+	        android:orientation="vertical" >
+	  	    <TextView
+		        android:id="@+id/linkage_from"
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content"
+		        android:layout_weight="1"
+		        android:paddingLeft="6dp"
+		        android:paddingRight="6dp"
+		        android:gravity="center"
+		        android:textColor="#ff707070"
+		        android:text="xxx to me"
+		        android:textSize="23sp" />
+		    <TextView
+		        android:id="@+id/number_from"
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content"
+		        android:layout_weight="1"
+		        android:paddingLeft="6dp"
+		        android:paddingRight="6dp"
+		        android:gravity="center"
+		        android:textColor="#ff707070"
+		        android:textStyle="bold"
+		        android:text="54"
+		        android:textSize="23sp" />
+		</LinearLayout>	 			       
     </LinearLayout>
 	<TextView
 	    android:layout_width="match_parent"
@@ -64,17 +112,35 @@
     <LinearLayout 
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:paddingTop="6dp"
+        android:paddingLeft="6dp"
+        android:paddingRight="6dp"
+        android:paddingBottom="6dp"      
         android:orientation="horizontal" >
   	    <TextView
 	        android:id="@+id/add_press"
 	        android:layout_width="wrap_content"
 	        android:layout_height="match_parent"
+	        android:paddingTop="6dp"
 	        android:paddingLeft="6dp"
 	        android:paddingRight="6dp"
+	        android:paddingBottom="6dp"   
 	        android:gravity="center"
 	        android:textColor="#ff707070"
-	        android:text="press with xxx"
-	        android:textSize="23sp" />	    
+	        android:text="@string/press"
+	        android:textSize="23sp" />	 
+  	    <TextView
+	        android:id="@+id/press_add"
+	        android:layout_width="wrap_content"
+	        android:layout_height="match_parent"
+	        android:paddingTop="6dp"
+	        android:paddingLeft="6dp"
+	        android:paddingRight="6dp"
+	        android:paddingBottom="6dp"   
+	        android:gravity="center"
+	        android:background="@color/gold"
+	        android:hint="添加印象"
+	        android:textSize="23sp" />	  	           
 	</LinearLayout>
 	<TextView
 	    android:layout_width="match_parent"
@@ -83,16 +149,26 @@
     <LinearLayout 
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:paddingTop="6dp"
+        android:paddingLeft="6dp"
+        android:paddingRight="6dp"
+        android:paddingBottom="6dp"   
         android:orientation="horizontal" >
   	    <TextView
 	        android:id="@+id/subject_wall"
 	        android:layout_width="wrap_content"
 	        android:layout_height="match_parent"
+	        android:paddingTop="6dp"
 	        android:paddingLeft="6dp"
 	        android:paddingRight="6dp"
+	        android:paddingBottom="6dp"
 	        android:gravity="center"
 	        android:textColor="#ff707070"
-	        android:text="channel update"
-	        android:textSize="23sp" />	    
-	</LinearLayout>		
+	        android:text="@string/channel"
+	        android:textSize="24sp" />
+	</LinearLayout>
+	<TextView
+	    android:layout_width="match_parent"
+	    android:layout_height="30dp"
+	    android:background="@color/whitetea"/>			
 </LinearLayout>
