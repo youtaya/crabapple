@@ -23,7 +23,6 @@ import java.util.List;
 public class TalkListAdapter extends BaseAdapter {
 	private static String TAG = "TalkListAdapter";
 	private final Context context;
-	private CloudKite[] tasks;
 	private ViewHolder viewHolder;
 	private LayoutInflater inflater;
 	private ArrayList<TalkViewItem> mTalkItems;
@@ -39,16 +38,6 @@ public class TalkListAdapter extends BaseAdapter {
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 	}
 	
-	public TalkListAdapter(Context context, ArrayList<TalkViewItem> items, 
-			HashMap<String, ArrayList<DialogCache>> cache, CloudKite[] tasks) {
-		this.context = context;
-		this.mTalkItems = items;
-		this.mDialogCache = cache;
-		this.tasks = tasks;
-		inflater = (LayoutInflater) context
-				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-	}
-
 	@Override
 	public View getView(int position, View convertView, final ViewGroup parent) {
 		
@@ -60,12 +49,8 @@ public class TalkListAdapter extends BaseAdapter {
 			
 			DialogItem dialog_item = mTalkItems.get(position).getListViewItem().get(0);
 			viewHolder.friendName.setText(dialog_item.getLink());
-			final String tag_title = dialog_item.getLink();
 			viewHolder.dialogTime.setText(dialog_item.getCreateTime());
-			final String createDate = dialog_item.getCreateDate();
-			final String createTime = dialog_item.getCreateTime();
 			viewHolder.dialogContent.setText(dialog_item.getContent());
-			
 
 		} else {
 			viewHolder = (ViewHolder) convertView.getTag();
