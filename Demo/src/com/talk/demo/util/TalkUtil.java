@@ -107,4 +107,25 @@ public class TalkUtil {
         Date date = new Date();
         return dateFormat.format(date);
     }
+    
+	public static boolean isSendDone(String done_time) {
+		boolean result = false;
+        
+        Calendar calendar = Calendar.getInstance();
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
+        Date date = new Date();
+        try {
+            Date recordDate = formatter.parse(done_time);
+            long diff =  date.getTime() - recordDate.getTime();
+            if (diff > 0 || diff == 0) {
+                result = true;
+            }
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+        return result;
+        
+	}
 }

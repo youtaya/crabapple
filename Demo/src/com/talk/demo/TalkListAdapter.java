@@ -1,13 +1,9 @@
 package com.talk.demo;
 
 import android.content.Context;
-import android.content.Intent;
-import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
@@ -17,11 +13,12 @@ import android.widget.TextView;
 import com.talk.demo.CloudKite.taskListener;
 import com.talk.demo.talk.DialogCache;
 import com.talk.demo.talk.DialogItem;
-import com.talk.demo.talk.TalkAllItem;
 import com.talk.demo.talk.TalkViewItem;
+import com.talk.demo.util.TalkUtil;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class TalkListAdapter extends BaseAdapter {
 	private static String TAG = "TalkListAdapter";
@@ -73,23 +70,29 @@ public class TalkListAdapter extends BaseAdapter {
 		} else {
 			viewHolder = (ViewHolder) convertView.getTag();
 		}
-		//final CloudKite aTask = tasks[position];
-		//viewHolder.setNewTask(aTask);
+		final List<CloudKite> tasks = initTasks(mTalkItems.get(position));
+		
+        for (CloudKite t : tasks) {
+            new Thread(t).start();
+        }
+        
+		viewHolder.setNewTask(tasks);
 
 		return convertView;
 	}
 	
-    CloudKite[] initTasks(TalkViewItem views) {
+    List<CloudKite> initTasks(TalkViewItem views) {
         
-        final int count = views.getListViewItem().size();
         ArrayList<DialogItem> items = views.getListViewItem();
-        CloudKite[] result = new CloudKite[count];
-        int i = 0;
+        List<CloudKite> result = new ArrayList<CloudKite>();
         for(DialogItem item : items) {
-            result[i] = new CloudKite(item.getContent(), 
-                    item.getIntervalTime(),
-                    item.getDoneTime());
-            i++;
+        	if(!TalkUtil.isSendDone(item.getDoneTime())) {
+	        	CloudKite ck = new CloudKite(item.getContent(), 
+	                    item.getIntervalTime(),
+	                    item.getDoneTime());
+	        	result.add(ck);
+        	}
+        	
         }
 
         return result;
@@ -104,23 +107,31 @@ public class TalkListAdapter extends BaseAdapter {
 
 		public ProgressBar pbTask;
 
-		public CloudKite linkTask;
-		public CloudKite.taskListener l;
+		public List<CloudKite> linkTask;
+		public CloudKite.taskListener listener;
 
 		public void removeListener() {
-			if (linkTask != null && l != null)
-				linkTask.removeListener(l);
+			if (linkTask != null && listener != null) {
+				for(CloudKite ck: linkTask) {
+					ck.removeListener(listener);
+				}
+			}
 		}
 
 		public void addListener() {
-			if (linkTask != null)
-				linkTask.addListener(l);
+			if (linkTask != null) {
+				for(CloudKite ck: linkTask) {
+					ck.addListener(listener);
+				}
+			}
 		}
 
-		public void setNewTask(CloudKite t) {
+		public void setNewTask(List<CloudKite> ts) {
 			removeListener();
-			this.linkTask = t;
-			this.pbTask.setProgress(t.getProgress());
+			this.linkTask = ts;
+			for(CloudKite ck: linkTask) {
+				this.pbTask.setProgress(ck.getProgress());
+			}
 			addListener();
 		}
 
@@ -134,7 +145,7 @@ public class TalkListAdapter extends BaseAdapter {
 			this.dialogContent = (TextView) convertView
 					.findViewById(R.id.dialog_content);
 			this.pbTask = (ProgressBar) convertView.findViewById(R.id.pbTask);
-			this.l = new taskListener() {
+			this.listener = new taskListener() {
 				@Override
 				public void onProgressChanged(final int progress) {
 
