@@ -78,7 +78,23 @@ public class TalkListAdapter extends BaseAdapter {
 
 		return convertView;
 	}
+	
+    CloudKite[] initTasks(TalkViewItem views) {
+        
+        final int count = views.getListViewItem().size();
+        ArrayList<DialogItem> items = views.getListViewItem();
+        CloudKite[] result = new CloudKite[count];
+        int i = 0;
+        for(DialogItem item : items) {
+            result[i] = new CloudKite(item.getContent(), 
+                    item.getIntervalTime(),
+                    item.getDoneTime());
+            i++;
+        }
 
+        return result;
+    }
+    
 	final static class ViewHolder {
 		public ImageView imageType;
 

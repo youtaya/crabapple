@@ -53,10 +53,6 @@ public class TalkFragment extends Fragment {
         talk_record = recordManager.initDataListTalk(dialog_cache);
         
         //CloudKite[] tasks = initTasks();
-        /*
-        TalkListAdapter adapter = new TalkListAdapter(this.getActivity().getApplicationContext(), 
-        		talk_record, dialog_cache, tasks);
-        */
         TalkListAdapter adapter = new TalkListAdapter(this.getActivity(), 
         		talk_record, dialog_cache);
         mListView.setAdapter(adapter);
