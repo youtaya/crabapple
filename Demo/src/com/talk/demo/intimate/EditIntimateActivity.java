@@ -50,7 +50,7 @@ public class EditIntimateActivity extends Activity {
         tvLinkageFrom.setText(friend_name+"对我亲密度");
         tvNumberFrom = (TextView) findViewById(R.id.number_to);
         
-        tvPressAdd = (TextView) findViewById(R.id.press_add);
+        tvPressAdd = (TextView) findViewById(R.id.add_press);
         tvPressAdd.setOnClickListener(new OnClickListener() {
 
 			@Override

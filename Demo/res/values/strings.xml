@@ -59,7 +59,9 @@
 	<string name="input_tag">input tag name, such as sun moon star etc</string>
 	<string name="press">Relation/Press Tags</string>
 	<string name="channel">Channel Update</string>
-
+	<string name="step_some">I Write</string>
+	<string name="say_some">I Check</string>
+	
     <string name="share_dialog_send_method">Please select</string>
     <string name="share_dialog_send_to_me">Send to Me</string>
     <string name="share_dialog_send_to_friend">Send to Friend</string>

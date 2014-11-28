@@ -59,6 +59,8 @@
 	<string name="input_tag">输入标签名称，例如太阳 月亮 星星 等等</string>
 	<string name="press">关系/印象标签</string>
 	<string name="channel">频道更新</string>
+	<string name="step_some">我踩</string>
+	<string name="say_some">我写</string>
 	
     <string name="share_dialog_send_method">请选择</string>
     <string name="share_dialog_send_to_me">发送给我</string>
