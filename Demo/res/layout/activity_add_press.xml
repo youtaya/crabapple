@@ -52,7 +52,7 @@
         	<GridView
         	    android:id="@+id/ment_content"
 				android:layout_width="match_parent"
-        		android:layout_height="90dp"
+        		android:layout_height="120dp"
         		android:numColumns="auto_fit"
         		android:layout_below="@+id/ment_text">
         	</GridView>
