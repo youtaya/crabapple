@@ -10,10 +10,10 @@ import com.talk.demo.R;
 
 public class AddPressActivity extends Activity {
 	private static String TAG = "AddPressActivity";
-	private TextView y;
+	private TextView wall;
 	private Button me_write, me_step;
 	private GridView gridView;
-	
+	private MentGridViewAdapter mentAdapter;
 	String[] contents = {
 			"I Miss You",
 			"I Love You",
@@ -27,8 +27,8 @@ public class AddPressActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_press);
         
-        gridView = (GridView) findViewById(R.id.gridview);
-        
-        gridView.setAdapter(new MentGridViewAdapter(this, contents));
+        gridView = (GridView) findViewById(R.id.ment_content);
+        mentAdapter = new MentGridViewAdapter(AddPressActivity.this, contents);
+        gridView.setAdapter(mentAdapter);
     }
 }
