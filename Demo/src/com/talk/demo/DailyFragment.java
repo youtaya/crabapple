@@ -53,6 +53,7 @@ public class DailyFragment extends Fragment implements OnItemClickListener {
         
     }
 
+    /*
     private void diamondDialog() {
         AlertDialog.Builder builder = new Builder(getActivity());
         builder.setTitle("新进宝石一枚");
@@ -65,6 +66,7 @@ public class DailyFragment extends Fragment implements OnItemClickListener {
         });
         builder.create().show();
     }
+    */
     
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
@@ -152,7 +154,8 @@ public class DailyFragment extends Fragment implements OnItemClickListener {
         if(!daily_record.isEmpty()) {
             daily_record.clear();
         }
-        
+      
+        //TODO: check today title, and update
         // Get where, when and weather
         daily_record = pw.getPreWriteData();
         return daily_record;
