@@ -310,8 +310,8 @@ final public class NetworkUtilities {
 		
 	}
     
-    public static List<String> syncNews() throws JSONException {
-        List<String> mItems = new LinkedList<String>();
+    public static DailyNews syncNews() throws JSONException {
+    	DailyNews mItems = new DailyNews();
         try {
             
             HttpRequest request = HttpRequest.get(SYNC_NEWS_URI);
@@ -319,15 +319,12 @@ final public class NetworkUtilities {
             String response = request.body();
             int result = request.code();
             Log.d(TAG,"Response was: " + response);
-            final JSONArray serverNews = new JSONArray(response);
-            Log.d(TAG, response);
-            for (int i = 0; i < serverNews.length(); i++) {
-                String test = serverNews.getJSONObject(i).getString("news");
-                if (test != null) {
-                    mItems.add(test);
-                }
-            }
-            
+            JSONObject content = new JSONObject(response);
+            JSONArray serverNews = content.getJSONArray("news");
+            Log.d(TAG, "news are: "+serverNews);
+            String cTime = content.getString("create_time");
+            String eTime = content.getString("expired_time");
+            mItems.parseJSONArray(serverNews);
             
         } catch (HttpRequestException exception) {
             Log.d(TAG, "exception : " + exception.toString());

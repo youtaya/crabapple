@@ -1,18 +1,15 @@
 package com.talk.demo;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.AlertDialog.Builder;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -30,13 +27,16 @@ import com.talk.demo.core.RecordManager;
 import com.talk.demo.daily.DailyEditActivity;
 import com.talk.demo.prewrite.PreWrite;
 import com.talk.demo.util.Constant;
+import com.talk.demo.util.DailyNews;
 import com.talk.demo.util.NetworkUtilities;
 
 import org.json.JSONException;
 
-import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedList;
-import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 public class DailyFragment extends Fragment implements OnItemClickListener {
     private static String TAG = "DailyFragment";
@@ -81,7 +81,7 @@ public class DailyFragment extends Fragment implements OnItemClickListener {
         // Set a listener to be invoked when the list should be refreshed.
         pullToRefreshView = (PullToRefreshListView)rootView.findViewById(R.id.daily_list);
         //lv = (ListView)rootView.findViewById(R.id.daily_list);
-        mass_sp = getActivity().getSharedPreferences(Constant.NEWS_ID, 0);
+        mass_sp = getActivity().getSharedPreferences(Constant.NEWS_ID, getActivity().MODE_PRIVATE);
         editor = mass_sp.edit();
         
         btn_new = (FloatingActionButton)rootView.findViewById(R.id.btn_new);
@@ -164,8 +164,16 @@ public class DailyFragment extends Fragment implements OnItemClickListener {
         // Get where, when and weather
         daily_record = pw.getPreWriteData();
         //TODO: check today title, and update
-        new GetDataTask().execute();
-        
+        Map<String, String> allNews = (Map<String, String>)mass_sp.getAll();
+        if(!allNews.isEmpty()) {
+	    	Set<String> keys = allNews.keySet();
+	    	daily_record.clear();
+	        for(Iterator<String> iter = keys.iterator(); iter.hasNext();) {
+	        	String value = iter.next();
+	            Log.d(TAG, "temp is "+value);
+	            daily_record.add(allNews.get(value));
+	        }
+        }
         return daily_record;
     }
     
@@ -180,10 +188,10 @@ public class DailyFragment extends Fragment implements OnItemClickListener {
 
     }
     
-    private class GetDataTask extends AsyncTask<Void, Void, List<String>> {
-        List<String> getDataList = new ArrayList<String>();
+    private class GetDataTask extends AsyncTask<Void, Void, DailyNews> {
+    	DailyNews getDataList = new DailyNews();
         @Override
-		protected List<String> doInBackground(Void... params) {
+		protected DailyNews doInBackground(Void... params) {
             // Simulates a background job.
             try {
                 getDataList = NetworkUtilities.syncNews();
@@ -197,11 +205,14 @@ public class DailyFragment extends Fragment implements OnItemClickListener {
 		}
 		
         @Override
-        protected void onPostExecute(List<String> result) {
-            for(String temp: result) {
-                Log.d(TAG, "temp is "+temp);
-                editor.putString("info", temp);
-                mListItems.addFirst(temp);
+        protected void onPostExecute(DailyNews result) {
+        	HashMap<String, String> news = result.getNews();
+        	Set<String> keys = news.keySet();
+            for(Iterator<String> iter = keys.iterator(); iter.hasNext();) {
+            	String value = iter.next();
+                Log.d(TAG, "temp is "+value);
+                editor.putString(value, news.get(value));
+                mListItems.addFirst(news.get(value));
             }
             editor.commit();
             
