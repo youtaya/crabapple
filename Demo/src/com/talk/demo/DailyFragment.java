@@ -5,12 +5,14 @@ import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -27,6 +29,7 @@ import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.talk.demo.core.RecordManager;
 import com.talk.demo.daily.DailyEditActivity;
 import com.talk.demo.prewrite.PreWrite;
+import com.talk.demo.util.Constant;
 import com.talk.demo.util.NetworkUtilities;
 
 import org.json.JSONException;
@@ -45,6 +48,8 @@ public class DailyFragment extends Fragment implements OnItemClickListener {
     private DailyListAdapter adapter;
     private PreWrite pw;
     private LinkedList<String> mListItems;
+    private SharedPreferences mass_sp;
+    private Editor editor;
     
     public DailyFragment(RecordManager recordMgr, PreWrite prewrite) {
         daily_record = new LinkedList<String>();
@@ -76,7 +81,8 @@ public class DailyFragment extends Fragment implements OnItemClickListener {
         // Set a listener to be invoked when the list should be refreshed.
         pullToRefreshView = (PullToRefreshListView)rootView.findViewById(R.id.daily_list);
         //lv = (ListView)rootView.findViewById(R.id.daily_list);
-        
+        mass_sp = getActivity().getSharedPreferences(Constant.NEWS_ID, 0);
+        editor = mass_sp.edit();
         
         btn_new = (FloatingActionButton)rootView.findViewById(R.id.btn_new);
         btn_new.setOnTouchListener(new OnTouchListener() {
@@ -155,9 +161,11 @@ public class DailyFragment extends Fragment implements OnItemClickListener {
             daily_record.clear();
         }
       
-        //TODO: check today title, and update
         // Get where, when and weather
         daily_record = pw.getPreWriteData();
+        //TODO: check today title, and update
+        new GetDataTask().execute();
+        
         return daily_record;
     }
     
@@ -192,8 +200,11 @@ public class DailyFragment extends Fragment implements OnItemClickListener {
         protected void onPostExecute(List<String> result) {
             for(String temp: result) {
                 Log.d(TAG, "temp is "+temp);
+                editor.putString("info", temp);
                 mListItems.addFirst(temp);
             }
+            editor.commit();
+            
             adapter.notifyDataSetChanged();
             // Call onRefreshComplete when the list has been refreshed.
             pullToRefreshView.onRefreshComplete();
