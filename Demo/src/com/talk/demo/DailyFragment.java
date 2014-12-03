@@ -138,12 +138,12 @@ public class DailyFragment extends Fragment implements OnItemClickListener {
      * expire conditions : 1. first use; 2. news are out of date
      */
     private boolean isExpired() {
-        boolean expire = true;
+        boolean expire = false;
         String default_time = "2012-6-30";
         String eTime = mass_sp.getString(Constant.EXPIRED_TIME, default_time);
-        if(!eTime.equals(default_time) && !TalkUtil.isOutDate(eTime)) {
-        	Log.d(TAG, "news are refresh, not need to update");
-            expire = false;
+        if(eTime.equals(default_time) || TalkUtil.isOutDate(eTime)) {
+        	Log.d(TAG, "all are expired, need to update");
+            expire = true;
         }
         return expire;
     }
@@ -208,10 +208,9 @@ public class DailyFragment extends Fragment implements OnItemClickListener {
                 Log.d(TAG, "key is "+value);
                 values.add(news.get(value));
             }
-        	editor.putStringSet(Constant.NEWS_CONTENT, values);
-            editor.putString(Constant.CREATE_TIME, result.getCreateTime());
-            editor.putString(Constant.EXPIRED_TIME, result.getExpiredTime());
-            editor.commit();
+        	editor.putStringSet(Constant.NEWS_CONTENT, values).commit();
+            editor.putString(Constant.CREATE_TIME, result.getCreateTime()).commit();
+            editor.putString(Constant.EXPIRED_TIME, result.getExpiredTime()).commit();
             
             adapter.notifyDataSetChanged();
             // Call onRefreshComplete when the list has been refreshed.
