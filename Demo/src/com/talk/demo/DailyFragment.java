@@ -29,6 +29,7 @@ import com.talk.demo.prewrite.PreWrite;
 import com.talk.demo.util.Constant;
 import com.talk.demo.util.DailyNews;
 import com.talk.demo.util.NetworkUtilities;
+import com.talk.demo.util.TalkUtil;
 
 import org.json.JSONException;
 
@@ -83,6 +84,11 @@ public class DailyFragment extends Fragment implements OnItemClickListener {
         //lv = (ListView)rootView.findViewById(R.id.daily_list);
         mass_sp = getActivity().getSharedPreferences(Constant.NEWS_ID, getActivity().MODE_PRIVATE);
         editor = mass_sp.edit();
+        
+        if(isExpired()) {
+            // async to load news
+            new GetDataTask().execute();
+        }
         
         btn_new = (FloatingActionButton)rootView.findViewById(R.id.btn_new);
         btn_new.setOnTouchListener(new OnTouchListener() {
@@ -153,7 +159,19 @@ public class DailyFragment extends Fragment implements OnItemClickListener {
     public void onAttach(Activity activity) {
         super.onAttach(activity);
     }
-
+    /*
+     * expire conditions : 1. first use; 2. news are out of date
+     */
+    private boolean isExpired() {
+        boolean expire = true;
+        String default_time = "2012-6-30";
+        String eTime = mass_sp.getString(Constant.EXPIRED_TIME, default_time);
+        if(!eTime.equals(default_time) && !TalkUtil.isOutDate(eTime)) {
+            expire = false;
+        }
+        return expire;
+    }
+    
     public LinkedList<String> initDataList() {  
         Log.d(TAG, "init data list");
 
@@ -162,8 +180,9 @@ public class DailyFragment extends Fragment implements OnItemClickListener {
         }
       
         // Get where, when and weather
-        daily_record = pw.getPreWriteData();
-        //TODO: check today title, and update
+        //daily_record = pw.getPreWriteData();
+
+        // check today title, and update
         Map<String, String> allNews = (Map<String, String>)mass_sp.getAll();
         if(!allNews.isEmpty()) {
 	    	Set<String> keys = allNews.keySet();
@@ -176,6 +195,7 @@ public class DailyFragment extends Fragment implements OnItemClickListener {
         }
         return daily_record;
     }
+
     
     public void initListView() {
     	
@@ -214,6 +234,8 @@ public class DailyFragment extends Fragment implements OnItemClickListener {
                 editor.putString(value, news.get(value));
                 mListItems.addFirst(news.get(value));
             }
+            editor.putString(Constant.CREATE_TIME, result.getCreateTime());
+            editor.putString(Constant.EXPIRED_TIME, result.getExpiredTime());
             editor.commit();
             
             adapter.notifyDataSetChanged();

@@ -41,10 +41,16 @@ public class DailyNews {
 		}
 	}
 	
+	public void setCreateTime(String var) {
+	    create_time = var;
+	}
 	public String getCreateTime() {
 		return create_time;
 	}
 
+	public void setExpiredTime(String var) {
+	    expired_time = var;
+	}
 	public String getExpiredTime() {
 		return expired_time;
 	}

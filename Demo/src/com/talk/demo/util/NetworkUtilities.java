@@ -325,6 +325,8 @@ final public class NetworkUtilities {
             String cTime = content.getString("create_time");
             String eTime = content.getString("expired_time");
             mItems.parseJSONArray(serverNews);
+            mItems.setCreateTime(cTime);
+            mItems.setExpiredTime(eTime);
             
         } catch (HttpRequestException exception) {
             Log.d(TAG, "exception : " + exception.toString());

@@ -128,4 +128,25 @@ public class TalkUtil {
         return result;
         
 	}
+	
+	   public static boolean isOutDate(String expire_time) {
+	        boolean result = false;
+	        
+	        Calendar calendar = Calendar.getInstance();
+	        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+	        Date date = new Date();
+	        try {
+	            Date recordDate = formatter.parse(expire_time);
+	            long diff =  date.getTime() - recordDate.getTime();
+	            if (diff > 0 || diff == 0) {
+	                result = true;
+	            }
+	            
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	        }
+	        
+	        return result;
+	        
+	    }
 }
