@@ -34,9 +34,9 @@ import com.talk.demo.util.TalkUtil;
 import org.json.JSONException;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
-import java.util.Map;
 import java.util.Set;
 
 public class DailyFragment extends Fragment implements OnItemClickListener {
@@ -167,6 +167,7 @@ public class DailyFragment extends Fragment implements OnItemClickListener {
         String default_time = "2012-6-30";
         String eTime = mass_sp.getString(Constant.EXPIRED_TIME, default_time);
         if(!eTime.equals(default_time) && !TalkUtil.isOutDate(eTime)) {
+        	Log.d(TAG, "news are refresh, not need to update");
             expire = false;
         }
         return expire;
@@ -179,18 +180,15 @@ public class DailyFragment extends Fragment implements OnItemClickListener {
             daily_record.clear();
         }
       
-        // Get where, when and weather
-        //daily_record = pw.getPreWriteData();
-
         // check today title, and update
-        Map<String, String> allNews = (Map<String, String>)mass_sp.getAll();
-        if(!allNews.isEmpty()) {
-	    	Set<String> keys = allNews.keySet();
+        Set<String> allNews = mass_sp.getStringSet(Constant.NEWS_CONTENT, null);
+        if(allNews != null) {
 	    	daily_record.clear();
-	        for(Iterator<String> iter = keys.iterator(); iter.hasNext();) {
-	        	String value = iter.next();
+	    	Iterator<String> it = allNews.iterator(); 
+	    	while (it.hasNext()) {
+	        	String value = it.next();
 	            Log.d(TAG, "temp is "+value);
-	            daily_record.add(allNews.get(value));
+	            daily_record.add(value);
 	        }
         }
         return daily_record;
@@ -228,12 +226,13 @@ public class DailyFragment extends Fragment implements OnItemClickListener {
         protected void onPostExecute(DailyNews result) {
         	HashMap<String, String> news = result.getNews();
         	Set<String> keys = news.keySet();
+        	Set<String> values = new HashSet<String>();
             for(Iterator<String> iter = keys.iterator(); iter.hasNext();) {
             	String value = iter.next();
                 Log.d(TAG, "temp is "+value);
-                editor.putString(value, news.get(value));
-                mListItems.addFirst(news.get(value));
+                values.add(news.get(value));
             }
+        	editor.putStringSet(Constant.NEWS_CONTENT, values);
             editor.putString(Constant.CREATE_TIME, result.getCreateTime());
             editor.putString(Constant.EXPIRED_TIME, result.getExpiredTime());
             editor.commit();
