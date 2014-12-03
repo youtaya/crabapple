@@ -7,8 +7,6 @@ import android.content.SharedPreferences.Editor;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -41,7 +39,6 @@ import java.util.Set;
 
 public class DailyFragment extends Fragment implements OnItemClickListener {
     private static String TAG = "DailyFragment";
-    //private ListView lv;
     private PullToRefreshListView pullToRefreshView;
     private FloatingActionButton btn_new;
     private RecordManager recordManager;
@@ -78,10 +75,9 @@ public class DailyFragment extends Fragment implements OnItemClickListener {
             Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_daily, container, false);
         
-        
         // Set a listener to be invoked when the list should be refreshed.
         pullToRefreshView = (PullToRefreshListView)rootView.findViewById(R.id.daily_list);
-        //lv = (ListView)rootView.findViewById(R.id.daily_list);
+        
         mass_sp = getActivity().getSharedPreferences(Constant.NEWS_ID, getActivity().MODE_PRIVATE);
         editor = mass_sp.edit();
         
@@ -120,27 +116,6 @@ public class DailyFragment extends Fragment implements OnItemClickListener {
 			}
         	
         });
-   
-        TextWatcher watcher = new TextWatcher() {
-			@Override
-			public void afterTextChanged(Editable s) {
-			}
-			@Override
-			public void beforeTextChanged(CharSequence s, int start, int count,
-					int after) {
-				//btn_maximize.setImageResource(R.drawable.btn_maximize_active);
-			}
-			@Override
-			public void onTextChanged(CharSequence s, int start, int before,
-					int count) {
-				if( s.length() > 0) {
-					btn_new.setFocusable(true);
-				} else {
-					btn_new.setFocusable(false);
-				}
-			}
-        };
-        
         
         pullToRefreshView.setOnRefreshListener(new OnRefreshListener<ListView>() {
             @Override
@@ -181,6 +156,7 @@ public class DailyFragment extends Fragment implements OnItemClickListener {
         }
       
         // check today title, and update
+        mass_sp = getActivity().getSharedPreferences(Constant.NEWS_ID, getActivity().MODE_PRIVATE);
         Set<String> allNews = mass_sp.getStringSet(Constant.NEWS_CONTENT, null);
         if(allNews != null) {
 	    	daily_record.clear();
@@ -229,7 +205,7 @@ public class DailyFragment extends Fragment implements OnItemClickListener {
         	Set<String> values = new HashSet<String>();
             for(Iterator<String> iter = keys.iterator(); iter.hasNext();) {
             	String value = iter.next();
-                Log.d(TAG, "temp is "+value);
+                Log.d(TAG, "key is "+value);
                 values.add(news.get(value));
             }
         	editor.putStringSet(Constant.NEWS_CONTENT, values);

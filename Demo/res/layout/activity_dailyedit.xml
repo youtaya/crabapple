@@ -31,11 +31,12 @@
         <TextView
             android:id="@+id/daily_title"
             android:layout_width="match_parent"
-            android:layout_height="55dp"
+            android:layout_height="wrap_content"
             android:layout_marginLeft="30dp"
             android:layout_marginRight="30dp"
             android:background="@color/pink"
             android:gravity="center"
+            android:maxLines="5"
             android:textColor="@color/azure"
             android:textSize="20sp"
             android:visibility="invisible" />
@@ -52,14 +53,14 @@
         <TextView
             android:id="@+id/daily_head"
             android:layout_width="match_parent"
-            android:layout_height="55dp"
+            android:layout_height="wrap_content"
             android:layout_marginLeft="45dp"
             android:layout_marginRight="45dp"
             android:background="@color/paleturquoise"
             android:gravity="center"
             android:text="daily head"
             android:textColor="@color/azure"
-            android:textSize="20sp" />
+            android:textSize="18sp" />
     </LinearLayout>
 
     <RelativeLayout
