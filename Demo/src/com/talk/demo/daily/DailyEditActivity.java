@@ -84,6 +84,7 @@ public class DailyEditActivity extends Activity {
 		tv = (TextView) findViewById(R.id.daily_title);
 		head = (TextView) findViewById(R.id.daily_head);
 		PreWrite pw = new PreWrite(this);
+		//TODO: when need to change week day, am/pm
 		String when = pw.getWhen();
 		String where = pw.getWhere();
 		
