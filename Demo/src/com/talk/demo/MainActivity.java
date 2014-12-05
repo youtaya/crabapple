@@ -67,7 +67,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 
         fragmentList = new ArrayList<Fragment>();
         //add guide fragment
-        guideFragment = new DailyFragment(recordManager, pw);
+        guideFragment = new DailyFragment(recordManager);
         fragmentList.add(guideFragment);
         //add time fragment
         timeFragment = new TimeFragment(recordManager);

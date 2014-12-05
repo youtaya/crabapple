@@ -6,20 +6,20 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.Button;
+import android.widget.TextView;
 
 import com.talk.demo.R;
 
 public class AddPressActivity extends FragmentActivity {
 	private static String TAG = "AddPressActivity";
-	private Button me_write, me_step;
+	private TextView me_write, me_step;
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_press);
         
-        me_step = (Button) findViewById(R.id.step_some);
+        me_step = (TextView) findViewById(R.id.step_some);
         me_step.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -37,7 +37,7 @@ public class AddPressActivity extends FragmentActivity {
         	
         });
         
-        me_write = (Button) findViewById(R.id.say_some);
+        me_write = (TextView) findViewById(R.id.say_some);
         me_write.setOnClickListener(new OnClickListener() {
 
 			@Override

@@ -44,15 +44,13 @@ public class DailyFragment extends Fragment implements OnItemClickListener {
     private RecordManager recordManager;
     private LinkedList<String> daily_record;
     private DailyListAdapter adapter;
-    private PreWrite pw;
     private LinkedList<String> mListItems;
     private SharedPreferences mass_sp;
     private Editor editor;
     
-    public DailyFragment(RecordManager recordMgr, PreWrite prewrite) {
+    public DailyFragment(RecordManager recordMgr) {
         daily_record = new LinkedList<String>();
         recordManager = recordMgr;
-        pw = prewrite;
         
     }
 
