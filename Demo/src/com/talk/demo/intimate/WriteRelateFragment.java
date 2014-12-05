@@ -7,6 +7,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
 
+import com.talk.demo.R;
+
 public class WriteRelateFragment extends Fragment {
     private GridView gridView;
     private MentGridViewAdapter mentAdapter;
@@ -22,7 +24,7 @@ public class WriteRelateFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
         Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View rootView = inflater.inflate(R.layout.relate_write, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_relate_write, container, false);
         
         gridView = (GridView) rootView.findViewById(R.id.ment_content);
         mentAdapter = new MentGridViewAdapter(getActivity(), contents);

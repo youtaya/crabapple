@@ -1,19 +1,17 @@
 package com.talk.demo.intimate;
 
-import android.support.v4.app.FragmentActivity;
-import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
-import android.widget.GridView;
-import android.widget.TextView;
 
 import com.talk.demo.R;
 
 public class AddPressActivity extends FragmentActivity {
 	private static String TAG = "AddPressActivity";
-	private TextView wall;
 	private Button me_write, me_step;
 	
     @Override
@@ -26,12 +24,25 @@ public class AddPressActivity extends FragmentActivity {
 
 			@Override
 			public void onClick(View v) {
+				/*
 				Intent intent = new Intent(AddPressActivity.this, EditIntimateActivity.class); 
 				Bundle bundle = new Bundle();
 				bundle.putInt("STEP", 1);
 				intent.putExtras(bundle);
 	            setResult(RESULT_OK, intent);
 	    		finish();
+	    		*/
+				switchContent(1);
+			}
+        	
+        });
+        
+        me_write = (Button) findViewById(R.id.say_some);
+        me_write.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				switchContent(2);
 			}
         	
         });
@@ -61,9 +72,15 @@ public class AddPressActivity extends FragmentActivity {
     }
     
     
-    public void switchContent() {
+    public void switchContent(int id) {
      // Create fragment and give it an argument specifying the article it should show
-        StepRelateFragment newFragment = new StepRelateFragment();
+    	Fragment newFragment; 
+    	if(id == 1) {
+    		newFragment = new StepRelateFragment();
+    	} else {
+    		newFragment = new WriteRelateFragment();
+    	}
+        
         /*
         Bundle args = new Bundle();
         args.putInt(ArticleFragment.ARG_POSITION, position);

@@ -88,6 +88,7 @@ public class DailyEditActivity extends Activity {
 		// when need to change week day, am/pm
 		String when = pw.getWhen();
 		DateInfo dateInfo = new DateInfo(when);
+		dateInfo.parseCreateTime();
 		String current = dateInfo.getTimeHead();
 		String where = pw.getWhere();
 		

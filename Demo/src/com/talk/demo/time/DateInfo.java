@@ -15,6 +15,10 @@ public class DateInfo {
 	private String week_day;
 	private String[] week_array = 
 		{ "星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六" };
+	private String month_day;
+	private String[] month_array = 
+		{ "一月", "二月", "三月", "四月", "五月", "六月", "七月",
+			"八月", "九月", "十月", "十一月", "十二月" };
 	private String raw_info;
 	public DateInfo(String timeInfo) {
 		raw_info = timeInfo;
@@ -41,6 +45,7 @@ public class DateInfo {
 		int year = Integer.parseInt(test[0]);
 		int month = Integer.parseInt(test[1])-1;
 		int day = Integer.parseInt(test[2]);
+		month_day = month_array[month];
 		Log.d(TAG, "my date: "+year+" "+month+" "+day);
 		c.set(year, month, day);
 		
@@ -63,6 +68,6 @@ public class DateInfo {
 	}
 	
 	public String getTimeHead() {
-	    return date+"\t"+week_day+"\t"+time;
+	    return month_day+"\t"+week_day+"\t"+time;
 	}
 }

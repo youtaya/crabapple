@@ -115,10 +115,6 @@ public class PreWrite {
             }
         }
 
-        @Override
-        public void onReceivePoi(BDLocation arg0) {
-        }
-        
     }
     
     public String getWeather() {
