@@ -201,18 +201,23 @@ public class DailyFragment extends Fragment implements OnItemClickListener {
         @Override
         protected void onPostExecute(DailyNews result) {
         	HashMap<String, String> news = result.getNews();
-        	Set<String> keys = news.keySet();
-        	Set<String> values = new HashSet<String>();
-            for(Iterator<String> iter = keys.iterator(); iter.hasNext();) {
-            	String value = iter.next();
-                Log.d(TAG, "key is "+value);
-                values.add(news.get(value));
-            }
-        	editor.putStringSet(Constant.NEWS_CONTENT, values).commit();
-            editor.putString(Constant.CREATE_TIME, result.getCreateTime()).commit();
-            editor.putString(Constant.EXPIRED_TIME, result.getExpiredTime()).commit();
+        	if(!news.isEmpty()) {
+        	    mListItems.clear();
+            	Set<String> keys = news.keySet();
+            	Set<String> values = new HashSet<String>();
+                for(Iterator<String> iter = keys.iterator(); iter.hasNext();) {
+                	String value = iter.next();
+                    Log.d(TAG, "key is "+value);
+                    values.add(news.get(value));
+                    mListItems.add(news.get(value));
+                }
+                adapter.notifyDataSetChanged();
+                
+            	editor.putStringSet(Constant.NEWS_CONTENT, values).commit();
+                editor.putString(Constant.CREATE_TIME, result.getCreateTime()).commit();
+                editor.putString(Constant.EXPIRED_TIME, result.getExpiredTime()).commit();
+        	}
             
-            adapter.notifyDataSetChanged();
             // Call onRefreshComplete when the list has been refreshed.
             pullToRefreshView.onRefreshComplete();
             super.onPostExecute(result);

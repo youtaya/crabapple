@@ -61,4 +61,8 @@ public class DateInfo {
 	public String getWeekInfo() {
 		return week_day;
 	}
+	
+	public String getTimeHead() {
+	    return date+"\t"+week_day+"\t"+time;
+	}
 }

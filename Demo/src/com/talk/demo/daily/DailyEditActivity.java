@@ -34,6 +34,7 @@ import com.talk.demo.persistence.DBManager;
 import com.talk.demo.persistence.DialogRecord;
 import com.talk.demo.persistence.TimeRecord;
 import com.talk.demo.prewrite.PreWrite;
+import com.talk.demo.time.DateInfo;
 import com.talk.demo.util.AccountUtils;
 import com.talk.demo.util.AlarmManagerUtil;
 import com.talk.demo.util.NetworkUtilities;
@@ -84,11 +85,13 @@ public class DailyEditActivity extends Activity {
 		tv = (TextView) findViewById(R.id.daily_title);
 		head = (TextView) findViewById(R.id.daily_head);
 		PreWrite pw = new PreWrite(this);
-		//TODO: when need to change week day, am/pm
+		// when need to change week day, am/pm
 		String when = pw.getWhen();
+		DateInfo dateInfo = new DateInfo(when);
+		String current = dateInfo.getTimeHead();
 		String where = pw.getWhere();
 		
-		head.setText(when+"\n"+where);
+		head.setText(current+"\n"+where);
 		if(pre_content != null) {
 			tv.setVisibility(View.VISIBLE);
 			tv.setText(pre_content);
