@@ -6,18 +6,108 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.baidu.location.BDLocation;
+import com.baidu.location.BDLocationListener;
+import com.baidu.location.LocationClient;
+import com.baidu.location.LocationClientOption;
 import com.baidu.mapapi.SDKInitializer;
+import com.baidu.mapapi.map.BaiduMap;
+import com.baidu.mapapi.map.BitmapDescriptor;
+import com.baidu.mapapi.map.BitmapDescriptorFactory;
+import com.baidu.mapapi.map.MapStatusUpdate;
+import com.baidu.mapapi.map.MapStatusUpdateFactory;
 import com.baidu.mapapi.map.MapView;
+import com.baidu.mapapi.map.MyLocationConfiguration;
+import com.baidu.mapapi.map.MyLocationConfiguration.LocationMode;
+import com.baidu.mapapi.map.MyLocationData;
+import com.baidu.mapapi.model.LatLng;
 import com.talk.demo.R;
 
 public class StepRelateFragment extends Fragment {
-    MapView mapView = null;  // 定义mapview对象 
+	// 定位相关
+	LocationClient mLocClient;
+	public MyLocationListenner myListener = new MyLocationListenner();
+	private LocationMode mCurrentMode;
+	BitmapDescriptor mCurrentMarker;
+	
+    MapView mMapView = null;  // 定义mapview对象
+    BaiduMap mBaiduMap = null;
+    
+	boolean isFirstLoc = true;// 是否首次定位
+	
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
         Bundle savedInstanceState) {
     	
     	SDKInitializer.initialize(getActivity().getApplicationContext());  
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_relate_step, container, false);
+    	View rootView = inflater.inflate(R.layout.fragment_relate_step, container, false);
+    	mMapView = (MapView)rootView.findViewById(R.id.mapview);
+    	mBaiduMap = mMapView.getMap();  
+    	//普通地图  
+    	mBaiduMap.setMapType(BaiduMap.MAP_TYPE_NORMAL);
+    	// 开启定位图层  
+    	mBaiduMap.setMyLocationEnabled(true);
+		// 定位初始化
+		mLocClient = new LocationClient(getActivity());
+		mLocClient.registerLocationListener(myListener);
+		LocationClientOption option = new LocationClientOption();
+		option.setOpenGps(true);// 打开gps
+		option.setCoorType("bd09ll"); // 设置坐标类型
+		option.setScanSpan(1000);
+		mLocClient.setLocOption(option);
+		mLocClient.start();
+		
+    	return rootView;
+    }
+    
+	/**
+	 * 定位SDK监听函数
+	 */
+	public class MyLocationListenner implements BDLocationListener {
+
+		@Override
+		public void onReceiveLocation(BDLocation location) {
+			// map view 销毁后不在处理新接收的位置
+			if (location == null || mMapView == null)
+				return;
+			MyLocationData locData = new MyLocationData.Builder()
+					.accuracy(location.getRadius())
+					// 此处设置开发者获取到的方向信息，顺时针0-360
+					.direction(100).latitude(location.getLatitude())
+					.longitude(location.getLongitude()).build();
+			mBaiduMap.setMyLocationData(locData);
+			if (isFirstLoc) {
+				isFirstLoc = false;
+				LatLng ll = new LatLng(location.getLatitude(),
+						location.getLongitude());
+				MapStatusUpdate u = MapStatusUpdateFactory.newLatLng(ll);
+				mBaiduMap.animateMapStatus(u);
+			}
+		}
+
+		public void onReceivePoi(BDLocation poiLocation) {
+		}
+	}
+	
+    @Override  
+    public void onDestroy() {  
+        super.onDestroy();  
+        //在activity执行onDestroy时执行mMapView.onDestroy()，实现地图生命周期管理  
+        mMapView.onDestroy();  
+    }  
+    
+	@Override
+	public void onResume() {
+		super.onResume();
+		// 在activity执行onResume时执行mMapView. onResume ()，实现地图生命周期管理
+		mMapView.onResume();
+	}
+	
+    @Override  
+    public void onPause() {  
+        super.onPause();  
+        //在activity执行onPause时执行mMapView. onPause ()，实现地图生命周期管理  
+        mMapView.onPause();  
     }
 }

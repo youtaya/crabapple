@@ -32,6 +32,8 @@ public class AddPressActivity extends FragmentActivity {
 	            setResult(RESULT_OK, intent);
 	    		finish();
 	    		*/
+				me_step.setBackgroundResource(R.drawable.bg_corner_left_white);
+				me_write.setBackgroundResource(android.R.color.transparent);
 				switchContent(1);
 			}
         	
@@ -42,6 +44,8 @@ public class AddPressActivity extends FragmentActivity {
 
 			@Override
 			public void onClick(View v) {
+				me_write.setBackgroundResource(R.drawable.bg_corner_left_white);
+				me_step.setBackgroundResource(android.R.color.transparent);
 				switchContent(2);
 			}
         	
@@ -92,7 +96,7 @@ public class AddPressActivity extends FragmentActivity {
         // Replace whatever is in the fragment_container view with this fragment,
         // and add the transaction to the back stack so the user can navigate back
         transaction.replace(R.id.fragment_container, newFragment);
-        transaction.addToBackStack(null);
+        //transaction.addToBackStack(null);
 
         // Commit the transaction
         transaction.commit();
