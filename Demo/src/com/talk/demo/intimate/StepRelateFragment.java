@@ -1,5 +1,6 @@
 package com.talk.demo.intimate;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -34,18 +35,25 @@ public class StepRelateFragment extends Fragment {
     BaiduMap mBaiduMap = null;
     
 	boolean isFirstLoc = true;// 是否首次定位
+	private SharedPreferences settings;
+	private double lat, lng;
 	
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
         Bundle savedInstanceState) {
     	
-    	SDKInitializer.initialize(getActivity().getApplicationContext());  
+    	SDKInitializer.initialize(getActivity().getApplicationContext()); 
+    	
+    	settings = getActivity().getSharedPreferences("GeoPoint_Info",0);
+    	lat = (double)settings.getLong("Lat", 0);
+    	lng = (double)settings.getLong("Lng", 0);
         // Inflate the layout for this fragment
     	View rootView = inflater.inflate(R.layout.fragment_relate_step, container, false);
     	mMapView = (MapView)rootView.findViewById(R.id.mapview);
     	mBaiduMap = mMapView.getMap();  
     	//普通地图  
     	mBaiduMap.setMapType(BaiduMap.MAP_TYPE_NORMAL);
+    	
     	// 开启定位图层  
     	mBaiduMap.setMyLocationEnabled(true);
     	
@@ -56,6 +64,12 @@ public class StepRelateFragment extends Fragment {
 		mBaiduMap
 				.setMyLocationConfigeration(new MyLocationConfiguration(
 						mCurrentMode, true, mCurrentMarker));
+		
+		MyLocationData defaultData = new MyLocationData.Builder()
+			.latitude(lat)
+			.longitude(lng).build();
+		mBaiduMap.setMyLocationData(defaultData);
+		
 		// 定位初始化
 		mLocClient = new LocationClient(getActivity());
 		mLocClient.registerLocationListener(myListener);
@@ -87,8 +101,9 @@ public class StepRelateFragment extends Fragment {
 			mBaiduMap.setMyLocationData(locData);
 			if (isFirstLoc) {
 				isFirstLoc = false;
-				LatLng ll = new LatLng(location.getLatitude(),
-						location.getLongitude());
+				lat = location.getLatitude();
+				lng = location.getLongitude();
+				LatLng ll = new LatLng(lat, lng);
 				MapStatusUpdate u = MapStatusUpdateFactory.newLatLng(ll);
 				mBaiduMap.animateMapStatus(u);
 			}
@@ -102,7 +117,11 @@ public class StepRelateFragment extends Fragment {
     public void onDestroy() {  
         super.onDestroy();  
         //在activity执行onDestroy时执行mMapView.onDestroy()，实现地图生命周期管理  
-        mMapView.onDestroy();  
+        mMapView.onDestroy();
+        
+        /*退出时保存这次的定位信息*/
+        settings.edit().putLong("Lat", (long)lat).commit();
+        settings.edit().putLong("Lng", (long)lng).commit();
     }  
     
 	@Override
