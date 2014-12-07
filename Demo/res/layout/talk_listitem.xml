@@ -14,7 +14,8 @@
     <RelativeLayout 
 		android:layout_width="0dp"
 		android:layout_weight="1"
-        android:layout_height="fill_parent" >
+        android:layout_height="fill_parent" 
+        android:background="@drawable/bg_corner_orange">
 	    <ProgressBar
 	        android:id="@+id/pbTask"
 	        style="?android:attr/progressBarStyleHorizontal"
@@ -30,6 +31,7 @@
 	        android:layout_alignParentLeft="true"
 	        android:layout_alignWithParentIfMissing="true"
 	        android:layout_marginTop="3dp"
+	        android:layout_marginLeft="4dp"
 	        android:textSize="20dp"
 	        android:text="friend name" />
 	    <TextView
@@ -39,6 +41,7 @@
 	        android:layout_alignParentRight="true"
 	        android:layout_alignWithParentIfMissing="true"
 	        android:layout_marginTop="3dp"
+	        android:layout_marginRight="4dp"
 	        android:textSize="16dp"
 	        android:text="dialog time" />
 		<TextView
@@ -48,7 +51,9 @@
 	        android:layout_alignParentBottom="true"
 	        android:maxLines="2"
 	        android:layout_alignWithParentIfMissing="true"
+	        android:layout_marginLeft="4dp"
 	        android:layout_marginBottom="3dp"
+	        android:textColor="@color/white"
 	        android:text="dialog content" />
 	</RelativeLayout>
 </LinearLayout>

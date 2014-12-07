@@ -116,12 +116,18 @@ public class StepRelateFragment extends Fragment {
     @Override  
     public void onDestroy() {  
         super.onDestroy();  
-        //在activity执行onDestroy时执行mMapView.onDestroy()，实现地图生命周期管理  
-        mMapView.onDestroy();
         
         /*退出时保存这次的定位信息*/
         settings.edit().putLong("Lat", (long)lat).commit();
         settings.edit().putLong("Lng", (long)lng).commit();
+        
+		// 退出时销毁定位
+		mLocClient.stop();
+		// 关闭定位图层
+		mBaiduMap.setMyLocationEnabled(false);
+		mMapView.onDestroy();
+		mMapView = null;
+		
     }  
     
 	@Override
