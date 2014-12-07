@@ -366,6 +366,9 @@ final public class NetworkUtilities {
         HttpURLConnection conn = HttpRequest.get(AUTH_URI)
                 .getConnection();
 
+        if (conn == null) {
+        	return;
+        }
         /*
          * cookieHeader may be null cause NullPointerException
          * ToDo: write the whole code completely
