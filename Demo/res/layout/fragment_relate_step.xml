@@ -23,7 +23,7 @@
         android:textSize="23dp" 
         android:textColor="@color/white" 
         android:gravity="center" 
-        android:id="@+id/bt_regist" 
+        android:id="@+id/bt_save_publish" 
         android:background="@drawable/bg_corner_orange" 
         android:layout_width="fill_parent" 
         android:layout_height="42.0dip" 
@@ -31,5 +31,5 @@
         android:layout_marginTop="24.0dip" 
         android:layout_marginRight="25.0dip"
         android:layout_marginBottom="24.0dip" 
-        android:text="保存并发表" />
+        android:text="@string/save_publish" />
 </LinearLayout>

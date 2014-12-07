@@ -61,6 +61,7 @@
 	<string name="channel">Channel Update</string>
 	<string name="step_some">I Write</string>
 	<string name="say_some">I Check</string>
+	<string name="save_publish">save and publish</string>
 	
     <string name="share_dialog_send_method">Please select</string>
     <string name="share_dialog_send_to_me">Send to Me</string>

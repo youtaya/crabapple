@@ -61,6 +61,7 @@
 	<string name="channel">频道更新</string>
 	<string name="step_some">我踩</string>
 	<string name="say_some">我写</string>
+	<string name="save_publish">保存并发表</string>
 	
     <string name="share_dialog_send_method">请选择</string>
     <string name="share_dialog_send_to_me">发送给我</string>

@@ -32,7 +32,7 @@ public class AddPressActivity extends FragmentActivity {
 	            setResult(RESULT_OK, intent);
 	    		finish();
 	    		*/
-				me_step.setBackgroundResource(R.drawable.bg_corner_left_white);
+				me_step.setBackgroundResource(R.drawable.bg_corner_right_white);
 				me_write.setBackgroundResource(android.R.color.transparent);
 				switchContent(1);
 			}
