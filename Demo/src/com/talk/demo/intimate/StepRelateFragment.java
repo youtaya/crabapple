@@ -48,6 +48,14 @@ public class StepRelateFragment extends Fragment {
     	mBaiduMap.setMapType(BaiduMap.MAP_TYPE_NORMAL);
     	// 开启定位图层  
     	mBaiduMap.setMyLocationEnabled(true);
+    	
+		// 修改为自定义marker
+    	mCurrentMode = LocationMode.NORMAL;
+		mCurrentMarker = BitmapDescriptorFactory
+				.fromResource(R.drawable.icon_geo);
+		mBaiduMap
+				.setMyLocationConfigeration(new MyLocationConfiguration(
+						mCurrentMode, true, mCurrentMarker));
 		// 定位初始化
 		mLocClient = new LocationClient(getActivity());
 		mLocClient.registerLocationListener(myListener);
