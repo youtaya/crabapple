@@ -80,7 +80,8 @@ public class DataOperation {
         	sqlValue.append(key + "='" +queryVar.get(key)+"'");
         
         Cursor c = innerDB.rawQuery("SELECT * FROM "+table_name
-                +sqlValue.toString(), null);
+                +sqlValue.toString()
+                +" ORDER BY calc_date DESC, create_time DESC", null);
         return c;  
     }
     

@@ -14,6 +14,7 @@ import com.talk.demo.CloudKite.taskListener;
 import com.talk.demo.talk.DialogCache;
 import com.talk.demo.talk.DialogItem;
 import com.talk.demo.talk.TalkViewItem;
+import com.talk.demo.time.DateInfo;
 import com.talk.demo.util.TalkUtil;
 
 import java.util.ArrayList;
@@ -49,7 +50,9 @@ public class TalkListAdapter extends BaseAdapter {
 			
 			DialogItem dialog_item = mTalkItems.get(position).getListViewItem().get(0);
 			viewHolder.friendName.setText(dialog_item.getLink());
-			viewHolder.dialogTime.setText(dialog_item.getCreateTime());
+			DateInfo dateinfo = new DateInfo(dialog_item.getCreateTime());
+			dateinfo.parseCreateTime();
+			viewHolder.dialogTime.setText(dateinfo.getTimeHead());
 			viewHolder.dialogContent.setText(dialog_item.getContent());
 
 		} else {

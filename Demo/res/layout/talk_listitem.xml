@@ -30,6 +30,7 @@
 	        android:layout_alignParentLeft="true"
 	        android:layout_alignWithParentIfMissing="true"
 	        android:layout_marginTop="3dp"
+	        android:textSize="20dp"
 	        android:text="friend name" />
 	    <TextView
 	        android:id="@+id/dialog_time"
@@ -38,6 +39,7 @@
 	        android:layout_alignParentRight="true"
 	        android:layout_alignWithParentIfMissing="true"
 	        android:layout_marginTop="3dp"
+	        android:textSize="16dp"
 	        android:text="dialog time" />
 		<TextView
 	        android:id="@+id/dialog_content"
