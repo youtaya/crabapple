@@ -3,11 +3,33 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
-
-    <com.baidu.mapapi.map.MapView
-        android:id="@+id/mapview"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:clickable="true" />
-
+    <LinearLayout 
+        android:orientation="vertical" 
+        android:background="@drawable/bg_corner_5dp_white_alpha" 
+        android:layout_width="fill_parent" 
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_marginLeft="25.0dip" 
+        android:layout_marginTop="15.0dip" 
+        android:layout_marginRight="25.0dip">
+	    <com.baidu.mapapi.map.MapView
+	        android:id="@+id/mapview"
+	        android:layout_width="match_parent"
+	        android:layout_height="match_parent"
+	        android:clickable="true" />
+	</LinearLayout>	  
+	  
+    <Button 
+        android:textSize="23dp" 
+        android:textColor="@color/white" 
+        android:gravity="center" 
+        android:id="@+id/bt_regist" 
+        android:background="@drawable/bg_corner_orange" 
+        android:layout_width="fill_parent" 
+        android:layout_height="42.0dip" 
+        android:layout_marginLeft="25.0dip" 
+        android:layout_marginTop="24.0dip" 
+        android:layout_marginRight="25.0dip"
+        android:layout_marginBottom="24.0dip" 
+        android:text="保存并发表" />
 </LinearLayout>
