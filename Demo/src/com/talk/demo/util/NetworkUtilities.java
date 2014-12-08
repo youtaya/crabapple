@@ -366,7 +366,7 @@ final public class NetworkUtilities {
         HttpURLConnection conn = HttpRequest.get(AUTH_URI)
                 .getConnection();
 
-        if (conn == null) {
+        if (null == conn || null == conn.getHeaderFields()) {
         	return;
         }
         /*

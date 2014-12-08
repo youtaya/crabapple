@@ -10,56 +10,63 @@
         android:layout_marginRight="6dip"
         android:contentDescription="photo"
         android:src="@drawable/avatar" />
-    <LinearLayout 
-			android:layout_width="0dp"
-			android:layout_weight="1"
-	        android:layout_height="fill_parent"
-	        android:background="@drawable/bg_corner_orange" >
-	    <RelativeLayout 
-			android:layout_width="match_parent"
-	        android:layout_height="match_parent"
-	        android:layout_marginLeft="6dp"
-	        android:layout_marginRight="6dp" >
-		    <ProgressBar
-		        android:id="@+id/pbTask"
-		        style="?android:attr/progressBarStyleHorizontal"
-		        android:layout_width="fill_parent"
-		        android:layout_height="fill_parent"
-		        android:max="100"
-		        android:progress="0"
-		        android:progressDrawable="@drawable/custom_progressbar" />
-			<TextView
-		        android:id="@+id/friend_name"
-		        android:layout_width="wrap_content"
-		        android:layout_height="wrap_content"
-		        android:layout_alignParentLeft="true"
-		        android:layout_alignWithParentIfMissing="true"
-		        android:layout_marginTop="3dp"
-		        android:layout_marginLeft="6dp"
-		        android:textSize="20dp"
-		        android:text="friend name" />
-		    <TextView
-		        android:id="@+id/dialog_time"
-		        android:layout_width="wrap_content"
-		        android:layout_height="wrap_content"
-		        android:layout_alignParentRight="true"
-		        android:layout_alignWithParentIfMissing="true"
-		        android:layout_marginTop="3dp"
-		        android:layout_marginRight="6dp"
-		        android:textSize="16dp"
-		        android:text="dialog time" />
-			<TextView
-		        android:id="@+id/dialog_content"
-		        android:layout_width="fill_parent"
-		        android:layout_height="wrap_content"
-		        android:layout_alignParentBottom="true"
-		        android:maxLines="2"
-		        android:layout_alignWithParentIfMissing="true"
-		        android:layout_marginLeft="6dp"
-		        android:layout_marginBottom="3dp"
-		        android:textColor="@color/grey"
-		        android:textSize="16dp"
-		        android:text="dialog content" />
-		</RelativeLayout>
-	</LinearLayout>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="fill_parent"
+        android:layout_weight="1"
+        android:background="@drawable/bg_corner_orange" >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="6dp"
+            android:layout_marginRight="6dp" >
+
+            <ProgressBar
+                android:id="@+id/pbTask"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:max="100"
+                android:progress="0"
+                android:progressDrawable="@drawable/custom_progressbar" />
+
+            <TextView
+                android:id="@+id/friend_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignWithParentIfMissing="true"
+                android:layout_marginLeft="6dp"
+                android:layout_marginTop="3dp"
+                android:text="friend name"
+                android:textSize="20dp" />
+
+            <TextView
+                android:id="@+id/dialog_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_alignWithParentIfMissing="true"
+                android:layout_marginRight="6dp"
+                android:layout_marginTop="3dp"
+                android:text="dialog time"
+                android:textSize="16dp" />
+
+            <TextView
+                android:id="@+id/dialog_content"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignWithParentIfMissing="true"
+                android:layout_marginBottom="3dp"
+                android:layout_marginLeft="6dp"
+                android:maxLines="2"
+                android:text="dialog content"
+                android:textColor="@color/grey"
+                android:textSize="16dp" />
+        </RelativeLayout>
+    </LinearLayout>
+
 </LinearLayout>

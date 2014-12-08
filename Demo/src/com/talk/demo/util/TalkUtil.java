@@ -166,7 +166,7 @@ public class TalkUtil {
 	            int minutes = (int) ((diff / (1000*60)) % 60);
 	            int hours   = (int) ((diff / (1000*60*60)) % 24);
 	            
-	            if (hours > 24) {
+	            if (hours > 12) {
 	            	Log.e(TAG, "nothing change!");
 	            } else if (minutes > 5) {
 	                result = 2;
