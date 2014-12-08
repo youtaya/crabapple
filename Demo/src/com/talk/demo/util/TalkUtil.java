@@ -149,4 +149,24 @@ public class TalkUtil {
 	        return result;
 	        
 	    }
+	   
+	   public static boolean isThisDate(String today) {
+	        boolean result = false;
+	        
+	        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+	        Date date = new Date();
+	        try {
+	            Date recordDate = formatter.parse(today);
+	            long diff =  date.getTime() - recordDate.getTime();
+	            if (diff == 0) {
+	                result = true;
+	            }
+	            
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	        }
+	        
+	        return result;
+	        
+	    }	   
 }
