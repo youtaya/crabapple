@@ -79,9 +79,14 @@ public class DateInfo {
 	}
 	
 	public String getTimeTalk() {
-		if(TalkUtil.isThisDate(raw_info.split(" ")[0])) {
+		int result = TalkUtil.isThisDate(raw_info);
+		switch(result) {
+		case 1:
+			return "刚刚";
+		case 2:
 			return time_latin;
 		}
-		return month_day_latin+date+"日"; 
+		 
+		return month_day_latin+date+"日";
 	}
 }

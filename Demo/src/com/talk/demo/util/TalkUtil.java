@@ -1,15 +1,18 @@
 package com.talk.demo.util;
 
-import android.graphics.Bitmap;
-import android.os.Environment;
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+import android.graphics.Bitmap;
+import android.os.Environment;
+import android.util.Log;
+
 public class TalkUtil {
+	
+	private static final String TAG = "TalkUtil";
 	
 	public static final int REQUEST_IMAGE_CAPTURE = 1;
 	public static final int REQUEST_IMAGE_CAPTURE_CROP = 2;
@@ -150,16 +153,25 @@ public class TalkUtil {
 	        
 	    }
 	   
-	   public static boolean isThisDate(String today) {
-	        boolean result = false;
+	   public static int isThisDate(String today) {
+	        int result = 0;
 	        
-	        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+	        Calendar calendar = Calendar.getInstance();
+	        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss:SSSS");
 	        Date date = new Date();
 	        try {
 	            Date recordDate = formatter.parse(today);
 	            long diff =  date.getTime() - recordDate.getTime();
-	            if (diff == 0) {
-	                result = true;
+	            //int seconds = (int) (diff / 1000) % 60 ;
+	            int minutes = (int) ((diff / (1000*60)) % 60);
+	            int hours   = (int) ((diff / (1000*60*60)) % 24);
+	            
+	            if (hours > 24) {
+	            	Log.e(TAG, "nothing change!");
+	            } else if (minutes > 5) {
+	                result = 2;
+	            } else {
+	            	result = 1;
 	            }
 	            
 	        } catch (Exception e) {
