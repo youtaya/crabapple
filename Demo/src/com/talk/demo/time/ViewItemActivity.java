@@ -1,7 +1,6 @@
 
 package com.talk.demo.time;
 
-import android.R.integer;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,10 +11,8 @@ import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.talk.demo.R;
-import com.talk.demo.daily.AddTagActivity;
 import com.talk.demo.daily.SelectTagActivity;
 import com.talk.demo.persistence.DBManager;
-import com.talk.demo.persistence.TagRecord;
 
 public class ViewItemActivity extends Activity {
     private static String TAG = "ViewItemActivity";

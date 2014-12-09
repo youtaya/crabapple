@@ -188,34 +188,36 @@ public class RecordManager {
 				time_records.add(tvi_head);
 			}
 			
-			if(tr.tag != null && !exsitTag(ourTagSet, tr.tag)) {
-				ourTagSet.add(tr.tag);
-				tvi.setType(2);
-				Log.d(TAG, "tag is: "+tr.tag);
-				
-				ArrayList<TimeCache> listCache = new ArrayList<TimeCache>();
-				ArrayList<ViewAsItem> listViewAsItem = new ArrayList<ViewAsItem>();
-				
-				tvi.setTagTitle(tr.tag);
-				tag_records = dbMgr.queryTimeTag(tr.tag);
-				for(TimeRecord item : tag_records) {
-					TimeCache rc = new TimeCache();
-					ViewAsItem vi = new ViewAsItem(item._id, item.calc_date,item.create_time,
-							item.content,item.content_type,item.photo);
-					rc.setId(item._id);
-					rc.setContent(item.content);
-					rc.setCreateDate(item.calc_date);
-					rc.setCreateTime(item.create_time);
-					rc.setMediaType(item.content_type);
-					rc.setPhotoPath(item.photo);
+			if(tr.tag != null) {
+				if(!exsitTag(ourTagSet, tr.tag)) {
+					ourTagSet.add(tr.tag);
+					tvi.setType(2);
+					Log.d(TAG, "tag is: "+tr.tag);
 					
-					listCache.add(rc);
-					listViewAsItem.add(vi);
+					ArrayList<TimeCache> listCache = new ArrayList<TimeCache>();
+					ArrayList<ViewAsItem> listViewAsItem = new ArrayList<ViewAsItem>();
+					
+					tvi.setTagTitle(tr.tag);
+					tag_records = dbMgr.queryTimeTag(tr.tag);
+					for(TimeRecord item : tag_records) {
+						TimeCache rc = new TimeCache();
+						ViewAsItem vi = new ViewAsItem(item._id, item.calc_date,item.create_time,
+								item.content,item.content_type,item.photo);
+						rc.setId(item._id);
+						rc.setContent(item.content);
+						rc.setCreateDate(item.calc_date);
+						rc.setCreateTime(item.create_time);
+						rc.setMediaType(item.content_type);
+						rc.setPhotoPath(item.photo);
+						
+						listCache.add(rc);
+						listViewAsItem.add(vi);
+					}
+					
+					record_cache.put(tr.tag, listCache);
+					tvi.setListViewItem(listViewAsItem);
+					time_records.add(tvi);
 				}
-				
-				record_cache.put(tr.tag, listCache);
-				tvi.setListViewItem(listViewAsItem);
-				time_records.add(tvi);
 				continue;
 			}
 			tvi.setType(1);
