@@ -1,11 +1,15 @@
 package com.talk.demo.intimate;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.JsonWriter;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
@@ -24,7 +28,27 @@ import com.baidu.mapapi.map.MyLocationData;
 import com.baidu.mapapi.model.LatLng;
 import com.talk.demo.R;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
 public class StepRelateFragment extends Fragment {
+	
+	private Button saveButton;
+	private Context mContext;
+	private List<LatLng> tempData;
+	private File tempFile;
 	// 定位相关
 	LocationClient mLocClient;
 	public MyLocationListenner myListener = new MyLocationListenner();
@@ -80,9 +104,80 @@ public class StepRelateFragment extends Fragment {
 		mLocClient.setLocOption(option);
 		mLocClient.start();
 		
+		tempFile = new File(mContext.getExternalCacheDir(), "testJson.json");
+		try {
+			tempData = getLocations(new FileInputStream(tempFile));
+		} catch (IOException ex) {
+			// TODO Auto-generated catch block
+			ex.printStackTrace();
+		}
+		saveButton = (Button)rootView.findViewById(R.id.bt_save_publish);
+		saveButton.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				// TODO save lat, lng to file
+				try {
+					FileOutputStream out = new FileOutputStream(tempFile);
+					writeJsonStream(out, tempData);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+			
+		});
     	return rootView;
     }
     
+    public void writeJsonStream(OutputStream out, List<LatLng> messages) throws IOException {
+        JsonWriter writer = new JsonWriter(new OutputStreamWriter(out, "UTF-8"));
+        writeMessagesArray(writer, messages);
+        writer.close();
+    }
+
+      public void writeMessagesArray(JsonWriter writer, List<LatLng> mesgs) throws IOException {
+        writer.beginArray();
+        for (LatLng message : mesgs) {
+          writeMessage(writer, message);
+        }
+        //record this step place
+        writeThisStep(writer);
+        
+        writer.endArray();
+      }
+
+      public void writeMessage(JsonWriter writer, LatLng message) throws IOException {
+        writer.beginObject();
+        writer.name("lng").value(message.longitude);
+        writer.name("lat").value(message.latitude);
+        writer.endObject();
+      }
+      
+      public void writeThisStep(JsonWriter writer) throws IOException {
+          writer.beginObject();
+          writer.name("lng").value(lng);
+          writer.name("lat").value(lat);
+          writer.endObject();
+        }
+      
+  	private List<LatLng> getLocations(InputStream input) {
+		List<LatLng> list = new ArrayList<LatLng>();
+		String json = new Scanner(input).useDelimiter("\\A").next();
+		JSONArray array;
+		try {
+			array = new JSONArray(json);
+			for (int i = 0; i < array.length(); i++) {
+				JSONObject object = array.getJSONObject(i);
+				double lat = object.getDouble("lat");
+				double lng = object.getDouble("lng");
+				list.add(new LatLng(lat, lng));
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return list;
+	}
 	/**
 	 * 定位SDK监听函数
 	 */

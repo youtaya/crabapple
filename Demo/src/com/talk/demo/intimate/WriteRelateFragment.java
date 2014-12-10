@@ -5,11 +5,9 @@ import com.talk.demo.persistence.DBManager;
 import com.talk.demo.persistence.FriendRecord;
 
 import android.support.v4.app.Fragment;
-import android.R.integer;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.TextureView;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
