@@ -71,7 +71,7 @@ public class EditIntimateActivity extends Activity {
 				Intent newIntent = new Intent(EditIntimateActivity.this, AddPressActivity.class);
 	            Bundle mBundle = new Bundle();
                 mBundle.putInt("id", friend_id);
-                mIntent.putExtras(mBundle);
+                newIntent.putExtras(mBundle);
 				startActivityForResult(newIntent, ONE_STEP);
 			}
         	

@@ -190,7 +190,7 @@ public class DBManager {
     public FriendRecord queryFriendTheParam(int param) {  
         Map<String, Object> sortVar = new HashMap<String, Object>();
         sortVar.put("id", param);
-        Cursor c = new DataOperation(db, "friends").queryCursorWithCond(sortVar);
+        Cursor c = new DataOperation(db, "friends").queryFriendCursorWithCond(sortVar);
         
         FriendRecord fr = new FriendRecord();
         if((c != null) && c.moveToFirst()) {

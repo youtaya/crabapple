@@ -9,7 +9,7 @@ public class DBHelper extends SQLiteOpenHelper {
     /**
      * Version constant to increment when the database should be rebuilt
      */
-    private static final int VERSION = 5;
+    private static final int VERSION = 6;
 
     /**
      * Name of database file

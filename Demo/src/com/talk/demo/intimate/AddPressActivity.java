@@ -66,7 +66,7 @@ public class AddPressActivity extends FragmentActivity {
             }
 
             // Create a new Fragment to be placed in the activity layout
-            WriteRelateFragment firstFragment = new WriteRelateFragment();
+            WriteRelateFragment firstFragment = new WriteRelateFragment(this, friend_id);
             
             // In case this activity was started with special instructions from an
             // Intent, pass the Intent's extras to the fragment as arguments
