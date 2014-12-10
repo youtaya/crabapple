@@ -8,6 +8,7 @@ public class FriendRecord extends CommonRecord {
     public String userName;
     public String phoneMobile;
     public String avatar;
+    public String description;
     
     public FriendRecord() {
     }
@@ -17,6 +18,7 @@ public class FriendRecord extends CommonRecord {
         userName = rf.getUserName();
         phoneMobile = rf.getPhoneMobile();
         avatar = rf.getAvatar();
+        description = rf.getDescription();
     }
     public FriendRecord(String v1) {
         userName = v1;
@@ -33,7 +35,7 @@ public class FriendRecord extends CommonRecord {
 
 	@Override
 	public int getNumItems() {
-		return 8;
+		return 9;
 	}
 
 	@Override
@@ -43,9 +45,10 @@ public class FriendRecord extends CommonRecord {
 		obj[2] = userName;
 		obj[3] = phoneMobile;
 		obj[4] = avatar;
-		obj[5] = super.sync_time;
-		obj[6] = super.dirty;
-		obj[7] = super.deleted;
+		obj[5] = description;
+		obj[6] = super.sync_time;
+		obj[7] = super.dirty;
+		obj[8] = super.deleted;
 		
 	}
 
@@ -57,6 +60,7 @@ public class FriendRecord extends CommonRecord {
         super.handle = c.getString(c.getColumnIndex("handle"));
         phoneMobile = c.getString(c.getColumnIndex("phone_mobile"));
         avatar = c.getString(c.getColumnIndex("avatar"));
+        description = c.getString(c.getColumnIndex("description"));
         super.sync_time = c.getLong(c.getColumnIndex("sync_time"));
 		
 	}

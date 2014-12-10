@@ -13,11 +13,14 @@ import com.talk.demo.R;
 public class AddPressActivity extends FragmentActivity {
 	private static String TAG = "AddPressActivity";
 	private TextView me_write, me_step;
-	
+	private int friend_id;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_press);
+        
+        Bundle bundle = getIntent().getExtras();
+        friend_id = bundle.getInt("id");
         
         me_step = (TextView) findViewById(R.id.step_some);
         me_step.setOnClickListener(new OnClickListener() {
@@ -82,7 +85,7 @@ public class AddPressActivity extends FragmentActivity {
     	if(id == 1) {
     		newFragment = new StepRelateFragment();
     	} else {
-    		newFragment = new WriteRelateFragment();
+    		newFragment = new WriteRelateFragment(this, friend_id);
     	}
         
         /*

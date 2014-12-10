@@ -97,6 +97,10 @@ public class DBManager {
     	new DataOperation(db, "records").updateTag(id, tag);
     }
     
+    public void updateDescription(int id, String des) {
+        new DataOperation(db, "friends").updateDescription(id, des);
+    }
+    
     public void updateServerInfo(TimeRecord tRecord) {
     	new DataOperation(db, "records").updateServerId(tRecord);
     }

@@ -20,6 +20,7 @@ import net.sectorsieteg.avatars.AvatarDrawableFactory;
 
 public class EditIntimateActivity extends Activity {
 	private static String TAG = "EditIntimateActivity";
+	private int friend_id;
 	private String friend_name;
 	private TextView tvFriendName;
 	private ImageView ivAvatar;
@@ -37,6 +38,7 @@ public class EditIntimateActivity extends Activity {
         setContentView(R.layout.activity_edit_intimate);
         
         Bundle bundle = getIntent().getExtras();
+        friend_id = bundle.getInt("id");
         friend_name = bundle.getString("friend");
         tvFriendName = (TextView) findViewById(R.id.friend_name);
         tvFriendName.setText(friend_name);
@@ -67,6 +69,9 @@ public class EditIntimateActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				Intent newIntent = new Intent(EditIntimateActivity.this, AddPressActivity.class);
+	            Bundle mBundle = new Bundle();
+                mBundle.putInt("id", friend_id);
+                mIntent.putExtras(mBundle);
 				startActivityForResult(newIntent, ONE_STEP);
 			}
         	

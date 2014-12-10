@@ -48,6 +48,10 @@ public class DailyFragment extends Fragment implements OnItemClickListener {
     private SharedPreferences mass_sp;
     private Editor editor;
     
+    // add for debug
+    public DailyFragment() {
+    }
+    
     public DailyFragment(RecordManager recordMgr) {
         daily_record = new LinkedList<String>();
         recordManager = recordMgr;

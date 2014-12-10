@@ -125,8 +125,15 @@ public class DataOperation {
         cv.put("tag", tag);  
         Log.d(TAG,"update id: "+id);
         innerDB.update(table_name, cv, "id" + "='" +id+"'", null);
-
     } 
+    
+    public void updateDescription(int id, String des) {  
+        ContentValues cv = new ContentValues();  
+        cv.put("description", des);  
+        Log.d(TAG,"update description: "+des);
+        innerDB.update(table_name, cv, "id" + "='" +id+"'", null);
+    } 
+    
     public void updateContent(CommonRecord record, String content) {
         ContentValues cv = new ContentValues();  
         cv.put("content", content);  

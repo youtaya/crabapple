@@ -30,6 +30,7 @@ public class IntimateActivity extends Activity {
     private DBManager mgr;
     private List<FriendRecord> frList;
     
+    private int friendId;
     private String friendName;
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -55,10 +56,12 @@ public class IntimateActivity extends Activity {
                     int position, long id) {
                 Log.d(TAG, "position : "+position+"id : "+id);
 				TextView name = (TextView)view.findViewById(R.id.friend_name);
+				friendId = frList.get(position)._id;
 				friendName = name.getText().toString();
 				//Todo:start daily edit activity
 		        Intent mIntent = new Intent(IntimateActivity.this, EditIntimateActivity.class);
 		        Bundle mBundle = new Bundle();
+		        mBundle.putInt("id", friendId);
 		        mBundle.putString("friend", friendName);
 		        mIntent.putExtras(mBundle);
 			    startActivity(mIntent);	
