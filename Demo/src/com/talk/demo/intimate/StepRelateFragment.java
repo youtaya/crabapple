@@ -51,7 +51,7 @@ public class StepRelateFragment extends Fragment {
 	private Context mContext;
 	private List<LatLng> tempData;
 	private File tempFile;
-	boolean isFirstRead = true;
+	
 	// 定位相关
 	LocationClient mLocClient;
 	public MyLocationListenner myListener = new MyLocationListenner();
@@ -106,20 +106,9 @@ public class StepRelateFragment extends Fragment {
 		mLocClient.setLocOption(option);
 		mLocClient.start();
 
-		File tempDir = new File(Environment.getExternalStorageDirectory()
-				+ "/Demotest");
-		if (!tempDir.exists()) {
-			tempDir = new File("/sdcard/Demo");
-			tempDir.mkdir();
-		}
 
-		tempFile = new File(tempDir, "Json.json");
 		try {
-			if(isFirstRead) {
-				isFirstRead = false;
-			} else {
-				tempData = getLocations(new FileInputStream(tempFile));
-			}
+		    tempData = getLocations(new FileInputStream(getJsonFile()));
 		} catch (IOException ex) {
 			// TODO Auto-generated catch block
 			ex.printStackTrace();
@@ -131,7 +120,7 @@ public class StepRelateFragment extends Fragment {
 			public void onClick(View v) {
 				// TODO save lat, lng to file
 				try {
-					FileOutputStream out = new FileOutputStream(tempFile);
+					FileOutputStream out = new FileOutputStream(getJsonFile());
 					writeJsonStream(out, tempData);
 				} catch (IOException e) {
 					e.printStackTrace();
@@ -187,7 +176,11 @@ public class StepRelateFragment extends Fragment {
 	private List<LatLng> getLocations(InputStream input) 
 			throws IOException{
 		List<LatLng> list = new ArrayList<LatLng>();
-		String json = new Scanner(input).useDelimiter("\\A").next();
+		Scanner scanner = new Scanner(input);
+		if(!scanner.hasNext()) {
+		    return null;
+		}
+		String json = scanner.useDelimiter("\\A").next();
 		JSONArray array;
 		try {
 			array = new JSONArray(json);
@@ -207,6 +200,16 @@ public class StepRelateFragment extends Fragment {
 		return list;
 	}
 
+    public File getJsonFile() {
+        File tempDir = new File(Environment.getExternalStorageDirectory()
+                + "/Demo");
+        if (!tempDir.exists()) {
+            tempDir = new File("/sdcard/Demo");
+            tempDir.mkdir();
+        }
+
+        tempFile = new File(tempDir, "testJson.json");
+    }
 	/**
 	 * 定位SDK监听函数
 	 */
