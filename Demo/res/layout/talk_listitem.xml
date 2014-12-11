@@ -15,7 +15,7 @@
         android:layout_width="0dp"
         android:layout_height="fill_parent"
         android:layout_weight="1"
-        android:background="@drawable/bg_corner_orange" >
+        android:background="@drawable/bg_corner_orange_selector" >
 
         <RelativeLayout
             android:layout_width="match_parent"

@@ -75,7 +75,7 @@ public class WriteRelateFragment extends Fragment {
                 
                 String des = pressWall.getText().toString();
                 mgr.updateDescription(mFriendId, des);
-                
+                saveButton.setPressed(true);
             }
             
         });

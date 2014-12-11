@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.util.JsonWriter;
 import android.util.Log;
@@ -20,11 +22,10 @@ import com.baidu.location.LocationClientOption;
 import com.baidu.mapapi.SDKInitializer;
 import com.baidu.mapapi.map.BaiduMap;
 import com.baidu.mapapi.map.BitmapDescriptor;
-import com.baidu.mapapi.map.BitmapDescriptorFactory;
+import com.baidu.mapapi.map.HeatMap;
 import com.baidu.mapapi.map.MapStatusUpdate;
 import com.baidu.mapapi.map.MapStatusUpdateFactory;
 import com.baidu.mapapi.map.MapView;
-import com.baidu.mapapi.map.MyLocationConfiguration;
 import com.baidu.mapapi.map.MyLocationConfiguration.LocationMode;
 import com.baidu.mapapi.map.MyLocationData;
 import com.baidu.mapapi.model.LatLng;
@@ -50,7 +51,6 @@ public class StepRelateFragment extends Fragment {
 	private Button saveButton;
 	private Context mContext;
 	private List<LatLng> tempData;
-	private File tempFile;
 	
 	// 定位相关
 	LocationClient mLocClient;
@@ -60,7 +60,8 @@ public class StepRelateFragment extends Fragment {
 
 	MapView mMapView = null; // 定义mapview对象
 	BaiduMap mBaiduMap = null;
-
+	private HeatMap heatmap;
+	
 	boolean isFirstLoc = true;// 是否首次定位
 	private SharedPreferences settings;
 	private double lat, lng;
@@ -86,16 +87,20 @@ public class StepRelateFragment extends Fragment {
 		mBaiduMap.setMyLocationEnabled(true);
 
 		// 修改为自定义marker
+		/*
 		mCurrentMode = LocationMode.NORMAL;
 		mCurrentMarker = BitmapDescriptorFactory
 				.fromResource(R.drawable.icon_geo);
 		mBaiduMap.setMyLocationConfigeration(new MyLocationConfiguration(
 				mCurrentMode, true, mCurrentMarker));
-
-		MyLocationData defaultData = new MyLocationData.Builder().latitude(lat)
-				.longitude(lng).build();
-		mBaiduMap.setMyLocationData(defaultData);
-
+		*/
+		
+		LatLng ll = new LatLng(lat, lng);
+		MapStatusUpdate u = MapStatusUpdateFactory.newLatLng(ll);
+		mBaiduMap.setMapStatus(u);
+		
+		addHeatMap();
+		
 		// 定位初始化
 		mLocClient = new LocationClient(getActivity());
 		mLocClient.registerLocationListener(myListener);
@@ -110,7 +115,6 @@ public class StepRelateFragment extends Fragment {
 		try {
 		    tempData = getLocations(new FileInputStream(getJsonFile()));
 		} catch (IOException ex) {
-			// TODO Auto-generated catch block
 			ex.printStackTrace();
 		}
 		saveButton = (Button) rootView.findViewById(R.id.bt_save_publish);
@@ -118,13 +122,17 @@ public class StepRelateFragment extends Fragment {
 
 			@Override
 			public void onClick(View v) {
-				// TODO save lat, lng to file
 				try {
 					FileOutputStream out = new FileOutputStream(getJsonFile());
 					writeJsonStream(out, tempData);
+					/*
+					out.flush();
+					out.close();
+					*/
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
+				saveButton.setPressed(true);
 			}
 
 		});
@@ -137,20 +145,18 @@ public class StepRelateFragment extends Fragment {
 		writeMessagesArray(writer, messages);
 		writer.close();
 		
-		out.flush();
-		out.close();
 	}
 
 	public void writeMessagesArray(JsonWriter writer, List<LatLng> mesgs)
 			throws IOException {
 		
 		writer.beginArray();
-		if(mesgs == null) {
-			Log.e(TAG, "list is empty, skip it");
-		} else {
+		if(null != mesgs) {
 			for (LatLng message : mesgs) {
 				writeMessage(writer, message);
 			}
+		} else {
+			Log.e(TAG, "file don't contain geo data");
 		}
 		// record this step place
 		writeThisStep(writer);
@@ -191,11 +197,8 @@ public class StepRelateFragment extends Fragment {
 				list.add(new LatLng(lat, lng));
 			}
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		input.close();
 		
 		return list;
 	}
@@ -208,8 +211,37 @@ public class StepRelateFragment extends Fragment {
             tempDir.mkdir();
         }
 
-        tempFile = new File(tempDir, "testJson.json");
+    	File tempFile = new File(tempDir, "testJson.json");
+        
+        return tempFile;
     }
+    
+	private void addHeatMap() {
+		final Handler h = new Handler() {
+			@Override
+			public void handleMessage(Message msg) {
+				super.handleMessage(msg);
+				mBaiduMap.addHeatMap(heatmap);
+			}
+		};
+		
+		new Thread() {
+			@Override
+			public void run() {
+				super.run();
+				List<LatLng> data;
+				try {
+					data = getLocations(new FileInputStream(getJsonFile()));
+					heatmap = new HeatMap.Builder().data(data).build();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				
+				h.sendEmptyMessage(0);
+			}
+		}.start();
+	}
+	
 	/**
 	 * 定位SDK监听函数
 	 */
