@@ -86,7 +86,7 @@ final public class NetworkUtilities {
     public static final String SYNC_FRIENDS_URI = BASE_URL + "friends/sync/";
     /** URI for sync service */
     public static final String SYNC_RECORDS_URI = BASE_URL + "times/sync/";
-    public static final String SHARE_RECORDS_URI = BASE_URL + "times/share/";
+    public static final String SHARE_RECORDS_URI = BASE_URL + "dialogs/share/";
     
     public static final String SYNC_PHOTO_URI = BASE_URL + "times/photo/";
     public static final String DOWNLOAD_PHOTO_URI = BASE_URL + "times/photoView/";
