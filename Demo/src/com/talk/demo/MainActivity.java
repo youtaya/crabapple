@@ -1,14 +1,20 @@
 
 package com.talk.demo;
 
+import android.R;
+import android.accounts.Account;
 import android.app.ActionBar;
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -16,13 +22,17 @@ import android.view.ViewConfiguration;
 import android.widget.Toast;
 
 import com.talk.demo.core.RecordManager;
+import com.talk.demo.jpush.ExampleUtil;
 import com.talk.demo.persistence.DBManager;
 import com.talk.demo.prewrite.PreWrite;
+import com.talk.demo.util.AccountUtils;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.Locale;
+import java.util.Set;
 
 public class MainActivity extends FragmentActivity implements ActionBar.TabListener {
 
@@ -50,10 +60,18 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
      */
     ViewPager mViewPager;
     
+    public static final int MSG_SET_TAGS = 2;
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        
+        // set tags for push service
+        Account existing = AccountUtils.getPasswordAccessibleAccount(this);
+        if (existing != null && !TextUtils.isEmpty(existing.name)) {
+            setTag(existing.name);
+        }
         
         getOverflowMenu();
         // Set up the action bar.
@@ -105,6 +123,55 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         }
     }
 
+    private void setTag(String tag) {
+        Set<String> tagSet = new LinkedList<String>();
+        if(!ExampleUtil.isValidTagAndAlias(tag)) {
+            Toast.makeText(this, R.string.error_tag_gs_empty, Toast.LENGTH_SHORT).show();
+            return;
+        }
+        tagSet.add(tag);
+        
+        mHandler.sendMessage(mHandler.obtainMessage(MSG_SET_TAGS, tagSet));
+        
+    }
+    
+    public Handler mHandler = new Handler() {
+        public void handleMessage(Message msg) {
+            switch(msg.what) {
+                case MSG_SET_TAGS:
+                    Log.d(TAG, "Set tags in hanlder");
+                    JPushInterface.setAliasAndTags(this, null, (Set<String>)msg.obj, mTagsCallback);
+                    break;
+            }
+        }
+    }
+    private final TagAliasCallback mTagsCallback = new TagAliasCallback() {
+        @Override
+        public void gotResult(int code, String alias, Set<String> tags) {
+            String logs;
+            switch(code) {
+                case 0:
+                    logs = "Set tag and alias success";
+                    Log.d(TAG, logs);
+                    break;
+                case 6002:
+                    logs = "Failed to set alias and tags due to timeout, Try again after 60s.";
+                    Log.d(TAG, logs);
+                    if(ExampleUtil.isConnected(this)) {
+                        mHandler.sendMessageDelayed(mHandler.obtainMessage(MSG_SET_TAGS, tags), 1000*60);
+                    } else {
+                        Log.d(TAG, "No network");
+                    }
+                    break;
+                default:
+                    logs = "Failed with errorcode = "+code;
+                    Log.d(TAG, logs);
+            }
+            
+            ExampleUtil.showToast(logs, this);
+        }
+    }
+    
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         setMenuIconEnable(menu,true);
