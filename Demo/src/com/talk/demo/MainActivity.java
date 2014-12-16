@@ -286,12 +286,24 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         }
     }
     
+    @Override
+    public void onResume() {
+    	super.onResume();
+    	JPushInterface.onResume(MainActivity.this);
+    }
+    
+    @Override
+    public void onPause() {
+    	super.onPause();
+    	JPushInterface.onPause(MainActivity.this);
+    }
    
     @Override
     public void onDestroy() {  
         super.onDestroy();  
         Log.d(TAG, "onDestroy");
         //mgr.closeDB();  
+        
     }
 
     long waitTime = 2000;
