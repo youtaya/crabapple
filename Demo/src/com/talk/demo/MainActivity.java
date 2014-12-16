@@ -23,7 +23,7 @@ import cn.jpush.android.api.JPushInterface;
 import cn.jpush.android.api.TagAliasCallback;
 
 import com.talk.demo.core.RecordManager;
-import com.talk.demo.jpush.ExampleUtil;
+import com.talk.demo.jpush.JPushUtil;
 import com.talk.demo.persistence.DBManager;
 import com.talk.demo.prewrite.PreWrite;
 import com.talk.demo.util.AccountUtils;
@@ -127,7 +127,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 
     private void setTag(String tag) {
         Set<String> tagSet = new LinkedHashSet<String>();
-        if(!ExampleUtil.isValidTagAndAlias(tag)) {
+        if(!JPushUtil.isValidTagAndAlias(tag)) {
             Toast.makeText(this, R.string.error_tag_gs_empty, Toast.LENGTH_SHORT).show();
             return;
         }
@@ -160,7 +160,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
                 case 6002:
                     logs = "Failed to set alias and tags due to timeout, Try again after 60s.";
                     Log.d(TAG, logs);
-                    if(ExampleUtil.isConnected(MainActivity.this)) {
+                    if(JPushUtil.isConnected(MainActivity.this)) {
                         mHandler.sendMessageDelayed(mHandler.obtainMessage(MSG_SET_TAGS, tags), 1000*60);
                     } else {
                         Log.d(TAG, "No network");
@@ -171,7 +171,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
                     Log.d(TAG, logs);
             }
             
-            ExampleUtil.showToast(logs, MainActivity.this);
+            JPushUtil.showToast(logs, MainActivity.this);
         }
     };
     

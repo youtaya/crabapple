@@ -17,7 +17,7 @@ import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.widget.Toast;
 
-public class ExampleUtil {
+public class JPushUtil {
     public static final String PREFS_NAME = "JPUSH_EXAMPLE";
     public static final String PREFS_DAYS = "JPUSH_EXAMPLE_DAYS";
     public static final String PREFS_START_TIME = "PREFS_START_TIME";
@@ -97,7 +97,7 @@ public class ExampleUtil {
 			TelephonyManager telephonyManager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
 			imei = telephonyManager.getDeviceId();
 		} catch (Exception e) {
-			Log.e(ExampleUtil.class.getSimpleName(), e.getMessage());
+			Log.e(JPushUtil.class.getSimpleName(), e.getMessage());
 		}
 		return imei;
 	}
