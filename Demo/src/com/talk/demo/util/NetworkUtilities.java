@@ -86,7 +86,9 @@ final public class NetworkUtilities {
     public static final String SYNC_FRIENDS_URI = BASE_URL + "friends/sync/";
     /** URI for sync service */
     public static final String SYNC_RECORDS_URI = BASE_URL + "times/sync/";
+    /** URI for dialog share */
     public static final String SHARE_RECORDS_URI = BASE_URL + "dialogs/share/";
+    public static final String GET_DIALOGS_URI = BASE_URL + "dialogs/getdialog/";
     
     public static final String SYNC_PHOTO_URI = BASE_URL + "times/photo/";
     public static final String DOWNLOAD_PHOTO_URI = BASE_URL + "times/photoView/";
@@ -405,6 +407,50 @@ final public class NetworkUtilities {
             Log.d(TAG, "finish!!");
         } 
     }
+    
+    public static void getDialog(String username, int id) 
+            throws JSONException, IOException {
+        
+        HttpURLConnection conn = HttpRequest.get(AUTH_URI)
+                .getConnection();
+
+        if (null == conn || null == conn.getHeaderFields()) {
+            return;
+        }
+        /*
+         * cookieHeader may be null cause NullPointerException
+         * ToDo: write the whole code completely
+         */
+        List<String> temp  = conn.getHeaderFields().get("Set-Cookie");
+        String cookieHeader = null;
+        String csrfToken = null;
+        if (null !=temp && !temp.isEmpty()) {
+            cookieHeader = temp.get(0);
+        
+            Log.d(TAG, "cookie: " + cookieHeader);
+
+            csrfToken = cookieHeader.split(";")[0];
+            Log.d(TAG, "csrf token : " + csrfToken);
+        }
+
+        // Prepare our POST data
+        final ArrayList<NameValuePair> params = new ArrayList<NameValuePair>();
+        params.add(new BasicNameValuePair("username", username));
+        params.add(new BasicNameValuePair("id", String.valueOf(id)));
+        if(csrfToken != null)
+            params.add(new BasicNameValuePair("csrfmiddlewaretoken", csrfToken.substring(10)));
+        HttpEntity entity = new UrlEncodedFormEntity(params, HTTP.UTF_8);
+        final HttpPost post = new HttpPost(GET_DIALOGS_URI);
+        post.addHeader(entity.getContentType());
+        if(csrfToken != null)
+            post.addHeader("Cookie", csrfToken);
+        post.setEntity(entity);
+        final HttpResponse resp = getHttpClient().execute(post);
+        final String response = EntityUtils.toString(resp.getEntity());
+        if (resp.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
+            Log.d(TAG, "finish!!");
+        } 
+    }    
     /**
      * Perform 2-way sync with the server-side contacts. We send a request that
      * includes all the locally-dirty contacts so that the server can process
