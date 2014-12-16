@@ -1,11 +1,9 @@
 
 package com.talk.demo;
 
-import android.R;
 import android.accounts.Account;
 import android.app.ActionBar;
 import android.app.FragmentTransaction;
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -21,6 +19,9 @@ import android.view.MenuInflater;
 import android.view.ViewConfiguration;
 import android.widget.Toast;
 
+import cn.jpush.android.api.JPushInterface;
+import cn.jpush.android.api.TagAliasCallback;
+
 import com.talk.demo.core.RecordManager;
 import com.talk.demo.jpush.ExampleUtil;
 import com.talk.demo.persistence.DBManager;
@@ -30,6 +31,7 @@ import com.talk.demo.util.AccountUtils;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.Locale;
 import java.util.Set;
@@ -60,7 +62,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
      */
     ViewPager mViewPager;
     
-    public static final int MSG_SET_TAGS = 2;
+    public static final int MSG_SET_TAGS = 1002;
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -124,7 +126,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
     }
 
     private void setTag(String tag) {
-        Set<String> tagSet = new LinkedList<String>();
+        Set<String> tagSet = new LinkedHashSet<String>();
         if(!ExampleUtil.isValidTagAndAlias(tag)) {
             Toast.makeText(this, R.string.error_tag_gs_empty, Toast.LENGTH_SHORT).show();
             return;
@@ -140,11 +142,12 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
             switch(msg.what) {
                 case MSG_SET_TAGS:
                     Log.d(TAG, "Set tags in hanlder");
-                    JPushInterface.setAliasAndTags(this, null, (Set<String>)msg.obj, mTagsCallback);
+                    JPushInterface.setAliasAndTags(MainActivity.this, null, (Set<String>)msg.obj, mTagsCallback);
                     break;
             }
         }
-    }
+    };
+    
     private final TagAliasCallback mTagsCallback = new TagAliasCallback() {
         @Override
         public void gotResult(int code, String alias, Set<String> tags) {
@@ -157,7 +160,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
                 case 6002:
                     logs = "Failed to set alias and tags due to timeout, Try again after 60s.";
                     Log.d(TAG, logs);
-                    if(ExampleUtil.isConnected(this)) {
+                    if(ExampleUtil.isConnected(MainActivity.this)) {
                         mHandler.sendMessageDelayed(mHandler.obtainMessage(MSG_SET_TAGS, tags), 1000*60);
                     } else {
                         Log.d(TAG, "No network");
@@ -168,9 +171,9 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
                     Log.d(TAG, logs);
             }
             
-            ExampleUtil.showToast(logs, this);
+            ExampleUtil.showToast(logs, MainActivity.this);
         }
-    }
+    };
     
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
