@@ -29,8 +29,11 @@ import cn.jpush.android.api.TagAliasCallback;
 import com.talk.demo.core.RecordManager;
 import com.talk.demo.jpush.JPushUtil;
 import com.talk.demo.persistence.DBManager;
+import com.talk.demo.persistence.DialogRecord;
 import com.talk.demo.prewrite.PreWrite;
 import com.talk.demo.util.AccountUtils;
+import com.talk.demo.util.NetworkUtilities;
+import com.talk.demo.util.RawDialog;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -157,9 +160,17 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
             if(MESSAGE_RECEIVED_ACTION.equals(intent.getAction())) {
                 String message = intent.getStringExtra(KEY_MESSAGE);
                 String extras = intent.getStringExtra(KEY_EXTRAS);
+                
+                //updateDialog(username, id);
             }
             
         }
+    }
+    
+    private void updateDialog(String user, int id) {
+        RawDialog dialog = NetworkUtilities.getDialog(user, id);
+        DialogRecord record = new DialogRecord(dialog);
+        mgr.addDialog(record);
     }
     
     private void setTag(String tag) {

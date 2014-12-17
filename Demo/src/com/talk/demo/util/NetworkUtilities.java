@@ -408,14 +408,14 @@ final public class NetworkUtilities {
         } 
     }
     
-    public static void getDialog(String username, int id) 
+    public static RawDialog getDialog(String username, int id) 
             throws JSONException, IOException {
         
         HttpURLConnection conn = HttpRequest.get(AUTH_URI)
                 .getConnection();
 
         if (null == conn || null == conn.getHeaderFields()) {
-            return;
+            return null;
         }
         /*
          * cookieHeader may be null cause NullPointerException
@@ -448,8 +448,12 @@ final public class NetworkUtilities {
         final HttpResponse resp = getHttpClient().execute(post);
         final String response = EntityUtils.toString(resp.getEntity());
         if (resp.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
-            Log.d(TAG, "finish!!");
+            final JSONObject dialogItem = new JSONObject(response);
+            final RawDialog dialog = RawDialog.valueOf(dialogItem);
+            return dialog;
         } 
+        
+        return null;
     }    
     /**
      * Perform 2-way sync with the server-side contacts. We send a request that
