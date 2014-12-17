@@ -1,6 +1,17 @@
 
 package com.talk.demo;
 
+import java.io.IOException;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.LinkedHashSet;
+import java.util.Locale;
+import java.util.Set;
+
+import org.apache.http.ParseException;
+import org.json.JSONException;
+
 import android.accounts.Account;
 import android.app.ActionBar;
 import android.app.FragmentTransaction;
@@ -8,6 +19,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -22,7 +34,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.ViewConfiguration;
 import android.widget.Toast;
-
 import cn.jpush.android.api.JPushInterface;
 import cn.jpush.android.api.TagAliasCallback;
 
@@ -34,18 +45,6 @@ import com.talk.demo.prewrite.PreWrite;
 import com.talk.demo.util.AccountUtils;
 import com.talk.demo.util.NetworkUtilities;
 import com.talk.demo.util.RawDialog;
-
-import org.apache.http.ParseException;
-import org.json.JSONException;
-
-import java.io.IOException;
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.LinkedHashSet;
-import java.util.LinkedList;
-import java.util.Locale;
-import java.util.Set;
 
 public class MainActivity extends FragmentActivity implements ActionBar.TabListener {
 
@@ -165,7 +164,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
                 String message = intent.getStringExtra(KEY_MESSAGE);
                 String extras = intent.getStringExtra(KEY_EXTRAS);
                 
-                //updateDialog(username, id);
+                new GetDialogTask().execute(extras, message);
             }
             
         }
@@ -185,7 +184,17 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 			e.printStackTrace();
 		}
     }
-    
+    private class GetDialogTask extends AsyncTask<String, String, String> {
+        @Override
+		protected String doInBackground(String... params) {
+            // Simulates a background job.
+        	updateDialog(params[0], Integer.valueOf(params[1]));
+        	return "get dialog";
+            
+		}
+		
+    }
+      
     private void setTag(String tag) {
         Set<String> tagSet = new LinkedHashSet<String>();
         if(!JPushUtil.isValidTagAndAlias(tag)) {
