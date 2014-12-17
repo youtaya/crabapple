@@ -4,6 +4,10 @@ package com.talk.demo;
 import android.accounts.Account;
 import android.app.ActionBar;
 import android.app.FragmentTransaction;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -62,7 +66,17 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
      */
     ViewPager mViewPager;
     
+    /**
+     * Receiver: for receive custom message frome jpush server
+     */
+    private MessageReceiver mMessageReceiver;
+    
+    public static final String MESSAGE_RECEIVED_ACTION = "com.talk.demo.MESSAGE_RECEIVED_ACTION";
+    public static final String KEY_TITLE = "title";
+    public static final String KEY_MESSAGE = "message";
+    public static final String KEY_EXTRAS = "extras";
     public static final int MSG_SET_TAGS = 1002;
+    public static boolean isForeground = false;
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,6 +88,8 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         if (existing != null && !TextUtils.isEmpty(existing.name)) {
             setTag(existing.name);
         }
+        // used for receive msg
+        registerMessageReceiver();
         
         getOverflowMenu();
         // Set up the action bar.
@@ -125,6 +141,27 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         }
     }
 
+    public void registerMessageReceiver() {
+        mMessageReceiver = new MessageReceiver();
+        IntentFilter filter = new IntentFilter();
+        filter.setPriority(IntentFilter.SYSTEM_HIGH_PRIORITY);
+        filter.addAction(MESSAGE_RECEIVED_ACTION);
+        registerReceiver(mMessageReceiver, filter);
+    }
+    
+    public class MessageReceiver extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+           
+            if(MESSAGE_RECEIVED_ACTION.equals(intent.getAction())) {
+                String message = intent.getStringExtra(KEY_MESSAGE);
+                String extras = intent.getStringExtra(KEY_EXTRAS);
+            }
+            
+        }
+    }
+    
     private void setTag(String tag) {
         Set<String> tagSet = new LinkedHashSet<String>();
         if(!JPushUtil.isValidTagAndAlias(tag)) {
@@ -288,12 +325,14 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
     
     @Override
     public void onResume() {
+        isForeground = true;
     	super.onResume();
     	JPushInterface.onResume(MainActivity.this);
     }
     
     @Override
     public void onPause() {
+        isForeground = false;
     	super.onPause();
     	JPushInterface.onPause(MainActivity.this);
     }
@@ -304,6 +343,8 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         Log.d(TAG, "onDestroy");
         //mgr.closeDB();  
         
+        if(mMessageReceiver != null)
+            unreigsterReceiver(mMessageReceiver);
     }
 
     long waitTime = 2000;
