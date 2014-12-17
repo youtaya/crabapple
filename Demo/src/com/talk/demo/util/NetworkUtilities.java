@@ -409,7 +409,7 @@ final public class NetworkUtilities {
     }
     
     public static RawDialog getDialog(String username, int id) 
-            throws JSONException, IOException {
+            throws JSONException, ParseException, IOException {
         
         HttpURLConnection conn = HttpRequest.get(AUTH_URI)
                 .getConnection();

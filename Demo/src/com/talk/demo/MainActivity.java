@@ -35,6 +35,10 @@ import com.talk.demo.util.AccountUtils;
 import com.talk.demo.util.NetworkUtilities;
 import com.talk.demo.util.RawDialog;
 
+import org.apache.http.ParseException;
+import org.json.JSONException;
+
+import java.io.IOException;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -168,9 +172,18 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
     }
     
     private void updateDialog(String user, int id) {
-        RawDialog dialog = NetworkUtilities.getDialog(user, id);
-        DialogRecord record = new DialogRecord(dialog);
-        mgr.addDialog(record);
+    	
+		try {
+	        RawDialog dialog = NetworkUtilities.getDialog(user, id);
+	        DialogRecord record = new DialogRecord(dialog);
+	        mgr.addDialog(record);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		} catch (JSONException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
     }
     
     private void setTag(String tag) {
@@ -338,14 +351,14 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
     public void onResume() {
         isForeground = true;
     	super.onResume();
-    	JPushInterface.onResume(MainActivity.this);
+    	JPushInterface.onResume(this);
     }
     
     @Override
     public void onPause() {
         isForeground = false;
     	super.onPause();
-    	JPushInterface.onPause(MainActivity.this);
+    	JPushInterface.onPause(this);
     }
    
     @Override
@@ -355,7 +368,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         //mgr.closeDB();  
         
         if(mMessageReceiver != null)
-            unreigsterReceiver(mMessageReceiver);
+            unregisterReceiver(mMessageReceiver);
     }
 
     long waitTime = 2000;
