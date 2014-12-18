@@ -13,7 +13,7 @@ import com.talk.demo.MainActivity;
 import com.talk.demo.R;
 import com.talk.demo.util.AccountUtils;
 
-public class AppMainActivity extends Activity {
+public class AppEnterActivity extends Activity {
 	
 	private Button login_btn, signup_btn;
 	// whether need to call Login Activity
