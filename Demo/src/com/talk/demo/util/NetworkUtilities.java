@@ -566,6 +566,7 @@ final public class NetworkUtilities {
         params.add(new BasicNameValuePair(PARAM_USERNAME, account.name));
         //params.add(new BasicNameValuePair(PARAM_AUTH_TOKEN, authtoken));
         params.add(new BasicNameValuePair(PARAM_RECORDS_DATA, buffer.toString()));
+        /*
         String tempBuffer = null;
         if(authtoken.split(";").length > 1) {
         	tempBuffer = authtoken.split(";")[1];
@@ -574,7 +575,7 @@ final public class NetworkUtilities {
         	params.add(new BasicNameValuePair("csrfmiddlewaretoken", tempBuffer.substring(10)));
         }
         Log.d(TAG, "auth toke: "+authtoken);
-        
+        */
         if (serverSyncState > 0) {
             params.add(new BasicNameValuePair(PARAM_SYNC_STATE, Long.toString(serverSyncState)));
         }
