@@ -11,6 +11,7 @@ import java.util.Set;
 
 import org.apache.http.ParseException;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import android.accounts.Account;
 import android.app.ActionBar;
@@ -163,19 +164,31 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
             if(MESSAGE_RECEIVED_ACTION.equals(intent.getAction())) {
                 String message = intent.getStringExtra(KEY_MESSAGE);
                 String extras = intent.getStringExtra(KEY_EXTRAS);
-                
+                Log.d(TAG, " extras: "+ extras);
                 new GetDialogTask().execute(extras, message);
+                /*
+                try {
+					JSONObject data = new JSONObject(extras);
+					String user = data.getString(JPushInterface.EXTRA_EXTRA);
+					
+					Log.d(TAG, "user: "+user+" id: "+ message);
+					new GetDialogTask().execute(user, message);
+				} catch (JSONException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+                */
+                
             }
             
         }
     }
     
-    private void updateDialog(String user, int id) {
+    private RawDialog updateDialog(String user, int id) {
     	
 		try {
 	        RawDialog dialog = NetworkUtilities.getDialog(user, id);
-	        DialogRecord record = new DialogRecord(dialog);
-	        mgr.addDialog(record);
+	        return dialog;
 		} catch (ParseException e) {
 			e.printStackTrace();
 		} catch (JSONException e) {
@@ -183,15 +196,28 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		
+		return null;
     }
-    private class GetDialogTask extends AsyncTask<String, String, String> {
+    private class GetDialogTask extends AsyncTask<String, String, RawDialog> {
         @Override
-		protected String doInBackground(String... params) {
+		protected RawDialog doInBackground(String... params) {
             // Simulates a background job.
-        	updateDialog(params[0], Integer.valueOf(params[1]));
-        	return "get dialog";
+        	RawDialog raw = updateDialog(params[0], Integer.valueOf(params[1]));
+        	return raw;
             
 		}
+        
+        @Override
+        protected void onPostExecute(RawDialog result) {
+        	if( null == result) {
+        		Log.d(TAG, "dialog item is null!");
+        		return;
+        	}
+        	
+	        DialogRecord record = new DialogRecord(result);
+	        mgr.addDialog(record);
+        }
 		
     }
       
@@ -322,7 +348,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
             // getItem is called to instantiate the fragment for the given page.
             // Return a DummySectionFragment (defined as a static inner class
             // below) with the page number as its lone argument.
-            Log.d(TAG, "getItem");
+            //Log.d(TAG, "getItem");
             return flist.get(position);
         }
         

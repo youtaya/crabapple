@@ -86,7 +86,10 @@ public class MyReceiver extends BroadcastReceiver {
 			String message = bundle.getString(JPushInterface.EXTRA_MESSAGE);
 			String extras = bundle.getString(JPushInterface.EXTRA_EXTRA);
 			Intent msgIntent = new Intent(MainActivity.MESSAGE_RECEIVED_ACTION);
+			Log.d(TAG, "message: "+message+" extras: "+ extras);
 			msgIntent.putExtra(MainActivity.KEY_MESSAGE, message);
+			
+			msgIntent.putExtra(MainActivity.KEY_EXTRAS, extras);
 			if (!JPushUtil.isEmpty(extras)) {
 				try {
 					JSONObject extraJson = new JSONObject(extras);

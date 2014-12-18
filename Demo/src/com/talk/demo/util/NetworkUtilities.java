@@ -449,6 +449,7 @@ final public class NetworkUtilities {
         final String response = EntityUtils.toString(resp.getEntity());
         if (resp.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
             final JSONObject dialogItem = new JSONObject(response);
+            Log.d(TAG, "dialog item: "+ dialogItem.toString());
             final RawDialog dialog = RawDialog.valueOf(dialogItem);
             return dialog;
         } 
