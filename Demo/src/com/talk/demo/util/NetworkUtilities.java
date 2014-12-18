@@ -79,8 +79,8 @@ final public class NetworkUtilities {
     //public static final String BASE_URL = "http://114.215.208.170/";
     public static final String BASE_URL = "http://192.168.1.180/";
     /** URI for authentication service */
-    public static final String AUTH_URI = BASE_URL + "account/login/";
-    public static final String SIGNUP_URI = BASE_URL + "account/signup/";
+    public static final String AUTH_URI = BASE_URL + "users/login/";
+    public static final String SIGNUP_URI = BASE_URL + "users/signup/";
     public static final String SYNC_NEWS_URI = BASE_URL + "news/today/";
     public static final String RECOMMEND_FRIENDS_URI = BASE_URL + "friends/recommend";
     public static final String SYNC_FRIENDS_URI = BASE_URL + "friends/sync/";
@@ -162,6 +162,7 @@ final public class NetworkUtilities {
     */
     
     public static String signup(String username, String email, String password) {
+    	/*
     	String authToken = null;
 		String csrfToken2 = null;
 		try {
@@ -186,23 +187,23 @@ final public class NetworkUtilities {
 
 			String csrfToken = csrfToken2;
 			Log.d(TAG, "csrf token : " + csrfToken);
-
+			*/
+    	try {
 			HttpRequest request = HttpRequest.post(SIGNUP_URI);
 			String name = username;
 			String mail = email;
 			String passwd = password;
 			Map<String, String> data = new HashMap<String, String>();
 			data.put("username", name);
-			data.put("email", mail);
 			data.put("password", passwd);
 			data.put("password_confirm",passwd);
-			data.put("csrfmiddlewaretoken", csrfToken.substring(10));
+			//data.put("csrfmiddlewaretoken", csrfToken.substring(10));
 			Log.d(TAG, "name: " + username + " passwd: " + password);
 			// X-CSRFToken
 			Map<String, String> headers = new HashMap<String, String>();
 			headers.put("Content-Type", "text/html");
-			headers.put("Cookie", csrfToken);
-			Log.d(TAG, "our cookie: " + csrfToken);
+			//headers.put("Cookie", csrfToken);
+			//Log.d(TAG, "our cookie: " + csrfToken);
 			request.headers(headers);
 			//request.followRedirects(false);
 			HttpRequest conn4Session = request.form(data);
@@ -270,6 +271,7 @@ final public class NetworkUtilities {
 			try {
 				int result = sessionConnection.getResponseCode();
 				Log.e(TAG, "get response code : "+result);
+				/*
                 List<String> responseList = sessionConnection.getHeaderFields().get("Set-Cookie");
                 
                 if(null != responseList) {
@@ -289,6 +291,7 @@ final public class NetworkUtilities {
 	                    
 	                }
                 }
+                */
                 
             } catch (IOException e) {
                 // TODO Auto-generated catch block
@@ -302,6 +305,8 @@ final public class NetworkUtilities {
             Log.v(TAG, "getAuthtoken completing");
         }
 		
+		return "ok";
+		/*
         if ((authToken != null) && (authToken.length() > 0)) {
             Log.v(TAG, "Successful authentication");
             return authToken+";"+csrfToken2;
@@ -309,6 +314,7 @@ final public class NetworkUtilities {
             Log.e(TAG, "Error authenticating");
             return null;
         }
+        */
 		
 	}
     
@@ -449,7 +455,6 @@ final public class NetworkUtilities {
         final String response = EntityUtils.toString(resp.getEntity());
         if (resp.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
             final JSONObject dialogItem = new JSONObject(response);
-            Log.d(TAG, "dialog item: "+ dialogItem.toString());
             final RawDialog dialog = RawDialog.valueOf(dialogItem);
             return dialog;
         } 
@@ -490,6 +495,7 @@ final public class NetworkUtilities {
         params.add(new BasicNameValuePair(PARAM_USERNAME, account.name));
         //params.add(new BasicNameValuePair(PARAM_AUTH_TOKEN, authtoken));
         params.add(new BasicNameValuePair(PARAM_RECORDS_DATA, buffer.toString()));
+        /*
         String tempBuffer = null;
         if(authtoken.split(";").length > 1) {
         	tempBuffer = authtoken.split(";")[1];
@@ -498,7 +504,7 @@ final public class NetworkUtilities {
         	params.add(new BasicNameValuePair("csrfmiddlewaretoken", tempBuffer.substring(10)));
         }
         Log.d(TAG, "auth toke: "+authtoken);
-        
+        */
         if (serverSyncState > 0) {
             params.add(new BasicNameValuePair(PARAM_SYNC_STATE, Long.toString(serverSyncState)));
         }
