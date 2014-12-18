@@ -33,6 +33,7 @@ public class TalkFragment extends Fragment {
     private Context ctx;
     private ListView mListView;
     private ArrayList<TalkViewItem> talk_record;
+    private TalkListAdapter talk_adapter;
     private HashMap<String, ArrayList<DialogCache>> dialog_cache;
     private RecordManager recordManager;
     
@@ -51,9 +52,9 @@ public class TalkFragment extends Fragment {
         mListView = (ListView)rootView.findViewById(R.id.talk_list);
         talk_record = recordManager.initDataListTalk(dialog_cache);
         
-        TalkListAdapter adapter = new TalkListAdapter(this.getActivity(), 
+        talk_adapter = new TalkListAdapter(this.getActivity(), 
         		talk_record, dialog_cache);
-        mListView.setAdapter(adapter);
+        mListView.setAdapter(talk_adapter);
         mListView.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
@@ -105,7 +106,8 @@ public class TalkFragment extends Fragment {
     public void onResume () {
         super.onResume();
         Log.d(TAG, "on Resume");
-     
+        talk_record = recordManager.initDataListTalk(dialog_cache);
+        talk_adapter.notifyDataSetChanged();
     }
     
 	private Dialog ShowTalkDialog() {
