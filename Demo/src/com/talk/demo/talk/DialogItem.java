@@ -4,7 +4,6 @@ public class DialogItem {
     private int item_id;
     private String mSender;
     private String mLink;
-    private int mDirect;
     private int mSendIntervalTime;
     private String mDoneSendTime;
 	private String mCreateDate;
@@ -16,24 +15,22 @@ public class DialogItem {
 	public DialogItem() {
 		
 	}
-	public DialogItem(int id, String sender, String link, int dir, 
+	public DialogItem(int id, String sender, String link, 
 			String cd, String ct, String c, int contt) {
 	    item_id = id;
 	    mSender = sender;
 	    mLink = link;
-	    mDirect = dir;
 		mCreateDate = cd;
 		mCreateTime = ct;
 		mContent = c;
 		mContentType = contt;
 	}
 	
-	public DialogItem(int id, String sender, String link, int dir, int interval, 
+	public DialogItem(int id, String sender, String link, int interval, 
 			 String doneTime, String cd, String ct, String c, int contt) {
 	    item_id = id;
 	    mSender = sender;
 	    mLink = link;
-	    mDirect = dir;
 	    mSendIntervalTime = interval;
 	    mDoneSendTime = doneTime;
 		mCreateDate = cd;
@@ -48,7 +45,6 @@ public class DialogItem {
 	    item_id = id;
 	    mSender = sender;
 	    mLink = link;
-	    mDirect = dir;
 	    mSendIntervalTime = interval;
 	    mDoneSendTime = doneTime;
 		mCreateDate = cd;
@@ -68,10 +64,6 @@ public class DialogItem {
 	
 	public String getLink() {
 		return mLink;
-	}
-	
-	public int getDirect() {
-		return mDirect;
 	}
 	
 	public int getIntervalTime() {

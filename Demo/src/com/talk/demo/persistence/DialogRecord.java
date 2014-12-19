@@ -19,7 +19,6 @@ public class DialogRecord extends CommonRecord {
     public String room_name;
     public String sender;
     public String link;
-    public int direct = 0;
     public String photo;
     public String audio;
     
@@ -94,10 +93,6 @@ public class DialogRecord extends CommonRecord {
     	photo = photoPath;
     }
     
-    public void setDirect(int d) {
-        direct = d;
-    }
-    
     public String handledDate() {
         Date date = new Date();
         return handledDate(date);
@@ -121,7 +116,7 @@ public class DialogRecord extends CommonRecord {
 
 	@Override
 	public int getNumItems() {
-		return 17;
+		return 16;
 	}
 
 	@Override
@@ -131,18 +126,17 @@ public class DialogRecord extends CommonRecord {
 		obj[2] = room_name;
 		obj[3] = sender;
 		obj[4] = link;
-		obj[5] = direct;
-		obj[6] = content;
-		obj[7] = calc_date;
-		obj[8] = create_time;
-		obj[9] = send_interval_time;
-		obj[10] = send_done_time;
-		obj[11] = content_type;
-		obj[12] = photo;
-		obj[13] = audio;
-		obj[14] = super.sync_time;
-		obj[15] = super.dirty;
-		obj[16] = super.deleted;
+		obj[5] = content;
+		obj[6] = calc_date;
+		obj[7] = create_time;
+		obj[8] = send_interval_time;
+		obj[9] = send_done_time;
+		obj[10] = content_type;
+		obj[11] = photo;
+		obj[12] = audio;
+		obj[13] = super.sync_time;
+		obj[14] = super.dirty;
+		obj[15] = super.deleted;
 		
 	}
 
@@ -162,7 +156,6 @@ public class DialogRecord extends CommonRecord {
         content_type = c.getInt(c.getColumnIndex("content_type"));
         photo = c.getString(c.getColumnIndex("photo")); 
         audio = c.getString(c.getColumnIndex("audio"));
-        direct = c.getInt(c.getColumnIndex("direct")); 
         super.sync_time = c.getLong(c.getColumnIndex("sync_time"));
 		
 	}

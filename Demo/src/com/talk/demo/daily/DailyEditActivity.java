@@ -207,7 +207,7 @@ public class DailyEditActivity extends Activity {
         //TODO 
 		RawDialog raw = RawDialog.create(accout.name, accout.name, friend, friend, dialog.content,
 				dialog.calc_date, dialog.create_time, dialog.content_type, null,
-				null, 1, false, 11, 12, -1, true);
+				null, false, 11, 12, -1, true);
 		try {
 			NetworkUtilities.shareRecord(raw, accout.name, name);
 		} catch (ParseException e) {
@@ -277,10 +277,7 @@ public class DailyEditActivity extends Activity {
         // Do nothing if content is empty
         if (content.length() > 0) {
             dr = new DialogRecord(content);
-            /*
-             * direct: 1/ send to friend, 2/ receive from friend
-             */
-            dr.setDirect(1); 
+            
             if(fileName != null) {
                 //tr = new TimeRecord("/sdcard/Demo/"+fileName);
                 dr.setPhoto(fileName);

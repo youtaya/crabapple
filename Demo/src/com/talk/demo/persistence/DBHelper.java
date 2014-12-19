@@ -78,7 +78,6 @@ public class DBHelper extends SQLiteOpenHelper {
                 + " roomname TEXT,"
                 + " sender TEXT,"
                 + " link TEXT,"
-                + " direct INTEGER default 0,"
                 + " content TEXT default '',"
                 + " calc_date TEXT,"
                 + " create_time TEXT,"

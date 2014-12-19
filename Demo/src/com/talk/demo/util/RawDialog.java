@@ -13,7 +13,6 @@ final public class RawDialog extends RawData {
     private final String mRoomName;
     private final String mSender;
     private final String mLink;
-    private final int mDirect;
     private final String mContent;
     private final String mCreateDate;
     private final String mCreateTime;
@@ -45,9 +44,6 @@ final public class RawDialog extends RawData {
     public String getAudio() {
         return mAudio;
     }
-    public int getDirect() {
-        return mDirect;
-    }    
     public String getSender() {
         return mSender;
     }    
@@ -64,7 +60,7 @@ final public class RawDialog extends RawData {
     
     public RawDialog(String name, String sender, String link, String roomName, String content, 
     		String createDate, String createTime, int contentType, String photo, String audio,
-    		int direct, boolean deleted, long serverDialogId,
+    		boolean deleted, long serverDialogId,
             long rawDialogId, long syncState, boolean dirty) {
     	super(name,serverDialogId, rawDialogId, syncState);
     	mRoomName = roomName;
@@ -74,7 +70,6 @@ final public class RawDialog extends RawData {
         mContentType = contentType;
         mPhoto = photo;
         mAudio = audio;
-        mDirect = direct;
         mSender = sender;
         mLink = link;
         mDeleted = deleted;
@@ -120,9 +115,6 @@ final public class RawDialog extends RawData {
             if (!TextUtils.isEmpty(mAudio)) {
                 json.put("ao", mAudio);
             }
-            if (mDirect > 0) {
-                json.put("dir", mDirect);
-            }            
             if (super.getServerId() > 0) {
                 json.put("sid", super.getServerId());
             }
@@ -170,11 +162,10 @@ final public class RawDialog extends RawData {
             final int contentType = !Dialog.isNull("ctx") ? Dialog.getInt("ctx") : null;
             final String photo = !Dialog.isNull("po") ? Dialog.getString("po") : null;
             final String audio = !Dialog.isNull("ao") ? Dialog.getString("ao") : null;
-            final int direct = !Dialog.isNull("dir") ? Dialog.getInt("dir") : null;
             final boolean deleted = !Dialog.isNull("del") ? Dialog.getBoolean("del") : false;
             final long syncState = !Dialog.isNull("x") ? Dialog.getLong("x") : 0;
             return new RawDialog(userName, sender, link, roomName, content,
-            		createDate, createTime, contentType, photo, audio, direct,
+            		createDate, createTime, contentType, photo, audio,
             		deleted, serverDialogId, rawDialogId, syncState, false);
         } catch (final Exception ex) {
             Log.i(TAG, "Error parsing JSON contact object" + ex.toString());
@@ -186,11 +177,11 @@ final public class RawDialog extends RawData {
      * Creates and returns RawDialog instance from all the supplied parameters.
      */
     public static RawDialog create(String name, String sender, String link, String roomName, String content,
-    		String createDate, String createTime, int contentType, String photo, String audio, int direct, 
+    		String createDate, String createTime, int contentType, String photo, String audio,
             boolean deleted, long serverDialogId,
             long rawDialogId, long syncState, boolean dirty) {
         return new RawDialog(name, sender, link, roomName, content, createDate,
-        		createTime, contentType, photo, audio, direct, deleted,
+        		createTime, contentType, photo, audio, deleted,
         		serverDialogId, rawDialogId, syncState, dirty);
     }
     
@@ -204,7 +195,7 @@ final public class RawDialog extends RawData {
     public static RawDialog createDeletedDialog(long rawDialogId, long serverDialogId)
     {
         return new RawDialog(null, null, null, null, null, null,
-                null, 0, null, null, 0, true, 
+                null, 0, null, null, true, 
                 serverDialogId, rawDialogId, -1, true);
     }
 }

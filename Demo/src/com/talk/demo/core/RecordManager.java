@@ -80,7 +80,7 @@ public class RecordManager {
 				tvi.setLinkName(dr.link);
 				
 				for(DialogRecord r: roomlist) {
-					DialogItem di = new DialogItem(r._id, r.sender, r.link, r.direct,  
+					DialogItem di = new DialogItem(r._id, r.sender, r.link, 
 							r.calc_date, r.create_time, r.content, r.content_type);
 
 					di.setIntervalTime(r.send_interval_time);
@@ -89,7 +89,6 @@ public class RecordManager {
 					DialogCache dc = new DialogCache();
 					dc.setId(r._id);
 					dc.setLink(r.link);
-					dc.setDirect(r.direct);
 					dc.setContent(r.content);
 					dc.setCreateDate(r.calc_date);
 					dc.setCreateTime(r.create_time);
