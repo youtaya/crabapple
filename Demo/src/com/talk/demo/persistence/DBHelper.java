@@ -76,6 +76,7 @@ public class DBHelper extends SQLiteOpenHelper {
                 + " server_id INTEGER,"
                 + " handle TEXT,"
                 + " roomname TEXT,"
+                + " sender TEXT,"
                 + " link TEXT,"
                 + " direct INTEGER default 0,"
                 + " content TEXT default '',"

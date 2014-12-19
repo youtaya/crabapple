@@ -17,6 +17,7 @@ public class DialogRecord extends CommonRecord {
     public int content_type;
     
     public String room_name;
+    public String sender;
     public String link;
     public int direct = 0;
     public String photo;
@@ -28,6 +29,8 @@ public class DialogRecord extends CommonRecord {
     
     public DialogRecord(RawDialog rr) {
     	super(rr);
+    	if(null != rr.getSender())
+    		sender = rr.getSender();
         if(null != rr.getLink())
         	link = rr.getLink();
         content = rr.getContent();
@@ -63,6 +66,10 @@ public class DialogRecord extends CommonRecord {
         calc_date = handledDate(date);
         create_time = handledTime(date);
     }
+    
+    public void setSender(String v) {
+    	sender = v;
+    }  
     
     public void setLink(String v) {
     	link = v;
@@ -114,7 +121,7 @@ public class DialogRecord extends CommonRecord {
 
 	@Override
 	public int getNumItems() {
-		return 16;
+		return 17;
 	}
 
 	@Override
@@ -122,19 +129,20 @@ public class DialogRecord extends CommonRecord {
 		obj[0] = super.server_id;
 		obj[1] = super.handle;
 		obj[2] = room_name;
-		obj[3] = link;
-		obj[4] = direct;
-		obj[5] = content;
-		obj[6] = calc_date;
-		obj[7] = create_time;
-		obj[8] = send_interval_time;
-		obj[9] = send_done_time;
-		obj[10] = content_type;
-		obj[11] = photo;
-		obj[12] = audio;
-		obj[13] = super.sync_time;
-		obj[14] = super.dirty;
-		obj[15] = super.deleted;
+		obj[3] = sender;
+		obj[4] = link;
+		obj[5] = direct;
+		obj[6] = content;
+		obj[7] = calc_date;
+		obj[8] = create_time;
+		obj[9] = send_interval_time;
+		obj[10] = send_done_time;
+		obj[11] = content_type;
+		obj[12] = photo;
+		obj[13] = audio;
+		obj[14] = super.sync_time;
+		obj[15] = super.dirty;
+		obj[16] = super.deleted;
 		
 	}
 
@@ -143,6 +151,7 @@ public class DialogRecord extends CommonRecord {
 		super._id = c.getInt(c.getColumnIndex("id"));
 		super.server_id = c.getInt(c.getColumnIndex("server_id"));
 		super.handle = c.getString(c.getColumnIndex("handle"));
+		sender = c.getString(c.getColumnIndex("sender"));
         link = c.getString(c.getColumnIndex("link"));
         room_name = c.getString(c.getColumnIndex("roomname"));
         content = c.getString(c.getColumnIndex("content")); 

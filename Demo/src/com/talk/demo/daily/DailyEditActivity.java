@@ -205,7 +205,7 @@ public class DailyEditActivity extends Activity {
         	Log.d(TAG,"ccount name: "+accout.name);
         }
         //TODO 
-		RawDialog raw = RawDialog.create(accout.name, friend, friend, dialog.content,
+		RawDialog raw = RawDialog.create(accout.name, accout.name, friend, friend, dialog.content,
 				dialog.calc_date, dialog.create_time, dialog.content_type, null,
 				null, 1, false, 11, 12, -1, true);
 		try {

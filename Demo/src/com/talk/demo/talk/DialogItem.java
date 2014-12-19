@@ -2,6 +2,7 @@ package com.talk.demo.talk;
 
 public class DialogItem {
     private int item_id;
+    private String mSender;
     private String mLink;
     private int mDirect;
     private int mSendIntervalTime;
@@ -15,9 +16,10 @@ public class DialogItem {
 	public DialogItem() {
 		
 	}
-	public DialogItem(int id, String link, int dir, 
+	public DialogItem(int id, String sender, String link, int dir, 
 			String cd, String ct, String c, int contt) {
 	    item_id = id;
+	    mSender = sender;
 	    mLink = link;
 	    mDirect = dir;
 		mCreateDate = cd;
@@ -26,9 +28,10 @@ public class DialogItem {
 		mContentType = contt;
 	}
 	
-	public DialogItem(int id, String link, int dir, int interval, String doneTime, 
-			String cd, String ct, String c, int contt) {
+	public DialogItem(int id, String sender, String link, int dir, int interval, 
+			 String doneTime, String cd, String ct, String c, int contt) {
 	    item_id = id;
+	    mSender = sender;
 	    mLink = link;
 	    mDirect = dir;
 	    mSendIntervalTime = interval;
@@ -39,9 +42,11 @@ public class DialogItem {
 		mContentType = contt;
 	}
 	
-	public DialogItem(int id, String link, int dir, int interval, String doneTime,
-			String cd, String ct, String c, int contt, String p) {
+	public DialogItem(int id, String sender, String link, int dir, int interval,
+		String doneTime, String cd, String ct, String c, int contt, String p) {
+		
 	    item_id = id;
+	    mSender = sender;
 	    mLink = link;
 	    mDirect = dir;
 	    mSendIntervalTime = interval;
@@ -55,6 +60,10 @@ public class DialogItem {
 	
 	public int getItemId() {
 	    return item_id;
+	}
+	
+	public String getSender() {
+		return mSender;
 	}
 	
 	public String getLink() {

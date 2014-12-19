@@ -1,7 +1,10 @@
 package com.talk.demo;
 
+import android.accounts.Account;
 import android.content.Context;
 import android.os.Handler;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +18,7 @@ import com.talk.demo.talk.DialogCache;
 import com.talk.demo.talk.DialogItem;
 import com.talk.demo.talk.TalkViewItem;
 import com.talk.demo.time.DateInfo;
+import com.talk.demo.util.AccountUtils;
 import com.talk.demo.util.TalkUtil;
 
 import java.util.ArrayList;
@@ -73,8 +77,12 @@ public class TalkListAdapter extends BaseAdapter {
         
         ArrayList<DialogItem> items = views.getListViewItem();
         List<CloudKite> result = new ArrayList<CloudKite>();
+        Account accout = AccountUtils.getPasswordAccessibleAccount(context);
+        if (accout != null && !TextUtils.isEmpty(accout.name)) {
+        	Log.d(TAG,"ccount name: "+accout.name);
+        }
         for(DialogItem item : items) {
-        	if(!TalkUtil.isSendDone(item.getDoneTime())) {
+        	if(!TalkUtil.isSendDone(item.getDoneTime()) && !item.getSender().equals(accout.name)) {
 	        	CloudKite ck = new CloudKite(item.getContent(), 
 	                    item.getIntervalTime(),
 	                    item.getDoneTime());
