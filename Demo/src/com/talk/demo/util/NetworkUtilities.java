@@ -453,6 +453,7 @@ final public class NetworkUtilities {
         post.setEntity(entity);
         final HttpResponse resp = getHttpClient().execute(post);
         final String response = EntityUtils.toString(resp.getEntity());
+        Log.d(TAG, "dialog respone : " + response);
         if (resp.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
             final JSONObject dialogItem = new JSONObject(response);
             final RawDialog dialog = RawDialog.valueOf(dialogItem);

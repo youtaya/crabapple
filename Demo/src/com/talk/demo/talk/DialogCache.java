@@ -7,7 +7,7 @@ public class DialogCache implements Parcelable {
 	
 	private int id;
 	private String link;
-	private int direct;
+	private String sender;
 	private String content;
 	private String create_date;
 	private String create_time;
@@ -32,12 +32,12 @@ public class DialogCache implements Parcelable {
 	    return link;
 	}
 	
-	public void setDirect(int d) {
-		direct = d;
+	public void setSender(String s) {
+		sender = s;
 	}
 	
-	public int getDirect() {
-	    return direct;
+	public String getSender() {
+	    return sender;
 	}
 	
 	public void setContent(String v) {
@@ -103,7 +103,7 @@ public class DialogCache implements Parcelable {
             DialogCache dc = new DialogCache();
             dc.id = in.readInt();
             dc.link = in.readString();
-            dc.direct = in.readInt();
+            dc.sender = in.readString();
             dc.content = in.readString();
             dc.create_date = in.readString();
             dc.create_time = in.readString();
@@ -129,7 +129,7 @@ public class DialogCache implements Parcelable {
 	public void writeToParcel(Parcel parcel, int arg1) {
 		parcel.writeInt(id);
 		parcel.writeString(link);
-		parcel.writeInt(direct);
+		parcel.writeString(sender);
 		parcel.writeString(content);
 		parcel.writeString(create_date);
 		parcel.writeString(create_time);

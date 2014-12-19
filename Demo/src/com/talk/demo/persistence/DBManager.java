@@ -67,7 +67,7 @@ public class DBManager {
     public void addFriendFromServer(FriendRecord fr) {
         Map<String, Object> sortVar = new HashMap<String, Object>();
         sortVar.put("server_id", fr.server_id);
-        DataOperation doa = new DataOperation(db, "records");
+        DataOperation doa = new DataOperation(db, "friends");
         Cursor c = doa.queryCursorWithCond(sortVar);
         
         if(c != null && c.moveToFirst()) {
@@ -200,11 +200,12 @@ public class DBManager {
         return fr;  
     }
     
-    public List<DialogRecord> queryDialogLink(String param) {
+    public List<DialogRecord> queryDialogTalkPeople(String param) {
     	ArrayList<DialogRecord> drList = new ArrayList<DialogRecord>();  
         Map<String, Object> sortVar = new HashMap<String, Object>();
         sortVar.put("link", param);
-        Cursor c = new DataOperation(db, "dialogs").queryCursorWithCond(sortVar);
+        sortVar.put("sender", param);
+        Cursor c = new DataOperation(db, "dialogs").queryCursorWithCondOR(sortVar);
         
         while (c.moveToNext()) {  
         	DialogRecord dr = new DialogRecord();  

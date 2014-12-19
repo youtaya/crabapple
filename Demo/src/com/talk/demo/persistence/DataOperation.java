@@ -85,6 +85,21 @@ public class DataOperation {
         return c;  
     }
     
+    public Cursor queryCursorWithCondOR(Map<String, Object> queryVar) {
+        StringBuilder sqlValue = new StringBuilder(" WHERE ");
+        for(String key: queryVar.keySet()) {
+        	sqlValue.append(key + "='" +queryVar.get(key)+"'");
+        	sqlValue.append(" OR ");
+        }
+        //revert last 'or'
+        sqlValue.delete(sqlValue.length()-4, sqlValue.length());
+        
+        Cursor c = innerDB.rawQuery("SELECT * FROM "+table_name
+                +sqlValue.toString()
+                +" ORDER BY calc_date DESC, create_time DESC", null);
+        return c;  
+    }
+       
     public Cursor queryFriendCursorWithCond(Map<String, Object> queryVar) {
         StringBuilder sqlValue = new StringBuilder(" WHERE ");
         for(String key: queryVar.keySet())

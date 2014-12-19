@@ -56,12 +56,13 @@ public class TalkListAdapter extends BaseAdapter {
 			viewHolder.friendName.setText(dialog_item.getLink());
 			DateInfo dateinfo = new DateInfo(dialog_item.getCreateTime());
 			dateinfo.parseCreateTime();
-			viewHolder.dialogTime.setText(dateinfo.getTimeTalk());
+			//viewHolder.dialogTime.setText(dateinfo.getTimeTalk());
 			viewHolder.dialogContent.setText(dialog_item.getContent());
 
 		} else {
 			viewHolder = (ViewHolder) convertView.getTag();
 		}
+		/*
 		final List<CloudKite> tasks = initTasks(mTalkItems.get(position));
 		
         for (CloudKite t : tasks) {
@@ -69,7 +70,7 @@ public class TalkListAdapter extends BaseAdapter {
         }
         
 		viewHolder.setNewTask(tasks);
-
+		 */
 		return convertView;
 	}
 	

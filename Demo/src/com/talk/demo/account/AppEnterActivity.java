@@ -9,6 +9,8 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 
+import cn.jpush.android.api.JPushInterface;
+
 import com.talk.demo.MainActivity;
 import com.talk.demo.R;
 import com.talk.demo.util.AccountUtils;
@@ -53,4 +55,16 @@ public class AppEnterActivity extends Activity {
 			}
 		});
 	}
+	
+    @Override
+    public void onResume() {
+    	super.onResume();
+    	JPushInterface.onResume(this);
+    }
+    
+    @Override
+    public void onPause() {
+    	super.onPause();
+    	JPushInterface.onPause(this);
+    }
 }

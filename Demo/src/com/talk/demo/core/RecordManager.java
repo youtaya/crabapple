@@ -1,6 +1,8 @@
 package com.talk.demo.core;
 
+import android.accounts.Account;
 import android.content.Context;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.talk.demo.persistence.DBManager;
@@ -12,6 +14,7 @@ import com.talk.demo.talk.TalkViewItem;
 import com.talk.demo.time.TimeCache;
 import com.talk.demo.time.TimeViewItem;
 import com.talk.demo.time.ViewAsItem;
+import com.talk.demo.util.AccountUtils;
 import com.talk.demo.util.TalkUtil;
 
 import java.util.ArrayList;
@@ -25,12 +28,19 @@ public class RecordManager {
 	private List<DialogRecord> drlist;
 	private DBManager dbMgr;
 	private Context context;
+	private String ownUser;
 	
 	public RecordManager(DBManager mgr, Context ctx) {
 		trlist = new ArrayList<TimeRecord>();
 		drlist = new ArrayList<DialogRecord>();
 		dbMgr = mgr;
 		context = ctx;
+		
+        Account accout = AccountUtils.getPasswordAccessibleAccount(context);
+        if (accout != null && !TextUtils.isEmpty(accout.name)) {
+        	Log.d(TAG,"account name: "+accout.name);
+        	ownUser = accout.name;
+        }
 	}
 
 	private boolean exsitRoom(List<String> room, String link) {
@@ -45,6 +55,18 @@ public class RecordManager {
 		}
 		
 		return false;
+	}
+	
+	private String getTalkObject(String sender, String link) {
+
+        String result = new String();
+        if(ownUser.equalsIgnoreCase(sender)) {
+        	result = link;
+        } else {
+        	result = sender;
+        }
+        Log.d(TAG,"talk object : "+result);
+        return result;
 	}
 	
 	public ArrayList<TalkViewItem> initDataListTalk(HashMap<String, ArrayList<DialogCache>> dialog_cache) {
@@ -68,16 +90,17 @@ public class RecordManager {
 		List<DialogRecord> roomlist = new ArrayList<DialogRecord>();
 		
 		for (DialogRecord dr : drlist) {
-			if(!exsitRoom(roomSet, dr.link)) {
-				roomSet.add(dr.link);
+			String talkObj = getTalkObject(dr.sender, dr.link);
+			if(!exsitRoom(roomSet, talkObj)) {
+				roomSet.add(talkObj);
 				
 				TalkViewItem tvi = new TalkViewItem();
 				ArrayList<DialogCache> cache = new ArrayList<DialogCache>();
-				roomlist = dbMgr.queryDialogLink(dr.link);
+				roomlist = dbMgr.queryDialogTalkPeople(talkObj);
 				
 				ArrayList<DialogItem> dItems = new ArrayList<DialogItem>();
 				
-				tvi.setLinkName(dr.link);
+				tvi.setLinkName(talkObj);
 				
 				for(DialogRecord r: roomlist) {
 					DialogItem di = new DialogItem(r._id, r.sender, r.link, 
@@ -88,6 +111,7 @@ public class RecordManager {
 					
 					DialogCache dc = new DialogCache();
 					dc.setId(r._id);
+					dc.setSender(r.sender);
 					dc.setLink(r.link);
 					dc.setContent(r.content);
 					dc.setCreateDate(r.calc_date);
@@ -99,7 +123,7 @@ public class RecordManager {
 				}
 				
 				tvi.setListViewItem(dItems);
-				dialog_cache.put(dr.link, cache);
+				dialog_cache.put(talkObj, cache);
 				dialog_record.add(tvi);
 			}
 		}
