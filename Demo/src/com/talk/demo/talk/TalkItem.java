@@ -20,7 +20,7 @@ import com.talk.demo.util.TalkUtil;
 public class TalkItem extends Fragment {
     private static String TAG = "TalkItem";
     private String valueContent;
-    private String link;
+    private String sender;
     private String creatTime;
     private int media_type;
     private String photo;
@@ -37,7 +37,7 @@ public class TalkItem extends Fragment {
     
     public TalkItem(DialogCache content) {
         valueContent = content.getContent();
-        link = content.getLink();
+        sender = content.getSender();
         creatTime = content.getCreateTime();
         media_type = content.getMediaType();
         photo = content.getPhotoPath();
@@ -54,7 +54,7 @@ public class TalkItem extends Fragment {
         Log.d(TAG, "TestFragment-----onCreateView");
         View view = inflater.inflate(R.layout.fragment_dialog_item, container, false);
         linkName = (TextView) view.findViewById(R.id.item_sign);
-        linkName.setText(link);
+        linkName.setText("签名: "+sender);
         
         tvTime = (TextView) view.findViewById(R.id.item_time);
         tvTime.setText(creatTime);
