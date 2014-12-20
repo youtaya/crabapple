@@ -116,7 +116,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         timeFragment = new TimeFragment(recordManager);
         fragmentList.add(timeFragment);
         //add talk fragment
-        talkFragment = new TalkFragment(recordManager);
+        talkFragment = new TalkFragment(recordManager, this);
         fragmentList.add(talkFragment);        
         
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager(),fragmentList);

@@ -41,12 +41,12 @@ public class TalkFragment extends Fragment {
     private RecordManager recordManager;
     private String ownUser;
     
-    public TalkFragment(RecordManager recordMgr) {
+    public TalkFragment(RecordManager recordMgr, Context ctx) {
         talk_record = new ArrayList<TalkViewItem>();
         recordManager = recordMgr;
         dialog_cache = new HashMap<String, ArrayList<DialogCache>>();
         
-        Account accout = AccountUtils.getPasswordAccessibleAccount(getActivity());
+        Account accout = AccountUtils.getPasswordAccessibleAccount(ctx);
         if (accout != null && !TextUtils.isEmpty(accout.name)) {
         	Log.d(TAG,"account name: "+accout.name);
         	ownUser = accout.name;

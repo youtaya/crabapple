@@ -67,6 +67,7 @@ public class DailyEditActivity extends Activity {
 	private TimeRecord tr = null;
 	private DialogRecord dr = null;
 	
+	private String ownUser;
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -136,6 +137,12 @@ public class DailyEditActivity extends Activity {
 
 		mgr = new DBManager(this);
 		rMgr = new RecordManager(mgr, this);
+		
+        Account accout = AccountUtils.getPasswordAccessibleAccount(this);
+        if (accout != null && !TextUtils.isEmpty(accout.name)) {
+        	Log.d(TAG,"ccount name: "+accout.name);
+        	ownUser = accout.name;
+        }
 		/*
 		new Thread(new Runnable() {
 
@@ -200,16 +207,13 @@ public class DailyEditActivity extends Activity {
 
 	private String shareToFriend(DialogRecord dialog, String name) {
 		String result = "ok";
-        Account accout = AccountUtils.getPasswordAccessibleAccount(this);
-        if (accout != null && !TextUtils.isEmpty(accout.name)) {
-        	Log.d(TAG,"ccount name: "+accout.name);
-        }
+
         //TODO 
-		RawDialog raw = RawDialog.create(accout.name, accout.name, friend, friend, dialog.content,
+		RawDialog raw = RawDialog.create(ownUser, ownUser, friend, friend, dialog.content,
 				dialog.calc_date, dialog.create_time, dialog.content_type, null,
 				null, false, 11, 12, -1, true);
 		try {
-			NetworkUtilities.shareRecord(raw, accout.name, name);
+			NetworkUtilities.shareRecord(raw, ownUser, name);
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -300,7 +304,9 @@ public class DailyEditActivity extends Activity {
             String test_time = formatter.format(date);
             Log.d(TAG , "done time "+done_time+" test time "+test_time);
             dr.setSendDoneTime(done_time);
-            
+
+            // add sender object
+            dr.setSender(ownUser);
             // save link object
             dr.setLink(target);
             rMgr.addDialog(dr);

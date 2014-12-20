@@ -56,7 +56,7 @@ public class TalkListAdapter extends BaseAdapter {
 			viewHolder.friendName.setText(dialog_item.getLink());
 			DateInfo dateinfo = new DateInfo(dialog_item.getCreateTime());
 			dateinfo.parseCreateTime();
-			//viewHolder.dialogTime.setText(dateinfo.getTimeTalk());
+			viewHolder.dialogTime.setText(dateinfo.getTimeTalk());
 			viewHolder.dialogContent.setText(dialog_item.getContent());
 
 		} else {
