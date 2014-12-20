@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class TalkViewItem {
 
-	private String mLinkName;
+	private String mTalkName;
 	private DialogItem mDialogItem;
 	private String mCreateTime;
 	private ArrayList<DialogItem> mListViewItem;
@@ -13,27 +13,27 @@ public class TalkViewItem {
 		
 	}
 	
-	public TalkViewItem(String link, String time) {
-		mLinkName = link;
+	public TalkViewItem(String name, String time) {
+		mTalkName = name;
 		mCreateTime = time;
 	}
 	
-	public TalkViewItem(String link, DialogItem di) {
-		mLinkName = link;
+	public TalkViewItem(String name, DialogItem di) {
+		mTalkName = name;
 		mDialogItem = di;
 	}
 	
-	public TalkViewItem(String link, String time, ArrayList<DialogItem> ldi) {
-		mLinkName = link;
+	public TalkViewItem(String name, String time, ArrayList<DialogItem> ldi) {
+		mTalkName = name;
 		mCreateTime = time;
 		mListViewItem = ldi;
 	}
 	
-	public void setLinkName(String name) {
-		mLinkName = name;
+	public void setTalkName(String name) {
+		mTalkName = name;
 	}
-	public String getLinkName() {
-		return mLinkName;
+	public String getTalkName() {
+		return mTalkName;
 	}
 	
 	public void setCreateTime(String t) {

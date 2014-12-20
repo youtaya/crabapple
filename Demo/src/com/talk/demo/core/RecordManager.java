@@ -95,12 +95,13 @@ public class RecordManager {
 				roomSet.add(talkObj);
 				
 				TalkViewItem tvi = new TalkViewItem();
-				ArrayList<DialogCache> cache = new ArrayList<DialogCache>();
+				
 				roomlist = dbMgr.queryDialogTalkPeople(talkObj);
 				
+				ArrayList<DialogCache> cache = new ArrayList<DialogCache>();
 				ArrayList<DialogItem> dItems = new ArrayList<DialogItem>();
 				
-				tvi.setLinkName(talkObj);
+				tvi.setTalkName(talkObj);
 				
 				for(DialogRecord r: roomlist) {
 					DialogItem di = new DialogItem(r._id, r.sender, r.link, 

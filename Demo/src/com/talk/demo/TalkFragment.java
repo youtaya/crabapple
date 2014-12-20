@@ -1,5 +1,6 @@
 package com.talk.demo;
 
+import android.accounts.Account;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -8,6 +9,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,6 +25,7 @@ import com.talk.demo.talk.DialogCache;
 import com.talk.demo.talk.DialogItem;
 import com.talk.demo.talk.TalkAllItem;
 import com.talk.demo.talk.TalkViewItem;
+import com.talk.demo.util.AccountUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -36,11 +39,18 @@ public class TalkFragment extends Fragment {
     private TalkListAdapter talk_adapter;
     private HashMap<String, ArrayList<DialogCache>> dialog_cache;
     private RecordManager recordManager;
+    private String ownUser;
     
     public TalkFragment(RecordManager recordMgr) {
         talk_record = new ArrayList<TalkViewItem>();
         recordManager = recordMgr;
         dialog_cache = new HashMap<String, ArrayList<DialogCache>>();
+        
+        Account accout = AccountUtils.getPasswordAccessibleAccount(getActivity());
+        if (accout != null && !TextUtils.isEmpty(accout.name)) {
+        	Log.d(TAG,"account name: "+accout.name);
+        	ownUser = accout.name;
+        }
     }
 
      
@@ -64,12 +74,17 @@ public class TalkFragment extends Fragment {
 		        Intent mIntent = new Intent(ctx, TalkAllItem.class);
 		        Bundle mBundle = new Bundle();
 		        DialogItem dialog_item = talk_record.get(position).getListViewItem().get(0);
-		        Log.d(TAG, "link : "+ dialog_item.getLink());
-		        mBundle.putString("link", dialog_item.getLink());
+		        
+		        String talkObj = dialog_item.getLink();
+		        if(talkObj.equalsIgnoreCase(ownUser)) {
+		        	talkObj = dialog_item.getSender();
+		        }
+		        Log.d(TAG, "talk object is : "+ talkObj);
+		        mBundle.putString("link", talkObj);
 	            mBundle.putString("createdate", dialog_item.getCreateDate());
 	            mBundle.putString("createtime", dialog_item.getCreateTime());
-		        mBundle.putParcelableArrayList("recordcache", dialog_cache.get(dialog_item.getLink()));
-		        Log.d(TAG,"items size: "+ dialog_cache.get(dialog_item.getLink()).size());
+		        mBundle.putParcelableArrayList("recordcache", dialog_cache.get(talkObj));
+		        Log.d(TAG,"items size: "+ dialog_cache.get(talkObj).size());
 			    mIntent.putExtras(mBundle);
 			    //mIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 			    ctx.startActivity(mIntent);	
