@@ -54,6 +54,7 @@
 	<string name="add">添加</string>
 	<string name="save">保存</string>
 	<string name="tag_name">标签名字</string>
+	<string name="add_intimate">添加好友</string>
 	<string name="input_tag">输入标签名称，例如太阳 月亮 星星 等等</string>
 	<string name="press">关系/印象标签</string>
 	<string name="channel">频道更新</string>
