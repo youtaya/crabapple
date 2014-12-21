@@ -37,7 +37,7 @@ public class PlusActionProvider extends ActionProvider {
 						return true;
 					}
 				});
-		subMenu.add(context.getString(R.string.friend))
+		subMenu.add(context.getString(R.string.add_intimate))
 				.setIcon(R.drawable.ic_popup_reminder)
 				.setOnMenuItemClickListener(new OnMenuItemClickListener() {
 					@Override

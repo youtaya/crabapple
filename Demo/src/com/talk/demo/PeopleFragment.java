@@ -1,8 +1,5 @@
 package com.talk.demo;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -19,10 +16,13 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.talk.demo.intimate.EditIntimateActivity;
-import com.talk.demo.intimate.FindDSourceFriendsActivity;
 import com.talk.demo.intimate.IntimateListAdapter;
+import com.talk.demo.intimate.NewIntimateActivity;
 import com.talk.demo.persistence.DBManager;
 import com.talk.demo.persistence.FriendRecord;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class PeopleFragment extends Fragment {
 	private static String TAG = "IntimateActivity";
@@ -52,7 +52,7 @@ public class PeopleFragment extends Fragment {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				startActivity(new Intent(mContext, FindDSourceFriendsActivity.class));
+				startActivity(new Intent(mContext, NewIntimateActivity.class));
 			}
         	
         });
