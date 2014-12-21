@@ -56,6 +56,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
     private DailyFragment guideFragment;
     private TimeFragment timeFragment;
     private TalkFragment talkFragment;
+    private PeopleFragment peopleFragment;
     private ArrayList<Fragment> fragmentList;
     
     /**
@@ -117,7 +118,10 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         fragmentList.add(timeFragment);
         //add talk fragment
         talkFragment = new TalkFragment(recordManager, this);
-        fragmentList.add(talkFragment);        
+        fragmentList.add(talkFragment);
+        //add people fragment
+        peopleFragment = new PeopleFragment(this);
+        fragmentList.add(peopleFragment);
         
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager(),fragmentList);
 
