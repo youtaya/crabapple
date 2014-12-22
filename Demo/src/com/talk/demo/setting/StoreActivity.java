@@ -56,7 +56,7 @@ public class StoreActivity extends Activity {
         
         // Add a basic header and cards below it
         for(TimeViewItem item : time_record) {
-            //cardAdapter.add(new CardHeader(map.get("create_time")));
+            //cardAdapter..add(item.getViewItem().getCreateTime());
             cardAdapter.add(new Card(item.getViewItem().getContent(), item.getViewItem().getCreateTime()));
         }
         cardLv.setAdapter(cardAdapter);  
