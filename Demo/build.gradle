@@ -19,6 +19,8 @@ android {
             assets.srcDirs = ['assets']
         }
 
+	    androidTest.setRoot(project(':DemoTest').projectDir.absolutePath + "/src/main")
+
         // Move the tests to tests/java, tests/res, etc...
         instrumentTest.setRoot('tests')
 
@@ -32,3 +34,4 @@ android {
         release.setRoot('build-types/release')
     }
 }
+
