@@ -77,13 +77,13 @@
       <excludeFolder url="file://$MODULE_DIR$/build/outputs" />
       <excludeFolder url="file://$MODULE_DIR$/build/tmp" />
     </content>
-    <orderEntry type="jdk" jdkName="Android API 19 Platform" jdkType="Android SDK" />
+    <orderEntry type="jdk" jdkName="Android API 21 Platform" jdkType="Android SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" exported="" name="android-support-v4" level="project" />
     <orderEntry type="library" exported="" name="android-uitableview" level="project" />
     <orderEntry type="library" exported="" name="silk-master" level="project" />
-    <orderEntry type="library" exported="" name="cropper" level="project" />
     <orderEntry type="library" exported="" name="wheel" level="project" />
+    <orderEntry type="library" exported="" name="cropper" level="project" />
     <orderEntry type="library" exported="" name="BaiduLBS_Android" level="project" />
     <orderEntry type="library" exported="" name="jpush-sdk-release1.7.1" level="project" />
     <orderEntry type="library" exported="" name="android-pulltorefresh" level="project" />
