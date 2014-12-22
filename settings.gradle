@@ -1,1 +1,1 @@
-include ':Demo', ':DemoTest'
+include ':Demo'
