@@ -1,7 +1,24 @@
-apply plugin: 'com.android.application'
+apply plugin: 'android'
+
 
 dependencies {
     compile fileTree(dir: 'libs', include: '*.jar')
+}
+
+//下面一段是将libs/*/*.so文件加入打包
+//如果你的项目是使用Eclipse+ADT建立的，则需要这段代码
+task copyNativeLibs(type: Copy) {
+    from(new File('libs')) { include '**/*.so' }
+    into new File(buildDir, 'native-libs')
+}
+
+tasks.withType(JavaCompile) { compileTask -> compileTask.dependsOn copyNativeLibs }
+
+clean.dependsOn 'cleanCopyNativeLibs'
+
+tasks.withType(com.android.build.gradle.tasks.PackageApplication) { pkgTask ->
+    pkgTask.jniFolders = new HashSet<File>()
+    pkgTask.jniFolders.add(new File(buildDir, 'native-libs'))
 }
 
 android {
@@ -34,3 +51,7 @@ android {
     }
 }
 
+
+tasks.withType(JavaCompile) {
+    options.encoding = "UTF-8"
+}
