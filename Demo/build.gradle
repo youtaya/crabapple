@@ -22,8 +22,8 @@ tasks.withType(com.android.build.gradle.tasks.PackageApplication) { pkgTask ->
 }
 
 android {
-    compileSdkVersion 19
-    buildToolsVersion "19.1.0"
+    compileSdkVersion 21
+    buildToolsVersion '21.1.2'
 
     sourceSets {
         main {
