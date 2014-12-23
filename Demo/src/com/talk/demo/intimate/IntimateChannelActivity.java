@@ -1,6 +1,8 @@
 package com.talk.demo.intimate;
 
 import android.app.Activity;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
@@ -18,6 +20,7 @@ import org.json.JSONException;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -27,9 +30,12 @@ public class IntimateChannelActivity extends Activity {
     
     private String friend;
     private String last_update_date;
+    private SharedPreferences sp;
+    private Editor editor;
     private ListView channel_list;
     
     private ArrayAdapter<String> adapter;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,7 +44,9 @@ public class IntimateChannelActivity extends Activity {
         channel_list = (ListView) findViewById(R.id.channel_list);
         
         friend = getIntent().getExtras().getString("friend");
-        last_update_date = getIntent().getExtras().getString("last_date");
+        sp = getPreferences(0);
+        editor = sp.edit();
+        last_update_date = sp.getString("last_date", "1971-1-1");
         new ChannelUpdateTask().execute(friend, last_update_date);
         
         channel_list.setOnItemClickListener(new OnItemClickListener() {
@@ -87,6 +95,9 @@ public class IntimateChannelActivity extends Activity {
         
         @Override
         protected void onPostExecute(List<RawRecord> result) {
+        	if(result == null) {
+        		return;
+        	}
             ArrayList<String> mListItems = new ArrayList<String>();
             //pack raw records to array List
             for(int i=0;i<result.size();i++) {
@@ -94,6 +105,11 @@ public class IntimateChannelActivity extends Activity {
             }
             
             setChannelData(mListItems);
+            Calendar calendar = Calendar.getInstance();
+            last_update_date = String.valueOf(calendar.YEAR)+"-"+
+            		String.valueOf(calendar.MONTH)+"-"+
+            		String.valueOf(calendar.DAY_OF_MONTH);
+            editor.putString("last_date", last_update_date).commit();
             
             super.onPostExecute(result);
         }       
