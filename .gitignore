@@ -16,7 +16,7 @@ gen/
 .gradle/
 build/
 .idea
-.iml
+*.iml
 out/
 
 # Local configuration file (sdk path, etc)
