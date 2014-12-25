@@ -3,6 +3,10 @@ apply plugin: 'android'
 
 dependencies {
     compile fileTree(dir: 'libs', include: '*.jar')
+    compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.3'
+    compile 'com.github.chrisbanes.pulltorefresh:library:2.1.1'
+    compile 'com.viewpagerindicator:library:2.4.1@aar'
+
 }
 
 //下面一段是将libs/*/*.so文件加入打包
