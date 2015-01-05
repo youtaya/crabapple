@@ -77,7 +77,7 @@ final public class NetworkUtilities {
     public static final int HTTP_REQUEST_TIMEOUT_MS = 30 * 1000;
     /** Base URL for the v2 Sample Sync Service */
     //public static final String BASE_URL = "http://114.215.208.170/";
-    public static final String BASE_URL = "http://192.168.1.180/";
+    public static final String BASE_URL = "http://192.168.1.104/";
     /** URI for authentication service */
     public static final String AUTH_URI = BASE_URL + "users/login/";
     public static final String SIGNUP_URI = BASE_URL + "users/signup/";

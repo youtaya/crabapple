@@ -5,6 +5,8 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
+import cn.jpush.android.api.JPushInterface;
+
 import com.talk.demo.account.AppEnterActivity;
 
 import java.util.Timer;
@@ -42,5 +44,18 @@ public class SplashActivity extends Activity {
         if (scheduled)
             splashTimer.cancel();
         splashTimer.purge();
+    }
+    
+	
+    @Override
+    public void onResume() {
+    	super.onResume();
+    	JPushInterface.onResume(this);
+    }
+    
+    @Override
+    public void onPause() {
+    	super.onPause();
+    	JPushInterface.onPause(this);
     }
 }
