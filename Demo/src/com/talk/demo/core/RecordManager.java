@@ -227,6 +227,8 @@ public class RecordManager {
 						TimeCache rc = new TimeCache();
 						ViewAsItem vi = new ViewAsItem(item._id, item.calc_date,item.create_time,
 								item.content,item.content_type,item.photo);
+						vi.setTitle(item.title);
+						
 						rc.setId(item._id);
 						rc.setContent(item.content);
 						rc.setCreateDate(item.calc_date);
@@ -246,6 +248,8 @@ public class RecordManager {
 			}
 			tvi.setType(1);
 			ViewAsItem vai = new ViewAsItem(tr._id, tr.calc_date,tr.create_time,tr.content,tr.content_type,tr.photo);
+			vai.setTitle(tr.title);
+			
 			tvi.setViewItem(vai);
 			time_records.add(tvi);
 

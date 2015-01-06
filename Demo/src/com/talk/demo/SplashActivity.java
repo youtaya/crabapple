@@ -31,7 +31,7 @@ public class SplashActivity extends Activity {
             {
             	SplashActivity.this.finish();
                 startActivity(new Intent(SplashActivity.this, AppEnterActivity.class));
-                //overridePendingTransition(R.anim.fade, R.anim.hold);
+                overridePendingTransition(R.anim.fade, R.anim.hold);
             }
         }, DELAY);
         scheduled = true;

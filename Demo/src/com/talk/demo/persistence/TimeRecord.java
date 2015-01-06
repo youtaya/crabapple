@@ -67,6 +67,10 @@ public class TimeRecord extends CommonRecord {
     	link = v;
     }
     
+    public void setTitle(String v) {
+    	title = v;
+    }
+    
     public void setSendInterval(int v) {
         send_interval_time = v;
     }
@@ -143,6 +147,7 @@ public class TimeRecord extends CommonRecord {
 		super.server_id = c.getInt(c.getColumnIndex("server_id"));
 		super.handle = c.getString(c.getColumnIndex("handle"));
         link = c.getString(c.getColumnIndex("link"));
+        title = c.getString(c.getColumnIndex("title"));
         content = c.getString(c.getColumnIndex("content")); 
         calc_date = c.getString(c.getColumnIndex("calc_date"));
         create_time = c.getString(c.getColumnIndex("create_time")); 

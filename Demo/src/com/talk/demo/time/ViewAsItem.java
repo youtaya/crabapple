@@ -4,6 +4,7 @@ public class ViewAsItem {
     private int item_id;
 	private String mCreateDate;
 	private String mCreateTime;
+	private String mTitle;
 	private String mContent;
 	private int mContentType;
 	private String mPhoto;
@@ -39,6 +40,12 @@ public class ViewAsItem {
 		return mCreateTime;
 	}
 	
+	public void setTitle(String str) {
+		mTitle = str;
+	}
+	public String getTitle() {
+		return mTitle;
+	}
 	public String getContent() {
 		return mContent;
 	}
