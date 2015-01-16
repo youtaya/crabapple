@@ -55,16 +55,5 @@ public class AppEnterActivity extends Activity {
 			}
 		});
 	}
-	
-    @Override
-    public void onResume() {
-    	super.onResume();
-    	JPushInterface.onResume(this);
-    }
-    
-    @Override
-    public void onPause() {
-    	super.onPause();
-    	JPushInterface.onPause(this);
-    }
+
 }

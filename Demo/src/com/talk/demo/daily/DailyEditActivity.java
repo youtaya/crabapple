@@ -249,6 +249,7 @@ public class DailyEditActivity extends Activity {
 		}
 	}
 	
+	
 	private void confirmDone() {
 		// save to db
 		String content = edit_content.getText().toString();
@@ -262,6 +263,10 @@ public class DailyEditActivity extends Activity {
 				tr.setContentType(TalkUtil.MEDIA_TYPE_PHOTO_TEXT);
 			} else {
 				tr.setContentType(TalkUtil.MEDIA_TYPE_TEXT);
+			}
+			
+			if(pre_content != null) {
+				tr.setTitle(pre_content);
 			}
 			
 			rMgr.addRecord(tr);
@@ -290,6 +295,7 @@ public class DailyEditActivity extends Activity {
             } else {
                 dr.setContentType(TalkUtil.MEDIA_TYPE_TEXT);
             }
+            		
             //TODO: add msg_interval_time and msg_done_time
  
             dr.setSendInterval(wait_x_time);
@@ -340,6 +346,10 @@ public class DailyEditActivity extends Activity {
                 tr.setContentType(TalkUtil.MEDIA_TYPE_TEXT);
             }
             
+			if(pre_content != null) {
+				tr.setTitle(pre_content);
+			}
+			
             // save tag object
             tr.setTag(tag);
             rMgr.addRecord(tr);

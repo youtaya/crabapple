@@ -77,7 +77,7 @@ final public class NetworkUtilities {
     public static final int HTTP_REQUEST_TIMEOUT_MS = 30 * 1000;
     /** Base URL for the v2 Sample Sync Service */
     //public static final String BASE_URL = "http://114.215.208.170/";
-    public static final String BASE_URL = "http://192.168.1.180/";
+    public static final String BASE_URL = "http://192.168.1.104/";
     /** URI for authentication service */
     public static final String AUTH_URI = BASE_URL + "users/login/";
     public static final String SIGNUP_URI = BASE_URL + "users/signup/";
@@ -86,6 +86,7 @@ final public class NetworkUtilities {
     public static final String SYNC_FRIENDS_URI = BASE_URL + "friends/sync/";
     /** URI for sync service */
     public static final String SYNC_RECORDS_URI = BASE_URL + "times/sync/";
+    public static final String VISIT_RECORDS_URI = BASE_URL + "times/visit/";
     /** URI for dialog share */
     public static final String SHARE_RECORDS_URI = BASE_URL + "dialogs/share/";
     public static final String GET_DIALOGS_URI = BASE_URL + "dialogs/getdialog/";
@@ -461,7 +462,60 @@ final public class NetworkUtilities {
         } 
         
         return null;
-    }    
+    }
+    
+    public static List<RawRecord> updateChannel(String friend, String last_date)
+            throws JSONException, ParseException, IOException {
+
+        HttpURLConnection conn = HttpRequest.get(AUTH_URI)
+                .getConnection();
+
+        if (null == conn || null == conn.getHeaderFields()) {
+            return null;
+        }
+        /*
+         * cookieHeader may be null cause NullPointerException ToDo: write the
+         * whole code completely
+         */
+        List<String> temp = conn.getHeaderFields().get("Set-Cookie");
+        String cookieHeader = null;
+        String csrfToken = null;
+        if (null != temp && !temp.isEmpty()) {
+            cookieHeader = temp.get(0);
+
+            Log.d(TAG, "cookie: " + cookieHeader);
+
+            csrfToken = cookieHeader.split(";")[0];
+            Log.d(TAG, "csrf token : " + csrfToken);
+        }
+
+        // Prepare our POST data
+        final ArrayList<NameValuePair> params = new ArrayList<NameValuePair>();
+        params.add(new BasicNameValuePair("friend", friend));
+        params.add(new BasicNameValuePair("last_date", last_date));
+        if (csrfToken != null)
+            params.add(new BasicNameValuePair("csrfmiddlewaretoken", csrfToken.substring(10)));
+        HttpEntity entity = new UrlEncodedFormEntity(params, HTTP.UTF_8);
+        final HttpPost post = new HttpPost(VISIT_RECORDS_URI);
+        post.addHeader(entity.getContentType());
+        if (csrfToken != null)
+            post.addHeader("Cookie", csrfToken);
+        post.setEntity(entity);
+        final HttpResponse resp = getHttpClient().execute(post);
+        final String response = EntityUtils.toString(resp.getEntity());
+        Log.d(TAG, "dialog respone : " + response);
+        final List<RawRecord> records = new LinkedList<RawRecord>();
+        if (resp.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
+            final JSONArray jsonRecords = new JSONArray(response);
+            for (int i = 0; i < jsonRecords.length(); i++) {
+                RawRecord rawRecord = RawRecord.valueOf(jsonRecords.getJSONObject(i));
+                records.add(rawRecord);
+            }
+            return records;
+        }
+
+        return null;
+    }
     /**
      * Perform 2-way sync with the server-side contacts. We send a request that
      * includes all the locally-dirty contacts so that the server can process

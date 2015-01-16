@@ -82,7 +82,11 @@ public class EditIntimateActivity extends Activity {
 
 			@Override
 			public void onClick(View v) {
-				startActivity(new Intent(EditIntimateActivity.this, IntimateChannelActivity.class));
+			    Intent newIntent = new Intent(EditIntimateActivity.this, IntimateChannelActivity.class);
+	             Bundle mBundle = new Bundle();
+	             mBundle.putString("friend", friend_name);
+	             newIntent.putExtras(mBundle);
+	             startActivity(newIntent);
 			}
         	
         });

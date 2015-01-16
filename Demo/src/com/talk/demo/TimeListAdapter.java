@@ -103,6 +103,14 @@ public class TimeListAdapter extends BaseAdapter {
         	holder.create_week.setText(mDateInfo.getWeekInfo());
         	int media_type = view_item.getContentType();
         	final String itemContent = view_item.getContent();
+        	final String title = view_item.getTitle();
+        	String preContent = null;
+        	if(title != null) {
+        		preContent = title.concat("\n\n"+itemContent);
+        	} else {
+        		preContent = itemContent;
+        	}
+        	final String lastContent = preContent;
         	if(2 == media_type || 4 == media_type) {
         		Uri uri = null;
         		if(null != view_item.getPhoto()) {
@@ -126,7 +134,7 @@ public class TimeListAdapter extends BaseAdapter {
     		        mBundle.putInt("item_id", item_id);
     		        mBundle.putString("createdate", createDate);
     		        mBundle.putString("createtime", createTime);
-    		        mBundle.putString("content", itemContent);
+    		        mBundle.putString("content", lastContent);
     		        mIntent.putExtras(mBundle);
     		        context.startActivity(mIntent);
                 }
