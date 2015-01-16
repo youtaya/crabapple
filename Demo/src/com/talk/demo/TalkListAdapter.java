@@ -62,7 +62,7 @@ public class TalkListAdapter extends BaseAdapter {
 		} else {
 			viewHolder = (ViewHolder) convertView.getTag();
 		}
-		/*
+		
 		final List<CloudKite> tasks = initTasks(mTalkItems.get(position));
 		
         for (CloudKite t : tasks) {
@@ -70,7 +70,7 @@ public class TalkListAdapter extends BaseAdapter {
         }
         
 		viewHolder.setNewTask(tasks);
-		 */
+		
 		return convertView;
 	}
 	
@@ -83,7 +83,7 @@ public class TalkListAdapter extends BaseAdapter {
         	Log.d(TAG,"ccount name: "+accout.name);
         }
         for(DialogItem item : items) {
-        	if(!TalkUtil.isSendDone(item.getDoneTime()) && !item.getSender().equals(accout.name)) {
+        	if(item.getSender().equals(accout.name) && !TalkUtil.isSendDone(item.getDoneTime())) {
 	        	CloudKite ck = new CloudKite(item.getContent(), 
 	                    item.getIntervalTime(),
 	                    item.getDoneTime());

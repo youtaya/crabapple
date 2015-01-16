@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.talk.demo.R;
+import com.talk.demo.time.DateInfo;
 import com.talk.demo.util.TalkUtil;
 
 
@@ -22,6 +23,7 @@ public class TalkItem extends Fragment {
     private String valueContent;
     private String sender;
     private String creatTime;
+    private String showTime;
     private int media_type;
     private String photo;
     private ImageView item_bg;
@@ -39,6 +41,9 @@ public class TalkItem extends Fragment {
         valueContent = content.getContent();
         sender = content.getSender();
         creatTime = content.getCreateTime();
+        DateInfo date = new DateInfo(creatTime);
+        date.parseCreateTime();
+        showTime = date.getTimeHead();
         media_type = content.getMediaType();
         photo = content.getPhotoPath();
     }
@@ -57,7 +62,7 @@ public class TalkItem extends Fragment {
         linkName.setText("签名: "+sender);
         
         tvTime = (TextView) view.findViewById(R.id.item_time);
-        tvTime.setText(creatTime);
+        tvTime.setText(showTime);
         
         item_bg = (ImageView)view.findViewById(R.id.item_bg);
         item_content = (TextView)view.findViewById(R.id.item_content);
