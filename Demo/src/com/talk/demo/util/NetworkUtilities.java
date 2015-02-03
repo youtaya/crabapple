@@ -83,7 +83,7 @@ final public class NetworkUtilities {
     public static final String SIGNUP_URI = BASE_URL + "users/signup/";
     public static final String SYNC_NEWS_URI = BASE_URL + "news/today/";
     public static final String RECOMMEND_FRIENDS_URI = BASE_URL + "friends/recommend";
-    public static final String SYNC_FRIENDS_URI = BASE_URL + "friends/sync/";
+    public static final String SYNC_FRIENDS_URI = BASE_URL + "friends/sync_friend/";
     /** URI for sync service */
     public static final String SYNC_RECORDS_URI = BASE_URL + "times/sync/";
     public static final String VISIT_RECORDS_URI = BASE_URL + "times/visit/";
@@ -162,44 +162,32 @@ final public class NetworkUtilities {
     }
     */
     
+    private static Map<String, String> packedData(String username, String email, String password) {
+        String name = username;
+        String mail = email;
+        String passwd = password;
+        Map<String, String> data = new HashMap<String, String>();
+        data.put("username", name);
+        data.put("password", passwd);
+        data.put("password_confirm",passwd);
+        
+        return data;
+    }
+    
+    private static Map<String, String> packedData(String username,String password) {
+        String name = username;
+        String passwd = password;
+        Map<String, String> data = new HashMap<String, String>();
+        data.put("username", name);
+        data.put("password", passwd);
+        
+        return data;
+    }
+    
     public static String signup(String username, String email, String password) {
-    	/*
-    	String authToken = null;
-		String csrfToken2 = null;
-		try {
-			HttpURLConnection conn = HttpRequest.get(SIGNUP_URI)
-					.getConnection();
-			//ToDo: cookie header may be null, should fix it.
-			List<String> cookieHeader = conn.getHeaderFields().get("Set-Cookie");
-            for(String resItem : cookieHeader) {
-            	Log.d(TAG, "cookie session: " + resItem);
-                if(resItem.contains("sessionid")) {
-                	authToken = resItem.split(";")[0];
-                    Log.d(TAG, "session :" + authToken);
-                }
-                
-                if(resItem.contains("csrftoken")) {
-                    csrfToken2 = resItem.split(";")[0];
-                    Log.d(TAG, "csrf token :" + csrfToken2);
-                }
-                
-            }
-			Log.d(TAG, "cookie: " + cookieHeader);
-
-			String csrfToken = csrfToken2;
-			Log.d(TAG, "csrf token : " + csrfToken);
-			*/
+        
     	try {
 			HttpRequest request = HttpRequest.post(SIGNUP_URI);
-			String name = username;
-			String mail = email;
-			String passwd = password;
-			Map<String, String> data = new HashMap<String, String>();
-			data.put("username", name);
-			data.put("password", passwd);
-			data.put("password_confirm",passwd);
-			//data.put("csrfmiddlewaretoken", csrfToken.substring(10));
-			Log.d(TAG, "name: " + username + " passwd: " + password);
 			// X-CSRFToken
 			Map<String, String> headers = new HashMap<String, String>();
 			headers.put("Content-Type", "text/html");
@@ -207,7 +195,7 @@ final public class NetworkUtilities {
 			//Log.d(TAG, "our cookie: " + csrfToken);
 			request.headers(headers);
 			//request.followRedirects(false);
-			HttpRequest conn4Session = request.form(data);
+			HttpRequest conn4Session = request.form(packedData(username, email, password));
 			conn4Session.code();
 			HttpURLConnection sessionConnection = conn4Session.getConnection();
 			try {
@@ -231,68 +219,21 @@ final public class NetworkUtilities {
 	}
     
     public static String authenticate(String username, String password) {
-		String authToken = null;
-		String csrfToken2 = null;
 		try {
-			HttpURLConnection conn = HttpRequest.get(AUTH_URI)
-					.getConnection();
-			//ToDo: cookie header may be null, should fix it.
-			List<String> temp  = conn.getHeaderFields().get("Set-Cookie");
-			String cookieHeader = null;
-			String csrfToken = null;
-			if (null !=temp && !temp.isEmpty()) {
-				cookieHeader = temp.get(0);
-			
-				Log.d(TAG, "cookie: " + cookieHeader);
-
-				csrfToken = cookieHeader.split(";")[0];
-				Log.d(TAG, "csrf token : " + csrfToken);
-			}
-
 			HttpRequest request = HttpRequest.post(AUTH_URI);
-			String name = username;
-			String passwd = password;
-			Map<String, String> data = new HashMap<String, String>();
-			data.put("username", name);
-			data.put("password", passwd);
-			if(csrfToken != null)
-				data.put("csrfmiddlewaretoken", csrfToken.substring(10));
-			Log.d(TAG, "name: " + username + " passwd: " + password);
-			// X-CSRFToken
+			
 			Map<String, String> headers = new HashMap<String, String>();
 			headers.put("Content-Type", "text/html");
-			if(csrfToken != null)
-				headers.put("Cookie", csrfToken);
 
 			request.headers(headers);
 			request.followRedirects(false);
-			HttpRequest conn4Session = request.form(data);
+			HttpRequest conn4Session = request.form(packedData(username, password));
 			conn4Session.code();
 			HttpURLConnection sessionConnection = conn4Session.getConnection();
 			try {
 				int result = sessionConnection.getResponseCode();
 				Log.e(TAG, "get response code : "+result);
-				/*
-                List<String> responseList = sessionConnection.getHeaderFields().get("Set-Cookie");
-                
-                if(null != responseList) {
-	                for(String resItem : responseList) {
-	                	Log.d(TAG, "cookie session: " + resItem);
-	                    if(resItem.contains("sessionid")) {
-	                    	authToken = resItem.split(";")[0];
-	                        Log.d(TAG, "session :" + authToken);
-	                        NetData.setSessionId(authToken);
-	                    }
-	                    
-	                    if(resItem.contains("csrftoken")) {
-	                        csrfToken2 = resItem.split(";")[0];
-	                        Log.d(TAG, "csrf token :" + csrfToken2);
-	                        NetData.setCsrfToken(csrfToken2);
-	                    }
-	                    
-	                }
-                }
-                */
+	
                 
             } catch (IOException e) {
                 // TODO Auto-generated catch block
@@ -307,15 +248,6 @@ final public class NetworkUtilities {
         }
 		
 		return "ok";
-		/*
-        if ((authToken != null) && (authToken.length() > 0)) {
-            Log.v(TAG, "Successful authentication");
-            return authToken+";"+csrfToken2;
-        } else {
-            Log.e(TAG, "Error authenticating");
-            return null;
-        }
-        */
 		
 	}
     
@@ -372,27 +304,6 @@ final public class NetworkUtilities {
     
     public static void shareRecord(RawDialog raw, String oring, String target) 
             throws JSONException, ParseException, IOException {
-        HttpURLConnection conn = HttpRequest.get(AUTH_URI)
-                .getConnection();
-
-        if (null == conn || null == conn.getHeaderFields()) {
-        	return;
-        }
-        /*
-         * cookieHeader may be null cause NullPointerException
-         * ToDo: write the whole code completely
-         */
-		List<String> temp  = conn.getHeaderFields().get("Set-Cookie");
-		String cookieHeader = null;
-		String csrfToken = null;
-		if (null !=temp && !temp.isEmpty()) {
-			cookieHeader = temp.get(0);
-		
-			Log.d(TAG, "cookie: " + cookieHeader);
-
-			csrfToken = cookieHeader.split(";")[0];
-			Log.d(TAG, "csrf token : " + csrfToken);
-		}
 
         JSONObject jsonRecord = raw.toJSONObject();
         // Prepare our POST data
@@ -400,13 +311,10 @@ final public class NetworkUtilities {
         params.add(new BasicNameValuePair(PARAM_USERNAME, oring));
         params.add(new BasicNameValuePair("records", jsonRecord.toString()));
         params.add(new BasicNameValuePair("target", target));
-        if(csrfToken != null)
-        	params.add(new BasicNameValuePair("csrfmiddlewaretoken", csrfToken.substring(10)));
+        
         HttpEntity entity = new UrlEncodedFormEntity(params, HTTP.UTF_8);
         final HttpPost post = new HttpPost(SHARE_RECORDS_URI);
         post.addHeader(entity.getContentType());
-        if(csrfToken != null)
-        	post.addHeader("Cookie", csrfToken);
         post.setEntity(entity);
         final HttpResponse resp = getHttpClient().execute(post);
         final String response = EntityUtils.toString(resp.getEntity());
@@ -418,39 +326,15 @@ final public class NetworkUtilities {
     public static RawDialog getDialog(String username, int id) 
             throws JSONException, ParseException, IOException {
         
-        HttpURLConnection conn = HttpRequest.get(AUTH_URI)
-                .getConnection();
-
-        if (null == conn || null == conn.getHeaderFields()) {
-            return null;
-        }
-        /*
-         * cookieHeader may be null cause NullPointerException
-         * ToDo: write the whole code completely
-         */
-        List<String> temp  = conn.getHeaderFields().get("Set-Cookie");
-        String cookieHeader = null;
-        String csrfToken = null;
-        if (null !=temp && !temp.isEmpty()) {
-            cookieHeader = temp.get(0);
-        
-            Log.d(TAG, "cookie: " + cookieHeader);
-
-            csrfToken = cookieHeader.split(";")[0];
-            Log.d(TAG, "csrf token : " + csrfToken);
-        }
-
         // Prepare our POST data
         final ArrayList<NameValuePair> params = new ArrayList<NameValuePair>();
         params.add(new BasicNameValuePair("username", username));
         params.add(new BasicNameValuePair("id", String.valueOf(id)));
-        if(csrfToken != null)
-            params.add(new BasicNameValuePair("csrfmiddlewaretoken", csrfToken.substring(10)));
+
         HttpEntity entity = new UrlEncodedFormEntity(params, HTTP.UTF_8);
         final HttpPost post = new HttpPost(GET_DIALOGS_URI);
         post.addHeader(entity.getContentType());
-        if(csrfToken != null)
-            post.addHeader("Cookie", csrfToken);
+
         post.setEntity(entity);
         final HttpResponse resp = getHttpClient().execute(post);
         final String response = EntityUtils.toString(resp.getEntity());
@@ -467,39 +351,15 @@ final public class NetworkUtilities {
     public static List<RawRecord> updateChannel(String friend, String last_date)
             throws JSONException, ParseException, IOException {
 
-        HttpURLConnection conn = HttpRequest.get(AUTH_URI)
-                .getConnection();
-
-        if (null == conn || null == conn.getHeaderFields()) {
-            return null;
-        }
-        /*
-         * cookieHeader may be null cause NullPointerException ToDo: write the
-         * whole code completely
-         */
-        List<String> temp = conn.getHeaderFields().get("Set-Cookie");
-        String cookieHeader = null;
-        String csrfToken = null;
-        if (null != temp && !temp.isEmpty()) {
-            cookieHeader = temp.get(0);
-
-            Log.d(TAG, "cookie: " + cookieHeader);
-
-            csrfToken = cookieHeader.split(";")[0];
-            Log.d(TAG, "csrf token : " + csrfToken);
-        }
-
         // Prepare our POST data
         final ArrayList<NameValuePair> params = new ArrayList<NameValuePair>();
         params.add(new BasicNameValuePair("friend", friend));
         params.add(new BasicNameValuePair("last_date", last_date));
-        if (csrfToken != null)
-            params.add(new BasicNameValuePair("csrfmiddlewaretoken", csrfToken.substring(10)));
+
         HttpEntity entity = new UrlEncodedFormEntity(params, HTTP.UTF_8);
         final HttpPost post = new HttpPost(VISIT_RECORDS_URI);
         post.addHeader(entity.getContentType());
-        if (csrfToken != null)
-            post.addHeader("Cookie", csrfToken);
+
         post.setEntity(entity);
         final HttpResponse resp = getHttpClient().execute(post);
         final String response = EntityUtils.toString(resp.getEntity());
@@ -550,16 +410,7 @@ final public class NetworkUtilities {
         params.add(new BasicNameValuePair(PARAM_USERNAME, account.name));
         //params.add(new BasicNameValuePair(PARAM_AUTH_TOKEN, authtoken));
         params.add(new BasicNameValuePair(PARAM_RECORDS_DATA, buffer.toString()));
-        /*
-        String tempBuffer = null;
-        if(authtoken.split(";").length > 1) {
-        	tempBuffer = authtoken.split(";")[1];
-        }
-        if(tempBuffer.length() > 10) {
-        	params.add(new BasicNameValuePair("csrfmiddlewaretoken", tempBuffer.substring(10)));
-        }
-        Log.d(TAG, "auth toke: "+authtoken);
-        */
+
         if (serverSyncState > 0) {
             params.add(new BasicNameValuePair(PARAM_SYNC_STATE, Long.toString(serverSyncState)));
         }
@@ -621,16 +472,7 @@ final public class NetworkUtilities {
         params.add(new BasicNameValuePair(PARAM_USERNAME, account.name));
         //params.add(new BasicNameValuePair(PARAM_AUTH_TOKEN, authtoken));
         params.add(new BasicNameValuePair(PARAM_RECORDS_DATA, buffer.toString()));
-        /*
-        String tempBuffer = null;
-        if(authtoken.split(";").length > 1) {
-        	tempBuffer = authtoken.split(";")[1];
-        }
-        if(tempBuffer.length() > 10) {
-        	params.add(new BasicNameValuePair("csrfmiddlewaretoken", tempBuffer.substring(10)));
-        }
-        Log.d(TAG, "auth toke: "+authtoken);
-        */
+
         if (serverSyncState > 0) {
             params.add(new BasicNameValuePair(PARAM_SYNC_STATE, Long.toString(serverSyncState)));
         }
@@ -674,14 +516,6 @@ final public class NetworkUtilities {
     public static void syncPhoto(String imagePath) {
     	
     	Log.d(TAG,"Sync photo to Server");
-    	/*
-    	HttpRequest request = HttpRequest.post(SYNC_PHOTO_URI);
-    	request.part("body", "Making a multipart request");
-    	request.part("image", new File(imagePath));
-    	
-    	if (request.ok())
-    	  Log.d(TAG,"Status was updated");
-    	*/
     	
 		String fileKey = "image";
 		UploadUtil uploadUtil = UploadUtil.getInstance();;
