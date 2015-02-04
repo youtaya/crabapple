@@ -195,10 +195,6 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 	        return dialog;
 		} catch (ParseException e) {
 			e.printStackTrace();
-		} catch (JSONException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
 		}
 		
 		return null;

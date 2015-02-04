@@ -302,49 +302,61 @@ final public class NetworkUtilities {
         return mItems;
     }
     
-    public static void shareRecord(RawDialog raw, String oring, String target) 
-            throws JSONException, ParseException, IOException {
-
-        JSONObject jsonRecord = raw.toJSONObject();
-        // Prepare our POST data
-        final ArrayList<NameValuePair> params = new ArrayList<NameValuePair>();
-        params.add(new BasicNameValuePair(PARAM_USERNAME, oring));
-        params.add(new BasicNameValuePair("records", jsonRecord.toString()));
-        params.add(new BasicNameValuePair("target", target));
+    private static Map<String, String> packedShareRecord(RawDialog raw, String oring, String target) {
+    	Map<String, String> params = new HashMap<String, String>();
+    	JSONObject jsonRecord = raw.toJSONObject();
+    	params.put(PARAM_USERNAME, oring);
+    	params.put("records", jsonRecord.toString());
+    	params.put("target", target);
+    	
+    	return params;
+    	
+    }
+    public static void shareRecord(RawDialog raw, String oring, String target) {
+    	
+    	try {
+    		HttpRequest request = HttpRequest.post(SHARE_RECORDS_URI);
+    		request.followRedirects(false);
+    		request.form(packedShareRecord(raw, oring, target));
+    		request.getConnection();
+    		int code = request.code();
+    		if(code == HttpStatus.SC_OK) {
+    			Log.d(TAG, "finish!!");
+    		}
+    	} catch (HttpRequestException exception) {
+    		Log.d(TAG, "exception : "+ exception.toString());
+    	}
         
-        HttpEntity entity = new UrlEncodedFormEntity(params, HTTP.UTF_8);
-        final HttpPost post = new HttpPost(SHARE_RECORDS_URI);
-        post.addHeader(entity.getContentType());
-        post.setEntity(entity);
-        final HttpResponse resp = getHttpClient().execute(post);
-        final String response = EntityUtils.toString(resp.getEntity());
-        if (resp.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
-            Log.d(TAG, "finish!!");
-        } 
     }
     
-    public static RawDialog getDialog(String username, int id) 
-            throws JSONException, ParseException, IOException {
+    private static Map<String, String> packedDialog(String username, int id) {
+    	Map<String, String> params = new HashMap<String, String>();
+    	params.put("username", username);
+    	params.put("id", String.valueOf(id));
+    	
+    	return params;
+    }
         
-        // Prepare our POST data
-        final ArrayList<NameValuePair> params = new ArrayList<NameValuePair>();
-        params.add(new BasicNameValuePair("username", username));
-        params.add(new BasicNameValuePair("id", String.valueOf(id)));
+    public static RawDialog getDialog(String username, int id) {
+    	try {
+    		HttpRequest request = HttpRequest.post(GET_DIALOGS_URI);
+    		request.followRedirects(false);
+    		request.form(packedDialog(username, id));
+    		request.getConnection();
+    		int code = request.code();
+    		if(code == HttpStatus.SC_OK) {
+    			final String response = request.body();
+    			Log.d(TAG, "dialog respone : " + response);
+    	        final JSONObject dialogItem = new JSONObject(response);
+                final RawDialog dialog = RawDialog.valueOf(dialogItem);
+                return dialog;
+    		}
+    	} catch (HttpRequestException exception) {
+    		Log.d(TAG, "exception : "+ exception.toString());
+    	} catch (JSONException e) {
+    		Log.d(TAG, "json exception : "+ e.toString());
+		}    
 
-        HttpEntity entity = new UrlEncodedFormEntity(params, HTTP.UTF_8);
-        final HttpPost post = new HttpPost(GET_DIALOGS_URI);
-        post.addHeader(entity.getContentType());
-
-        post.setEntity(entity);
-        final HttpResponse resp = getHttpClient().execute(post);
-        final String response = EntityUtils.toString(resp.getEntity());
-        Log.d(TAG, "dialog respone : " + response);
-        if (resp.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
-            final JSONObject dialogItem = new JSONObject(response);
-            final RawDialog dialog = RawDialog.valueOf(dialogItem);
-            return dialog;
-        } 
-        
         return null;
     }
     
