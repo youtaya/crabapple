@@ -24,22 +24,7 @@ import android.util.Log;
 
 import com.talk.demo.util.HttpRequest.HttpRequestException;
 
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
-import org.apache.http.NameValuePair;
-import org.apache.http.ParseException;
-import org.apache.http.auth.AuthenticationException;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.conn.params.ConnManagerParams;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.message.BasicNameValuePair;
-import org.apache.http.params.HttpConnectionParams;
-import org.apache.http.params.HttpParams;
-import org.apache.http.protocol.HTTP;
-import org.apache.http.util.EntityUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -61,133 +46,15 @@ import java.util.Map;
 final public class NetworkUtilities {
     /** The tag used to log to adb console. */
     private static final String TAG = "NetworkUtilities";
-    /** POST parameter name for the user's account name */
-    public static final String PARAM_USERNAME = "username";
-    /** POST parameter name for the user's password */
-    public static final String PARAM_PASSWORD = "password";
-    /** POST parameter name for the user's authentication token */
-    public static final String PARAM_AUTH_TOKEN = "authtoken";
-    /** POST parameter name for the crsf token */
-    public static final String PARAM_CSRF_TOKEN = "csrftoken";    
-    /** POST parameter name for the client's last-known sync state */
-    public static final String PARAM_SYNC_STATE = "syncstate";
-    /** POST parameter name for the sending client-edited contact info */
-    public static final String PARAM_RECORDS_DATA = "records";
-    /** Timeout (in ms) we specify for each http request */
-    public static final int HTTP_REQUEST_TIMEOUT_MS = 30 * 1000;
-    /** Base URL for the v2 Sample Sync Service */
-    //public static final String BASE_URL = "http://114.215.208.170/";
-    public static final String BASE_URL = "http://192.168.1.104/";
-    /** URI for authentication service */
-    public static final String AUTH_URI = BASE_URL + "users/login/";
-    public static final String SIGNUP_URI = BASE_URL + "users/signup/";
-    public static final String SYNC_NEWS_URI = BASE_URL + "news/today/";
-    public static final String RECOMMEND_FRIENDS_URI = BASE_URL + "friends/recommend";
-    public static final String SYNC_FRIENDS_URI = BASE_URL + "friends/sync_friend/";
-    /** URI for sync service */
-    public static final String SYNC_RECORDS_URI = BASE_URL + "times/sync/";
-    public static final String VISIT_RECORDS_URI = BASE_URL + "times/visit/";
-    /** URI for dialog share */
-    public static final String SHARE_RECORDS_URI = BASE_URL + "dialogs/share/";
-    public static final String GET_DIALOGS_URI = BASE_URL + "dialogs/getdialog/";
-    
-    public static final String SYNC_PHOTO_URI = BASE_URL + "times/photo/";
-    public static final String DOWNLOAD_PHOTO_URI = BASE_URL + "times/photoView/";
-    
+
     private NetworkUtilities() {
     }
 
-    /**
-     * Configures the httpClient to connect to the URL provided.
-     */
-    public static HttpClient getHttpClient() {
-        HttpClient httpClient = new DefaultHttpClient();
-        final HttpParams params = httpClient.getParams();
-        HttpConnectionParams.setConnectionTimeout(params, HTTP_REQUEST_TIMEOUT_MS);
-        HttpConnectionParams.setSoTimeout(params, HTTP_REQUEST_TIMEOUT_MS);
-        ConnManagerParams.setTimeout(params, HTTP_REQUEST_TIMEOUT_MS);
-        return httpClient;
-    }
-
-    /**
-     * Connects to the SampleSync test server, authenticates the provided
-     * username and password.
-     *
-     * @param username The server account username
-     * @param password The server account password
-     * @return String The authentication token returned by the server (or null)
-     */
-    /*
-    public static String authenticate(String username, String password) {
-
-        final HttpResponse resp;
-        final ArrayList<NameValuePair> params = new ArrayList<NameValuePair>();
-        params.add(new BasicNameValuePair(PARAM_USERNAME, username));
-        params.add(new BasicNameValuePair(PARAM_PASSWORD, password));
-        final HttpEntity entity;
-        try {
-            entity = new UrlEncodedFormEntity(params);
-        } catch (final UnsupportedEncodingException e) {
-            // this should never happen.
-            throw new IllegalStateException(e);
-        }
-        Log.i(TAG, "Authenticating to: " + AUTH_URI);
-        final HttpPost post = new HttpPost(AUTH_URI);
-        post.addHeader(entity.getContentType());
-        post.setEntity(entity);
-        try {
-            resp = getHttpClient().execute(post);
-            String authToken = null;
-            if (resp.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
-                InputStream istream = (resp.getEntity() != null) ? resp.getEntity().getContent()
-                        : null;
-                if (istream != null) {
-                    BufferedReader ireader = new BufferedReader(new InputStreamReader(istream));
-                    authToken = ireader.readLine().trim();
-                }
-            }
-            if ((authToken != null) && (authToken.length() > 0)) {
-                Log.v(TAG, "Successful authentication");
-                return authToken;
-            } else {
-                Log.e(TAG, "Error authenticating" + resp.getStatusLine());
-                return null;
-            }
-        } catch (final IOException e) {
-            Log.e(TAG, "IOException when getting authtoken", e);
-            return null;
-        } finally {
-            Log.v(TAG, "getAuthtoken completing");
-        }
-    }
-    */
-    
-    private static Map<String, String> packedData(String username, String email, String password) {
-        String name = username;
-        String mail = email;
-        String passwd = password;
-        Map<String, String> data = new HashMap<String, String>();
-        data.put("username", name);
-        data.put("password", passwd);
-        data.put("password_confirm",passwd);
-        
-        return data;
-    }
-    
-    private static Map<String, String> packedData(String username,String password) {
-        String name = username;
-        String passwd = password;
-        Map<String, String> data = new HashMap<String, String>();
-        data.put("username", name);
-        data.put("password", passwd);
-        
-        return data;
-    }
     
     public static String signup(String username, String email, String password) {
         
     	try {
-			HttpRequest request = HttpRequest.post(SIGNUP_URI);
+			HttpRequest request = HttpRequest.post(ServerInterface.SIGNUP_URI);
 			// X-CSRFToken
 			Map<String, String> headers = new HashMap<String, String>();
 			headers.put("Content-Type", "text/html");
@@ -195,7 +62,7 @@ final public class NetworkUtilities {
 			//Log.d(TAG, "our cookie: " + csrfToken);
 			request.headers(headers);
 			//request.followRedirects(false);
-			HttpRequest conn4Session = request.form(packedData(username, email, password));
+			HttpRequest conn4Session = request.form(PackedFormData.packedData(username, email, password));
 			conn4Session.code();
 			HttpURLConnection sessionConnection = conn4Session.getConnection();
 			try {
@@ -220,14 +87,14 @@ final public class NetworkUtilities {
     
     public static String authenticate(String username, String password) {
 		try {
-			HttpRequest request = HttpRequest.post(AUTH_URI);
+			HttpRequest request = HttpRequest.post(ServerInterface.AUTH_URI);
 			
 			Map<String, String> headers = new HashMap<String, String>();
 			headers.put("Content-Type", "text/html");
 
 			request.headers(headers);
 			request.followRedirects(false);
-			HttpRequest conn4Session = request.form(packedData(username, password));
+			HttpRequest conn4Session = request.form(PackedFormData.packedData(username, password));
 			conn4Session.code();
 			HttpURLConnection sessionConnection = conn4Session.getConnection();
 			try {
@@ -255,7 +122,7 @@ final public class NetworkUtilities {
     	DailyNews mItems = new DailyNews();
         try {
             
-            HttpRequest request = HttpRequest.get(SYNC_NEWS_URI);
+            HttpRequest request = HttpRequest.get(ServerInterface.SYNC_NEWS_URI);
             request.followRedirects(false);
             String response = request.body();
             int result = request.code();
@@ -280,7 +147,7 @@ final public class NetworkUtilities {
         List<String> mItems = new LinkedList<String>();
         try {
             
-            HttpRequest request = HttpRequest.get(RECOMMEND_FRIENDS_URI);
+            HttpRequest request = HttpRequest.get(ServerInterface.RECOMMEND_FRIENDS_URI);
             //request.followRedirects(false);
             String response = request.body();
             int result = request.code();
@@ -302,22 +169,13 @@ final public class NetworkUtilities {
         return mItems;
     }
     
-    private static Map<String, String> packedShareRecord(RawDialog raw, String oring, String target) {
-    	Map<String, String> params = new HashMap<String, String>();
-    	JSONObject jsonRecord = raw.toJSONObject();
-    	params.put(PARAM_USERNAME, oring);
-    	params.put("records", jsonRecord.toString());
-    	params.put("target", target);
-    	
-    	return params;
-    	
-    }
+
     public static void shareRecord(RawDialog raw, String oring, String target) {
     	
     	try {
-    		HttpRequest request = HttpRequest.post(SHARE_RECORDS_URI);
+    		HttpRequest request = HttpRequest.post(ServerInterface.SHARE_RECORDS_URI);
     		request.followRedirects(false);
-    		request.form(packedShareRecord(raw, oring, target));
+    		request.form(PackedFormData.packedShareRecord(raw, oring, target));
     		request.getConnection();
     		int code = request.code();
     		if(code == HttpStatus.SC_OK) {
@@ -329,19 +187,13 @@ final public class NetworkUtilities {
         
     }
     
-    private static Map<String, String> packedDialog(String username, int id) {
-    	Map<String, String> params = new HashMap<String, String>();
-    	params.put("username", username);
-    	params.put("id", String.valueOf(id));
-    	
-    	return params;
-    }
+
         
     public static RawDialog getDialog(String username, int id) {
     	try {
-    		HttpRequest request = HttpRequest.post(GET_DIALOGS_URI);
+    		HttpRequest request = HttpRequest.post(ServerInterface.GET_DIALOGS_URI);
     		request.followRedirects(false);
-    		request.form(packedDialog(username, id));
+    		request.form(PackedFormData.packedDialog(username, id));
     		request.getConnection();
     		int code = request.code();
     		if(code == HttpStatus.SC_OK) {
@@ -360,34 +212,39 @@ final public class NetworkUtilities {
         return null;
     }
     
-    public static List<RawRecord> updateChannel(String friend, String last_date)
-            throws JSONException, ParseException, IOException {
 
-        // Prepare our POST data
-        final ArrayList<NameValuePair> params = new ArrayList<NameValuePair>();
-        params.add(new BasicNameValuePair("friend", friend));
-        params.add(new BasicNameValuePair("last_date", last_date));
-
-        HttpEntity entity = new UrlEncodedFormEntity(params, HTTP.UTF_8);
-        final HttpPost post = new HttpPost(VISIT_RECORDS_URI);
-        post.addHeader(entity.getContentType());
-
-        post.setEntity(entity);
-        final HttpResponse resp = getHttpClient().execute(post);
-        final String response = EntityUtils.toString(resp.getEntity());
-        Log.d(TAG, "dialog respone : " + response);
+    
+    public static List<RawRecord> updateChannel(String friend, String last_date) {
+        
         final List<RawRecord> records = new LinkedList<RawRecord>();
-        if (resp.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
-            final JSONArray jsonRecords = new JSONArray(response);
-            for (int i = 0; i < jsonRecords.length(); i++) {
-                RawRecord rawRecord = RawRecord.valueOf(jsonRecords.getJSONObject(i));
-                records.add(rawRecord);
+        
+        try {
+            HttpRequest request = HttpRequest.post(ServerInterface.VISIT_RECORDS_URI);
+            request.followRedirects(false);
+            request.form(PackedFormData.packedUpdateChannel(friend, last_date));
+            request.getConnection();
+            int code = request.code();
+            if(code == HttpStatus.SC_OK) {
+                final String response = request.body();
+                Log.d(TAG, "get records respone : " + response);
+                final JSONArray jsonRecords = new JSONArray(response);
+                for (int i = 0; i < jsonRecords.length(); i++) {
+                    RawRecord rawRecord = RawRecord.valueOf(jsonRecords.getJSONObject(i));
+                    records.add(rawRecord);
+                }
+                return records;
             }
-            return records;
-        }
+        } catch (HttpRequestException exception) {
+            Log.d(TAG, "exception : "+ exception.toString());
+        } catch (JSONException e) {
+            Log.d(TAG, "json exception : "+ e.toString());
+        }    
 
         return null;
     }
+    
+
+    
     /**
      * Perform 2-way sync with the server-side contacts. We send a request that
      * includes all the locally-dirty contacts so that the server can process
@@ -402,125 +259,86 @@ final public class NetworkUtilities {
      * @return A list of contacts that we need to update locally
      */
     public static List<RawRecord> syncRecords(
-            Account account, String authtoken, long serverSyncState, List<RawRecord> dirtyRecords)
-            throws JSONException, ParseException, IOException, AuthenticationException {
-        // Convert our list of User objects into a list of JSONObject
-        List<JSONObject> jsonRecords = new ArrayList<JSONObject>();
-        for (RawRecord rawRecord : dirtyRecords) {
-        	jsonRecords.add(rawRecord.toJSONObject());
-        }
-
-        // Create a special JSONArray of our JSON contacts
-        JSONArray buffer = new JSONArray(jsonRecords);
+            Account account, String authtoken, long serverSyncState, List<RawRecord> dirtyRecords) {
 
         // Create an array that will hold the server-side records
         // that have been changed (returned by the server).
         final ArrayList<RawRecord> serverDirtyList = new ArrayList<RawRecord>();
+        
+        try {
+            // Send the updated friends data to the server
+            HttpRequest request = HttpRequest.post(ServerInterface.SYNC_RECORDS_URI);
+            request.followRedirects(false);
+            request.form(PackedFormData.packedSyncRecords(account, authtoken, serverSyncState, dirtyRecords));
+            request.getConnection();
+            int code = request.code();
+            if(code == HttpStatus.SC_OK) {
+                final String response = request.body();
+                Log.d(TAG, "get records respone : " + response);
+                // Our request to the server was successful - so we assume
+                // that they accepted all the changes we sent up, and
+                // that the response includes the contacts that we need
+                // to update on our side...
+                final JSONArray serverRecords = new JSONArray(response);
+                Log.d(TAG, serverRecords.toString());
+                for (int i = 0; i < serverRecords.length(); i++) {
+                    RawRecord rawRecord = RawRecord.valueOf(serverRecords.getJSONObject(i));
+                    if (rawRecord != null) {
+                        serverDirtyList.add(rawRecord);
+                    }
+                }
 
-        // Prepare our POST data
-        final ArrayList<NameValuePair> params = new ArrayList<NameValuePair>();
-        params.add(new BasicNameValuePair(PARAM_USERNAME, account.name));
-        //params.add(new BasicNameValuePair(PARAM_AUTH_TOKEN, authtoken));
-        params.add(new BasicNameValuePair(PARAM_RECORDS_DATA, buffer.toString()));
-
-        if (serverSyncState > 0) {
-            params.add(new BasicNameValuePair(PARAM_SYNC_STATE, Long.toString(serverSyncState)));
-        }
-        Log.i(TAG, params.toString());
-        HttpEntity entity = new UrlEncodedFormEntity(params, HTTP.UTF_8);
-
-        // Send the updated friends data to the server
-        Log.i(TAG, "Syncing to: " + SYNC_RECORDS_URI);
-        final HttpPost post = new HttpPost(SYNC_RECORDS_URI);
-        post.addHeader(entity.getContentType());
-        post.addHeader("Cookie", authtoken);
-        post.setEntity(entity);
-        final HttpResponse resp = getHttpClient().execute(post);
-        final String response = EntityUtils.toString(resp.getEntity());
-        if (resp.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
-            // Our request to the server was successful - so we assume
-            // that they accepted all the changes we sent up, and
-            // that the response includes the contacts that we need
-            // to update on our side...
-            final JSONArray serverRecords = new JSONArray(response);
-            Log.d(TAG, serverRecords.toString());
-            for (int i = 0; i < serverRecords.length(); i++) {
-            	RawRecord rawRecord = RawRecord.valueOf(serverRecords.getJSONObject(i));
-                if (rawRecord != null) {
-                    serverDirtyList.add(rawRecord);
+            } else {
+                if (code == HttpStatus.SC_UNAUTHORIZED) {
+                    Log.e(TAG, "Authentication exception in sending dirty contacts");
+                } else {
+                    Log.e(TAG, "Server error in sending dirty contacts: " + code);
                 }
             }
-        } else {
-            if (resp.getStatusLine().getStatusCode() == HttpStatus.SC_UNAUTHORIZED) {
-                Log.e(TAG, "Authentication exception in sending dirty contacts");
-                throw new AuthenticationException();
-            } else {
-                Log.e(TAG, "Server error in sending dirty contacts: " + resp.getStatusLine());
-                throw new IOException();
-            }
-        }
+        } catch (HttpRequestException exception) {
+            Log.d(TAG, "exception : "+ exception.toString());
+        } catch (JSONException e) {
+            Log.d(TAG, "json exception : "+ e.toString());
+        }    
 
         return serverDirtyList;
+
     }
 
     public static List<RawFriend> syncFriends(
-            Account account, String authtoken, long serverSyncState, List<RawFriend> dirtyFriends)
-            throws JSONException, ParseException, IOException, AuthenticationException {
-        // Convert our list of User objects into a list of JSONObject
-        List<JSONObject> jsonRecords = new ArrayList<JSONObject>();
-        for (RawFriend rawFriend : dirtyFriends) {
-            jsonRecords.add(rawFriend.toJSONObject());
-        }
-
-        // Create a special JSONArray of our JSON contacts
-        JSONArray buffer = new JSONArray(jsonRecords);
-
-        // Create an array that will hold the server-side records
-        // that have been changed (returned by the server).
+            Account account, String authtoken, long serverSyncState, List<RawFriend> dirtyFriends) {
         final ArrayList<RawFriend> serverDirtyList = new ArrayList<RawFriend>();
-
-        // Prepare our POST data
-        final ArrayList<NameValuePair> params = new ArrayList<NameValuePair>();
-        params.add(new BasicNameValuePair(PARAM_USERNAME, account.name));
-        //params.add(new BasicNameValuePair(PARAM_AUTH_TOKEN, authtoken));
-        params.add(new BasicNameValuePair(PARAM_RECORDS_DATA, buffer.toString()));
-
-        if (serverSyncState > 0) {
-            params.add(new BasicNameValuePair(PARAM_SYNC_STATE, Long.toString(serverSyncState)));
-        }
-        Log.i(TAG, params.toString());
-        HttpEntity entity = new UrlEncodedFormEntity(params, HTTP.UTF_8);
-
-        // Send the updated friends data to the server
-        Log.i(TAG, "Syncing to: " + SYNC_FRIENDS_URI);
-        final HttpPost post = new HttpPost(SYNC_FRIENDS_URI);
-        post.addHeader(entity.getContentType());
-        post.addHeader("Cookie", authtoken);
-        post.setEntity(entity);
-        final HttpResponse resp = getHttpClient().execute(post);
-        final String response = EntityUtils.toString(resp.getEntity());
-        if (resp.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
-            // Our request to the server was successful - so we assume
-            // that they accepted all the changes we sent up, and
-            // that the response includes the contacts that we need
-            // to update on our side...
-            final JSONArray serverRecords = new JSONArray(response);
-            Log.d(TAG, serverRecords.toString());
-            for (int i = 0; i < serverRecords.length(); i++) {
-                RawFriend rawRecord = RawFriend.valueOf(serverRecords.getJSONObject(i));
-                if (rawRecord != null) {
-                    serverDirtyList.add(rawRecord);
+        try {
+            // Send the updated friends data to the server
+            HttpRequest request = HttpRequest.post(ServerInterface.SYNC_FRIENDS_URI);
+            request.followRedirects(false);
+            request.form(PackedFormData.packedSyncFriends(account, authtoken, serverSyncState, dirtyFriends));
+            request.getConnection();
+            int code = request.code();
+            if(code == HttpStatus.SC_OK) {
+                final String response = request.body();
+                Log.d(TAG, "get records respone : " + response);
+                final JSONArray serverRecords = new JSONArray(response);
+                Log.d(TAG, serverRecords.toString());
+                for (int i = 0; i < serverRecords.length(); i++) {
+                    RawFriend rawRecord = RawFriend.valueOf(serverRecords.getJSONObject(i));
+                    if (rawRecord != null) {
+                        serverDirtyList.add(rawRecord);
+                    }
+                }
+            } else {
+                if (code == HttpStatus.SC_UNAUTHORIZED) {
+                    Log.e(TAG, "Authentication exception in sending dirty contacts");
+                } else {
+                    Log.e(TAG, "Server error in sending dirty contacts: " + code);
                 }
             }
-        } else {
-            if (resp.getStatusLine().getStatusCode() == HttpStatus.SC_UNAUTHORIZED) {
-                Log.e(TAG, "Authentication exception in sending dirty contacts");
-                throw new AuthenticationException();
-            } else {
-                Log.e(TAG, "Server error in sending dirty friends: " + resp.getStatusLine());
-                throw new IOException();
-            }
-        }
+        } catch (HttpRequestException exception) {
+            Log.d(TAG, "exception : "+ exception.toString());
+        } catch (JSONException e) {
+            Log.d(TAG, "json exception : "+ e.toString());
+        }    
+    
 
         return serverDirtyList;
     }
@@ -532,7 +350,7 @@ final public class NetworkUtilities {
 		String fileKey = "image";
 		UploadUtil uploadUtil = UploadUtil.getInstance();;
 		
-		uploadUtil.uploadFile(imagePath,fileKey, SYNC_PHOTO_URI);
+		uploadUtil.uploadFile(imagePath,fileKey, ServerInterface.SYNC_PHOTO_URI);
 	}
 
     public static void downloadPhoto(final String photoName) {
@@ -542,10 +360,10 @@ final public class NetworkUtilities {
         }
 
         try {
-            Log.i(TAG, "Downloading photo: " + DOWNLOAD_PHOTO_URI);
+            Log.i(TAG, "Downloading photo: " + ServerInterface.DOWNLOAD_PHOTO_URI);
             // Request the photo from the server, and create a bitmap
             // object from the stream we get back.
-            URL url = new URL(DOWNLOAD_PHOTO_URI+photoName+"/");
+            URL url = new URL(ServerInterface.DOWNLOAD_PHOTO_URI+photoName+"/");
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.connect();
             try {
@@ -562,11 +380,11 @@ final public class NetworkUtilities {
             }
         } catch (MalformedURLException muex) {
             // A bad URL - nothing we can really do about it here...
-            Log.e(TAG, "Malformed avatar URL: " + DOWNLOAD_PHOTO_URI);
+            Log.e(TAG, "Malformed avatar URL: " + ServerInterface.DOWNLOAD_PHOTO_URI);
         } catch (IOException ioex) {
             // If we're unable to download the avatar, it's a bummer but not the
             // end of the world. We'll try to get it next time we sync.
-            Log.e(TAG, "Failed to download user avatar: " + DOWNLOAD_PHOTO_URI);
+            Log.e(TAG, "Failed to download user avatar: " + ServerInterface.DOWNLOAD_PHOTO_URI);
         }
     }
     /**
