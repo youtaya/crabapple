@@ -22,6 +22,8 @@ import android.graphics.BitmapFactory;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.talk.demo.parser.FriendParser;
+import com.talk.demo.parser.ResParser;
 import com.talk.demo.util.HttpRequest.HttpRequestException;
 
 import org.apache.http.HttpStatus;
@@ -50,6 +52,25 @@ final public class NetworkUtilities {
     private NetworkUtilities() {
     }
 
+    public static HttpRequest createPost(String url, Map<String, String> formData) {
+        HttpRequest request = HttpRequest.post(url);
+        Map<String, String> headers = new HashMap<String, String>();
+        headers.put("Content-Type", "text/html");
+        request.headers(headers);
+        request.form(formData);
+        
+        return request;
+    }
+    public static RawData executePost(HttpRequest request, ResParser parser) {
+        int result = request.code();
+        String response = request.body();
+        return parser.parser(response);
+    }
+    
+    public static RawFriend addFriend(String username, String email, String password) throws HttpRequestException {
+        HttpRequest request = createPost(ServerInterface.SIGNUP_URI, PackedFormData.packedData(username, email, password));
+        return (RawFriend)executePost(request,new FriendParser());
+    }
     
     public static String signup(String username, String email, String password) {
         
