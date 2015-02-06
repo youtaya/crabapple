@@ -16,6 +16,23 @@
 
 package com.talk.demo.util;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+
+import org.apache.http.HttpStatus;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.accounts.Account;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -24,23 +41,9 @@ import android.util.Log;
 
 import com.talk.demo.parser.FriendParser;
 import com.talk.demo.parser.ResParser;
+import com.talk.demo.types.Friend;
+import com.talk.demo.types.TalkType;
 import com.talk.demo.util.HttpRequest.HttpRequestException;
-
-import org.apache.http.HttpStatus;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
 
 /**
  * Provides utility methods for communicating with the server.
@@ -61,15 +64,68 @@ final public class NetworkUtilities {
         
         return request;
     }
-    public static RawData executePost(HttpRequest request, ResParser parser) {
-        int result = request.code();
-        String response = request.body();
-        return parser.parser(response);
+    
+    public static TalkType executePost(HttpRequest request, ResParser<? extends TalkType> parser) 
+    		throws JSONException {
+        int statusCode = request.code();
+        switch (statusCode) {
+        case 200:
+        	String response = request.body();
+        	return consume(parser, response);
+        case 400:
+        	Log.d(TAG, "HTTP Code: 400");
+        	break;
+        case 401:
+        	Log.d(TAG, "HTTP Code: 400");
+        	break;  
+        case 404:
+        	Log.d(TAG, "HTTP Code: 404");
+        	break;     
+        case 500:
+        	Log.d(TAG, "HTTP Code: 500");
+        	break;     
+        default:
+        	Log.d(TAG, "Default case");
+        	break;     
+        }
+        
+        return null;
+
     }
     
-    public static RawFriend addFriend(String username, String email, String password) throws HttpRequestException {
+    public static TalkType consume(ResParser<? extends TalkType> parser, String content)
+    		throws JSONException {
+        try {
+        	JSONObject json = new JSONObject(content);
+        	Iterator<String> it = (Iterator<String>)json.keys();
+        	
+        	if(it.hasNext()) {
+        		String key = (String)it.next();
+        		if(key.equals("error")) {
+        			Log.d(TAG, "error is: "+json.getString(key));
+        		} else {
+        			Object obj = json.get(key);
+        			
+        			if(obj instanceof JSONArray) {
+        				return (TalkType) parser.parse((JSONArray)obj);
+        			} else {
+        				return parser.parse((JSONObject)obj);
+        			}
+        		}
+        	} else {
+        		throw new JSONException("Error parsing JSON response, object had no single child key.");
+        	}
+        } catch (JSONException ex) {
+        	throw new JSONException("Error parsing JSON response: "+ ex.getMessage());
+        }
+        
+        return null; 	
+    }
+    
+    public static Friend addFriend(String username, String email, String password)
+    		throws HttpRequestException, JSONException {
         HttpRequest request = createPost(ServerInterface.SIGNUP_URI, PackedFormData.packedData(username, email, password));
-        return (RawFriend)executePost(request,new FriendParser());
+        return (Friend)executePost(request,new FriendParser());
     }
     
     public static String signup(String username, String email, String password) {

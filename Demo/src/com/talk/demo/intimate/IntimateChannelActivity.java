@@ -78,13 +78,7 @@ public class IntimateChannelActivity extends Activity {
             try {
                 getDataList = NetworkUtilities.updateChannel(params[0],params[1]);
                 
-            } catch (JSONException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
             } catch (ParseException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            } catch (IOException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }

@@ -10,14 +10,17 @@ public class FriendParser extends AbstractResParser<Friend> {
     @Override
     public Friend parse(JSONObject json) throws JSONException {
         Friend obj = new Friend();
-        if (json.has("cityid")) {
-            obj.setCityid(json.getString("cityid"));
+        if (json.has("u")) {
+            obj.setUsername(json.getString("u"));
         } 
-        if (json.has("message")) {
-            obj.setMessage(json.getString("message"));
+        if (json.has("p")) {
+            obj.setPhoneMobile(json.getString("p"));
         } 
-        if (json.has("status")) {
-            obj.setStatus("1".equals(json.getString("status")));
+        if (json.has("a")) {
+            obj.setAvatar(json.getString("a"));
+        }
+        if (json.has("d")) {
+        	obj.setDescription(json.getString("d"));
         }
         
         return obj;

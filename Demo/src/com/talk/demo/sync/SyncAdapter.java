@@ -85,14 +85,8 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter  {
         } catch (final IOException e) {
             Log.e(TAG, "IOException", e);
             syncResult.stats.numIoExceptions++;
-        } catch (final AuthenticationException e) {
-            Log.e(TAG, "AuthenticationException", e);
-            syncResult.stats.numAuthExceptions++;
         } catch (final ParseException e) {
             Log.e(TAG, "ParseException", e);
-            syncResult.stats.numParseExceptions++;
-        } catch (final JSONException e) {
-            Log.e(TAG, "JSONException", e);
             syncResult.stats.numParseExceptions++;
         }
 	}
