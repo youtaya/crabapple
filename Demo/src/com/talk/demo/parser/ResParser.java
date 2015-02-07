@@ -1,12 +1,12 @@
 package com.talk.demo.parser;
 
-import com.talk.demo.types.TalkType;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.security.acl.Group;
+import com.talk.demo.types.Group;
+import com.talk.demo.types.TalkType;
+
 
 public interface ResParser<T extends TalkType> {
     public abstract T parse(JSONObject json) throws JSONException;

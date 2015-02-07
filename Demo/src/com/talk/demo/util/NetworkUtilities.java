@@ -51,7 +51,44 @@ import com.talk.demo.util.HttpRequest.HttpRequestException;
 final public class NetworkUtilities {
     /** The tag used to log to adb console. */
     private static final String TAG = "NetworkUtilities";
+    /** POST parameter name for the user's account name */
+    public static final String PARAM_USERNAME = "username";
+    /** POST parameter name for the user's password */
+    public static final String PARAM_PASSWORD = "password";
+    /** POST parameter name for the user's authentication token */
+    public static final String PARAM_AUTH_TOKEN = "authtoken";
+    /** POST parameter name for the crsf token */
+    public static final String PARAM_CSRF_TOKEN = "csrftoken";    
+    /** POST parameter name for the client's last-known sync state */
+    public static final String PARAM_SYNC_STATE = "syncstate";
+    /** POST parameter name for the sending client-edited contact info */
+    public static final String PARAM_RECORDS_DATA = "records";
 
+    /** Base URL for the v2 Sample Sync Service */
+    //public static final String BASE_URL = "http://114.215.208.170/";
+    public static final String BASE_URL = "http://192.168.1.104/";
+    /** URI for authentication service */
+    public static final String AUTH_URI = BASE_URL + "users/login/";
+    public static final String SIGNUP_URI = BASE_URL + "users/signup/";
+    public static final String SEARCH_PEOPLE_URI = BASE_URL + "users/search_people/";
+    /** URI for friend service */
+    public static final String RECOMMEND_FRIENDS_URI = BASE_URL + "friends/recommend";
+    public static final String SYNC_FRIENDS_URI = BASE_URL + "friends/sync_friend/";
+    public static final String ADD_FRIENDS_URI = BASE_URL + "friends/add_friend/";
+    public static final String ACCEPT_FRIENDS_URI = BASE_URL + "friends/accept_friend/";
+    public static final String UPDATE_FRIENDS_URI = BASE_URL + "friends/update_friend/";
+    /** URI for sync service */
+    public static final String SYNC_RECORDS_URI = BASE_URL + "times/sync/";
+    public static final String VISIT_RECORDS_URI = BASE_URL + "times/visit/";
+    /** URI for dialog share */
+    public static final String SHARE_RECORDS_URI = BASE_URL + "dialogs/share/";
+    public static final String GET_DIALOGS_URI = BASE_URL + "dialogs/getdialog/";
+    /** URI for news service */
+    public static final String SYNC_NEWS_URI = BASE_URL + "news/today/";
+    
+    public static final String SYNC_PHOTO_URI = BASE_URL + "times/photo/";
+    public static final String DOWNLOAD_PHOTO_URI = BASE_URL + "times/photoView/";
+    
     private NetworkUtilities() {
     }
 
@@ -107,9 +144,9 @@ final public class NetworkUtilities {
         			Object obj = json.get(key);
         			
         			if(obj instanceof JSONArray) {
-        				return (TalkType) parser.parse((JSONArray)obj);
+        				return parser.parse((JSONArray)obj);
         			} else {
-        				return parser.parse((JSONObject)obj);
+        				return parser.parse(json);
         			}
         		}
         	} else {
@@ -122,16 +159,28 @@ final public class NetworkUtilities {
         return null; 	
     }
     
-    public static Friend addFriend(String username, String email, String password)
+    public static Friend addFriend(String username, String friend)
     		throws HttpRequestException, JSONException {
-        HttpRequest request = createPost(ServerInterface.SIGNUP_URI, PackedFormData.packedData(username, email, password));
+        HttpRequest request = createPost(ADD_FRIENDS_URI, PackedFormData.addFriend(username, friend));
+        return (Friend)executePost(request,new FriendParser());
+    }
+    
+    public static Friend acceptFriend(String username, boolean response, String friend)
+    		throws HttpRequestException, JSONException {
+        HttpRequest request = createPost(ACCEPT_FRIENDS_URI, PackedFormData.acceptFriend(username, response, friend));
+        return (Friend)executePost(request,new FriendParser());
+    }
+    
+    public static Friend updateFriend(String username, String comment, String description, String friend)
+    		throws HttpRequestException, JSONException {
+        HttpRequest request = createPost(UPDATE_FRIENDS_URI, PackedFormData.updateFriend(username, comment, description, friend));
         return (Friend)executePost(request,new FriendParser());
     }
     
     public static String signup(String username, String email, String password) {
         
     	try {
-			HttpRequest request = HttpRequest.post(ServerInterface.SIGNUP_URI);
+			HttpRequest request = HttpRequest.post(SIGNUP_URI);
 			// X-CSRFToken
 			Map<String, String> headers = new HashMap<String, String>();
 			headers.put("Content-Type", "text/html");
@@ -139,7 +188,7 @@ final public class NetworkUtilities {
 			//Log.d(TAG, "our cookie: " + csrfToken);
 			request.headers(headers);
 			//request.followRedirects(false);
-			HttpRequest conn4Session = request.form(PackedFormData.packedData(username, email, password));
+			HttpRequest conn4Session = request.form(PackedFormData.signup(username, email, password));
 			conn4Session.code();
 			HttpURLConnection sessionConnection = conn4Session.getConnection();
 			try {
@@ -164,14 +213,14 @@ final public class NetworkUtilities {
     
     public static String authenticate(String username, String password) {
 		try {
-			HttpRequest request = HttpRequest.post(ServerInterface.AUTH_URI);
+			HttpRequest request = HttpRequest.post(AUTH_URI);
 			
 			Map<String, String> headers = new HashMap<String, String>();
 			headers.put("Content-Type", "text/html");
 
 			request.headers(headers);
 			request.followRedirects(false);
-			HttpRequest conn4Session = request.form(PackedFormData.packedData(username, password));
+			HttpRequest conn4Session = request.form(PackedFormData.login(username, password));
 			conn4Session.code();
 			HttpURLConnection sessionConnection = conn4Session.getConnection();
 			try {
@@ -199,7 +248,7 @@ final public class NetworkUtilities {
     	DailyNews mItems = new DailyNews();
         try {
             
-            HttpRequest request = HttpRequest.get(ServerInterface.SYNC_NEWS_URI);
+            HttpRequest request = HttpRequest.get(SYNC_NEWS_URI);
             request.followRedirects(false);
             String response = request.body();
             int result = request.code();
@@ -224,7 +273,7 @@ final public class NetworkUtilities {
         List<String> mItems = new LinkedList<String>();
         try {
             
-            HttpRequest request = HttpRequest.get(ServerInterface.RECOMMEND_FRIENDS_URI);
+            HttpRequest request = HttpRequest.get(RECOMMEND_FRIENDS_URI);
             //request.followRedirects(false);
             String response = request.body();
             int result = request.code();
@@ -250,9 +299,9 @@ final public class NetworkUtilities {
     public static void shareRecord(RawDialog raw, String oring, String target) {
     	
     	try {
-    		HttpRequest request = HttpRequest.post(ServerInterface.SHARE_RECORDS_URI);
+    		HttpRequest request = HttpRequest.post(SHARE_RECORDS_URI);
     		request.followRedirects(false);
-    		request.form(PackedFormData.packedShareRecord(raw, oring, target));
+    		request.form(PackedFormData.shareRecord(raw, oring, target));
     		request.getConnection();
     		int code = request.code();
     		if(code == HttpStatus.SC_OK) {
@@ -268,9 +317,9 @@ final public class NetworkUtilities {
         
     public static RawDialog getDialog(String username, int id) {
     	try {
-    		HttpRequest request = HttpRequest.post(ServerInterface.GET_DIALOGS_URI);
+    		HttpRequest request = HttpRequest.post(GET_DIALOGS_URI);
     		request.followRedirects(false);
-    		request.form(PackedFormData.packedDialog(username, id));
+    		request.form(PackedFormData.getDialog(username, id));
     		request.getConnection();
     		int code = request.code();
     		if(code == HttpStatus.SC_OK) {
@@ -296,7 +345,7 @@ final public class NetworkUtilities {
         final List<RawRecord> records = new LinkedList<RawRecord>();
         
         try {
-            HttpRequest request = HttpRequest.post(ServerInterface.VISIT_RECORDS_URI);
+            HttpRequest request = HttpRequest.post(VISIT_RECORDS_URI);
             request.followRedirects(false);
             request.form(PackedFormData.packedUpdateChannel(friend, last_date));
             request.getConnection();
@@ -344,9 +393,9 @@ final public class NetworkUtilities {
         
         try {
             // Send the updated friends data to the server
-            HttpRequest request = HttpRequest.post(ServerInterface.SYNC_RECORDS_URI);
+            HttpRequest request = HttpRequest.post(SYNC_RECORDS_URI);
             request.followRedirects(false);
-            request.form(PackedFormData.packedSyncRecords(account, authtoken, serverSyncState, dirtyRecords));
+            request.form(PackedFormData.syncRecords(account, authtoken, serverSyncState, dirtyRecords));
             request.getConnection();
             int code = request.code();
             if(code == HttpStatus.SC_OK) {
@@ -387,9 +436,9 @@ final public class NetworkUtilities {
         final ArrayList<RawFriend> serverDirtyList = new ArrayList<RawFriend>();
         try {
             // Send the updated friends data to the server
-            HttpRequest request = HttpRequest.post(ServerInterface.SYNC_FRIENDS_URI);
+            HttpRequest request = HttpRequest.post(SYNC_FRIENDS_URI);
             request.followRedirects(false);
-            request.form(PackedFormData.packedSyncFriends(account, authtoken, serverSyncState, dirtyFriends));
+            request.form(PackedFormData.syncFriends(account, authtoken, serverSyncState, dirtyFriends));
             request.getConnection();
             int code = request.code();
             if(code == HttpStatus.SC_OK) {
@@ -427,7 +476,7 @@ final public class NetworkUtilities {
 		String fileKey = "image";
 		UploadUtil uploadUtil = UploadUtil.getInstance();;
 		
-		uploadUtil.uploadFile(imagePath,fileKey, ServerInterface.SYNC_PHOTO_URI);
+		uploadUtil.uploadFile(imagePath,fileKey, SYNC_PHOTO_URI);
 	}
 
     public static void downloadPhoto(final String photoName) {
@@ -437,10 +486,10 @@ final public class NetworkUtilities {
         }
 
         try {
-            Log.i(TAG, "Downloading photo: " + ServerInterface.DOWNLOAD_PHOTO_URI);
+            Log.i(TAG, "Downloading photo: " + DOWNLOAD_PHOTO_URI);
             // Request the photo from the server, and create a bitmap
             // object from the stream we get back.
-            URL url = new URL(ServerInterface.DOWNLOAD_PHOTO_URI+photoName+"/");
+            URL url = new URL(DOWNLOAD_PHOTO_URI+photoName+"/");
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.connect();
             try {
@@ -457,11 +506,11 @@ final public class NetworkUtilities {
             }
         } catch (MalformedURLException muex) {
             // A bad URL - nothing we can really do about it here...
-            Log.e(TAG, "Malformed avatar URL: " + ServerInterface.DOWNLOAD_PHOTO_URI);
+            Log.e(TAG, "Malformed avatar URL: " + DOWNLOAD_PHOTO_URI);
         } catch (IOException ioex) {
             // If we're unable to download the avatar, it's a bummer but not the
             // end of the world. We'll try to get it next time we sync.
-            Log.e(TAG, "Failed to download user avatar: " + ServerInterface.DOWNLOAD_PHOTO_URI);
+            Log.e(TAG, "Failed to download user avatar: " + DOWNLOAD_PHOTO_URI);
         }
     }
     /**
