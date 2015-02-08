@@ -70,7 +70,7 @@ final public class NetworkUtilities {
 
     /** Base URL for the v2 Sample Sync Service */
     //public static final String BASE_URL = "http://114.215.208.170/";
-    public static final String BASE_URL = "http://192.168.1.104/";
+    public static final String BASE_URL = "http://192.168.1.102/";
     /** URI for authentication service */
     public static final String AUTH_URI = BASE_URL + "users/login/";
     public static final String SIGNUP_URI = BASE_URL + "users/signup/";
@@ -259,31 +259,6 @@ final public class NetworkUtilities {
 	public static Group<News> todayNews() throws JSONException, HttpRequestException {
         HttpRequest request = createGet(SYNC_NEWS_URI);
         return (Group<News>)doHttpRequest(request,new GroupParser(new NewsParser()));
-    }
-    
-    public static DailyNews syncNews() throws JSONException {
-    	DailyNews mItems = new DailyNews();
-        try {
-            
-            HttpRequest request = HttpRequest.get(SYNC_NEWS_URI);
-            request.followRedirects(false);
-            String response = request.body();
-            int result = request.code();
-            Log.d(TAG,"Response was: " + response);
-            JSONObject content = new JSONObject(response);
-            JSONArray serverNews = content.getJSONArray("news");
-            Log.d(TAG, "news are: "+serverNews);
-            String cTime = content.getString("create_time");
-            String eTime = content.getString("expired_time");
-            mItems.parseJSONArray(serverNews);
-            mItems.setCreateTime(cTime);
-            mItems.setExpiredTime(eTime);
-            
-        } catch (HttpRequestException exception) {
-            Log.d(TAG, "exception : " + exception.toString());
-        }
-
-        return mItems;
     }
     
     public static List<String> recommendFriends() throws JSONException {
