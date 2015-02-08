@@ -13,6 +13,9 @@ public class GroupParser extends AbstractResParser<Group> {
 
 	private ResParser<? extends TalkType> mSubParser;
 	
+	public GroupParser(ResParser<? extends TalkType> subParser) {
+		mSubParser = subParser;
+	}
 	public Group<TalkType> parse(JSONObject json) throws JSONException {
 		Group<TalkType> group = new Group<TalkType>();
 		Iterator<String> it = (Iterator<String>)json.keys();

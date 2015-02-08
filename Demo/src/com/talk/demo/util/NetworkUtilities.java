@@ -40,8 +40,12 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.talk.demo.parser.FriendParser;
+import com.talk.demo.parser.GroupParser;
+import com.talk.demo.parser.NewsParser;
 import com.talk.demo.parser.ResParser;
 import com.talk.demo.types.Friend;
+import com.talk.demo.types.Group;
+import com.talk.demo.types.News;
 import com.talk.demo.types.TalkType;
 import com.talk.demo.util.HttpRequest.HttpRequestException;
 
@@ -92,6 +96,13 @@ final public class NetworkUtilities {
     private NetworkUtilities() {
     }
 
+    public static HttpRequest createGet(String url) {
+        HttpRequest request = HttpRequest.get(url);
+        request.followRedirects(false);
+        
+        return request;
+    }
+    
     public static HttpRequest createPost(String url, Map<String, String> formData) {
         HttpRequest request = HttpRequest.post(url);
         Map<String, String> headers = new HashMap<String, String>();
@@ -102,7 +113,7 @@ final public class NetworkUtilities {
         return request;
     }
     
-    public static TalkType executePost(HttpRequest request, ResParser<? extends TalkType> parser) 
+    public static TalkType doHttpRequest(HttpRequest request, ResParser<? extends TalkType> parser) 
     		throws JSONException {
         int statusCode = request.code();
         switch (statusCode) {
@@ -162,19 +173,19 @@ final public class NetworkUtilities {
     public static Friend addFriend(String username, String friend)
     		throws HttpRequestException, JSONException {
         HttpRequest request = createPost(ADD_FRIENDS_URI, PackedFormData.addFriend(username, friend));
-        return (Friend)executePost(request,new FriendParser());
+        return (Friend)doHttpRequest(request,new FriendParser());
     }
     
     public static Friend acceptFriend(String username, boolean response, String friend)
     		throws HttpRequestException, JSONException {
         HttpRequest request = createPost(ACCEPT_FRIENDS_URI, PackedFormData.acceptFriend(username, response, friend));
-        return (Friend)executePost(request,new FriendParser());
+        return (Friend)doHttpRequest(request,new FriendParser());
     }
     
     public static Friend updateFriend(String username, String comment, String description, String friend)
     		throws HttpRequestException, JSONException {
         HttpRequest request = createPost(UPDATE_FRIENDS_URI, PackedFormData.updateFriend(username, comment, description, friend));
-        return (Friend)executePost(request,new FriendParser());
+        return (Friend)doHttpRequest(request,new FriendParser());
     }
     
     public static String signup(String username, String email, String password) {
@@ -243,6 +254,12 @@ final public class NetworkUtilities {
 		return "ok";
 		
 	}
+    
+    @SuppressWarnings("unchecked")
+	public static Group<News> todayNews() throws JSONException, HttpRequestException {
+        HttpRequest request = createGet(SYNC_NEWS_URI);
+        return (Group<News>)doHttpRequest(request,new GroupParser(new NewsParser()));
+    }
     
     public static DailyNews syncNews() throws JSONException {
     	DailyNews mItems = new DailyNews();

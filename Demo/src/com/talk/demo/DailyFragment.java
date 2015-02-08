@@ -1,5 +1,13 @@
 package com.talk.demo;
 
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.Set;
+
+import org.json.JSONException;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -23,19 +31,11 @@ import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.talk.demo.core.RecordManager;
 import com.talk.demo.daily.DailyEditActivity;
-import com.talk.demo.prewrite.PreWrite;
+import com.talk.demo.types.Group;
+import com.talk.demo.types.News;
 import com.talk.demo.util.Constant;
-import com.talk.demo.util.DailyNews;
 import com.talk.demo.util.NetworkUtilities;
 import com.talk.demo.util.TalkUtil;
-
-import org.json.JSONException;
-
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.Set;
 
 public class DailyFragment extends Fragment implements OnItemClickListener {
     private static String TAG = "DailyFragment";
@@ -184,13 +184,13 @@ public class DailyFragment extends Fragment implements OnItemClickListener {
 
     }
     
-    private class GetDataTask extends AsyncTask<Void, Void, DailyNews> {
-    	DailyNews getDataList = new DailyNews();
+    private class GetDataTask extends AsyncTask<Void, Void, Group<News>> {
+    	Group<News> getDataList = new Group<News>();
         @Override
-		protected DailyNews doInBackground(Void... params) {
+		protected Group<News> doInBackground(Void... params) {
             // Simulates a background job.
             try {
-                getDataList = NetworkUtilities.syncNews();
+                getDataList = NetworkUtilities.todayNews();
             } catch (JSONException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
@@ -201,23 +201,20 @@ public class DailyFragment extends Fragment implements OnItemClickListener {
 		}
 		
         @Override
-        protected void onPostExecute(DailyNews result) {
-        	HashMap<String, String> news = result.getNews();
-        	if(!news.isEmpty()) {
+        protected void onPostExecute(Group<News> result) {
+        	Set<String> values = new HashSet<String>();
+        	if(!result.isEmpty()) {
         	    mListItems.clear();
-            	Set<String> keys = news.keySet();
-            	Set<String> values = new HashSet<String>();
-                for(Iterator<String> iter = keys.iterator(); iter.hasNext();) {
-                	String value = iter.next();
-                    Log.d(TAG, "key is "+value);
-                    values.add(news.get(value));
-                    mListItems.add(news.get(value));
+            	for(int i=0;i<result.size();i++) {
+            		values.add(result.get(i).getNewsContent());
+            		mListItems.add(result.get(i).getNewsContent());
+                    editor.putString(Constant.CREATE_TIME, result.get(i).getCreateTime()).commit();
+                    editor.putString(Constant.EXPIRED_TIME, result.get(i).getExpiredTime()).commit();
                 }
                 adapter.notifyDataSetChanged();
                 
             	editor.putStringSet(Constant.NEWS_CONTENT, values).commit();
-                editor.putString(Constant.CREATE_TIME, result.getCreateTime()).commit();
-                editor.putString(Constant.EXPIRED_TIME, result.getExpiredTime()).commit();
+        
         	}
             
             // Call onRefreshComplete when the list has been refreshed.
