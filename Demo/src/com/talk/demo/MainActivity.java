@@ -1,7 +1,6 @@
 
 package com.talk.demo;
 
-import java.io.IOException;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -165,26 +164,35 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         @Override
         public void onReceive(Context context, Intent intent) {
            
-            if(MESSAGE_RECEIVED_ACTION.equals(intent.getAction())) {
-                String message = intent.getStringExtra(KEY_MESSAGE);
-                String extras = intent.getStringExtra(KEY_EXTRAS);
-                Log.d(TAG, "message:"+ message+ " extras: "+ extras);
-                switch(Integer.valueOf(message)) {
-                    case 1001:
-                        JSONObject jsonDialog = new JSONObject(extras);
-                        String user = jsonDialog.getString("username");
-                        String id = jsonDialog.getString("id");
-                        new GetDialogTask().execute(user, id);
-                        break;
-                    case 1002:
-                        JSONObject jsonFriend = new JSONObject(extras);
-                        String fromUser = jsonFriend.getString("username");
-                        break;
-                }
-                
-            }
-            
-        }
+			if (MESSAGE_RECEIVED_ACTION.equals(intent.getAction())) {
+				String message = intent.getStringExtra(KEY_MESSAGE);
+				String extras = intent.getStringExtra(KEY_EXTRAS);
+				Log.d(TAG, "message:" + message + " extras: " + extras);
+				switch (Integer.valueOf(message)) {
+				case 1001:
+					try {
+						JSONObject jsonDialog = new JSONObject(extras);
+						String user = jsonDialog.getString("username");
+						String id = jsonDialog.getString("id");
+						new GetDialogTask().execute(user, id);
+					} catch (JSONException e) {
+						Log.d(TAG, "JSON error: "+ e.getMessage());
+					}
+					break;
+
+				case 1002:
+					try {
+						JSONObject jsonFriend = new JSONObject(extras);
+						String fromUser = jsonFriend.getString("username");
+					} catch (JSONException e) {
+						Log.d(TAG, "JSON error: "+ e.getMessage());
+					}
+					break;
+				}
+
+			}
+
+		}
     }
     
     private RawDialog updateDialog(String user, int id) {
