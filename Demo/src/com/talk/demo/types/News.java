@@ -1,6 +1,5 @@
 package com.talk.demo.types;
 
-import java.util.HashMap;
 
 
 public class News implements TalkType {

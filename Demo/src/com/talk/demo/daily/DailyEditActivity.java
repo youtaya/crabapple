@@ -42,11 +42,9 @@ import com.talk.demo.util.RawDialog;
 import com.talk.demo.util.TalkUtil;
 
 import org.apache.http.ParseException;
-import org.json.JSONException;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;

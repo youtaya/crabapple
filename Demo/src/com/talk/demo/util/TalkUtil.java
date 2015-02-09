@@ -1,14 +1,14 @@
 package com.talk.demo.util;
 
+import android.graphics.Bitmap;
+import android.os.Environment;
+import android.util.Log;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-
-import android.graphics.Bitmap;
-import android.os.Environment;
-import android.util.Log;
 
 public class TalkUtil {
 	

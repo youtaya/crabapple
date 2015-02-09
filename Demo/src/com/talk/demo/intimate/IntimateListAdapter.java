@@ -16,7 +16,6 @@ import com.talk.demo.R;
 import net.sectorsieteg.avatars.AvatarDrawableFactory;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class IntimateListAdapter extends BaseAdapter {
     private class ViewHolder {

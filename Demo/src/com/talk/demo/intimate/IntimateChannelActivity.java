@@ -16,9 +16,7 @@ import com.talk.demo.util.NetworkUtilities;
 import com.talk.demo.util.RawRecord;
 
 import org.apache.http.ParseException;
-import org.json.JSONException;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.LinkedList;

@@ -9,8 +9,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 
-import cn.jpush.android.api.JPushInterface;
-
 import com.talk.demo.MainActivity;
 import com.talk.demo.R;
 import com.talk.demo.util.AccountUtils;

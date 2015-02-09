@@ -15,8 +15,6 @@ import android.widget.TextView;
 import com.talk.demo.R;
 import com.talk.demo.persistence.DBManager;
 import com.talk.demo.persistence.FriendRecord;
-import com.talk.demo.talk.DialogItem;
-import com.talk.demo.talk.TalkAllItem;
 
 import java.util.ArrayList;
 import java.util.List;

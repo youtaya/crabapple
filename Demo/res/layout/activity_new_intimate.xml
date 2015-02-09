@@ -2,21 +2,73 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
- 
+    
+    <LinearLayout 
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:layout_marginBottom="4dp"
+		android:orientation="horizontal">
+		<LinearLayout 
+		    android:layout_width="wrap_content"
+		    android:layout_height="match_parent"
+		    android:layout_weight="1"
+		    android:orientation="vertical">
+		    <ImageView
+		        android:layout_width="100dp"
+		        android:layout_height="100dp"
+		        android:layout_gravity="center"
+		        android:layout_marginLeft="8dp"
+		        android:layout_marginRight="8dp"
+		        android:src="@drawable/add_friend_icon">
+		    </ImageView>
+		    <TextView 
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content"
+		        android:gravity="center"
+		        android:text="@string/from_contact"/>
+		</LinearLayout>
+		<LinearLayout 
+		    android:layout_width="wrap_content"
+		    android:layout_height="match_parent"
+		    android:layout_weight="1"
+		    android:orientation="vertical">
+		    <ImageView
+		        android:layout_width="100dp"
+		        android:layout_height="100dp"
+		        android:layout_gravity="center"
+				android:layout_marginLeft="8dp"
+		        android:layout_marginRight="8dp"
+		        android:src="@drawable/add_friend_icon">
+		    </ImageView>
+		    <TextView 
+				android:layout_width="match_parent"
+		        android:layout_height="wrap_content"
+		        android:gravity="center"
+		        android:text="@string/from_internet"/>
+		</LinearLayout>		
+	</LinearLayout>
+	 
+    <LinearLayout 
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:background="@color/grey">
+		<TextView
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:layout_marginTop="5dp"
+			android:layout_marginBottom="5dp"
+			android:layout_marginLeft="6dp"
+			android:text="@string/new_friend"
+			android:textColor="@color/white"
+			android:textSize="18sp"/>        
+    </LinearLayout>
+
+	 
     <FrameLayout
         android:id="@+id/channel_list_layout"
         android:layout_width="match_parent"
         android:layout_weight="1"
         android:layout_height="0dp" >
-        
-         <TextView
-			android:layout_width="fill_parent"
-			android:layout_height="fill_parent"
-			android:gravity="center"
-			android:text="@string/inti_channel"
-			android:textColor="@color/ivorywhite"
-			android:textSize="18sp"/>   
-			    
         <ListView
             android:id="@+id/channel_list"
 			android:layout_width="fill_parent"

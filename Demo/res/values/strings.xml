@@ -49,7 +49,10 @@
     <string name="user_name">user name</string>
     <string name="luck_day">lucky day</string>
     <string name="friend">about friends</string>
+    <string name="new_friend">new friend</string>
     <string name="add_friend">find friend</string>
+	<string name="from_contact">add from contact</string>
+    <string name="from_internet">add from internet</string>
     <string name="store">store</string>
     <string name="setting">setting</string>
 	<string name="logout">logout</string>   

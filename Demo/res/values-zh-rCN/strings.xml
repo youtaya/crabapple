@@ -46,8 +46,11 @@
     <string name="user">我自己</string>
     <string name="user_name">用户名</string>
     <string name="luck_day">幸运日</string>
+    <string name="new_friend">新的朋友</string>
     <string name="friend">朋友们</string>
     <string name="add_friend">查找好友</string>
+    <string name="from_contact">添加手机联系人</string>
+    <string name="from_internet">添加网络好友</string>
     <string name="store">商店</string>
     <string name="setting">设置</string>
 	<string name="logout">注销</string>   

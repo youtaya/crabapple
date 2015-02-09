@@ -19,8 +19,6 @@ import com.talk.demo.util.RawFriend;
 import com.talk.demo.util.RawRecord;
 
 import org.apache.http.ParseException;
-import org.apache.http.auth.AuthenticationException;
-import org.json.JSONException;
 
 import java.io.IOException;
 import java.util.List;
