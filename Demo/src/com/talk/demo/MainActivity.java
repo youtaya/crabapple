@@ -168,20 +168,19 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
             if(MESSAGE_RECEIVED_ACTION.equals(intent.getAction())) {
                 String message = intent.getStringExtra(KEY_MESSAGE);
                 String extras = intent.getStringExtra(KEY_EXTRAS);
-                Log.d(TAG, " extras: "+ extras);
-                new GetDialogTask().execute(extras, message);
-                /*
-                try {
-					JSONObject data = new JSONObject(extras);
-					String user = data.getString(JPushInterface.EXTRA_EXTRA);
-					
-					Log.d(TAG, "user: "+user+" id: "+ message);
-					new GetDialogTask().execute(user, message);
-				} catch (JSONException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-                */
+                Log.d(TAG, "message:"+ message+ " extras: "+ extras);
+                switch(Integer.valueOf(message)) {
+                    case 1001:
+                        JSONObject jsonDialog = new JSONObject(extras);
+                        String user = jsonDialog.getString("username");
+                        String id = jsonDialog.getString("id");
+                        new GetDialogTask().execute(user, id);
+                        break;
+                    case 1002:
+                        JSONObject jsonFriend = new JSONObject(extras);
+                        String fromUser = jsonFriend.getString("username");
+                        break;
+                }
                 
             }
             
