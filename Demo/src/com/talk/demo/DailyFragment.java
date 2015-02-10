@@ -203,7 +203,7 @@ public class DailyFragment extends Fragment implements OnItemClickListener {
         @Override
         protected void onPostExecute(Group<News> result) {
         	Set<String> values = new HashSet<String>();
-        	if(!result.isEmpty()) {
+        	if(result != null && !result.isEmpty()) {
         	    mListItems.clear();
             	for(int i=0;i<result.size();i++) {
             		values.add(result.get(i).getNewsContent());

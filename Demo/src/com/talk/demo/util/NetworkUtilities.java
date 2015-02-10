@@ -115,27 +115,31 @@ final public class NetworkUtilities {
     
     public static TalkType doHttpRequest(HttpRequest request, ResParser<? extends TalkType> parser) 
     		throws JSONException {
-        int statusCode = request.code();
-        switch (statusCode) {
-        case 200:
-        	String response = request.body();
-        	return consume(parser, response);
-        case 400:
-        	Log.d(TAG, "HTTP Code: 400");
-        	break;
-        case 401:
-        	Log.d(TAG, "HTTP Code: 400");
-        	break;  
-        case 404:
-        	Log.d(TAG, "HTTP Code: 404");
-        	break;     
-        case 500:
-        	Log.d(TAG, "HTTP Code: 500");
-        	break;     
-        default:
-        	Log.d(TAG, "Default case");
-        	break;     
-        }
+    	try {
+	        int statusCode = request.code();
+	        switch (statusCode) {
+	        case 200:
+	        	String response = request.body();
+	        	return consume(parser, response);
+	        case 400:
+	        	Log.d(TAG, "HTTP Code: 400");
+	        	break;
+	        case 401:
+	        	Log.d(TAG, "HTTP Code: 400");
+	        	break;  
+	        case 404:
+	        	Log.d(TAG, "HTTP Code: 404");
+	        	break;     
+	        case 500:
+	        	Log.d(TAG, "HTTP Code: 500");
+	        	break;     
+	        default:
+	        	Log.d(TAG, "Default case");
+	        	break;     
+	        }
+    	} catch (HttpRequestException ex) {
+    		Log.d(TAG, "http request error: "+ex.getMessage());
+    	}
         
         return null;
 
