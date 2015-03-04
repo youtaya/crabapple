@@ -1,20 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/contact_list_view"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent" 
+    style="@style/Global_Match"
     android:background="@color/sandybrown">
 
     <com.talk.demo.ui.SlidingLinearLayout
         android:id="@+id/slidingview"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        style="@style/Global_Match"
         android:layout_alignParentTop="true" >
 
         <ListView
             android:id="@+id/contact_list"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            style="@style/Global_Match"
             android:cacheColorHint="#000000"
             android:divider="#00000000"
             android:fadingEdge="none"

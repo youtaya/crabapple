@@ -122,13 +122,11 @@
 
                         <CheckBox
                             android:id="@+id/cb_thursday"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            style="@style/Global_Wrap"
                               />
 
                         <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            style="@style/Global_Wrap"
                             android:text="Thursday"
                             android:textSize="16dip" />
                     </LinearLayout>
@@ -146,13 +144,11 @@
 
                         <CheckBox
                             android:id="@+id/cb_friday"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            style="@style/Global_Wrap"
                             />
 
                         <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            style="@style/Global_Wrap"
                             android:text="Friday"
                             android:textSize="16dip" />
                     </LinearLayout>
@@ -164,13 +160,11 @@
 
                         <CheckBox
                             android:id="@+id/cb_saturday"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            style="@style/Global_Wrap"
                             />
 
                         <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            style="@style/Global_Wrap"
                             android:text="Saturday"
                             android:textSize="16dip" />
                     </LinearLayout>
@@ -182,13 +176,11 @@
 
                         <CheckBox
                             android:id="@+id/cb_sunday"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            style="@style/Global_Wrap"
                             />
 
                         <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            style="@style/Global_Wrap"
                             android:text="Sunday"
                             android:textSize="16dip" />
                     </LinearLayout>
@@ -201,33 +193,28 @@
                 android:orientation="horizontal" >
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    style="@style/Global_Wrap"
                     android:text="Quiet Time Enabled"
                     android:textSize="16dip" />
             </LinearLayout>
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                style="@style/Global_Wrap"
                 android:text="Start Time"
                 android:textSize="16dip" />
 
             <TimePicker
                 android:id="@+id/start_time"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                style="@style/Global_Wrap" />
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                style="@style/Global_Wrap"
                 android:text="End Time"
                 android:textSize="16dip" />
 
             <TimePicker
                 android:id="@+id/end_time"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                style="@style/Global_Wrap" />
 
             <Button
                 android:id="@+id/bu_setTime"

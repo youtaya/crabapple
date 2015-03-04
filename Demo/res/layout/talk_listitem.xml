@@ -18,8 +18,7 @@
         android:background="@drawable/bg_corner_orange_selector" >
 
         <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            style="@style/Global_Match"
             android:layout_marginLeft="6dp"
             android:layout_marginRight="6dp" >
 
@@ -34,8 +33,7 @@
 
             <TextView
                 android:id="@+id/friend_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                style="@style/Global_Wrap"
                 android:layout_alignParentLeft="true"
                 android:layout_alignWithParentIfMissing="true"
                 android:layout_marginLeft="6dp"
@@ -45,8 +43,7 @@
 
             <TextView
                 android:id="@+id/dialog_time"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                style="@style/Global_Wrap"
                 android:layout_alignParentRight="true"
                 android:layout_alignWithParentIfMissing="true"
                 android:layout_marginRight="6dp"

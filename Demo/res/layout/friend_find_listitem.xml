@@ -35,12 +35,10 @@
 	    </LinearLayout>
 	</LinearLayout>
 	<LinearLayout
-		android:layout_width="wrap_content"
-        android:layout_height="wrap_content" >
+		style="@style/Global_Wrap" >
 	    <ImageView
 	        android:id="@+id/decrator"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
+	        style="@style/Global_Wrap"
 			android:layout_marginRight="4dp"
 	        android:src="@drawable/ofm_add_icon"
 	        android:visibility="visible" />

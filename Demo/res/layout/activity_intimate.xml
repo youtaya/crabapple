@@ -1,6 +1,5 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    style="@style/Global_Match"
     android:orientation="vertical" >
     
 	<LinearLayout
@@ -18,8 +17,7 @@
 	        android:textSize="23sp" />			
 		<TextView
 		    android:id="@+id/new_txt"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            style="@style/Global_Wrap"
             android:layout_gravity="center_horizontal"
             android:padding="10dp"
             android:text="@string/new_txt"
@@ -34,14 +32,12 @@
 	
 	    <com.talk.demo.ui.SlidingLinearLayout
 	        android:id="@+id/intimate_list_layout"
-	        android:layout_width="match_parent"
-	        android:layout_height="match_parent"
+	        style="@style/Global_Match"
 	        android:layout_alignParentTop="true" >
 	
 	        <ListView
 	            android:id="@+id/intimate_list"
-	            android:layout_width="match_parent"
-	            android:layout_height="match_parent"
+	            style="@style/Global_Match"
 	            android:cacheColorHint="#000000"
 	            android:divider="#00000000"
 	            android:fadingEdge="none"

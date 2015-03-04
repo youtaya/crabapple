@@ -1,6 +1,4 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
     android:orientation="vertical" 
     style="@style/NavPage">
 
@@ -14,8 +12,7 @@
 		android:orientation="horizontal">
 		<ImageView
 	        android:id="@+id/user_avatar"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
+	        style="@style/Global_Wrap"
 	        android:paddingLeft="10dp"
 	        android:paddingRight="4dp"
 	        android:src="@drawable/default_avatar"
@@ -23,8 +20,7 @@
 	        android:textSize="23sp" />			
 		<TextView
 		    android:id="@+id/my_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            style="@style/Global_Wrap"
             android:layout_gravity="center_horizontal"
             android:padding="10dp"
             android:textSize="20sp" />	
@@ -50,8 +46,7 @@
 	        android:textSize="23sp" />			
 		<TextView
 		    android:id="@+id/whole_txt"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            style="@style/Global_Wrap"
             android:layout_gravity="center_horizontal"
             android:padding="10dp"
             android:text="@string/whole_txt"
@@ -78,8 +73,7 @@
 	        android:textSize="23sp" />			
 		<TextView
 		    android:id="@+id/collect_txt"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            style="@style/Global_Wrap"
             android:layout_gravity="center_horizontal"
             android:padding="10dp"
             android:text="@string/collect_txt"
@@ -134,8 +128,7 @@
 	        android:textSize="23sp" />			
 		<TextView
 		    android:id="@+id/setting_txt"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            style="@style/Global_Wrap"
             android:layout_gravity="center_horizontal"
             android:padding="10dp"
             android:text="@string/setting_txt"

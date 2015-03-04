@@ -1,6 +1,5 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    style="@style/Global_Match"
     android:orientation="vertical" >
  
 
@@ -23,8 +22,7 @@
         android:background="@color/whitetea" >
 		<TextView
 	        android:id="@+id/time_tag_1"
-	        android:layout_width="match_parent"
-	        android:layout_height="match_parent"
+	        style="@style/Global_Match"
 	        android:paddingTop="2dp"
 	        android:paddingBottom="2dp"
 	        android:paddingLeft="2dp"
@@ -37,8 +35,7 @@
 	        android:textSize="16sp" />
 		<TextView
 	        android:id="@+id/time_tag_2"
-	        android:layout_width="match_parent"
-	        android:layout_height="match_parent"
+	        style="@style/Global_Match"
 	        android:paddingTop="2dp"
 	        android:paddingBottom="2dp"
 	        android:paddingLeft="2dp"
@@ -51,8 +48,7 @@
 	        android:textSize="16sp" />
 		<TextView
 	        android:id="@+id/time_tag_3"
-	        android:layout_width="match_parent"
-	        android:layout_height="match_parent"
+	        style="@style/Global_Match"
 	        android:paddingTop="2dp"
 	        android:paddingBottom="2dp"
 	        android:paddingLeft="2dp"

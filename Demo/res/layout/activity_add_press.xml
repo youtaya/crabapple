@@ -1,6 +1,5 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    style="@style/Global_Match"
     android:background="@drawable/bg_login"
     android:orientation="vertical" >
 
@@ -42,8 +41,7 @@
     <FrameLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/fragment_container"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        style="@style/Global_Match"
         android:layout_marginTop="10.0dip" />
 
 </LinearLayout>
