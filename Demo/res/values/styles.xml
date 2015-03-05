@@ -194,6 +194,17 @@
 	<style name="Global_Match">
 	    <item name="android:layout_height">match_parent</item>
 	    <item name="android:layout_width">match_parent</item>
-	</style>	
-
+	</style>
+	
+	<style name="ScrollView_Match" parent="Global_Match">
+        <item name="android:scrollbars">vertical</item>
+        <item name="android:layout_centerInParent">true</item>
+	</style>
+	
+	<style name="ScrollView_Wrap">
+	    <item name="android:layout_height">wrap_content</item>
+	    <item name="android:layout_width">match_parent</item>	    
+        <item name="android:scrollbars">vertical</item>
+        <item name="android:layout_centerInParent">true</item>
+	</style>
 </resources>

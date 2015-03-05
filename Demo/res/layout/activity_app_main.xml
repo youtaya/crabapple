@@ -5,7 +5,7 @@
 
     <ScrollView
         android:id="@+id/scrollView"
-        style="@style/Global_Match" >
+        style="@style/ScrollView_Match" >
 
 
         <LinearLayout
