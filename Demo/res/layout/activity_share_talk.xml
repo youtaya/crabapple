@@ -41,8 +41,7 @@
   		    android:layout_height="wrap_content" >
   		   	<ImageView
 	            android:id="@+id/iv_user_image"
-	            android:layout_width="50dp"
-	            android:layout_height="50dp"
+	            style="@style/ImageView_Medium"
 	            android:layout_alignParentRight="true"
 	            android:layout_alignParentTop="true"
 	            android:background="@drawable/tab_main_nav_me_girl_off"

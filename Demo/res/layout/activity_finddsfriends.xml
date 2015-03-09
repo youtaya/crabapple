@@ -2,19 +2,11 @@
     android:orientation="vertical" 
     style="@style/NavPage">
 
-   	<ScrollView
-   	    xmlns:android="http://schemas.android.com/apk/res/android"
-   	    android:id="@+id/scrollView"
-   	    android:layout_width="match_parent"
-   	    android:layout_height="0dp"
-   	    android:layout_weight="1"
-   	    android:background="#ffd3d3d3" >
-	
-		<br.com.dina.ui.widget.UITableView 
-			android:id="@+id/tableView" 
-		    style="@style/UITableView" />
-
-	</ScrollView>
+	<br.com.dina.ui.widget.UITableView 
+		android:id="@+id/tableView" 
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"		
+	    style="@style/Global_Fill" />
 
 
 </LinearLayout>

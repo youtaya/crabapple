@@ -11,8 +11,7 @@
     
 	<ImageView
         android:id="@+id/friend_avatar"
-        android:layout_width="72dp"
-        android:layout_height="72dp"
+        style="@style/ImageView_XLarge"
         android:paddingLeft="4dp"
         android:paddingRight="4dp"
         android:src="@drawable/default_avatar"

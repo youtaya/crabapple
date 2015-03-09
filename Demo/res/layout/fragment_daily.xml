@@ -21,8 +21,7 @@
         
 	    <com.faizmalkani.floatingactionbutton.FloatingActionButton
 	        android:id="@+id/btn_new"
-	        android:layout_width="72dp"
-	        android:layout_height="72dp"
+	        style="@style/ImageView_XLarge"
 	        android:layout_gravity="bottom|end"
 	        android:layout_marginBottom="16dp"
 	        android:layout_marginEnd="16dp"

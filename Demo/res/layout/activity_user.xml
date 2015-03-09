@@ -37,8 +37,7 @@
 		android:layout_height="wrap_content"
 		android:orientation="horizontal">
 		<ImageView
-	        android:layout_width="50dp"
-	        android:layout_height="50dp"
+	        style="@style/ImageView_Medium"
 	        android:paddingLeft="10dp"
 	        android:paddingRight="4dp"
 	        android:src="@drawable/more_my_album"
@@ -64,8 +63,7 @@
 		android:layout_height="wrap_content"
 		android:orientation="horizontal">
 		<ImageView
-	        android:layout_width="50dp"
-	        android:layout_height="50dp"
+	        style="@style/ImageView_Medium"
 	        android:paddingLeft="10dp"
 	        android:paddingRight="4dp"
 	        android:src="@drawable/more_my_favorite"
@@ -91,8 +89,7 @@
 		android:layout_height="wrap_content"
 		android:orientation="horizontal">
 		<ImageView
-	        android:layout_width="50dp"
-	        android:layout_height="50dp"
+	        style="@style/ImageView_Medium"
 	        android:paddingLeft="10dp"
 	        android:paddingRight="4dp"
 	        android:src="@drawable/more_my_bank_card"
@@ -119,8 +116,7 @@
 		android:layout_height="wrap_content"
 		android:orientation="horizontal">
 		<ImageView
-	        android:layout_width="50dp"
-	        android:layout_height="50dp"
+	        style="@style/ImageView_Medium"
 	        android:paddingLeft="10dp"
 	        android:paddingRight="4dp"
 	        android:src="@drawable/more_setting"

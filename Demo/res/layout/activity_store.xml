@@ -1,17 +1,10 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     style="@style/Global_Match"
     android:orientation="vertical" >
- 
-    <LinearLayout
-        android:id="@+id/record_list_layout"
+
+    <com.afollestad.cardsui.CardListView
+        android:id="@+id/store_list"
         android:layout_width="match_parent"
-        android:layout_weight="1"
-        android:layout_height="0dp">
-        
-        <com.afollestad.cardsui.CardListView
-            android:id="@+id/store_list"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-    </LinearLayout>
+        android:layout_height="wrap_content" />
 
 </LinearLayout>
