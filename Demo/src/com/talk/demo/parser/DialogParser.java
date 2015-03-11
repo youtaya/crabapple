@@ -1,15 +1,15 @@
 package com.talk.demo.parser;
 
-import com.talk.demo.types.Dialog;
+import com.talk.demo.types.PrvDialog;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class DialogParser extends AbstractResParser<Dialog> {
+public class DialogParser extends AbstractResParser<PrvDialog> {
 
     @Override
-    public Dialog parse(JSONObject json) throws JSONException {
-        Dialog obj = new Dialog();
+    public PrvDialog parse(JSONObject json) throws JSONException {
+        PrvDialog obj = new PrvDialog();
   
         if (json.has("user")) {
             obj.setHandle(json.getString("user"));

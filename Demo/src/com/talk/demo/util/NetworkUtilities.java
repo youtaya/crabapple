@@ -39,13 +39,17 @@ import android.graphics.BitmapFactory;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.talk.demo.parser.DialogParser;
 import com.talk.demo.parser.FriendParser;
 import com.talk.demo.parser.GroupParser;
 import com.talk.demo.parser.NewsParser;
+import com.talk.demo.parser.RecordParser;
 import com.talk.demo.parser.ResParser;
+import com.talk.demo.types.PrvDialog;
 import com.talk.demo.types.Friend;
 import com.talk.demo.types.Group;
 import com.talk.demo.types.News;
+import com.talk.demo.types.Record;
 import com.talk.demo.types.TalkType;
 import com.talk.demo.util.HttpRequest.HttpRequestException;
 
@@ -309,7 +313,11 @@ final public class NetworkUtilities {
         
     }
     
-
+    public static PrvDialog getDialog_v2(String username, int id)
+            throws HttpRequestException, JSONException {
+        HttpRequest request = createPost(ADD_FRIENDS_URI, PackedFormData.getDialog(username, id));
+        return (PrvDialog)doHttpRequest(request,new DialogParser());
+    }
         
     public static RawDialog getDialog(String username, int id) {
     	try {
@@ -335,6 +343,11 @@ final public class NetworkUtilities {
     }
     
 
+    @SuppressWarnings("unchecked")
+    public static Group<Record> updateChannel_v2(String friend, String last_date) throws JSONException, HttpRequestException {
+        HttpRequest request = createPost(VISIT_RECORDS_URI, PackedFormData.packedUpdateChannel(friend, last_date));
+        return (Group<Record>)doHttpRequest(request,new GroupParser(new RecordParser()));
+    }
     
     public static List<RawRecord> updateChannel(String friend, String last_date) {
         
@@ -365,7 +378,13 @@ final public class NetworkUtilities {
         return null;
     }
     
-
+    @SuppressWarnings("unchecked")
+    public static Group<Record> syncRecords_v2(
+            Account account, String authtoken, long serverSyncState, List<RawRecord> dirtyRecords) throws JSONException, HttpRequestException {
+        HttpRequest request = createPost(SYNC_RECORDS_URI, 
+                PackedFormData.syncRecords(account, authtoken, serverSyncState, dirtyRecords));
+        return (Group<Record>)doHttpRequest(request,new GroupParser(new RecordParser()));
+    }
     
     /**
      * Perform 2-way sync with the server-side contacts. We send a request that
@@ -426,7 +445,15 @@ final public class NetworkUtilities {
         return serverDirtyList;
 
     }
-
+    
+    @SuppressWarnings("unchecked")
+    public static Group<Friend> syncFriends_v2(
+            Account account, String authtoken, long serverSyncState, List<RawFriend> dirtyFriends) throws JSONException, HttpRequestException {
+        HttpRequest request = createPost(SYNC_FRIENDS_URI, 
+                PackedFormData.syncFriends(account, authtoken, serverSyncState, dirtyFriends));
+        return (Group<Friend>)doHttpRequest(request,new GroupParser(new FriendParser()));
+    }
+    
     public static List<RawFriend> syncFriends(
             Account account, String authtoken, long serverSyncState, List<RawFriend> dirtyFriends) {
         final ArrayList<RawFriend> serverDirtyList = new ArrayList<RawFriend>();

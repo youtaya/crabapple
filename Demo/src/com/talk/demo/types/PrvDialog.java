@@ -1,7 +1,7 @@
 
 package com.talk.demo.types;
 
-public class Dialog implements TalkType {
+public class PrvDialog implements TalkType {
 
     private String mRoomName;
     private String mSender;
