@@ -10,6 +10,19 @@ public class DialogParser extends AbstractResParser<Dialog> {
     @Override
     public Dialog parse(JSONObject json) throws JSONException {
         Dialog obj = new Dialog();
+  
+        if (json.has("user")) {
+            obj.setHandle(json.getString("user"));
+        } 
+        if (json.has("sid")) {
+            obj.setServerId(json.getLong("sid"));
+        } 
+        if (json.has("cid")) {
+            obj.setDataId(json.getLong("cid"));
+        } 
+        if (json.has("x")) {
+            obj.setSyncState(json.getLong("x"));
+        } 
         
         if (json.has("room")) {
             obj.setRoomName(json.getString("room"));

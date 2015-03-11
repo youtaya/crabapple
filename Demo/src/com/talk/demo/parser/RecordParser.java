@@ -11,6 +11,19 @@ public class RecordParser extends AbstractResParser<Record> {
     public Record parse(JSONObject json) throws JSONException {
         Record obj = new Record();
         
+        if (json.has("user")) {
+            obj.setHandle(json.getString("user"));
+        } 
+        if (json.has("sid")) {
+            obj.setServerId(json.getLong("sid"));
+        } 
+        if (json.has("cid")) {
+            obj.setDataId(json.getLong("cid"));
+        } 
+        if (json.has("x")) {
+            obj.setSyncState(json.getLong("x"));
+        } 
+        
         if (json.has("link")) {
             obj.setLink(json.getString("link"));
         } 
