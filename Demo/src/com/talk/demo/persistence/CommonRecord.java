@@ -2,6 +2,7 @@ package com.talk.demo.persistence;
 
 import android.database.Cursor;
 
+import com.talk.demo.types.TalkType;
 import com.talk.demo.util.RawData;
 
 public abstract class CommonRecord {
@@ -63,6 +64,10 @@ public abstract class CommonRecord {
         server_id = (int)data.getServerId();
         handle = data.getHandle();
         sync_time = data.getSyncState();
+    }
+    
+    public CommonRecord(TalkType data) {
+ 
     }
     public CommonRecord(String v1) {
     	handle = v1;

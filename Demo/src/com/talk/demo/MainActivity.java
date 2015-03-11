@@ -42,7 +42,9 @@ import com.talk.demo.jpush.JPushUtil;
 import com.talk.demo.persistence.DBManager;
 import com.talk.demo.persistence.DialogRecord;
 import com.talk.demo.prewrite.PreWrite;
+import com.talk.demo.types.PrvDialog;
 import com.talk.demo.util.AccountUtils;
+import com.talk.demo.util.HttpRequest.HttpRequestException;
 import com.talk.demo.util.NetworkUtilities;
 import com.talk.demo.util.RawDialog;
 
@@ -195,28 +197,34 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 		}
     }
     
-    private RawDialog updateDialog(String user, int id) {
+    private PrvDialog updateDialog(String user, int id) {
     	
 		try {
-	        RawDialog dialog = NetworkUtilities.getDialog(user, id);
+	        PrvDialog dialog = NetworkUtilities.getDialog_v2(user, id);
 	        return dialog;
 		} catch (ParseException e) {
+			e.printStackTrace();
+		} catch (HttpRequestException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
 		return null;
     }
-    private class GetDialogTask extends AsyncTask<String, String, RawDialog> {
+    private class GetDialogTask extends AsyncTask<String, String, PrvDialog> {
         @Override
-		protected RawDialog doInBackground(String... params) {
+		protected PrvDialog doInBackground(String... params) {
             // Simulates a background job.
-        	RawDialog raw = updateDialog(params[0], Integer.valueOf(params[1]));
+        	PrvDialog raw = updateDialog(params[0], Integer.valueOf(params[1]));
         	return raw;
             
 		}
         
         @Override
-        protected void onPostExecute(RawDialog result) {
+        protected void onPostExecute(PrvDialog result) {
         	if( null == result) {
         		Log.d(TAG, "dialog item is null!");
         		return;
