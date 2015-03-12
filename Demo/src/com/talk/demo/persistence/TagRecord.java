@@ -15,33 +15,13 @@ public class TagRecord extends CommonRecord {
          
         declaredFields = c.getDeclaredFields();
     }
-    public void setHandleName(String v) {
-        tag.setHandleName(v);
-    }
-        
-    public String getHandleName() {
-        return tag.getHandleName();
-    }
     
-    public void setDirty(int v) {
-        tag.setDirty(v);
+    public BookTag getTag() {
+    	return tag;
     }
-    
-    public int getDirty() {
-        return tag.getDirty();
-    }
-    
     public TagRecord(String v1) {
-    	setTagName(v1);
+    	tag.setTagName(v1);
        
-    }
-
-    public void setTagName(String v) {
-    	tag.setTagName(v);
-    }
-	    
-    public String getTagName() {
-        return tag.getTagName();
     }
 
 	@Override

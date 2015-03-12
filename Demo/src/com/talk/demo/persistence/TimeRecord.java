@@ -20,22 +20,15 @@ public class TimeRecord extends CommonRecord {
          
         declaredFields = c.getDeclaredFields();
     }
-    public void setHandleName(String v) {
-        record.setHandle(v);
-    }
-        
-    public String getHandleName() {
-        return record.getHandle();
+    
+    public Record getTimeRecord() {
+    	return record;
     }
     
-    public void setDirty(int v) {
-        record.setDirty(v);
+    public TimeRecord(Record r) {
+    	record = r;
     }
-    
-    public int getDirty() {
-        return record.getDirty();
-    }
-    
+  
     public TimeRecord(TimeCache rc) {
     	record.setDataId(rc.getId());
     	record.setContent(rc.getContent());
@@ -45,53 +38,22 @@ public class TimeRecord extends CommonRecord {
     }
     
     public TimeRecord(String v1) {
-        setContent(v1);
+    	record.setContent(v1);
         record.setCreateDate(handledDate());
         record.setCreateTime(handledTime());
        
     }
     
     public TimeRecord(String v1, String date) {
-        setContent(v1);
+    	record.setContent(v1);
         record.setCreateDate(date);
         record.setCreateTime(handledTime());
     }
     
     public TimeRecord(String v1, Date date) {
-        setContent(v1);
+    	record.setContent(v1);
         record.setCreateDate(handledDate(date));
         record.setCreateTime(handledTime(date));
-    }
-    
-    public void setLink(String v) {
-    	record.setLink(v);
-    }
-    
-    public void setTitle(String v) {
-    	record.setTitle(v);
-    }
-    
-    public void setSendInterval(int v) {
-        record.setSendInterval(v);
-    }
-    
-    public void setSendDoneTime(String v) {
-        record.setSendDoneTime(v);
-    }
-    
-    public void setContent(String v) {
-    	record.setContent(v);
-    }
-    public void setContentType(int type) {
-        record.setContentType(type);
-    }
-    
-    public void setPhoto(String photoPath) {
-    	record.setPhoto(photoPath);
-    }
-    
-    public void setTag(String pTag) {
-        record.setTag(pTag);
     }
     
     public String handledDate() {

@@ -72,7 +72,7 @@ public class ShareTalkActivity extends Activity {
 				if(comment.length() > 0) {
 				     
 					TimeRecord tr = new TimeRecord(comment);  
-					tr.setContentType(TalkUtil.MEDIA_TYPE_TEXT);
+					tr.getTimeRecord().setContentType(TalkUtil.MEDIA_TYPE_TEXT);
 					mgr.addTime(tr);
 			    	share_comment.setText("");
 				}

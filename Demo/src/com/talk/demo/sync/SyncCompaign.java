@@ -5,6 +5,7 @@ import android.util.Log;
 
 import com.talk.demo.persistence.DBManager;
 import com.talk.demo.persistence.TimeRecord;
+import com.talk.demo.types.Record;
 import com.talk.demo.util.NetworkUtilities;
 import com.talk.demo.util.RawRecord;
 
@@ -17,10 +18,10 @@ public class SyncCompaign {
     
     private static String myLog(TimeRecord tr) {
     	
-    	String isDirty = (tr.dirty ==1)?"yes":"no";
-    	String info = " id: "+String.valueOf(tr._id)+
-    			" server id: "+String.valueOf(tr.server_id)+
-    			" user name: "+tr.handle+
+    	String isDirty = (tr.getTimeRecord().getDirty() ==1)?"yes":"no";
+    	String info = " id: "+String.valueOf(tr.getTimeRecord().getDataId())+
+    			" server id: "+String.valueOf(tr.getTimeRecord().getServerId())+
+    			" user name: "+tr.getTimeRecord().getHandle()+
     			" dirty: " +isDirty;
     	return info;
     }
@@ -37,15 +38,15 @@ public class SyncCompaign {
     	for(TimeRecord tr: trlist) {
     		Log.d(TAG, "time record: "+myLog(tr));
     	    //check the dirty and deleted flag
-    	    final boolean isDeleted = (1 == tr.deleted);
-    	    final boolean isDirty = (1 == tr.dirty);
+    	    final boolean isDeleted = (1 == tr.getTimeRecord().getDeleted());
+    	    final boolean isDirty = (1 == tr.getTimeRecord().getDirty());
             if (isDeleted) {
                 Log.i(TAG, "Contact is marked for deletion");
-                RawRecord rawContact = RawRecord.createDeletedRecord(tr._id,
-                        tr.server_id);
+                RawRecord rawContact = RawRecord.createDeletedRecord(tr.getTimeRecord().getDataId(),
+                        tr.getTimeRecord().getServerId());
                 dirtyTimes.add(rawContact);
             } else if (isDirty) {
-                RawRecord rawContact = getRawRecord(db, tr._id);
+                RawRecord rawContact = getRawRecord(db, tr.getTimeRecord().getDataId());
                 Log.i(TAG, "Contact Name: " + rawContact.getHandle());
                 dirtyTimes.add(rawContact);
             }
@@ -57,24 +58,24 @@ public class SyncCompaign {
     /*
      * update records from server
      */
-    public static void updateRecords(DBManager db, List<RawRecord> updateRecords) {
+    public static void updateRecords(DBManager db, List<Record> updateRecords) {
     	/*
     	 * 1: Update server id
     	 * 2: Clear dirty flag
     	 * 3: Delete deleted record
     	 * 4: Get sync state
     	 */
-        for(RawRecord rr: updateRecords) {
+        for(Record rr: updateRecords) {
             TimeRecord tr = new TimeRecord(rr);
             Log.d(TAG, "server id: " + rr.getServerId());
             Log.d(TAG, "client id: " + rr.getDataId());
             Log.d(TAG, "content: " + rr.getContent());
             
             if(rr.getDataId() == -1) {
-            	Log.d(TAG, "[need add] server id: " + tr.server_id);
+            	Log.d(TAG, "[need add] server id: " + tr.getTimeRecord().server_id);
             	db.addTimeFromServer(tr);
             } else {
-            	Log.d(TAG, "[update] server id: " + tr.server_id);
+            	Log.d(TAG, "[update] server id: " + tr.getTimeRecord().server_id);
             	db.updateServerInfo(tr);
             }
             Log.d(TAG, "content type is : "+rr.getContentType());
@@ -109,18 +110,18 @@ public class SyncCompaign {
         
         TimeRecord tr = db.queryTimeTheParam(clientId);
         
-        name = tr.handle;
-        title = tr.title;
-        content = tr.content;
-        createDate = tr.calc_date;
-        createTime = tr.create_time;
-        contentType = tr.content_type;
-        photo = tr.photo;
-        audio = tr.audio;
-        tag = tr.tag;
-        link = tr.link;
-        serverRecordId = tr.server_id;
-        rawRecordId = tr._id;
+        name = tr.getTimeRecord().getHandle();
+        title = tr.getTimeRecord().getTitle();
+        content = tr.getTimeRecord().getContent();
+        createDate = tr.getTimeRecord().getCreateDate();
+        createTime = tr.getTimeRecord().getCreateTime();
+        contentType = tr.getTimeRecord().getContentType();
+        photo = tr.getTimeRecord().getPhoto();
+        audio = tr.getTimeRecord().getAudio();
+        tag = tr.getTimeRecord().getTag();
+        link = tr.getTimeRecord().getLink();
+        serverRecordId = tr.getTimeRecord().getServerId();
+        rawRecordId = tr.getTimeRecord().getDataId();
         
         RawRecord rr = RawRecord.create(name, link, title, content, 
                 createDate, createTime, contentType, photo, 

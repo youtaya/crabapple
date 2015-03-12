@@ -4,9 +4,6 @@ import android.database.Cursor;
 
 import com.talk.demo.time.TimeCache;
 import com.talk.demo.types.PrvDialog;
-import com.talk.demo.types.TalkType;
-import com.talk.demo.util.RawData;
-import com.talk.demo.util.RawDialog;
 
 import java.lang.reflect.Field;
 import java.text.SimpleDateFormat;
@@ -25,20 +22,8 @@ public class DialogRecord extends CommonRecord {
         declaredFields = c.getDeclaredFields();
     }
 
-    public void setHandleName(String v) {
-        dialogData.setHandle(v);
-    }
-        
-    public String getHandleName() {
-        return dialogData.getHandle();
-    }
-    
-    public void setDirty(int v) {
-        dialogData.setDirty(v);;
-    }
-    
-    public int getDirty() {
-        return dialogData.getDirty();
+    public PrvDialog getPrvDialog() {
+    	return dialogData;
     }
     
     public DialogRecord(PrvDialog pd) {
@@ -47,56 +32,30 @@ public class DialogRecord extends CommonRecord {
     
     public DialogRecord(TimeCache rc) {
     	dialogData.setDataId(rc.getId());
-    	setContent(rc.getContent());
+    	dialogData.setContent(rc.getContent());
     	dialogData.setCreateDate(rc.getCreateDate());
     	dialogData.setCreateTime(rc.getCreateTime());
-    	setContentType(rc.getMediaType());
+    	dialogData.setContentType(rc.getMediaType());
     }
     
     public DialogRecord(String v1) {
-        setContent(v1);
+    	dialogData.setContent(v1);
         dialogData.setCreateDate(handledDate());
         dialogData.setCreateTime(handledTime());
     }
     
     public DialogRecord(String v1, String date) {
-        setContent(v1);
+    	dialogData.setContent(v1);
         dialogData.setCreateDate(date);
         dialogData.setCreateTime(handledTime());
     }
     
     public DialogRecord(String v1, Date date) {
-        setContent(v1);
+    	dialogData.setContent(v1);
         dialogData.setCreateDate(handledDate(date));
         dialogData.setCreateTime(handledTime(date));
     }
     
-    public void setSender(String v) {
-        dialogData.setSender(v);
-    }  
-    
-    public void setLink(String v) {
-        dialogData.setLink(v);
-    }
-    
-    public void setSendInterval(int v) {
-        dialogData.setSendInterval(v);;
-    }
-    
-    public void setSendDoneTime(String v) {
-        dialogData.setSendDoneTime(v);
-    }
-    
-    public void setContent(String v) {
-        dialogData.setContent(v);;
-    }
-    public void setContentType(int type) {
-        dialogData.setContentType(type);;
-    }
-    
-    public void setPhoto(String photoPath) {
-        dialogData.setPhoto(photoPath);;
-    }
     
     public String handledDate() {
         Date date = new Date();

@@ -2,9 +2,7 @@ package com.talk.demo.persistence;
 
 import android.database.Cursor;
 
-import com.talk.demo.types.Friend;
 import com.talk.demo.types.WalkRoom;
-import com.talk.demo.util.RawRoom;
 
 import java.lang.reflect.Field;
 
@@ -18,34 +16,12 @@ public class RoomRecord extends CommonRecord {
          
         declaredFields = c.getDeclaredFields();
     }
-    public void setHandleName(String v) {
-        room.setHandle(v);
-    }
-        
-    public String getHandleName() {
-        return room.getHandle();
-    }
-    
-    public void setDirty(int v) {
-        room.setDirty(v);
-    }
-    
-    public int getDirty() {
-        return room.getDirty();
-    }
     
     public RoomRecord(String v1) {
-        setHandleName(v1);
+    	room.setHandle(v1);
        
     }
 
-    public void setUserName(String v) {
-    	room.setRoomName(v);
-    }
-	    
-    public String getUserName() {
-        return room.getRoomName();
-    }
 
 	@Override
 	public int getNumItems() {

@@ -114,7 +114,7 @@ public class FindIntimateListAdapter extends BaseAdapter {
     	//check whether have saved
     	List<FriendRecord> frList = mgr.queryFriend();
     	for(FriendRecord temp : frList) {
-    		if(temp.userName.equals(name)) {
+    		if(temp.getFriend().getUserName().equals(name)) {
     			//already add it, skip it
     			return;
     		}

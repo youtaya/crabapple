@@ -54,7 +54,7 @@ public class IntimateActivity extends Activity {
                     int position, long id) {
                 Log.d(TAG, "position : "+position+"id : "+id);
 				TextView name = (TextView)view.findViewById(R.id.friend_name);
-				friendId = frList.get(position)._id;
+				friendId = frList.get(position).getFriend().getDataId();
 				friendName = name.getText().toString();
 				//Todo:start daily edit activity
 		        Intent mIntent = new Intent(IntimateActivity.this, EditIntimateActivity.class);
@@ -71,7 +71,7 @@ public class IntimateActivity extends Activity {
         
         frList = mgr.queryFriend();
         for (FriendRecord fr : frList) {
-        	friends.add(fr.getUserName());
+        	friends.add(fr.getFriend().getUserName());
         }
         initData();
         

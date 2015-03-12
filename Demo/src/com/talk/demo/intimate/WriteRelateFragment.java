@@ -50,7 +50,7 @@ public class WriteRelateFragment extends Fragment {
        
         pressWall = (TextView) rootView.findViewById(R.id.press_wall);
         mFriendRecord = mgr.queryFriendTheParam(mFriendId);
-        pressWall.setText(mFriendRecord.description);
+        pressWall.setText(mFriendRecord.getFriend().getDescription());
         
         gridView = (GridView) rootView.findViewById(R.id.ment_content);
         mentAdapter = new MentGridViewAdapter(getActivity(), contents);

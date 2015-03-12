@@ -14,11 +14,15 @@ import android.util.Log;
 
 import com.talk.demo.account.AccountConstants;
 import com.talk.demo.persistence.DBManager;
+import com.talk.demo.types.Friend;
+import com.talk.demo.types.Record;
+import com.talk.demo.util.HttpRequest.HttpRequestException;
 import com.talk.demo.util.NetworkUtilities;
 import com.talk.demo.util.RawFriend;
 import com.talk.demo.util.RawRecord;
 
 import org.apache.http.ParseException;
+import org.json.JSONException;
 
 import java.io.IOException;
 import java.util.List;
@@ -51,7 +55,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter  {
 		Log.d(TAG, "onPerformSync");
 		try {
 			List<RawRecord> dirtyRecords;
-	        List<RawRecord> updatedRecords;
+	        List<Record> updatedRecords;
 	        // see if we already have a sync-state attached to this account. By handing
 	        // This value to the server, we can just get the contacts that have
 	        // been updated on the server-side since our last sync-up
@@ -65,14 +69,15 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter  {
 	        DBManager db = new DBManager(mContext);
 	        dirtyRecords = SyncCompaign.getDirtyRecords(db);
 	        Log.d(TAG, "sync record start");
-			updatedRecords = NetworkUtilities.syncRecords(account, authtoken, lastSyncMarker, dirtyRecords);
+			updatedRecords = NetworkUtilities.syncRecords_v2(account, authtoken, lastSyncMarker, dirtyRecords);
 			SyncCompaign.updateRecords(db, updatedRecords);
 			
 			Log.d(TAG, "sync friend start");
 			List<RawFriend> dirtyFriends;
-			List<RawFriend> updatedFriends;
+			List<Friend> updatedFriends;
 			dirtyFriends = SyncCompaign2.getDirtyFriends(db);
-			updatedFriends = NetworkUtilities.syncFriends(account, authtoken, lastSyncMarker, dirtyFriends);
+				
+			updatedFriends = NetworkUtilities.syncFriends_v2(account, authtoken, lastSyncMarker, dirtyFriends);
 			SyncCompaign2.updateFriends(db, updatedFriends);
 			
 		} catch (final AuthenticatorException e) {
@@ -86,7 +91,13 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter  {
         } catch (final ParseException e) {
             Log.e(TAG, "ParseException", e);
             syncResult.stats.numParseExceptions++;
-        }
+        } catch (HttpRequestException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (JSONException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 	}
 	
     /**

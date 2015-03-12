@@ -90,7 +90,7 @@ public class RecordManager {
 		List<DialogRecord> roomlist = new ArrayList<DialogRecord>();
 		
 		for (DialogRecord dr : drlist) {
-			String talkObj = getTalkObject(dr.sender, dr.link);
+			String talkObj = getTalkObject(dr.getPrvDialog().getSender(), dr.getPrvDialog().getLink());
 			if(!exsitRoom(roomSet, talkObj)) {
 				roomSet.add(talkObj);
 				
@@ -104,20 +104,20 @@ public class RecordManager {
 				tvi.setTalkName(talkObj);
 				
 				for(DialogRecord r: roomlist) {
-					DialogItem di = new DialogItem(r._id, r.sender, r.link, 
-							r.calc_date, r.create_time, r.content, r.content_type);
+					DialogItem di = new DialogItem(r.getPrvDialog()._id, r.getPrvDialog().sender, r.getPrvDialog().link, 
+							r.getPrvDialog().calc_date, r.getPrvDialog().create_time, r.getPrvDialog().content, r.getPrvDialog().content_type);
 
-					di.setIntervalTime(r.send_interval_time);
-					di.setDoneTime(r.send_done_time);
+					di.setIntervalTime(r.getPrvDialog().send_interval_time);
+					di.setDoneTime(r.getPrvDialog().send_done_time);
 					
 					DialogCache dc = new DialogCache();
-					dc.setId(r._id);
-					dc.setSender(r.sender);
-					dc.setLink(r.link);
-					dc.setContent(r.content);
-					dc.setCreateDate(r.calc_date);
-					dc.setCreateTime(r.create_time);
-					dc.setMediaType(r.content_type);
+					dc.setId(r.getPrvDialog()._id);
+					dc.setSender(r.getPrvDialog().sender);
+					dc.setLink(r.getPrvDialog().link);
+					dc.setContent(r.getPrvDialog().content);
+					dc.setCreateDate(r.getPrvDialog().calc_date);
+					dc.setCreateTime(r.getPrvDialog().create_time);
+					dc.setMediaType(r.getPrvDialog().content_type);
 					
 					dItems.add(di);
 					cache.add(dc);
@@ -201,7 +201,7 @@ public class RecordManager {
 			
 			TimeRecord tr = trlist.get(i);
 			
-			String mYearMonth = tr.calc_date.substring(0,7);
+			String mYearMonth = tr.getTimeRecord().calc_date.substring(0,7);
 			
 			if(!exsitDateItem(ourDateSet, mYearMonth)) {
 				ourDateSet.add(mYearMonth);
@@ -212,43 +212,44 @@ public class RecordManager {
 				time_records.add(tvi_head);
 			}
 			
-			if(tr.tag != null) {
-				if(!exsitTag(ourTagSet, tr.tag)) {
-					ourTagSet.add(tr.tag);
+			if(tr.getTimeRecord().tag != null) {
+				if(!exsitTag(ourTagSet, tr.getTimeRecord().tag)) {
+					ourTagSet.add(tr.getTimeRecord().tag);
 					tvi.setType(2);
-					Log.d(TAG, "tag is: "+tr.tag);
+					Log.d(TAG, "tag is: "+tr.getTimeRecord().tag);
 					
 					ArrayList<TimeCache> listCache = new ArrayList<TimeCache>();
 					ArrayList<ViewAsItem> listViewAsItem = new ArrayList<ViewAsItem>();
 					
-					tvi.setTagTitle(tr.tag);
-					tag_records = dbMgr.queryTimeTag(tr.tag);
+					tvi.setTagTitle(tr.getTimeRecord().tag);
+					tag_records = dbMgr.queryTimeTag(tr.getTimeRecord().tag);
 					for(TimeRecord item : tag_records) {
 						TimeCache rc = new TimeCache();
-						ViewAsItem vi = new ViewAsItem(item._id, item.calc_date,item.create_time,
-								item.content,item.content_type,item.photo);
-						vi.setTitle(item.title);
+						ViewAsItem vi = new ViewAsItem(item.getTimeRecord()._id, item.getTimeRecord().calc_date,item.getTimeRecord().create_time,
+								item.getTimeRecord().content,item.getTimeRecord().content_type,item.getTimeRecord().photo);
+						vi.setTitle(item.getTimeRecord().title);
 						
-						rc.setId(item._id);
-						rc.setContent(item.content);
-						rc.setCreateDate(item.calc_date);
-						rc.setCreateTime(item.create_time);
-						rc.setMediaType(item.content_type);
-						rc.setPhotoPath(item.photo);
+						rc.setId(item.getTimeRecord()._id);
+						rc.setContent(item.getTimeRecord().content);
+						rc.setCreateDate(item.getTimeRecord().calc_date);
+						rc.setCreateTime(item.getTimeRecord().create_time);
+						rc.setMediaType(item.getTimeRecord().content_type);
+						rc.setPhotoPath(item.getTimeRecord().photo);
 						
 						listCache.add(rc);
 						listViewAsItem.add(vi);
 					}
 					
-					record_cache.put(tr.tag, listCache);
+					record_cache.put(tr.getTimeRecord().tag, listCache);
 					tvi.setListViewItem(listViewAsItem);
 					time_records.add(tvi);
 				}
 				continue;
 			}
 			tvi.setType(1);
-			ViewAsItem vai = new ViewAsItem(tr._id, tr.calc_date,tr.create_time,tr.content,tr.content_type,tr.photo);
-			vai.setTitle(tr.title);
+			ViewAsItem vai = new ViewAsItem(tr.getTimeRecord()._id, tr.getTimeRecord().calc_date,
+					tr.getTimeRecord().create_time,tr.getTimeRecord().content,tr.getTimeRecord().content_type,tr.getTimeRecord().photo);
+			vai.setTitle(tr.getTimeRecord().title);
 			
 			tvi.setViewItem(vai);
 			time_records.add(tvi);
@@ -280,14 +281,14 @@ public class RecordManager {
 			TimeRecord tr = trlist.get(i);
 			TimeViewItem tvi = new TimeViewItem();
 			TimeCache rc = new TimeCache();
-			ViewAsItem vi = new ViewAsItem(tr._id, tr.calc_date,tr.create_time,
-					tr.content,tr.content_type,tr.photo);
-			rc.setId(tr._id);
-			rc.setContent(tr.content);
-			rc.setCreateDate(tr.calc_date);
-			rc.setCreateTime(tr.create_time);
-			rc.setMediaType(tr.content_type);
-			rc.setPhotoPath(tr.photo);
+			ViewAsItem vi = new ViewAsItem(tr.getTimeRecord()._id, tr.getTimeRecord().calc_date,tr.getTimeRecord().create_time,
+					tr.getTimeRecord().content,tr.getTimeRecord().content_type,tr.getTimeRecord().photo);
+			rc.setId(tr.getTimeRecord()._id);
+			rc.setContent(tr.getTimeRecord().content);
+			rc.setCreateDate(tr.getTimeRecord().calc_date);
+			rc.setCreateTime(tr.getTimeRecord().create_time);
+			rc.setMediaType(tr.getTimeRecord().content_type);
+			rc.setPhotoPath(tr.getTimeRecord().photo);
 			
 			record_cache.add(rc);
 			tvi.setViewItem(vi);

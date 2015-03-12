@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.talk.demo.persistence.DBManager;
 import com.talk.demo.persistence.FriendRecord;
+import com.talk.demo.types.Friend;
 import com.talk.demo.util.RawFriend;
 
 import java.util.ArrayList;
@@ -15,10 +16,10 @@ public class SyncCompaign2 {
     
     private static String myLog(FriendRecord fr) {
         
-        String isDirty = (fr.dirty ==1)?"yes":"no";
-    	String info = " id: "+String.valueOf(fr._id)+
-    			" server id: "+String.valueOf(fr.server_id)+
-    			" user name: "+fr.userName+
+        String isDirty = (fr.getFriend().getDirty() ==1)?"yes":"no";
+    	String info = " id: "+String.valueOf(fr.getFriend().getDataId())+
+    			" server id: "+String.valueOf(fr.getFriend().getServerId())+
+    			" user name: "+fr.getFriend().getUserName()+
                 " dirty: " +isDirty;
     	return info;
     }
@@ -35,15 +36,15 @@ public class SyncCompaign2 {
     	for(FriendRecord fr: frlist) {
     		Log.d(TAG, "friend record: "+myLog(fr));
     	    //check the dirty and deleted flag
-    	    final boolean isDeleted = (1 == fr.deleted);
-    	    final boolean isDirty = (1 == fr.dirty);
+    	    final boolean isDeleted = (1 == fr.getFriend().getDeleted());
+    	    final boolean isDirty = (1 == fr.getFriend().getDirty());
             if (isDeleted) {
                 Log.i(TAG, "friend is marked for deletion");
-                RawFriend rawFriend = RawFriend.createDeletedFriend(fr._id,
-                        fr.server_id);
+                RawFriend rawFriend = RawFriend.createDeletedFriend(fr.getFriend().getDataId(),
+                        fr.getFriend().getServerId());
                 dirtyFriends.add(rawFriend);
             } else if (isDirty) {
-                RawFriend rawFriend = getRawFriend(db, fr._id);
+                RawFriend rawFriend = getRawFriend(db, fr.getFriend().getDataId());
                 Log.i(TAG, "friend Name: " + rawFriend.getUserName());
                 dirtyFriends.add(rawFriend);
             }
@@ -55,23 +56,23 @@ public class SyncCompaign2 {
     /*
      * update records from server
      */
-    public static void updateFriends(DBManager db, List<RawFriend> updateFriends) {
+    public static void updateFriends(DBManager db, List<Friend> updateFriends) {
     	/*
     	 * 1: Update server id
     	 * 2: Clear dirty flag
     	 * 3: Delete deleted record
     	 * 4: Get sync state
     	 */
-        for(RawFriend rf: updateFriends) {
+        for(Friend rf: updateFriends) {
             FriendRecord fr = new FriendRecord(rf);
             Log.d(TAG, "server id: " + rf.getServerId());
             Log.d(TAG, "client id: " + rf.getDataId());
             
             if(rf.getDataId() == -1) {
-            	Log.d(TAG, "[need add] server id: " + fr.server_id);
+            	Log.d(TAG, "[need add] server id: " + fr.getFriend().server_id);
             	db.addFriendFromServer(fr);
             } else {
-            	Log.d(TAG, "[update] server id: " + fr.server_id);
+            	Log.d(TAG, "[update] server id: " + fr.getFriend().server_id);
             	db.updateFriendServerInfo(fr);
             }
 
@@ -93,13 +94,13 @@ public class SyncCompaign2 {
         
         FriendRecord fr = db.queryFriendTheParam(clientId);
         
-        name = fr.userName;
-        handle = fr.handle;
-        phone = fr.phoneMobile;
-        serverRecordId = fr.server_id;
-        avatar = fr.avatar;
-        description = fr.description;
-        rawRecordId = fr._id;
+        name = fr.getFriend().getUserName();
+        handle = fr.getFriend().getHandle();
+        phone = fr.getFriend().getPhoneMobile();
+        serverRecordId = fr.getFriend().getServerId();
+        avatar = fr.getFriend().getAvatar();
+        description = fr.getFriend().getDescription();
+        rawRecordId = fr.getFriend().getDataId();
         
         RawFriend rf = RawFriend.create(name, handle, phone, avatar, description, 
         		serverRecordId, rawRecordId);

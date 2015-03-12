@@ -38,8 +38,8 @@ public class AddTagActivity extends Activity {
         	if(mTagName.length() > 0) {
         	    //add tag item to database
         		TagRecord tagr = new TagRecord();
-        		tagr.setTagName(mTagName);
-        		tagr.setDirty(1);
+        		tagr.getTag().setTagName(mTagName);
+        		tagr.getTag().setDirty(1);
         	    mgr.addTag(tagr);
         	    
 	            Intent mIntent = new Intent();

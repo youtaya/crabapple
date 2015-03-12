@@ -65,7 +65,7 @@ public class PeopleFragment extends Fragment {
                     int position, long id) {
                 Log.d(TAG, "position : "+position+"id : "+id);
 				TextView name = (TextView)view.findViewById(R.id.friend_name);
-				friendId = frList.get(position)._id;
+				friendId = frList.get(position).getFriend().getDataId();
 				friendName = name.getText().toString();
 				//Todo:start daily edit activity
 		        Intent mIntent = new Intent(mContext, EditIntimateActivity.class);
@@ -82,7 +82,7 @@ public class PeopleFragment extends Fragment {
         
         frList = mgr.queryFriend();
         for (FriendRecord fr : frList) {
-        	friends.add(fr.getUserName());
+        	friends.add(fr.getFriend().getUserName());
         }
         initData();
         

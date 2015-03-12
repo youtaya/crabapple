@@ -36,7 +36,7 @@ public class SelectTagActivity extends Activity {
         mgr = new DBManager(this);
         tagList = mgr.queryTag();
         for(TagRecord tr : tagList) {
-        	listItems.add(tr.getTagName());
+        	listItems.add(tr.getTag().getTagName());
         }
         adapter=new ArrayAdapter<String>(this,
                 android.R.layout.simple_list_item_1,

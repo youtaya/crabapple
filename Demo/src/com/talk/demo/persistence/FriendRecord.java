@@ -17,36 +17,20 @@ public class FriendRecord extends CommonRecord {
          
         declaredFields = c.getDeclaredFields();
     }
-    
-    public void setHandleName(String v) {
-        friend.setHandle(v);;
-    }
-        
-    public String getHandleName() {
-        return friend.getHandle();
+    public Friend getFriend() {
+    	return friend;
     }
     
-    public void setDirty(int v) {
-        friend.setDirty(v);
+    public FriendRecord(Friend f) {
+    	friend = f;
     }
-    
-    public int getDirty() {
-        return friend.getDirty();
-    }
-
+  
     public FriendRecord(String v1) {
-        setUserName(v1);
+        friend.setUsername(v1);
        
     }
 
-    public void setUserName(String v) {
-        friend.setUsername(v);
-    }
-	    
-    public String getUserName() {
-        return friend.getUserName();
-    }
-
+   
 	@Override
 	public int getNumItems() {
 	    return declaredFields.length-1;

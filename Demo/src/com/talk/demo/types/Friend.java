@@ -32,13 +32,13 @@ public class Friend implements TalkType {
     public void setHandle(String v) {
         handle = v;
     }
-    public long getServerId() {
+    public int getServerId() {
         return server_id;
     }
     public void setServerId(int v) {
         server_id = v;
     }
-    public long getDataId() {
+    public int getDataId() {
         return _id;
     }
     public void setDataId(int v) {
@@ -85,6 +85,10 @@ public class Friend implements TalkType {
     
     public int getDirty() {
         return dirty;
+    }
+    
+    public int getDeleted() {
+    	return deleted;
     }
     
     public void getObjectItems(Object[] obj) {

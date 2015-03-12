@@ -207,8 +207,8 @@ public class DailyEditActivity extends Activity {
 		String result = "ok";
 
         //TODO 
-		RawDialog raw = RawDialog.create(ownUser, ownUser, friend, friend, dialog.content,
-				dialog.calc_date, dialog.create_time, dialog.content_type, null,
+		RawDialog raw = RawDialog.create(ownUser, ownUser, friend, friend, dialog.getPrvDialog().getContent(),
+				dialog.getPrvDialog().getCreateDate(), dialog.getPrvDialog().getCreateTime(), dialog.getPrvDialog().getContentType(), null,
 				null, false, 11, 12, -1, true);
 		try {
 			NetworkUtilities.shareRecord(raw, ownUser, name);
@@ -250,15 +250,15 @@ public class DailyEditActivity extends Activity {
 			tr = new TimeRecord(content);
 			if(fileName != null) {
 				//tr = new TimeRecord("/sdcard/Demo/"+fileName);
-				tr.setPhoto(fileName);
+				tr.getTimeRecord().setPhoto(fileName);
 				new SyncPhotoTask().execute();
-				tr.setContentType(TalkUtil.MEDIA_TYPE_PHOTO_TEXT);
+				tr.getTimeRecord().setContentType(TalkUtil.MEDIA_TYPE_PHOTO_TEXT);
 			} else {
-				tr.setContentType(TalkUtil.MEDIA_TYPE_TEXT);
+				tr.getTimeRecord().setContentType(TalkUtil.MEDIA_TYPE_TEXT);
 			}
 			
 			if(pre_content != null) {
-				tr.setTitle(pre_content);
+				tr.getTimeRecord().setTitle(pre_content);
 			}
 			
 			rMgr.addRecord(tr);
@@ -281,16 +281,16 @@ public class DailyEditActivity extends Activity {
             
             if(fileName != null) {
                 //tr = new TimeRecord("/sdcard/Demo/"+fileName);
-                dr.setPhoto(fileName);
+                dr.getPrvDialog().setPhoto(fileName);
                 new SyncPhotoTask().execute();
-                dr.setContentType(TalkUtil.MEDIA_TYPE_PHOTO_TEXT);
+                dr.getPrvDialog().setContentType(TalkUtil.MEDIA_TYPE_PHOTO_TEXT);
             } else {
-                dr.setContentType(TalkUtil.MEDIA_TYPE_TEXT);
+                dr.getPrvDialog().setContentType(TalkUtil.MEDIA_TYPE_TEXT);
             }
             		
             //TODO: add msg_interval_time and msg_done_time
  
-            dr.setSendInterval(wait_x_time);
+            dr.getPrvDialog().setSendInterval(wait_x_time);
             //current+interval
             Calendar calendar = Calendar.getInstance();
 
@@ -301,12 +301,12 @@ public class DailyEditActivity extends Activity {
             String done_time = DateFormat.format("yyyyMMddHHmmss", calendar.getTime()).toString();
             String test_time = formatter.format(date);
             Log.d(TAG , "done time "+done_time+" test time "+test_time);
-            dr.setSendDoneTime(done_time);
+            dr.getPrvDialog().setSendDoneTime(done_time);
 
             // add sender object
-            dr.setSender(ownUser);
+            dr.getPrvDialog().setSender(ownUser);
             // save link object
-            dr.setLink(target);
+            dr.getPrvDialog().setLink(target);
             rMgr.addDialog(dr);
         }
 		//TODO: start Alarm Manager to send message after wait time
@@ -331,19 +331,19 @@ public class DailyEditActivity extends Activity {
 
             if (fileName != null) {
                 // tr = new TimeRecord("/sdcard/Demo/"+fileName);
-                tr.setPhoto(fileName);
+                tr.getTimeRecord().setPhoto(fileName);
                 new SyncPhotoTask().execute();
-                tr.setContentType(TalkUtil.MEDIA_TYPE_PHOTO_TEXT);
+                tr.getTimeRecord().setContentType(TalkUtil.MEDIA_TYPE_PHOTO_TEXT);
             } else {
-                tr.setContentType(TalkUtil.MEDIA_TYPE_TEXT);
+                tr.getTimeRecord().setContentType(TalkUtil.MEDIA_TYPE_TEXT);
             }
             
 			if(pre_content != null) {
-				tr.setTitle(pre_content);
+				tr.getTimeRecord().setTitle(pre_content);
 			}
 			
             // save tag object
-            tr.setTag(tag);
+            tr.getTimeRecord().setTag(tag);
             rMgr.addRecord(tr);
         }
         //startActivity(new Intent(this, TagActivity.class));

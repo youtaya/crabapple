@@ -53,13 +53,13 @@ public class DBManager {
     
     public void addTimeFromServer(TimeRecord tr) {
         Map<String, Object> sortVar = new HashMap<String, Object>();
-        sortVar.put("server_id", tr.server_id);
+        sortVar.put("server_id", tr.getTimeRecord().getServerId());
         DataOperation doa = new DataOperation(db, "records");
         Cursor c = doa.queryCursorWithCond(sortVar);
         
     	if(c != null && c.moveToFirst()) {
     		Log.d(TAG, "No need to creat new record!");
-    		doa.updateServerId(tr.server_id,tr._id,tr.sync_time);
+    		doa.updateServerId(tr.getTimeRecord().getServerId(),tr.getTimeRecord().getDataId(),tr.getTimeRecord().getSyncState());
     	} else {
 	        addTime(tr);
     	}
@@ -67,13 +67,13 @@ public class DBManager {
     
     public void addFriendFromServer(FriendRecord fr) {
         Map<String, Object> sortVar = new HashMap<String, Object>();
-        sortVar.put("server_id", fr.server_id);
+        sortVar.put("server_id", fr.getFriend().getServerId());
         DataOperation doa = new DataOperation(db, "friends");
         Cursor c = doa.queryCursorWithCond(sortVar);
         
         if(c != null && c.moveToFirst()) {
             Log.d(TAG, "No need to creat new record!");
-            doa.updateServerId(fr.server_id,fr._id,fr.sync_time);
+            doa.updateServerId(fr.getFriend().getServerId(),fr.getFriend().getDataId(),fr.getFriend().getSyncState());
         } else {
         	addFriend(fr);
         }
@@ -90,7 +90,7 @@ public class DBManager {
     }
     
     public void updateContent(TimeRecord tRecord) {
-    	new DataOperation(db, "records").updateContent(tRecord._id, tRecord.content);
+    	new DataOperation(db, "records").updateContent(tRecord.getTimeRecord().getDataId(), tRecord.getTimeRecord().getContent());
         rp.addRich(1);
     }
   
@@ -103,11 +103,13 @@ public class DBManager {
     }
     
     public void updateServerInfo(TimeRecord tRecord) {
-    	new DataOperation(db, "records").updateServerId(tRecord.server_id,tRecord._id,tRecord.sync_time);
+    	new DataOperation(db, "records").updateServerId(
+    			tRecord.getTimeRecord().getServerId(),tRecord.getTimeRecord().getDataId(),tRecord.getTimeRecord().getSyncState());
     }
     
     public void  updateFriendServerInfo(FriendRecord fRecord) {
-    	new DataOperation(db, "friends").updateServerId(fRecord.server_id,fRecord._id,fRecord.sync_time);
+    	new DataOperation(db, "friends").updateServerId(
+    			fRecord.getFriend().getServerId(),fRecord.getFriend().getDataId(),fRecord.getFriend().getSyncState());
     }
     
     /** 
