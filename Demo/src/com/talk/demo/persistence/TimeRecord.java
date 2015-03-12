@@ -13,12 +13,16 @@ public class TimeRecord extends CommonRecord {
     private Record record;
     private Field[] declaredFields;
     
-    public TimeRecord() {
+    public void init() {
         record = new Record();     
         
         Class c = record.getClass();     
          
         declaredFields = c.getDeclaredFields();
+    }
+    
+    public TimeRecord() {
+    	init();
     }
     
     public Record getTimeRecord() {
@@ -38,6 +42,7 @@ public class TimeRecord extends CommonRecord {
     }
     
     public TimeRecord(String v1) {
+    	init();
     	record.setContent(v1);
         record.setCreateDate(handledDate());
         record.setCreateTime(handledTime());
