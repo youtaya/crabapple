@@ -135,14 +135,14 @@ public class DataOperation {
         return c;  
     }
     
-    public void updateServerId(CommonRecord record) {  
+    public void updateServerId(int server_id, long cid, long sync_time) {  
         ContentValues cv = new ContentValues();  
-        cv.put("server_id", record.server_id); 
+        cv.put("server_id", server_id); 
         //set dirty flag : 0
         cv.put("dirty", 0);
-        cv.put("sync_time", record.sync_time);
-        Log.d(TAG,"update id: "+record._id);
-        innerDB.update(table_name, cv, "id" + "='" +record._id+"'", null);
+        cv.put("sync_time", sync_time);
+        Log.d(TAG,"update id: "+cid);
+        innerDB.update(table_name, cv, "id" + "='" +cid+"'", null);
     }
     
     public void updateTag(int id, String tag) {  
@@ -159,10 +159,10 @@ public class DataOperation {
         innerDB.update(table_name, cv, "id" + "='" +id+"'", null);
     } 
     
-    public void updateContent(CommonRecord record, String content) {
+    public void updateContent(long cid, String content) {
         ContentValues cv = new ContentValues();  
         cv.put("content", content);  
-        Log.d(TAG,"update id: "+record._id);
-        innerDB.update(table_name, cv, "id" + "='" +record._id+"'", null);
+        Log.d(TAG,"update id: "+cid);
+        innerDB.update(table_name, cv, "id" + "='" +cid+"'", null);
     }
 }

@@ -1,71 +1,115 @@
 package com.talk.demo.types;
 
+import android.database.Cursor;
+
 
 public class Friend implements TalkType {
 
-    private String mUserName;
-    private String mPhoneMobile;
-    private String mAvatar;
-    private String mDescription;
+    public int _id;
+    public int server_id;
+    public String handle;
+    public long sync_time;
+    /*
+     * deleted flag :
+     * default : 0 mean don't delete, other: 1 mean need to delete
+     */
+    public int deleted = 0; 
+    /*
+     * dirty flag :
+     * default : 1 mean dirty and need to sync, other: 0 mean not need sync
+     */
+    public int dirty = 1;
     
-    private String mHandle;
-    private long mServerId;
-    private long mDataId;
-    private long mSyncState;
+    public String userName;
+    public String phoneMobile;
+    public String avatar;
+    public String description;
     
 
     public String getHandle() {
-        return mHandle;
+        return handle;
     }
     public void setHandle(String v) {
-        mHandle = v;
+        handle = v;
     }
     public long getServerId() {
-        return mServerId;
+        return server_id;
     }
-    public void setServerId(long v) {
-        mServerId = v;
+    public void setServerId(int v) {
+        server_id = v;
     }
     public long getDataId() {
-        return mDataId;
+        return _id;
     }
-    public void setDataId(long v) {
-        mDataId = v;
+    public void setDataId(int v) {
+        _id = v;
     }
     public long getSyncState() {
-        return mSyncState;
+        return sync_time;
     } 
     public void setSyncState(long v) {
-        mSyncState = v;
+        sync_time = v;
     }
     
     public void setUsername(String v) {
-    	mUserName = v;
+        userName = v;
     }
     public String getUserName() {
-        return mUserName;
+        return userName;
     }
     
     public void setPhoneMobile(String v) {
-    	mPhoneMobile = v;
+        phoneMobile = v;
     }
     public String getPhoneMobile() {
-        return mPhoneMobile;
+        return phoneMobile;
     }
     
     public void setAvatar(String v) {
-    	mAvatar = v;
+        avatar = v;
     }
     public String getAvatar() {
-        return mAvatar;
+        return avatar;
     }
     
     public void setDescription(String v) {
-    	mDescription = v;
+        description = v;
     }
     public String getDescription() {
-        return mDescription;
+        return description;
     }    
+    
+    public void setDirty(int v) {
+        dirty = v;
+    }
+    
+    public int getDirty() {
+        return dirty;
+    }
+    
+    public void getObjectItems(Object[] obj) {
+        obj[0] = server_id;
+        obj[1] = handle;
+        obj[2] = userName;
+        obj[3] = phoneMobile;
+        obj[4] = avatar;
+        obj[5] = description;
+        obj[6] = sync_time;
+        obj[7] = dirty;
+        obj[8] = deleted;
+        
+    }
 
+    public void dumpRecord(Cursor c) {
+        _id = c.getInt(c.getColumnIndex("id"));
+        server_id = c.getInt(c.getColumnIndex("server_id"));
+        userName = c.getString(c.getColumnIndex("username"));
+        handle = c.getString(c.getColumnIndex("handle"));
+        phoneMobile = c.getString(c.getColumnIndex("phone_mobile"));
+        avatar = c.getString(c.getColumnIndex("avatar"));
+        description = c.getString(c.getColumnIndex("description"));
+        sync_time = c.getLong(c.getColumnIndex("sync_time"));
+        
+    }
 
 }

@@ -3,95 +3,95 @@ package com.talk.demo.persistence;
 import android.database.Cursor;
 
 import com.talk.demo.time.TimeCache;
-import com.talk.demo.util.RawRecord;
+import com.talk.demo.types.Record;
 
+import java.lang.reflect.Field;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class TimeRecord extends CommonRecord {
-    public String content;
-    public String calc_date;
-    public String create_time;
-    public int send_interval_time;
-    public String send_done_time;
-    public int content_type;
-    
-    public String link;
-    public String title = "time";
-    public String photo;
-    public String audio;
-    public String tag;
+    private Record record;
+    private Field[] declaredFields;
     
     public TimeRecord() {
+        record = new Record();     
+        
+        Class c = record.getClass();     
+         
+        declaredFields = c.getDeclaredFields();
+    }
+    public void setHandleName(String v) {
+        record.setHandle(v);
+    }
+        
+    public String getHandleName() {
+        return record.getHandle();
     }
     
-    public TimeRecord(RawRecord rr) {
-    	super(rr);
-        if(null != rr.getLink())
-        	link = rr.getLink();
-        content = rr.getContent();
-        calc_date = rr.getCreateDate();
-        create_time = rr.getCreateTime();
-        content_type = rr.getContentType();
-        title = rr.getTitle();
+    public void setDirty(int v) {
+        record.setDirty(v);
+    }
+    
+    public int getDirty() {
+        return record.getDirty();
     }
     
     public TimeRecord(TimeCache rc) {
-    	_id = rc.getId();
-    	content = rc.getContent();
-    	calc_date = rc.getCreateDate();
-    	create_time = rc.getCreateTime();
-    	content_type = rc.getMediaType();
+    	record.setDataId(rc.getId());
+    	record.setContent(rc.getContent());
+    	record.setCreateDate(rc.getCreateDate());
+    	record.setCreateTime(rc.getCreateTime());
+    	record.setContentType(rc.getMediaType());
     }
     
     public TimeRecord(String v1) {
-        content = v1;
-        calc_date = handledDate();
-        create_time = handledTime();
+        setContent(v1);
+        record.setCreateDate(handledDate());
+        record.setCreateTime(handledTime());
        
     }
     
     public TimeRecord(String v1, String date) {
-        content = v1;
-        calc_date = date;
-        create_time = handledTime();
+        setContent(v1);
+        record.setCreateDate(date);
+        record.setCreateTime(handledTime());
     }
     
     public TimeRecord(String v1, Date date) {
-        content = v1;
-        calc_date = handledDate(date);
-        create_time = handledTime(date);
+        setContent(v1);
+        record.setCreateDate(handledDate(date));
+        record.setCreateTime(handledTime(date));
     }
     
     public void setLink(String v) {
-    	link = v;
+    	record.setLink(v);
     }
     
     public void setTitle(String v) {
-    	title = v;
+    	record.setTitle(v);
     }
     
     public void setSendInterval(int v) {
-        send_interval_time = v;
+        record.setSendInterval(v);
     }
     
     public void setSendDoneTime(String v) {
-        send_done_time = v;
+        record.setSendDoneTime(v);
     }
     
     public void setContent(String v) {
-    	content = v;
+    	record.setContent(v);
     }
     public void setContentType(int type) {
-        content_type = type;
+        record.setContentType(type);
     }
     
     public void setPhoto(String photoPath) {
-    	photo = photoPath;
+    	record.setPhoto(photoPath);
     }
     
     public void setTag(String pTag) {
-        tag = pTag;
+        record.setTag(pTag);
     }
     
     public String handledDate() {
@@ -117,48 +117,17 @@ public class TimeRecord extends CommonRecord {
 
 	@Override
 	public int getNumItems() {
-		return 16;
+	    return declaredFields.length-1;
 	}
 
 	@Override
 	public void getObjectItems(Object[] obj) {
-		obj[0] = super.server_id;
-		obj[1] = super.handle;
-		obj[2] = link;
-		obj[3] = title;
-		obj[4] = content;
-		obj[5] = calc_date;
-		obj[6] = create_time;
-		obj[7] = send_interval_time;
-		obj[8] = send_done_time;
-		obj[9] = content_type;
-		obj[10] = photo;
-		obj[11] = audio;
-		obj[12] = tag;
-		obj[13] = super.sync_time;
-		obj[14] = super.dirty;
-		obj[15] = super.deleted;
-		
+		record.getObjectItems(obj);
 	}
 
 	@Override
 	public void dumpRecord(Cursor c) {
-		super._id = c.getInt(c.getColumnIndex("id"));
-		super.server_id = c.getInt(c.getColumnIndex("server_id"));
-		super.handle = c.getString(c.getColumnIndex("handle"));
-        link = c.getString(c.getColumnIndex("link"));
-        title = c.getString(c.getColumnIndex("title"));
-        content = c.getString(c.getColumnIndex("content")); 
-        calc_date = c.getString(c.getColumnIndex("calc_date"));
-        create_time = c.getString(c.getColumnIndex("create_time")); 
-        send_interval_time = c.getInt(c.getColumnIndex("send_interval_time")); 
-        send_done_time = c.getString(c.getColumnIndex("send_done_time")); 
-        content_type = c.getInt(c.getColumnIndex("content_type"));
-        photo = c.getString(c.getColumnIndex("photo")); 
-        audio = c.getString(c.getColumnIndex("audio"));
-        tag = c.getString(c.getColumnIndex("tag")); 
-        super.sync_time = c.getLong(c.getColumnIndex("sync_time"));
-		
+		record.dumpRecord(c);
 	}
 
 }

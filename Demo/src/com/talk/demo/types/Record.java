@@ -1,136 +1,196 @@
 
 package com.talk.demo.types;
 
+import android.database.Cursor;
+
 public class Record implements TalkType {
 
-    private String mLink;
-    private String mTitle;
-    private String mContent;
-    private String mCreateDate;
-    private String mCreateTime;
-    private int mContentType;
-    private String mPhoto;
-    private String mAudio;
-    private String mTag;
-    private boolean mDeleted;
-    private boolean mDirty;
+    public int _id;
+    public int server_id;
+    public String handle;
+    public long sync_time;
+    /*
+     * deleted flag :
+     * default : 0 mean don't delete, other: 1 mean need to delete
+     */
+    public int deleted = 0; 
+    /*
+     * dirty flag :
+     * default : 1 mean dirty and need to sync, other: 0 mean not need sync
+     */
+    public int dirty = 1;
     
-    private String mHandle;
-    private long mServerId;
-    private long mDataId;
-    private long mSyncState;
+    public String content;
+    public String calc_date;
+    public String create_time;
+    public int send_interval_time;
+    public String send_done_time;
+    public int content_type;
+    
+    public String link;
+    public String title = "time";
+    public String photo;
+    public String audio;
+    public String tag;
     
 
     public String getHandle() {
-        return mHandle;
+        return handle;
     }
     public void setHandle(String v) {
-        mHandle = v;
+        handle = v;
     }
     public long getServerId() {
-        return mServerId;
+        return server_id;
     }
-    public void setServerId(long v) {
-        mServerId = v;
+    public void setServerId(int v) {
+        server_id = v;
     }
     public long getDataId() {
-        return mDataId;
+        return _id;
     }
-    public void setDataId(long v) {
-        mDataId = v;
+    public void setDataId(int v) {
+        _id = v;
     }
     public long getSyncState() {
-        return mSyncState;
+        return sync_time;
     } 
-    public void setSyncState(long v) {
-        mSyncState = v;
+    public void setSyncState(int v) {
+        sync_time = v;
     }
     
     public String getTitle() {
-        return mTitle;
+        return title;
     }
 
     public void setTitle(String v) {
-        mTitle = v;
+        title = v;
     }
 
     public String getContent() {
-        return mContent;
+        return content;
     }
 
     public void setContent(String v) {
-        mContent = v;
+        content = v;
     }
 
     public String getCreateDate() {
-        return mCreateDate;
+        return calc_date;
     }
 
     public void setCreateDate(String v) {
-        mCreateDate = v;
+        calc_date = v;
     }
 
     public String getCreateTime() {
-        return mCreateTime;
+        return create_time;
     }
 
     public void setCreateTime(String v) {
-        mCreateTime = v;
+        create_time = v;
     }
-
+    
+    public void setSendInterval(int v) {
+        send_interval_time = v;
+    }
+    
+    public void setSendDoneTime(String v) {
+        send_done_time = v;
+    }
+    
     public int getContentType() {
-        return mContentType;
+        return content_type;
     }
 
     public void setContentType(int v) {
-        mContentType = v;
+        content_type = v;
     }
 
     public String getPhoto() {
-        return mPhoto;
+        return photo;
     }
 
     public void setPhoto(String v) {
-        mPhoto = v;
+        photo = v;
     }
 
     public String getAudio() {
-        return mAudio;
+        return audio;
     }
 
     public void setAudio(String v) {
-        mAudio = v;
+        audio = v;
     }
 
     public String getTag() {
-        return mTag;
+        return tag;
     }
 
     public void setTag(String v) {
-        mTag = v;
+        tag = v;
     }
 
     public String getLink() {
-        return mLink;
+        return link;
     }
 
     public void setLink(String v) {
-        mLink = v;
+        link = v;
     }
 
-    public boolean isDeleted() {
-        return mDeleted;
+    public int getDeleted() {
+        return deleted;
     }
 
-    public void setDeleted(boolean v) {
-        mDeleted = v;
+    public void setDeleted(int v) {
+        deleted = v;
     }
 
-    public boolean isDirty() {
-        return mDirty;
+    public int getDirty() {
+        return dirty;
     }
 
-    public void setDirty(boolean v) {
-        mDirty = v;
+    public void setDirty(int v) {
+        dirty = v;
+    }
+    
+    public void getObjectItems(Object[] obj) {
+        obj[0] = server_id;
+        obj[1] = handle;
+        obj[2] = link;
+        obj[3] = title;
+        obj[4] = content;
+        obj[5] = calc_date;
+        obj[6] = create_time;
+        obj[7] = send_interval_time;
+        obj[8] = send_done_time;
+        obj[9] = content_type;
+        obj[10] = photo;
+        obj[11] = audio;
+        obj[12] = tag;
+        obj[13] = sync_time;
+        obj[14] = dirty;
+        obj[15] = deleted;
+        
+    }
+
+    public void dumpRecord(Cursor c) {
+        _id = c.getInt(c.getColumnIndex("id"));
+        server_id = c.getInt(c.getColumnIndex("server_id"));
+        handle = c.getString(c.getColumnIndex("handle"));
+        link = c.getString(c.getColumnIndex("link"));
+        title = c.getString(c.getColumnIndex("title"));
+        content = c.getString(c.getColumnIndex("content")); 
+        calc_date = c.getString(c.getColumnIndex("calc_date"));
+        create_time = c.getString(c.getColumnIndex("create_time")); 
+        send_interval_time = c.getInt(c.getColumnIndex("send_interval_time")); 
+        send_done_time = c.getString(c.getColumnIndex("send_done_time")); 
+        content_type = c.getInt(c.getColumnIndex("content_type"));
+        photo = c.getString(c.getColumnIndex("photo")); 
+        audio = c.getString(c.getColumnIndex("audio"));
+        tag = c.getString(c.getColumnIndex("tag")); 
+        sync_time = c.getLong(c.getColumnIndex("sync_time"));
+        
     }
 }

@@ -15,13 +15,13 @@ public class RecordParser extends AbstractResParser<Record> {
             obj.setHandle(json.getString("user"));
         } 
         if (json.has("sid")) {
-            obj.setServerId(json.getLong("sid"));
+            obj.setServerId(json.getInt("sid"));
         } 
         if (json.has("cid")) {
-            obj.setDataId(json.getLong("cid"));
+            obj.setDataId(json.getInt("cid"));
         } 
         if (json.has("x")) {
-            obj.setSyncState(json.getLong("x"));
+            obj.setSyncState(json.getInt("x"));
         } 
         
         if (json.has("link")) {
@@ -58,7 +58,7 @@ public class RecordParser extends AbstractResParser<Record> {
             obj.setTag(json.getString("tag"));
         }
         if (json.has("del")) {
-            obj.setDeleted(json.getBoolean("del"));
+            obj.setDeleted(json.getInt("del"));
         }
         
         

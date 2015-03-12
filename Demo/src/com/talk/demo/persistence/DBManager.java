@@ -1,5 +1,6 @@
 package com.talk.demo.persistence;
 
+import android.R.fraction;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -58,7 +59,7 @@ public class DBManager {
         
     	if(c != null && c.moveToFirst()) {
     		Log.d(TAG, "No need to creat new record!");
-    		doa.updateServerId(tr);
+    		doa.updateServerId(tr.server_id,tr._id,tr.sync_time);
     	} else {
 	        addTime(tr);
     	}
@@ -72,7 +73,7 @@ public class DBManager {
         
         if(c != null && c.moveToFirst()) {
             Log.d(TAG, "No need to creat new record!");
-            doa.updateServerId(fr);
+            doa.updateServerId(fr.server_id,fr._id,fr.sync_time);
         } else {
         	addFriend(fr);
         }
@@ -89,7 +90,7 @@ public class DBManager {
     }
     
     public void updateContent(TimeRecord tRecord) {
-    	new DataOperation(db, "records").updateContent(tRecord, tRecord.content);
+    	new DataOperation(db, "records").updateContent(tRecord._id, tRecord.content);
         rp.addRich(1);
     }
   
@@ -102,11 +103,11 @@ public class DBManager {
     }
     
     public void updateServerInfo(TimeRecord tRecord) {
-    	new DataOperation(db, "records").updateServerId(tRecord);
+    	new DataOperation(db, "records").updateServerId(tRecord.server_id,tRecord._id,tRecord.sync_time);
     }
     
     public void  updateFriendServerInfo(FriendRecord fRecord) {
-    	new DataOperation(db, "friends").updateServerId(fRecord);
+    	new DataOperation(db, "friends").updateServerId(fRecord.server_id,fRecord._id,fRecord.sync_time);
     }
     
     /** 

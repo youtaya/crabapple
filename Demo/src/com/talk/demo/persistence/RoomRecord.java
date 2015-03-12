@@ -2,59 +2,64 @@ package com.talk.demo.persistence;
 
 import android.database.Cursor;
 
+import com.talk.demo.types.Friend;
+import com.talk.demo.types.WalkRoom;
 import com.talk.demo.util.RawRoom;
 
+import java.lang.reflect.Field;
+
 public class RoomRecord extends CommonRecord {
-
-    public String username;
-    public String last_msg_time;
-
+    private WalkRoom room;
+    private Field[] declaredFields;
     public RoomRecord() {
+        room = new WalkRoom();     
+        
+        Class c = room.getClass();     
+         
+        declaredFields = c.getDeclaredFields();
+    }
+    public void setHandleName(String v) {
+        room.setHandle(v);
+    }
+        
+    public String getHandleName() {
+        return room.getHandle();
     }
     
-    public RoomRecord(RawRoom room) {
-    	super(room);
-    	username = room.getRoomName();
-    	last_msg_time = room.getLastMsgTime();
+    public void setDirty(int v) {
+        room.setDirty(v);
+    }
+    
+    public int getDirty() {
+        return room.getDirty();
     }
     
     public RoomRecord(String v1) {
-    	username = v1;
+        setHandleName(v1);
        
     }
 
     public void setUserName(String v) {
-    	username = v;
+    	room.setRoomName(v);
     }
 	    
     public String getUserName() {
-        return username;
+        return room.getRoomName();
     }
 
 	@Override
 	public int getNumItems() {
-		return 7;
+		return declaredFields.length-1;
 	}
 
 	@Override
 	public void getObjectItems(Object[] obj) {
-		obj[0] = super.server_id;
-		obj[1] = super.handle;
-		obj[2] = username;
-		obj[3] = last_msg_time;
-		obj[4] = super.sync_time;
-		obj[5] = super.dirty;
-		obj[6] = super.deleted;
+	    room.getObjectItems(obj);
 	}
 
 	@Override
 	public void dumpRecord(Cursor c) {
-    	super._id = c.getInt(c.getColumnIndex("id"));
-    	super.server_id = c.getInt(c.getColumnIndex("server_id"));
-    	username = c.getString(c.getColumnIndex("username"));
-    	last_msg_time = c.getString(c.getColumnIndex("last_msg_time"));
-    	super.handle = c.getString(c.getColumnIndex("handle"));
-    	super.sync_time = c.getLong(c.getColumnIndex("sync_time"));
+	    room.dumpRecord(c);
 		
 	}
 }

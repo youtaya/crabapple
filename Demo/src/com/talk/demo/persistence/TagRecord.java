@@ -2,55 +2,60 @@ package com.talk.demo.persistence;
 
 import android.database.Cursor;
 
-import com.talk.demo.util.RawTag;
+import com.talk.demo.types.BookTag;
+import java.lang.reflect.Field;
 
 public class TagRecord extends CommonRecord {
-
-    public String tagName;
-
+    private BookTag tag;
+    private Field[] declaredFields;
     public TagRecord() {
+        tag = new BookTag();     
+        
+        Class c = tag.getClass();     
+         
+        declaredFields = c.getDeclaredFields();
+    }
+    public void setHandleName(String v) {
+        tag.setHandleName(v);
+    }
+        
+    public String getHandleName() {
+        return tag.getHandleName();
     }
     
-    public TagRecord(RawTag tag) {
-    	super(tag);
-        tagName = tag.getTagName();
+    public void setDirty(int v) {
+        tag.setDirty(v);
+    }
+    
+    public int getDirty() {
+        return tag.getDirty();
     }
     
     public TagRecord(String v1) {
-    	tagName = v1;
+    	setTagName(v1);
        
     }
 
     public void setTagName(String v) {
-    	tagName = v;
+    	tag.setTagName(v);
     }
 	    
     public String getTagName() {
-        return tagName;
+        return tag.getTagName();
     }
 
 	@Override
 	public int getNumItems() {
-		return 6;
+		return declaredFields.length-1;
 	}
 
 	@Override
 	public void getObjectItems(Object[] obj) {
-		obj[0] = super.server_id;
-		obj[1] = super.handle;
-		obj[2] = tagName;
-		obj[3] = super.sync_time;
-		obj[4] = super.dirty;
-		obj[5] = super.deleted;
+	    tag.getObjectItems(obj);
 	}
 
 	@Override
 	public void dumpRecord(Cursor c) {
-    	super._id = c.getInt(c.getColumnIndex("id"));
-    	super.server_id = c.getInt(c.getColumnIndex("server_id"));
-    	tagName = c.getString(c.getColumnIndex("tagname"));
-    	super.handle = c.getString(c.getColumnIndex("handle"));
-    	super.sync_time = c.getLong(c.getColumnIndex("sync_time"));
-		
+    	tag.dumpRecord(c);
 	}
 }
