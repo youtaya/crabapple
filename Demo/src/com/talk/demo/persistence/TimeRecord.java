@@ -13,7 +13,7 @@ public class TimeRecord extends CommonRecord {
     private Record record;
     private Field[] declaredFields;
     
-    public void init() {
+    private void init() {
         record = new Record();     
         
         Class c = record.getClass();     

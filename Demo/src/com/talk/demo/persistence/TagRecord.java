@@ -9,6 +9,10 @@ public class TagRecord extends CommonRecord {
     private BookTag tag;
     private Field[] declaredFields;
     public TagRecord() {
+        init();
+    }
+    
+    private void init() {
         tag = new BookTag();     
         
         Class c = tag.getClass();     
@@ -20,6 +24,7 @@ public class TagRecord extends CommonRecord {
     	return tag;
     }
     public TagRecord(String v1) {
+        init();
     	tag.setTagName(v1);
        
     }

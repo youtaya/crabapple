@@ -11,17 +11,23 @@ public class FriendRecord extends CommonRecord {
     private Field[] declaredFields;
     
     public FriendRecord() {
+        init();
+    }
+    
+    private void init() {
         friend = new Friend();     
         
         Class c = friend.getClass();     
          
         declaredFields = c.getDeclaredFields();
     }
+    
     public Friend getFriend() {
     	return friend;
     }
     
     public FriendRecord(Friend f) {
+        init();
     	friend = f;
     }
   

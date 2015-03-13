@@ -10,6 +10,8 @@ import org.json.JSONObject;
 
 import android.accounts.Account;
 
+import com.talk.demo.types.Record;
+
 public class PackedFormData {
 	
     public static Map<String, String> signup(String username, String email, String password) {
@@ -60,12 +62,13 @@ public class PackedFormData {
         return params;
     }
     
-    public static Map<String, String> syncRecords(Account account, String authtoken, long serverSyncState, List<RawRecord> dirtyRecords) {
+    public static Map<String, String> syncRecords(
+            Account account, String authtoken, long serverSyncState, List<Record> dirtyRecords) {
         Map<String, String> params = new HashMap<String, String>();
         
         // Convert our list of User objects into a list of JSONObject
         List<JSONObject> jsonRecords = new ArrayList<JSONObject>();
-        for (RawRecord rawRecord : dirtyRecords) {
+        for (Record rawRecord : dirtyRecords) {
             jsonRecords.add(rawRecord.toJSONObject());
         }
 

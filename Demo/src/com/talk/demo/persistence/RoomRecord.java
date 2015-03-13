@@ -10,6 +10,10 @@ public class RoomRecord extends CommonRecord {
     private WalkRoom room;
     private Field[] declaredFields;
     public RoomRecord() {
+        init();
+    }
+    
+    private void init() {
         room = new WalkRoom();     
         
         Class c = room.getClass();     
@@ -18,8 +22,8 @@ public class RoomRecord extends CommonRecord {
     }
     
     public RoomRecord(String v1) {
+        init();
     	room.setHandle(v1);
-       
     }
 
 

@@ -28,9 +28,9 @@ public class SyncCompaign {
 	/*
 	 *  add for get dirty records
 	 */
-    public static List<RawRecord> getDirtyRecords(DBManager db) {
+    public static List<Record> getDirtyRecords(DBManager db) {
 
-    	List<RawRecord> dirtyTimes = new ArrayList<RawRecord>() ;
+    	List<Record> dirtyTimes = new ArrayList<Record>() ;
         /*
          *  get dirty records from db
          */
@@ -42,11 +42,11 @@ public class SyncCompaign {
     	    final boolean isDirty = (1 == tr.getTimeRecord().getDirty());
             if (isDeleted) {
                 Log.i(TAG, "Contact is marked for deletion");
-                RawRecord rawContact = RawRecord.createDeletedRecord(tr.getTimeRecord().getDataId(),
+                Record rawContact = Record.createDeletedRecord(tr.getTimeRecord().getDataId(),
                         tr.getTimeRecord().getServerId());
                 dirtyTimes.add(rawContact);
             } else if (isDirty) {
-                RawRecord rawContact = getRawRecord(db, tr.getTimeRecord().getDataId());
+                Record rawContact = getRawRecord(db, tr.getTimeRecord().getDataId());
                 Log.i(TAG, "Contact Name: " + rawContact.getHandle());
                 dirtyTimes.add(rawContact);
             }
@@ -91,42 +91,11 @@ public class SyncCompaign {
         
     }
     
-    private static RawRecord getRawRecord(DBManager db, int clientId) {
-        String name = null;
-        String link = null;
-        String title = null;
-        String content = null;
-        String createDate = null;
-        String createTime = null;
-        int contentType = 0;
-        String photo = null;
-        String audio = null;
-        String tag = null;
-        long serverRecordId = -1;;
-        long rawRecordId = -1;
-        long syncState = -1;
-        boolean dirty = false;
-        boolean deleted = false;
+    private static Record getRawRecord(DBManager db, int clientId) {
+   
         
         TimeRecord tr = db.queryTimeTheParam(clientId);
         
-        name = tr.getTimeRecord().getHandle();
-        title = tr.getTimeRecord().getTitle();
-        content = tr.getTimeRecord().getContent();
-        createDate = tr.getTimeRecord().getCreateDate();
-        createTime = tr.getTimeRecord().getCreateTime();
-        contentType = tr.getTimeRecord().getContentType();
-        photo = tr.getTimeRecord().getPhoto();
-        audio = tr.getTimeRecord().getAudio();
-        tag = tr.getTimeRecord().getTag();
-        link = tr.getTimeRecord().getLink();
-        serverRecordId = tr.getTimeRecord().getServerId();
-        rawRecordId = tr.getTimeRecord().getDataId();
-        
-        RawRecord rr = RawRecord.create(name, link, title, content, 
-                createDate, createTime, contentType, photo, 
-                audio, tag, deleted, serverRecordId, 
-                rawRecordId, syncState, dirty);
-        return rr;
+        return tr.getTimeRecord();
     }
 }

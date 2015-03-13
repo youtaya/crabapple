@@ -15,18 +15,22 @@ public class DialogRecord extends CommonRecord {
     private Field[] declaredFields;
     
     public DialogRecord() {
+        init();
+    }
+
+    private void init() {
         dialogData = new PrvDialog();     
         
         Class c = dialogData.getClass();     
          
         declaredFields = c.getDeclaredFields();
     }
-
     public PrvDialog getPrvDialog() {
     	return dialogData;
     }
     
     public DialogRecord(PrvDialog pd) {
+        init();
         dialogData = pd;
     }
     
@@ -39,6 +43,7 @@ public class DialogRecord extends CommonRecord {
     }
     
     public DialogRecord(String v1) {
+        init();
     	dialogData.setContent(v1);
         dialogData.setCreateDate(handledDate());
         dialogData.setCreateTime(handledTime());

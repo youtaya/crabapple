@@ -378,14 +378,6 @@ final public class NetworkUtilities {
         return null;
     }
     
-    @SuppressWarnings("unchecked")
-    public static Group<Record> syncRecords_v2(
-            Account account, String authtoken, long serverSyncState, List<RawRecord> dirtyRecords) throws JSONException, HttpRequestException {
-        HttpRequest request = createPost(SYNC_RECORDS_URI, 
-                PackedFormData.syncRecords(account, authtoken, serverSyncState, dirtyRecords));
-        return (Group<Record>)doHttpRequest(request,new GroupParser(new RecordParser()));
-    }
-    
     /**
      * Perform 2-way sync with the server-side contacts. We send a request that
      * includes all the locally-dirty contacts so that the server can process
@@ -398,7 +390,16 @@ final public class NetworkUtilities {
      * @param serverSyncState A token returned from the server on the last sync
      * @param dirtyContacts A list of the contacts to send to the server
      * @return A list of contacts that we need to update locally
-     */
+     */   
+    @SuppressWarnings("unchecked")
+    public static Group<Record> syncRecords_v2(
+            Account account, String authtoken, long serverSyncState, List<Record> dirtyRecords) throws JSONException, HttpRequestException {
+        HttpRequest request = createPost(SYNC_RECORDS_URI, 
+                PackedFormData.syncRecords(account, authtoken, serverSyncState, dirtyRecords));
+        return (Group<Record>)doHttpRequest(request,new GroupParser(new RecordParser()));
+    }
+    
+    /*
     public static List<RawRecord> syncRecords(
             Account account, String authtoken, long serverSyncState, List<RawRecord> dirtyRecords) {
 
@@ -445,7 +446,7 @@ final public class NetworkUtilities {
         return serverDirtyList;
 
     }
-    
+    */
     @SuppressWarnings("unchecked")
     public static Group<Friend> syncFriends_v2(
             Account account, String authtoken, long serverSyncState, List<RawFriend> dirtyFriends) throws JSONException, HttpRequestException {

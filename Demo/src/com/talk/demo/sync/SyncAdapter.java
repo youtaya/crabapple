@@ -54,7 +54,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter  {
 			ContentProviderClient provider, SyncResult syncResult) {
 		Log.d(TAG, "onPerformSync");
 		try {
-			List<RawRecord> dirtyRecords;
+			List<Record> dirtyRecords;
 	        List<Record> updatedRecords;
 	        // see if we already have a sync-state attached to this account. By handing
 	        // This value to the server, we can just get the contacts that have
