@@ -21,7 +21,6 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -319,68 +318,12 @@ final public class NetworkUtilities {
         return (PrvDialog)doHttpRequest(request,new DialogParser());
     }
         
-    /*
-    public static PrvDialog getDialog(String username, int id) {
-    	try {
-    		HttpRequest request = HttpRequest.post(GET_DIALOGS_URI);
-    		request.followRedirects(false);
-    		request.form(PackedFormData.getDialog(username, id));
-    		request.getConnection();
-    		int code = request.code();
-    		if(code == HttpStatus.SC_OK) {
-    			final String response = request.body();
-    			Log.d(TAG, "dialog respone : " + response);
-    	        final JSONObject dialogItem = new JSONObject(response);
-                final PrvDialog dialog = PrvDialog.valueOf(dialogItem);
-                return dialog;
-    		}
-    	} catch (HttpRequestException exception) {
-    		Log.d(TAG, "exception : "+ exception.toString());
-    	} catch (JSONException e) {
-    		Log.d(TAG, "json exception : "+ e.toString());
-		}    
-
-        return null;
-    }
-    */
-    
 
     @SuppressWarnings("unchecked")
     public static Group<Record> updateChannel_v2(String friend, String last_date) throws JSONException, HttpRequestException {
         HttpRequest request = createPost(VISIT_RECORDS_URI, PackedFormData.packedUpdateChannel(friend, last_date));
         return (Group<Record>)doHttpRequest(request,new GroupParser(new RecordParser()));
     }
-    
-    /*
-    public static List<RawRecord> updateChannel(String friend, String last_date) {
-        
-        final List<RawRecord> records = new LinkedList<RawRecord>();
-        
-        try {
-            HttpRequest request = HttpRequest.post(VISIT_RECORDS_URI);
-            request.followRedirects(false);
-            request.form(PackedFormData.packedUpdateChannel(friend, last_date));
-            request.getConnection();
-            int code = request.code();
-            if(code == HttpStatus.SC_OK) {
-                final String response = request.body();
-                Log.d(TAG, "get records respone : " + response);
-                final JSONArray jsonRecords = new JSONArray(response);
-                for (int i = 0; i < jsonRecords.length(); i++) {
-                    RawRecord rawRecord = RawRecord.valueOf(jsonRecords.getJSONObject(i));
-                    records.add(rawRecord);
-                }
-                return records;
-            }
-        } catch (HttpRequestException exception) {
-            Log.d(TAG, "exception : "+ exception.toString());
-        } catch (JSONException e) {
-            Log.d(TAG, "json exception : "+ e.toString());
-        }    
-
-        return null;
-    }
-    */
     
     /**
      * Perform 2-way sync with the server-side contacts. We send a request that
@@ -403,54 +346,6 @@ final public class NetworkUtilities {
         return (Group<Record>)doHttpRequest(request,new GroupParser(new RecordParser()));
     }
     
-    /*
-    public static List<RawRecord> syncRecords(
-            Account account, String authtoken, long serverSyncState, List<RawRecord> dirtyRecords) {
-
-        // Create an array that will hold the server-side records
-        // that have been changed (returned by the server).
-        final ArrayList<RawRecord> serverDirtyList = new ArrayList<RawRecord>();
-        
-        try {
-            // Send the updated friends data to the server
-            HttpRequest request = HttpRequest.post(SYNC_RECORDS_URI);
-            request.followRedirects(false);
-            request.form(PackedFormData.syncRecords(account, authtoken, serverSyncState, dirtyRecords));
-            request.getConnection();
-            int code = request.code();
-            if(code == HttpStatus.SC_OK) {
-                final String response = request.body();
-                Log.d(TAG, "get records respone : " + response);
-                // Our request to the server was successful - so we assume
-                // that they accepted all the changes we sent up, and
-                // that the response includes the contacts that we need
-                // to update on our side...
-                final JSONArray serverRecords = new JSONArray(response);
-                Log.d(TAG, serverRecords.toString());
-                for (int i = 0; i < serverRecords.length(); i++) {
-                    RawRecord rawRecord = RawRecord.valueOf(serverRecords.getJSONObject(i));
-                    if (rawRecord != null) {
-                        serverDirtyList.add(rawRecord);
-                    }
-                }
-
-            } else {
-                if (code == HttpStatus.SC_UNAUTHORIZED) {
-                    Log.e(TAG, "Authentication exception in sending dirty contacts");
-                } else {
-                    Log.e(TAG, "Server error in sending dirty contacts: " + code);
-                }
-            }
-        } catch (HttpRequestException exception) {
-            Log.d(TAG, "exception : "+ exception.toString());
-        } catch (JSONException e) {
-            Log.d(TAG, "json exception : "+ e.toString());
-        }    
-
-        return serverDirtyList;
-
-    }
-    */
     @SuppressWarnings("unchecked")
     public static Group<Friend> syncFriends_v2(
             Account account, String authtoken, long serverSyncState, List<Friend> dirtyFriends) throws JSONException, HttpRequestException {
@@ -458,46 +353,6 @@ final public class NetworkUtilities {
                 PackedFormData.syncFriends(account, authtoken, serverSyncState, dirtyFriends));
         return (Group<Friend>)doHttpRequest(request,new GroupParser(new FriendParser()));
     }
-    
-    /*
-    public static List<RawFriend> syncFriends(
-            Account account, String authtoken, long serverSyncState, List<RawFriend> dirtyFriends) {
-        final ArrayList<RawFriend> serverDirtyList = new ArrayList<RawFriend>();
-        try {
-            // Send the updated friends data to the server
-            HttpRequest request = HttpRequest.post(SYNC_FRIENDS_URI);
-            request.followRedirects(false);
-            request.form(PackedFormData.syncFriends(account, authtoken, serverSyncState, dirtyFriends));
-            request.getConnection();
-            int code = request.code();
-            if(code == HttpStatus.SC_OK) {
-                final String response = request.body();
-                Log.d(TAG, "get records respone : " + response);
-                final JSONArray serverRecords = new JSONArray(response);
-                Log.d(TAG, serverRecords.toString());
-                for (int i = 0; i < serverRecords.length(); i++) {
-                    RawFriend rawRecord = RawFriend.valueOf(serverRecords.getJSONObject(i));
-                    if (rawRecord != null) {
-                        serverDirtyList.add(rawRecord);
-                    }
-                }
-            } else {
-                if (code == HttpStatus.SC_UNAUTHORIZED) {
-                    Log.e(TAG, "Authentication exception in sending dirty contacts");
-                } else {
-                    Log.e(TAG, "Server error in sending dirty contacts: " + code);
-                }
-            }
-        } catch (HttpRequestException exception) {
-            Log.d(TAG, "exception : "+ exception.toString());
-        } catch (JSONException e) {
-            Log.d(TAG, "json exception : "+ e.toString());
-        }    
-    
-
-        return serverDirtyList;
-    }
-    */
     
     public static void syncPhoto(String imagePath) {
     	
