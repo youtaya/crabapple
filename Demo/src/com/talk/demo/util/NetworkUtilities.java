@@ -449,12 +449,13 @@ final public class NetworkUtilities {
     */
     @SuppressWarnings("unchecked")
     public static Group<Friend> syncFriends_v2(
-            Account account, String authtoken, long serverSyncState, List<RawFriend> dirtyFriends) throws JSONException, HttpRequestException {
+            Account account, String authtoken, long serverSyncState, List<Friend> dirtyFriends) throws JSONException, HttpRequestException {
         HttpRequest request = createPost(SYNC_FRIENDS_URI, 
                 PackedFormData.syncFriends(account, authtoken, serverSyncState, dirtyFriends));
         return (Group<Friend>)doHttpRequest(request,new GroupParser(new FriendParser()));
     }
     
+    /*
     public static List<RawFriend> syncFriends(
             Account account, String authtoken, long serverSyncState, List<RawFriend> dirtyFriends) {
         final ArrayList<RawFriend> serverDirtyList = new ArrayList<RawFriend>();
@@ -492,6 +493,7 @@ final public class NetworkUtilities {
 
         return serverDirtyList;
     }
+    */
     
     public static void syncPhoto(String imagePath) {
     	

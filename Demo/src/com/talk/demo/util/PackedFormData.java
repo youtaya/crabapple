@@ -10,6 +10,7 @@ import org.json.JSONObject;
 
 import android.accounts.Account;
 
+import com.talk.demo.types.Friend;
 import com.talk.demo.types.Record;
 
 public class PackedFormData {
@@ -86,12 +87,13 @@ public class PackedFormData {
         return params;
     }
     
-    public static Map<String, String> syncFriends(Account account, String authtoken, long serverSyncState, List<RawFriend> dirtyFriends) {
+    public static Map<String, String> syncFriends(
+            Account account, String authtoken, long serverSyncState, List<Friend> dirtyFriends) {
         Map<String, String> params = new HashMap<String, String>();
         
         // Convert our list of User objects into a list of JSONObject
         List<JSONObject> jsonRecords = new ArrayList<JSONObject>();
-        for (RawFriend rawFriend : dirtyFriends) {
+        for (Friend rawFriend : dirtyFriends) {
             jsonRecords.add(rawFriend.toJSONObject());
         }
         // Create a special JSONArray of our JSON contacts

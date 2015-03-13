@@ -5,7 +5,6 @@ import android.util.Log;
 import com.talk.demo.persistence.DBManager;
 import com.talk.demo.persistence.FriendRecord;
 import com.talk.demo.types.Friend;
-import com.talk.demo.util.RawFriend;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,9 +25,9 @@ public class SyncCompaign2 {
 	/*
 	 *  add for get dirty friends
 	 */
-    public static List<RawFriend> getDirtyFriends(DBManager db) {
+    public static List<Friend> getDirtyFriends(DBManager db) {
 
-    	List<RawFriend> dirtyFriends = new ArrayList<RawFriend>() ;
+    	List<Friend> dirtyFriends = new ArrayList<Friend>() ;
         /*
          *  get dirty records from db
          */
@@ -40,11 +39,11 @@ public class SyncCompaign2 {
     	    final boolean isDirty = (1 == fr.getFriend().getDirty());
             if (isDeleted) {
                 Log.i(TAG, "friend is marked for deletion");
-                RawFriend rawFriend = RawFriend.createDeletedFriend(fr.getFriend().getDataId(),
+                Friend friend = Friend.createDeletedFriend(fr.getFriend().getDataId(),
                         fr.getFriend().getServerId());
-                dirtyFriends.add(rawFriend);
+                dirtyFriends.add(friend);
             } else if (isDirty) {
-                RawFriend rawFriend = getRawFriend(db, fr.getFriend().getDataId());
+                Friend rawFriend = getRawFriend(db, fr.getFriend().getDataId());
                 Log.i(TAG, "friend Name: " + rawFriend.getUserName());
                 dirtyFriends.add(rawFriend);
             }
@@ -80,30 +79,10 @@ public class SyncCompaign2 {
         
     }
     
-    private static RawFriend getRawFriend(DBManager db, int clientId) {
-        String name = null;
-        String handle = null;
-        String phone = null;
-        String avatar = null;
-        String description = null;
-        long serverRecordId = -1;;
-        long rawRecordId = -1;
-        long syncState = -1;
-        boolean dirty = false;
-        boolean deleted = false;
+    private static Friend getRawFriend(DBManager db, int clientId) {
         
         FriendRecord fr = db.queryFriendTheParam(clientId);
         
-        name = fr.getFriend().getUserName();
-        handle = fr.getFriend().getHandle();
-        phone = fr.getFriend().getPhoneMobile();
-        serverRecordId = fr.getFriend().getServerId();
-        avatar = fr.getFriend().getAvatar();
-        description = fr.getFriend().getDescription();
-        rawRecordId = fr.getFriend().getDataId();
-        
-        RawFriend rf = RawFriend.create(name, handle, phone, avatar, description, 
-        		serverRecordId, rawRecordId);
-        return rf;
+        return fr.getFriend();
     }
 }

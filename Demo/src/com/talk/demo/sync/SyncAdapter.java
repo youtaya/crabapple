@@ -73,7 +73,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter  {
 			SyncCompaign.updateRecords(db, updatedRecords);
 			
 			Log.d(TAG, "sync friend start");
-			List<RawFriend> dirtyFriends;
+			List<Friend> dirtyFriends;
 			List<Friend> updatedFriends;
 			dirtyFriends = SyncCompaign2.getDirtyFriends(db);
 				

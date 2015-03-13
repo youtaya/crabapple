@@ -1,10 +1,15 @@
 package com.talk.demo.types;
 
 import android.database.Cursor;
+import android.text.TextUtils;
+import android.util.Log;
+
+import org.json.JSONObject;
 
 
 public class Friend implements TalkType {
 
+    private static String TAG = "Friend";
     public int _id;
     public int server_id;
     public String handle;
@@ -25,7 +30,20 @@ public class Friend implements TalkType {
     public String avatar;
     public String description;
     
-
+    public Friend() {
+    }
+    
+    public Friend(String name, String fHandle, String phone, String fAvatar,
+            String fDescription, int serverFriendId,int rawFriendId, long syncState) {
+        handle = fHandle;
+        server_id = serverFriendId;
+        _id = rawFriendId;
+        sync_time = syncState;
+        userName = name;
+        phoneMobile = phone;
+        avatar = fAvatar;
+        description = fDescription;
+    }
     public String getHandle() {
         return handle;
     }
@@ -114,6 +132,48 @@ public class Friend implements TalkType {
         description = c.getString(c.getColumnIndex("description"));
         sync_time = c.getLong(c.getColumnIndex("sync_time"));
         
+    }
+    
+    
+    public JSONObject toJSONObject() {
+        JSONObject json = new JSONObject();
+        try {
+            if (!TextUtils.isEmpty(userName)) {
+                json.put("u", userName);
+            }
+            if (!TextUtils.isEmpty(handle)) {
+                json.put("h", handle);
+            }
+            if (!TextUtils.isEmpty(phoneMobile)) {
+                json.put("p", phoneMobile);
+            }
+            if (!TextUtils.isEmpty(avatar)) {
+                json.put("a", avatar);
+            } 
+            if (!TextUtils.isEmpty(description)) {
+                json.put("d", description);
+            }                  
+            if (server_id > 0) {
+                json.put("s", server_id);
+            }
+            if (_id > 0) {
+                json.put("f", _id);
+            }
+
+        } catch (final Exception ex) {
+            Log.d(TAG, "Error conveting to JSONObject"+ex.toString());
+        }
+        
+        return json;
+    }
+    
+    public static Friend create(String name, String handle, String phone, String avatar,
+            String description, int serverFriendId,int rawFriendId) {
+        return new Friend(name, handle, phone, avatar, description, serverFriendId, rawFriendId, -1);
+    }
+    
+    public static Friend createDeletedFriend(int serverFriendId, int rawFriendId) {
+        return new Friend(null, null, null, null, null, serverFriendId, rawFriendId, -1);
     }
 
 }
