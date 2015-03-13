@@ -12,10 +12,12 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.talk.demo.R;
+import com.talk.demo.types.Record;
+import com.talk.demo.util.HttpRequest.HttpRequestException;
 import com.talk.demo.util.NetworkUtilities;
-import com.talk.demo.util.RawRecord;
 
 import org.apache.http.ParseException;
+import org.json.JSONException;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -68,25 +70,27 @@ public class IntimateChannelActivity extends Activity {
         
     }
     
-    private class ChannelUpdateTask extends AsyncTask<String, String, List<RawRecord>> {
-        List<RawRecord> getDataList = new LinkedList<RawRecord>();
+    private class ChannelUpdateTask extends AsyncTask<String, String, List<Record>> {
+        List<Record> getDataList = new LinkedList<Record>();
         @Override
-        protected List<RawRecord> doInBackground(String... params) {
+        protected List<Record> doInBackground(String... params) {
             // Simulates a background job.
             try {
-                getDataList = NetworkUtilities.updateChannel(params[0],params[1]);
-                
+            	getDataList = NetworkUtilities.updateChannel_v2(params[0],params[1]);
             } catch (ParseException e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
-            }
+            } catch (HttpRequestException e) {
+				e.printStackTrace();
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
             
             return getDataList;
             
         }
         
         @Override
-        protected void onPostExecute(List<RawRecord> result) {
+        protected void onPostExecute(List<Record> result) {
         	if(result == null) {
         		return;
         	}

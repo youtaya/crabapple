@@ -35,10 +35,10 @@ import com.talk.demo.persistence.DialogRecord;
 import com.talk.demo.persistence.TimeRecord;
 import com.talk.demo.prewrite.PreWrite;
 import com.talk.demo.time.DateInfo;
+import com.talk.demo.types.PrvDialog;
 import com.talk.demo.util.AccountUtils;
 import com.talk.demo.util.AlarmManagerUtil;
 import com.talk.demo.util.NetworkUtilities;
-import com.talk.demo.util.RawDialog;
 import com.talk.demo.util.TalkUtil;
 
 import org.apache.http.ParseException;
@@ -207,9 +207,9 @@ public class DailyEditActivity extends Activity {
 		String result = "ok";
 
         //TODO 
-		RawDialog raw = RawDialog.create(ownUser, ownUser, friend, friend, dialog.getPrvDialog().getContent(),
+		PrvDialog raw = PrvDialog.create(ownUser, ownUser, friend, friend, dialog.getPrvDialog().getContent(),
 				dialog.getPrvDialog().getCreateDate(), dialog.getPrvDialog().getCreateTime(), dialog.getPrvDialog().getContentType(), null,
-				null, false, 11, 12, -1, true);
+				null, 0, 11, 12, -1, 1);
 		try {
 			NetworkUtilities.shareRecord(raw, ownUser, name);
 		} catch (ParseException e) {

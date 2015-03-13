@@ -11,6 +11,7 @@ import org.json.JSONObject;
 import android.accounts.Account;
 
 import com.talk.demo.types.Friend;
+import com.talk.demo.types.PrvDialog;
 import com.talk.demo.types.Record;
 
 public class PackedFormData {
@@ -37,7 +38,7 @@ public class PackedFormData {
         return data;
     }
     
-    public static Map<String, String> shareRecord(RawDialog raw, String oring, String target) {
+    public static Map<String, String> shareRecord(PrvDialog raw, String oring, String target) {
         Map<String, String> params = new HashMap<String, String>();
         JSONObject jsonRecord = raw.toJSONObject();
         params.put(NetworkUtilities.PARAM_USERNAME, oring);

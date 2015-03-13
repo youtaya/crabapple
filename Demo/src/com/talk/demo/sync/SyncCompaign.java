@@ -7,7 +7,6 @@ import com.talk.demo.persistence.DBManager;
 import com.talk.demo.persistence.TimeRecord;
 import com.talk.demo.types.Record;
 import com.talk.demo.util.NetworkUtilities;
-import com.talk.demo.util.RawRecord;
 
 import java.util.ArrayList;
 import java.util.List;

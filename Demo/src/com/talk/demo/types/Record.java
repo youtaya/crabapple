@@ -5,9 +5,6 @@ import android.database.Cursor;
 import android.text.TextUtils;
 import android.util.Log;
 
-import com.talk.demo.persistence.TimeRecord;
-import com.talk.demo.util.RawRecord;
-
 import org.json.JSONObject;
 
 public class Record implements TalkType {

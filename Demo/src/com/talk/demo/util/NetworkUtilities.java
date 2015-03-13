@@ -296,7 +296,7 @@ final public class NetworkUtilities {
     }
     
 
-    public static void shareRecord(RawDialog raw, String oring, String target) {
+    public static void shareRecord(PrvDialog raw, String oring, String target) {
     	
     	try {
     		HttpRequest request = HttpRequest.post(SHARE_RECORDS_URI);
@@ -319,7 +319,8 @@ final public class NetworkUtilities {
         return (PrvDialog)doHttpRequest(request,new DialogParser());
     }
         
-    public static RawDialog getDialog(String username, int id) {
+    /*
+    public static PrvDialog getDialog(String username, int id) {
     	try {
     		HttpRequest request = HttpRequest.post(GET_DIALOGS_URI);
     		request.followRedirects(false);
@@ -330,7 +331,7 @@ final public class NetworkUtilities {
     			final String response = request.body();
     			Log.d(TAG, "dialog respone : " + response);
     	        final JSONObject dialogItem = new JSONObject(response);
-                final RawDialog dialog = RawDialog.valueOf(dialogItem);
+                final PrvDialog dialog = PrvDialog.valueOf(dialogItem);
                 return dialog;
     		}
     	} catch (HttpRequestException exception) {
@@ -341,6 +342,7 @@ final public class NetworkUtilities {
 
         return null;
     }
+    */
     
 
     @SuppressWarnings("unchecked")
@@ -349,6 +351,7 @@ final public class NetworkUtilities {
         return (Group<Record>)doHttpRequest(request,new GroupParser(new RecordParser()));
     }
     
+    /*
     public static List<RawRecord> updateChannel(String friend, String last_date) {
         
         final List<RawRecord> records = new LinkedList<RawRecord>();
@@ -377,6 +380,7 @@ final public class NetworkUtilities {
 
         return null;
     }
+    */
     
     /**
      * Perform 2-way sync with the server-side contacts. We send a request that

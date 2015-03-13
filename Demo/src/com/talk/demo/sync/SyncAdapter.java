@@ -18,8 +18,6 @@ import com.talk.demo.types.Friend;
 import com.talk.demo.types.Record;
 import com.talk.demo.util.HttpRequest.HttpRequestException;
 import com.talk.demo.util.NetworkUtilities;
-import com.talk.demo.util.RawFriend;
-import com.talk.demo.util.RawRecord;
 
 import org.apache.http.ParseException;
 import org.json.JSONException;

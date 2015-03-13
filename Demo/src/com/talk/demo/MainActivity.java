@@ -46,7 +46,6 @@ import com.talk.demo.types.PrvDialog;
 import com.talk.demo.util.AccountUtils;
 import com.talk.demo.util.HttpRequest.HttpRequestException;
 import com.talk.demo.util.NetworkUtilities;
-import com.talk.demo.util.RawDialog;
 
 public class MainActivity extends FragmentActivity implements ActionBar.TabListener {
 
