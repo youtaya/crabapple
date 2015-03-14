@@ -9,7 +9,6 @@ import org.json.JSONObject;
 
 public class Friend implements TalkType {
 
-    private static String TAG = "Friend";
     public int _id;
     public int server_id;
     public String handle;
@@ -161,7 +160,7 @@ public class Friend implements TalkType {
             }
 
         } catch (final Exception ex) {
-            Log.d(TAG, "Error conveting to JSONObject"+ex.toString());
+            Log.d("Friend", "Error conveting to JSONObject"+ex.toString());
         }
         
         return json;

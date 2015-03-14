@@ -8,7 +8,6 @@ import android.util.Log;
 
 public class PrvDialog implements TalkType {
 
-	private static String TAG = "PrvDialog";
 	public int _id;
 	public int server_id;
 	public String handle;
@@ -273,7 +272,7 @@ public class PrvDialog implements TalkType {
 				json.put("del", deleted);
 			}
 		} catch (final Exception ex) {
-			Log.i(TAG,
+			Log.i("PrvDialog",
 					"Error converting RawContact to JSONObject" + ex.toString());
 		}
 

@@ -9,8 +9,6 @@ import org.json.JSONObject;
 
 public class Record implements TalkType {
 
-    private static String TAG = "Record";
-
     public int _id;
     public int server_id;
     public String handle;
@@ -280,7 +278,7 @@ public class Record implements TalkType {
                 json.put("del", deleted);
             }
         } catch (final Exception ex) {
-            Log.i(TAG, "Error converting RawContact to JSONObject" + ex.toString());
+            Log.i("Record", "Error converting RawContact to JSONObject" + ex.toString());
         }
 
         return json;
