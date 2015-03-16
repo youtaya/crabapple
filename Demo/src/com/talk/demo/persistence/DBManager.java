@@ -1,6 +1,5 @@
 package com.talk.demo.persistence;
 
-import android.R.fraction;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
