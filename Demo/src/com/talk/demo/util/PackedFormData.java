@@ -103,7 +103,7 @@ public class PackedFormData {
         // Prepare our POST data
         params.put(NetworkUtilities.PARAM_USERNAME, account.name);
         //params.add(new BasicNameValuePair(PARAM_AUTH_TOKEN, authtoken));
-        params.put(NetworkUtilities.PARAM_RECORDS_DATA, buffer.toString());
+        params.put(NetworkUtilities.PARAM_FRIENDS_DATA, buffer.toString());
 
         if (serverSyncState > 0) {
             params.put(NetworkUtilities.PARAM_SYNC_STATE, Long.toString(serverSyncState));

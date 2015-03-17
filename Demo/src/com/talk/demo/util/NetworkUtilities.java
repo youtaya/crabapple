@@ -70,10 +70,10 @@ final public class NetworkUtilities {
     public static final String PARAM_SYNC_STATE = "syncstate";
     /** POST parameter name for the sending client-edited contact info */
     public static final String PARAM_RECORDS_DATA = "records";
-
+    public static final String PARAM_FRIENDS_DATA = "friends";
     /** Base URL for the v2 Sample Sync Service */
-    //public static final String BASE_URL = "http://114.215.208.170/";
-    public static final String BASE_URL = "http://192.168.1.102/";
+    //public static final String BASE_URL = "http://10.4.65.41/";
+    public static final String BASE_URL = "http://192.168.1.101/";
     /** URI for authentication service */
     public static final String AUTH_URI = BASE_URL + "users/login/";
     public static final String SIGNUP_URI = BASE_URL + "users/signup/";

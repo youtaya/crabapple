@@ -58,6 +58,12 @@ public class SyncCompaign {
      * update records from server
      */
     public static void updateRecords(DBManager db, List<Record> updateRecords) {
+    	//TODO: fix bug
+    	if (null == updateRecords) {
+    		Log.d(TAG, "nothing update!!");
+    		return;
+    	}
+    	
     	/*
     	 * 1: Update server id
     	 * 2: Clear dirty flag
