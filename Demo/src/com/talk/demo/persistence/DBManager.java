@@ -6,6 +6,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 import com.talk.demo.setting.RichPresent;
+import com.talk.demo.types.Friend;
+import com.talk.demo.types.Record;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -102,13 +104,15 @@ public class DBManager {
     }
     
     public void updateServerInfo(TimeRecord tRecord) {
+    	Record r = tRecord.getTimeRecord();
     	new DataOperation(db, "records").updateServerId(
-    			tRecord.getTimeRecord().getServerId(),tRecord.getTimeRecord().getDataId(),tRecord.getTimeRecord().getSyncState());
+    			r.getServerId(),r.getDataId(),r.getSyncState());
     }
     
     public void  updateFriendServerInfo(FriendRecord fRecord) {
+    	Friend f = fRecord.getFriend();
     	new DataOperation(db, "friends").updateServerId(
-    			fRecord.getFriend().getServerId(),fRecord.getFriend().getDataId(),fRecord.getFriend().getSyncState());
+    			f.getServerId(),f.getDataId(),f.getSyncState());
     }
     
     /** 

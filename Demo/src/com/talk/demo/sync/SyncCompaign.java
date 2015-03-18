@@ -5,6 +5,7 @@ import android.util.Log;
 
 import com.talk.demo.persistence.DBManager;
 import com.talk.demo.persistence.TimeRecord;
+import com.talk.demo.types.Group;
 import com.talk.demo.types.Record;
 import com.talk.demo.util.NetworkUtilities;
 
@@ -57,7 +58,7 @@ public class SyncCompaign {
     /*
      * update records from server
      */
-    public static void updateRecords(DBManager db, List<Record> updateRecords) {
+    public static void updateRecords(DBManager db, Group<Record> updateRecords) {
     	//TODO: fix bug
     	if (null == updateRecords) {
     		Log.d(TAG, "nothing update!!");

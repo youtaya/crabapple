@@ -111,6 +111,7 @@ final public class NetworkUtilities {
         Map<String, String> headers = new HashMap<String, String>();
         headers.put("Content-Type", "text/html");
         request.headers(headers);
+        Log.d(TAG, "request: "+formData.toString());
         request.form(formData);
         
         return request;
@@ -123,6 +124,7 @@ final public class NetworkUtilities {
 	        switch (statusCode) {
 	        case 200:
 	        	String response = request.body();
+	        	Log.d(TAG, "respone: " + response.toString());
 	        	return consume(parser, response);
 	        case 400:
 	        	Log.d(TAG, "HTTP Code: 400");

@@ -15,6 +15,7 @@ import android.util.Log;
 import com.talk.demo.account.AccountConstants;
 import com.talk.demo.persistence.DBManager;
 import com.talk.demo.types.Friend;
+import com.talk.demo.types.Group;
 import com.talk.demo.types.Record;
 import com.talk.demo.util.HttpRequest.HttpRequestException;
 import com.talk.demo.util.NetworkUtilities;
@@ -53,7 +54,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter  {
 		Log.d(TAG, "onPerformSync");
 		try {
 			List<Record> dirtyRecords;
-	        List<Record> updatedRecords;
+	        Group<Record> updatedRecords;
 	        // see if we already have a sync-state attached to this account. By handing
 	        // This value to the server, we can just get the contacts that have
 	        // been updated on the server-side since our last sync-up
@@ -72,7 +73,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter  {
 			
 			Log.d(TAG, "sync friend start");
 			List<Friend> dirtyFriends;
-			List<Friend> updatedFriends;
+			Group<Friend> updatedFriends;
 			dirtyFriends = SyncCompaign2.getDirtyFriends(db);
 				
 			updatedFriends = NetworkUtilities.syncFriends_v2(account, authtoken, lastSyncMarker, dirtyFriends);

@@ -5,6 +5,7 @@ import android.util.Log;
 import com.talk.demo.persistence.DBManager;
 import com.talk.demo.persistence.FriendRecord;
 import com.talk.demo.types.Friend;
+import com.talk.demo.types.Group;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,7 +56,7 @@ public class SyncCompaign2 {
     /*
      * update records from server
      */
-    public static void updateFriends(DBManager db, List<Friend> updateFriends) {
+    public static void updateFriends(DBManager db, Group<Friend> updateFriends) {
     	/*
     	 * 1: Update server id
     	 * 2: Clear dirty flag
