@@ -256,7 +256,7 @@ public class Record implements TalkType {
             if (!TextUtils.isEmpty(create_time)) {
                 json.put("time", create_time);
             }
-            if (content_type != 0) {
+            if (content_type != -1) {
                 json.put("ctx", content_type);
             }
             if (!TextUtils.isEmpty(photo)) {
@@ -268,13 +268,13 @@ public class Record implements TalkType {
             if (!TextUtils.isEmpty(tag)) {
                 json.put("tag", tag);
             }
-            if (server_id > 0) {
+            if (server_id != -1) {
                 json.put("sid", server_id);
             }
-            if (_id > 0) {
+            if (_id != -1) {
                 json.put("cid", _id);
             }
-            if (deleted != 0) {
+            if (deleted != -1) {
                 json.put("del", deleted);
             }
         } catch (final Exception ex) {

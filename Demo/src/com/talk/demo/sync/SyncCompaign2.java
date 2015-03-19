@@ -39,7 +39,7 @@ public class SyncCompaign2 {
                         fr.getFriend().getServerId());
                 dirtyFriends.add(friend);
             } else if (isDirty) {
-                Friend rawFriend = getRawFriend(db, fr.getFriend().getDataId());
+                Friend rawFriend = fr.getFriend();
                 Log.i(TAG, "friend Name: " + rawFriend.getUserName());
                 dirtyFriends.add(rawFriend);
             }
@@ -75,10 +75,4 @@ public class SyncCompaign2 {
         
     }
     
-    private static Friend getRawFriend(DBManager db, int clientId) {
-        
-        FriendRecord fr = db.queryFriendTheParam(clientId);
-        
-        return fr.getFriend();
-    }
 }

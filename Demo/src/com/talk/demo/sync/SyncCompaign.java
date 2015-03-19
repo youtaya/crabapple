@@ -41,7 +41,8 @@ public class SyncCompaign {
                         tr.getTimeRecord().getServerId());
                 dirtyTimes.add(rawContact);
             } else if (isDirty) {
-                Record rawContact = getRawRecord(db, tr.getTimeRecord().getDataId());
+                //Record rawContact = getRawRecord(db, tr.getTimeRecord().getDataId());
+                Record rawContact = tr.getTimeRecord();
                 Log.i(TAG, "Contact Name: " + rawContact.getHandle());
                 dirtyTimes.add(rawContact);
             }
@@ -53,11 +54,13 @@ public class SyncCompaign {
     /*
      * update records from server
      */
-    public static void updateRecords(DBManager db, Group<Record> updateRecords) {
+    public static long updateRecords(DBManager db, Group<Record> updateRecords, long lastSyncMaker) {
+        
+        long currentSyncMaker = lastSyncMaker;
     	//TODO: fix bug
     	if (null == updateRecords) {
     		Log.d(TAG, "nothing update!!");
-    		return;
+    		return currentSyncMaker;
     	}
     	
     	/*
@@ -90,13 +93,8 @@ public class SyncCompaign {
             }
         }
         
-    }
-    
-    private static Record getRawRecord(DBManager db, int clientId) {
-   
+        return currentSyncMaker;
         
-        TimeRecord tr = db.queryTimeTheParam(clientId);
-        
-        return tr.getTimeRecord();
     }
+
 }

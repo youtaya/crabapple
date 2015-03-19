@@ -69,7 +69,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter  {
 	        dirtyRecords = SyncCompaign.getDirtyRecords(db);
 	        Log.d(TAG, "sync record start");
 			updatedRecords = NetworkUtilities.syncRecords_v2(account, authtoken, lastSyncMarker, dirtyRecords);
-			SyncCompaign.updateRecords(db, updatedRecords);
+			long newSyncState = SyncCompaign.updateRecords(db, updatedRecords, lastSyncMarker);
 			
 			Log.d(TAG, "sync friend start");
 			List<Friend> dirtyFriends;
@@ -78,6 +78,8 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter  {
 				
 			updatedFriends = NetworkUtilities.syncFriends_v2(account, authtoken, lastSyncMarker, dirtyFriends);
 			SyncCompaign2.updateFriends(db, updatedFriends);
+			
+			setServerSyncMarker(account, newSyncState);
 			
 		} catch (final AuthenticatorException e) {
             Log.e(TAG, "AuthenticatorException", e);
