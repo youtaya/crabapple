@@ -18,12 +18,7 @@ public class SyncCompaign {
     
     private static String myLog(TimeRecord tr) {
     	
-    	String isDirty = (tr.getTimeRecord().getDirty() ==1)?"yes":"no";
-    	String info = " id: "+String.valueOf(tr.getTimeRecord().getDataId())+
-    			" server id: "+String.valueOf(tr.getTimeRecord().getServerId())+
-    			" user name: "+tr.getTimeRecord().getHandle()+
-    			" dirty: " +isDirty;
-    	return info;
+    	return tr.getTimeRecord().toString();
     }
 	/*
 	 *  add for get dirty records

@@ -16,12 +16,7 @@ public class SyncCompaign2 {
     
     private static String myLog(FriendRecord fr) {
         
-        String isDirty = (fr.getFriend().getDirty() ==1)?"yes":"no";
-    	String info = " id: "+String.valueOf(fr.getFriend().getDataId())+
-    			" server id: "+String.valueOf(fr.getFriend().getServerId())+
-    			" user name: "+fr.getFriend().getUserName()+
-                " dirty: " +isDirty;
-    	return info;
+        return fr.getFriend().toString();
     }
 	/*
 	 *  add for get dirty friends

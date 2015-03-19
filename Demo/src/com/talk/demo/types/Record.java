@@ -311,4 +311,13 @@ public class Record implements TalkType {
                 null, 0, null, null, null, 1,
                 serverRecordId, rawRecordId, -1, 1);
     }
+    
+    public String toString() {
+        String isDirty = (dirty ==1)?"yes":"no";
+        String info = " id: "+String.valueOf(_id)+
+                " server id: "+String.valueOf(server_id)+
+                " user name: "+handle+
+                " dirty: " +isDirty;
+        return info;
+    }
 }

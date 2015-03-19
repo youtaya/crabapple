@@ -174,5 +174,14 @@ public class Friend implements TalkType {
     public static Friend createDeletedFriend(int serverFriendId, int rawFriendId) {
         return new Friend(null, null, null, null, null, serverFriendId, rawFriendId, -1);
     }
+    
+    public String toString() {
+        String isDirty = (dirty ==1)?"yes":"no";
+        String info = " id: "+String.valueOf(_id)+
+                " server id: "+String.valueOf(server_id)+
+                " user name: "+userName+
+                " dirty: " +isDirty;
+        return info;
+    }
 
 }
