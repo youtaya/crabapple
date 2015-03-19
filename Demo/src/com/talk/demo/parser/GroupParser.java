@@ -53,6 +53,8 @@ public class GroupParser extends AbstractResParser<Group> {
 			} else {
 				item = mSubParser.parse((JSONObject)element);
 			}
+			
+			group.add(item);
 		}
 	}
 

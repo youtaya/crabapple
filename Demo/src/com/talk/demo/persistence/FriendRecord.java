@@ -32,6 +32,7 @@ public class FriendRecord extends CommonRecord {
     }
   
     public FriendRecord(String v1) {
+    	init();
         friend.setUsername(v1);
        
     }

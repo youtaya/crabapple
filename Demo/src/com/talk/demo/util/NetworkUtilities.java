@@ -154,6 +154,7 @@ final public class NetworkUtilities {
     		throws JSONException {
         try {
         	JSONObject json = new JSONObject(content);
+        	Log.d(TAG, "response json : "+json.toString());
         	Iterator<String> it = (Iterator<String>)json.keys();
         	
         	if(it.hasNext()) {
