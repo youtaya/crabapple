@@ -57,12 +57,6 @@ public class SyncCompaign {
     public static long updateRecords(DBManager db, Group<Record> updateRecords, long lastSyncMaker) {
         
         long currentSyncMaker = lastSyncMaker;
-    	//TODO: fix bug
-    	if (null == updateRecords) {
-    		Log.d(TAG, "nothing update!!");
-    		return currentSyncMaker;
-    	}
-    	
     	/*
     	 * 1: Update server id
     	 * 2: Clear dirty flag
@@ -74,6 +68,10 @@ public class SyncCompaign {
             Log.d(TAG, "server id: " + rr.getServerId());
             Log.d(TAG, "client id: " + rr.getDataId());
             Log.d(TAG, "content: " + rr.getContent());
+            
+            if(rr.getSyncState() > currentSyncMaker) {
+                currentSyncMaker = rr.getSyncState();
+            }
             
             if(rr.getDataId() == -1) {
             	Log.d(TAG, "[need add] server id: " + tr.getTimeRecord().server_id);
