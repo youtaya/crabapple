@@ -152,10 +152,10 @@ public class Friend implements TalkType {
             if (!TextUtils.isEmpty(description)) {
                 json.put("d", description);
             }                  
-            if (server_id != -1) {
+            if (server_id > 0) {
                 json.put("s", server_id);
             }
-            if (_id != -1) {
+            if (_id > 0) {
                 json.put("f", _id);
             }
 

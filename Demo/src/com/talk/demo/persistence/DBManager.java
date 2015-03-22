@@ -2,6 +2,7 @@ package com.talk.demo.persistence;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
@@ -32,7 +33,7 @@ public class DBManager {
     }  
 
     public void addTime(TimeRecord tr) {
-        new DataOperation(db, "records", tr).insertRecord();
+    	new DataOperation(db, "records", tr).insertRecord();
         rp.addRich(2);
     }
     
@@ -103,10 +104,9 @@ public class DBManager {
         new DataOperation(db, "friends").updateDescription(id, des);
     }
     
-    public void updateServerInfo(TimeRecord tRecord) {
-    	Record r = tRecord.getTimeRecord();
+    public void updateServerInfo(Record record) {
     	new DataOperation(db, "records").updateServerId(
-    			r.getServerId(),r.getDataId(),r.getSyncState());
+    			record.getServerId(),record.getDataId(),record.getSyncState());
     }
     
     public void  updateFriendServerInfo(FriendRecord fRecord) {

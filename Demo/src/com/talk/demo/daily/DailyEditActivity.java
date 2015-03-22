@@ -260,7 +260,7 @@ public class DailyEditActivity extends Activity {
 			if(pre_content != null) {
 				tr.getTimeRecord().setTitle(pre_content);
 			}
-			
+			tr.getTimeRecord().setHandle(ownUser);
 			rMgr.addRecord(tr);
 		}
 

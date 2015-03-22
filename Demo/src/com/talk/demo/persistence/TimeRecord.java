@@ -30,10 +30,12 @@ public class TimeRecord extends CommonRecord {
     }
     
     public TimeRecord(Record r) {
+    	init();
     	record = r;
     }
   
     public TimeRecord(TimeCache rc) {
+    	init();
     	record.setDataId(rc.getId());
     	record.setContent(rc.getContent());
     	record.setCreateDate(rc.getCreateDate());
@@ -50,12 +52,14 @@ public class TimeRecord extends CommonRecord {
     }
     
     public TimeRecord(String v1, String date) {
+    	init();
     	record.setContent(v1);
         record.setCreateDate(date);
         record.setCreateTime(handledTime());
     }
     
     public TimeRecord(String v1, Date date) {
+    	init();
     	record.setContent(v1);
         record.setCreateDate(handledDate(date));
         record.setCreateTime(handledTime(date));

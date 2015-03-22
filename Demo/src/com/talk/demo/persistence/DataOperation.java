@@ -2,6 +2,7 @@ package com.talk.demo.persistence;
 
 import android.content.ContentValues;
 import android.database.Cursor;
+import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
@@ -135,20 +136,31 @@ public class DataOperation {
         return c;  
     }
     
-    public void updateServerId(int server_id, long cid, long sync_time) {  
-        ContentValues cv = new ContentValues();  
-        cv.put("server_id", server_id); 
+    public void updateServerId(int server_id, int cid, long sync_time) {  
+        ContentValues cv = new ContentValues();
+        Log.d(TAG,"update id: "+cid);
         //set dirty flag : 0
         cv.put("dirty", 0);
+        cv.put("server_id", server_id); 
         cv.put("sync_time", sync_time);
-        Log.d(TAG,"update id: "+cid);
-        innerDB.update(table_name, cv, "id" + "='" +cid+"'", null);
+        //innerDB.update(table_name, cv, "id" + "='" +cid+"'", null);
+        try {
+        	innerDB.beginTransaction();
+            final int rows = innerDB.update(table_name, cv, "id" + " = ?", new String[] { String.valueOf(cid) });
+            innerDB.setTransactionSuccessful();
+            Log.d(TAG, "state : "+rows);
+        } catch (SQLException e) {
+            throw e;
+        } finally {
+        	innerDB.endTransaction();
+        }
     }
     
     public void updateTag(int id, String tag) {  
         ContentValues cv = new ContentValues();  
         cv.put("tag", tag);  
         Log.d(TAG,"update id: "+id);
+        
         innerDB.update(table_name, cv, "id" + "='" +id+"'", null);
     } 
     

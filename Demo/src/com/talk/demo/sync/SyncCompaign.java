@@ -69,16 +69,18 @@ public class SyncCompaign {
             Log.d(TAG, "client id: " + rr.getDataId());
             Log.d(TAG, "content: " + rr.getContent());
             
+            /*
             if(rr.getSyncState() > currentSyncMaker) {
                 currentSyncMaker = rr.getSyncState();
             }
+            */
             
             if(rr.getDataId() == -1) {
             	Log.d(TAG, "[need add] server id: " + tr.getTimeRecord().server_id);
             	db.addTimeFromServer(tr);
             } else {
             	Log.d(TAG, "[update] server id: " + tr.getTimeRecord().server_id);
-            	db.updateServerInfo(tr);
+            	db.updateServerInfo(tr.getTimeRecord());
             }
             Log.d(TAG, "content type is : "+rr.getContentType());
             Log.d(TAG, "photo is : "+rr.getPhoto());

@@ -268,14 +268,17 @@ public class Record implements TalkType {
             if (!TextUtils.isEmpty(tag)) {
                 json.put("tag", tag);
             }
-            if (server_id != -1) {
+            if (server_id > 0) {
                 json.put("sid", server_id);
             }
-            if (_id != -1) {
+            if (_id > 0) {
                 json.put("cid", _id);
             }
             if (deleted != -1) {
                 json.put("del", deleted);
+            }
+            if (dirty != -1) {
+                json.put("dirty", dirty);
             }
         } catch (final Exception ex) {
             Log.i("Record", "Error converting RawContact to JSONObject" + ex.toString());
@@ -313,11 +316,10 @@ public class Record implements TalkType {
     }
     
     public String toString() {
-        String isDirty = (dirty ==1)?"yes":"no";
         String info = " id: "+String.valueOf(_id)+
                 " server id: "+String.valueOf(server_id)+
                 " user name: "+handle+
-                " dirty: " +isDirty;
+                " dirty: " +String.valueOf(dirty);
         return info;
     }
 }
