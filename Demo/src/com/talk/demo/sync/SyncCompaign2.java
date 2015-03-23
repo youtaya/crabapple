@@ -68,7 +68,7 @@ public class SyncCompaign2 {
             	db.addFriendFromServer(fr);
             } else {
             	Log.d(TAG, "[update] server id: " + fr.getFriend().server_id);
-            	db.updateFriendServerInfo(fr);
+            	db.updateFriendServerInfo(fr.getFriend());
             }
 
         }
