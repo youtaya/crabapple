@@ -137,6 +137,7 @@ public class DataOperation {
     }
     
     public void updateServerId(int server_id, int cid, long sync_time) {  
+
         ContentValues cv = new ContentValues();
         Log.d(TAG,"update id: "+cid);
         //set dirty flag : 0
@@ -146,10 +147,12 @@ public class DataOperation {
         //innerDB.update(table_name, cv, "id" + "='" +cid+"'", null);
         try {
         	innerDB.beginTransaction();
-            final int rows = innerDB.update(table_name, cv, "id" + " = ?", new String[] { String.valueOf(cid) });
+        	final int affect = innerDB.delete(table_name, "id" + " = ?", new String[] { String.valueOf(cid) });
+            //final int rows = innerDB.update(table_name, cv, "id" + " = ?", new String[] { String.valueOf(cid) });
             innerDB.setTransactionSuccessful();
-            Log.d(TAG, "state : "+rows);
+            Log.d(TAG, "state : "+affect);
         } catch (SQLException e) {
+            Log.d(TAG, "sql exception: "+e.toString());
             throw e;
         } finally {
         	innerDB.endTransaction();

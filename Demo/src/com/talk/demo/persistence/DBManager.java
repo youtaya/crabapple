@@ -3,6 +3,7 @@ package com.talk.demo.persistence;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.text.format.Time;
 import android.util.Log;
 
 import com.talk.demo.setting.RichPresent;
@@ -125,8 +126,12 @@ public class DBManager {
     
     public void updateServerInfo(Record record) {
         SQLiteDatabase db = helper.getWritableDatabase();
-    	new DataOperation(db, "records").updateServerId(
+        DataOperation dop = new DataOperation(db, "records", new TimeRecord(record));
+        //delete
+    	dop.updateServerId(
     			record.getServerId(),record.getDataId(),record.getSyncState());
+        //create
+    	dop.insertRecord();
     	db.close();
     }
     
