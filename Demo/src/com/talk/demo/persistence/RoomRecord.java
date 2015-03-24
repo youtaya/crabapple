@@ -10,25 +10,17 @@ public class RoomRecord extends CommonRecord {
     private WalkRoom room;
     private Field[] declaredFields;
     public RoomRecord() {
-        init();
-    }
-    
-    private void init() {
-        room = new WalkRoom();     
-        
-        Class c = room.getClass();     
-         
-        declaredFields = c.getDeclaredFields();
+    	room = new WalkRoom(); 
     }
     
     public RoomRecord(String v1) {
-        init();
+    	room = new WalkRoom(); 
     	room.setHandle(v1);
     }
 
-
 	@Override
 	public int getNumItems() {
+		declaredFields = room.getClass().getDeclaredFields();
 		return declaredFields.length-1;
 	}
 

@@ -144,19 +144,7 @@ public class DataOperation {
         cv.put("dirty", 0);
         cv.put("server_id", server_id); 
         cv.put("sync_time", sync_time);
-        //innerDB.update(table_name, cv, "id" + "='" +cid+"'", null);
-        try {
-        	innerDB.beginTransaction();
-        	final int affect = innerDB.delete(table_name, "id" + " = ?", new String[] { String.valueOf(cid) });
-            //final int rows = innerDB.update(table_name, cv, "id" + " = ?", new String[] { String.valueOf(cid) });
-            innerDB.setTransactionSuccessful();
-            Log.d(TAG, "state : "+affect);
-        } catch (SQLException e) {
-            Log.d(TAG, "sql exception: "+e.toString());
-            throw e;
-        } finally {
-        	innerDB.endTransaction();
-        }
+        innerDB.update(table_name, cv, "id" + "='" +cid+"'", null);
     }
     
     public void updateTag(int id, String tag) {  

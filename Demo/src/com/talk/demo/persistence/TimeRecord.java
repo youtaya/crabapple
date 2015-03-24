@@ -13,16 +13,8 @@ public class TimeRecord extends CommonRecord {
     private Record record;
     private Field[] declaredFields;
     
-    private void init() {
-        record = new Record();     
-        
-        Class c = record.getClass();     
-         
-        declaredFields = c.getDeclaredFields();
-    }
-    
     public TimeRecord() {
-    	init();
+        record = new Record();     
     }
     
     public Record getTimeRecord() {
@@ -30,12 +22,11 @@ public class TimeRecord extends CommonRecord {
     }
     
     public TimeRecord(Record r) {
-    	init();
     	record = r;
     }
   
     public TimeRecord(TimeCache rc) {
-    	init();
+    	record = new Record();
     	record.setDataId(rc.getId());
     	record.setContent(rc.getContent());
     	record.setCreateDate(rc.getCreateDate());
@@ -44,7 +35,7 @@ public class TimeRecord extends CommonRecord {
     }
     
     public TimeRecord(String v1) {
-    	init();
+    	record = new Record();
     	record.setContent(v1);
         record.setCreateDate(handledDate());
         record.setCreateTime(handledTime());
@@ -52,14 +43,14 @@ public class TimeRecord extends CommonRecord {
     }
     
     public TimeRecord(String v1, String date) {
-    	init();
+    	record = new Record();
     	record.setContent(v1);
         record.setCreateDate(date);
         record.setCreateTime(handledTime());
     }
     
     public TimeRecord(String v1, Date date) {
-    	init();
+    	record = new Record();
     	record.setContent(v1);
         record.setCreateDate(handledDate(date));
         record.setCreateTime(handledTime(date));
@@ -88,6 +79,7 @@ public class TimeRecord extends CommonRecord {
 
 	@Override
 	public int getNumItems() {
+		declaredFields = record.getClass().getDeclaredFields();
 	    return declaredFields.length-1;
 	}
 

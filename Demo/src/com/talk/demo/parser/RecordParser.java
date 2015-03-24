@@ -1,5 +1,7 @@
 package com.talk.demo.parser;
 
+import android.util.Log;
+
 import com.talk.demo.types.Record;
 
 import org.json.JSONException;
@@ -21,7 +23,7 @@ public class RecordParser extends AbstractResParser<Record> {
             obj.setDataId(json.getInt("cid"));
         } 
         if (json.has("x")) {
-            obj.setSyncState(json.getInt("x"));
+            obj.setSyncState(json.getLong("x"));
         } 
         
         if (json.has("link")) {
@@ -61,6 +63,7 @@ public class RecordParser extends AbstractResParser<Record> {
             obj.setDeleted(json.getInt("del"));
         }
         
+        Log.d("DataOperation", "record:"+obj.toString());
         
         return obj;
     }

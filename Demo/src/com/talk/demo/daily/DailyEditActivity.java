@@ -261,6 +261,8 @@ public class DailyEditActivity extends Activity {
 				tr.getTimeRecord().setTitle(pre_content);
 			}
 			tr.getTimeRecord().setHandle(ownUser);
+			tr.getTimeRecord().setDeleted(0);
+			tr.getTimeRecord().setDirty(1);
 			rMgr.addRecord(tr);
 		}
 
@@ -344,6 +346,8 @@ public class DailyEditActivity extends Activity {
 			
             // save tag object
             tr.getTimeRecord().setTag(tag);
+			tr.getTimeRecord().setDeleted(0);
+			tr.getTimeRecord().setDirty(1);
             rMgr.addRecord(tr);
         }
         //startActivity(new Intent(this, TagActivity.class));

@@ -33,6 +33,7 @@ public class DBManager {
          */
         SQLiteDatabase db = helper.getWritableDatabase();
     	new DataOperation(db, "records", tr).insertRecord();
+    	Log.d(TAG, "record insert: "+tr.getTimeRecord().toString());
         rp.addRich(2);
         db.close();
     }
@@ -127,11 +128,8 @@ public class DBManager {
     public void updateServerInfo(Record record) {
         SQLiteDatabase db = helper.getWritableDatabase();
         DataOperation dop = new DataOperation(db, "records", new TimeRecord(record));
-        //delete
     	dop.updateServerId(
     			record.getServerId(),record.getDataId(),record.getSyncState());
-        //create
-    	dop.insertRecord();
     	db.close();
     }
     
@@ -275,6 +273,7 @@ public class DBManager {
         while (c.moveToNext()) {  
             TimeRecord tr = new TimeRecord();  
             tr.dumpRecord(c);
+            Log.d(TAG, "record query: "+tr.getTimeRecord().toString());
             trList.add(tr);  
         }  
         c.close();

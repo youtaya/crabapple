@@ -9,28 +9,20 @@ public class TagRecord extends CommonRecord {
     private BookTag tag;
     private Field[] declaredFields;
     public TagRecord() {
-        init();
-    }
-    
-    private void init() {
-        tag = new BookTag();     
-        
-        Class c = tag.getClass();     
-         
-        declaredFields = c.getDeclaredFields();
+    	tag = new BookTag();
     }
     
     public BookTag getTag() {
     	return tag;
     }
     public TagRecord(String v1) {
-        init();
+    	tag = new BookTag();
     	tag.setTagName(v1);
-       
     }
 
 	@Override
 	public int getNumItems() {
+		declaredFields = tag.getClass().getDeclaredFields();
 		return declaredFields.length-1;
 	}
 

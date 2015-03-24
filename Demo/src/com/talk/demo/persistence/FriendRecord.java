@@ -11,15 +11,7 @@ public class FriendRecord extends CommonRecord {
     private Field[] declaredFields;
     
     public FriendRecord() {
-        init();
-    }
-    
-    private void init() {
-        friend = new Friend();     
-        
-        Class c = friend.getClass();     
-         
-        declaredFields = c.getDeclaredFields();
+    	friend = new Friend();
     }
     
     public Friend getFriend() {
@@ -27,12 +19,11 @@ public class FriendRecord extends CommonRecord {
     }
     
     public FriendRecord(Friend f) {
-        init();
     	friend = f;
     }
   
     public FriendRecord(String v1) {
-    	init();
+    	friend = new Friend();
         friend.setUsername(v1);
        
     }
@@ -40,6 +31,7 @@ public class FriendRecord extends CommonRecord {
    
 	@Override
 	public int getNumItems() {
+		declaredFields = friend.getClass().getDeclaredFields();
 	    return declaredFields.length-1;
 	}
 

@@ -12,17 +12,17 @@ public class Record implements TalkType {
     public int _id;
     public int server_id;
     public String handle;
-    public long sync_time;
+    public long sync_time = -1;
     /*
      * deleted flag : default : 0 mean don't delete, other: 1 mean need to
      * delete
      */
-    public int deleted = 0;
+    public int deleted = -1;
     /*
      * dirty flag : default : 1 mean dirty and need to sync, other: 0 mean not
      * need sync
      */
-    public int dirty = 1;
+    public int dirty = -1;
 
     public String content;
     public String calc_date;
@@ -89,7 +89,7 @@ public class Record implements TalkType {
         return sync_time;
     }
 
-    public void setSyncState(int v) {
+    public void setSyncState(long v) {
         sync_time = v;
     }
 
@@ -225,7 +225,8 @@ public class Record implements TalkType {
         audio = c.getString(c.getColumnIndex("audio"));
         tag = c.getString(c.getColumnIndex("tag"));
         sync_time = c.getLong(c.getColumnIndex("sync_time"));
-
+        dirty = c.getInt(c.getColumnIndex("dirty"));
+        deleted = c.getInt(c.getColumnIndex("deleted"));
     }
 
     /**
@@ -280,6 +281,9 @@ public class Record implements TalkType {
             if (dirty != -1) {
                 json.put("dirty", dirty);
             }
+            if (sync_time != -1) {
+            	json.put("x", sync_time);
+            }
         } catch (final Exception ex) {
             Log.i("Record", "Error converting RawContact to JSONObject" + ex.toString());
         }
@@ -319,7 +323,8 @@ public class Record implements TalkType {
         String info = " id: "+String.valueOf(_id)+
                 " server id: "+String.valueOf(server_id)+
                 " user name: "+handle+
-                " dirty: " +String.valueOf(dirty);
+                " dirty: " +String.valueOf(dirty) +
+                " deleted: " + String.valueOf(deleted);
         return info;
     }
 }
