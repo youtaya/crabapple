@@ -75,7 +75,7 @@ public class SyncCompaign {
             }
             */
             
-            if(rr.getDataId() == -1) {
+            if(rr.getDataId() == 0) {
             	Log.d(TAG, "[need add] server id: " + tr.getTimeRecord().server_id);
             	db.addTimeFromServer(tr);
             } else {

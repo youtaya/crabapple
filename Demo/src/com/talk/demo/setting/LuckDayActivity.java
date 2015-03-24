@@ -1,8 +1,6 @@
 package com.talk.demo.setting;
 
-import android.R.integer;
 import android.app.Activity;
-import android.app.DialogFragment;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -12,10 +10,12 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.TextView;
 
 import com.talk.demo.MainActivity;
 import com.talk.demo.R;
+import com.talk.demo.datepicker.DatePickerFragment;
 
 import java.util.Calendar;
 
@@ -34,11 +34,19 @@ public class LuckDayActivity extends Activity {
         tv = (TextView)findViewById(R.id.setting_date);
         
         date = (TextView) findViewById(R.id.date);
+        date.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				showDateDialog(v);
+			}
+        	
+        });
 
     }
     
     public void showDateDialog(View v) {
-        DialogFragment newFragment = new DialogFragment();
+    	DatePickerFragment newFragment = new DatePickerFragment();
         newFragment.show(getFragmentManager(), "datePicker");
     }
     
@@ -46,6 +54,7 @@ public class LuckDayActivity extends Activity {
         Log.d(TAG, "Chosen Date: "+year+month+day);
         actualMonth = month;
         actualDay = day;
+        date.setText("set Date : Month/"+actualMonth+" Day/"+actualDay);
     }
     
     @Override
