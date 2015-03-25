@@ -83,7 +83,7 @@ public class DBManager {
         Map<String, Object> sortVar = new HashMap<String, Object>();
         sortVar.put("server_id", fr.getFriend().getServerId());
         DataOperation doa = new DataOperation(db, "friends");
-        Cursor c = doa.queryCursorWithCond(sortVar);
+        Cursor c = doa.queryCursorWithCond2(sortVar);
         
         if(c != null && c.moveToFirst()) {
             Log.d(TAG, "No need to creat new record!");

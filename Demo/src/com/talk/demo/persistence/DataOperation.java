@@ -86,6 +86,16 @@ public class DataOperation {
         return c;  
     }
     
+    public Cursor queryCursorWithCond2(Map<String, Object> queryVar) {
+        StringBuilder sqlValue = new StringBuilder(" WHERE ");
+        for(String key: queryVar.keySet())
+        	sqlValue.append(key + "='" +queryVar.get(key)+"'");
+        
+        Cursor c = innerDB.rawQuery("SELECT * FROM "+table_name
+                +sqlValue.toString(), null);
+        return c;  
+    }
+    
     public Cursor queryCursorWithCondOR(Map<String, Object> queryVar) {
         StringBuilder sqlValue = new StringBuilder(" WHERE ");
         for(String key: queryVar.keySet()) {
