@@ -63,7 +63,7 @@ public class SyncCompaign2 {
             Log.d(TAG, "server id: " + rf.getServerId());
             Log.d(TAG, "client id: " + rf.getDataId());
             
-            if(rf.getDataId() == -1) {
+            if(rf.getDataId() == 0) {
             	Log.d(TAG, "[need add] server id: " + fr.getFriend().server_id);
             	db.addFriendFromServer(fr);
             } else {

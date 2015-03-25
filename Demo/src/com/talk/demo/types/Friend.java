@@ -130,7 +130,8 @@ public class Friend implements TalkType {
         avatar = c.getString(c.getColumnIndex("avatar"));
         description = c.getString(c.getColumnIndex("description"));
         sync_time = c.getLong(c.getColumnIndex("sync_time"));
-        
+        dirty = c.getInt(c.getColumnIndex("dirty"));
+        deleted = c.getInt(c.getColumnIndex("deleted"));
     }
     
     
@@ -157,6 +158,15 @@ public class Friend implements TalkType {
             }
             if (_id > 0) {
                 json.put("f", _id);
+            }
+            if (deleted != -1) {
+                json.put("del", deleted);
+            }
+            if (dirty != -1) {
+                json.put("dirty", dirty);
+            }
+            if (sync_time != -1) {
+                json.put("x", sync_time);
             }
 
         } catch (final Exception ex) {

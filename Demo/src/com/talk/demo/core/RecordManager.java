@@ -212,7 +212,7 @@ public class RecordManager {
 				time_records.add(tvi_head);
 			}
 			
-			if(tr.getTimeRecord().tag != null) {
+			if(tr.getTimeRecord().tag != null && !tr.getTimeRecord().tag.isEmpty()) {
 				if(!exsitTag(ourTagSet, tr.getTimeRecord().tag)) {
 					ourTagSet.add(tr.getTimeRecord().tag);
 					tvi.setType(2);
