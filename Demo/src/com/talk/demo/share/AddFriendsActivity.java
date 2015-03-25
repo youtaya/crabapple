@@ -50,7 +50,7 @@ public class AddFriendsActivity extends Activity {
         
         frList = mgr.queryFriend();
         for (FriendRecord fr : frList) {
-        	friends.add(fr.getUserName());
+        	friends.add(fr.getFriend().getUserName());
         }
         initData();
         

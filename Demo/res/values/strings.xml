@@ -8,6 +8,9 @@
     <string name="old_time">何当共剪西窗烛\n
 		却话巴山夜雨时\n&#160; &#160;&#160; &#160;  
         &#160; &#160; &#160; &#160; --李商隐\n\n</string> 
+    <string name="inti_channel">无为在歧路\n
+		儿女共沾巾\n&#160; &#160;&#160; &#160;  
+        &#160;--王勃\n\n</string>         
     <string name="long_letter">三人行必有我师\n
         &#160; &#160;&#160; &#160; &#160; &#160;
         &#160; &#160;&#160; &#160; --孔子\n\n</string>                
@@ -17,7 +20,7 @@
     <string name="title_section0">Daily</string>
     <string name="title_section1">Times</string>
     <string name="title_section2">Dialog</string>
-    <string name="title_section3">Records</string>
+    <string name="title_section3">People</string>
     <string name="fast_record">&#160; fast record...</string>
     <string name="fast_comment">&#160; add comment...</string>
     <string name="take_photo">Take Photo</string>
@@ -46,16 +49,24 @@
     <string name="user_name">user name</string>
     <string name="luck_day">lucky day</string>
     <string name="friend">about friends</string>
+    <string name="new_friend">new friend</string>
     <string name="add_friend">find friend</string>
+	<string name="from_contact">add from contact</string>
+    <string name="from_internet">add from internet</string>
     <string name="store">store</string>
     <string name="setting">setting</string>
 	<string name="logout">logout</string>   
 	<string name="add">add</string>
 	<string name="save">save</string>
 	<string name="tag_name">tag name</string>
+	<string name="add_intimate">add intimate</string>
 	<string name="input_tag">input tag name, such as sun moon star etc</string>
+	<string name="press">Relation/Press Tags</string>
+	<string name="channel">Channel Update</string>
+	<string name="step_some">I Write</string>
+	<string name="say_some">I Check</string>
+	<string name="save_publish">save and publish</string>
 	
-
     <string name="share_dialog_send_method">Please select</string>
     <string name="share_dialog_send_to_me">Send to Me</string>
     <string name="share_dialog_send_to_friend">Send to Friend</string>
@@ -66,5 +77,17 @@
     
     <string name="publish_secret_option_page_item_conversation">接收私信</string>
 	<string name="publish_secret_tip">谁会看到这个秘密？</string>
-	<string name="publish_secret_content_hint">匿名发表秘密</string>   
+	<string name="publish_secret_content_hint">匿名发表秘密</string>  
+	
+    <string name="hello">Hello World, JPush!</string>
+    <string name="tag_hint">Tag为大小写字母，数字，下划线,中文， 多个用以逗号分隔</string>
+    <string name="alias_hint">Alias为大小写字母，数字，下划线</string>
+    <string name="style_hint">style为数字</string>
+    <string name="error_style_empty">style不能为空</string>
+    <string name="error_alias_empty">alias不能为空</string>
+    <string name="error_tag_empty">tag不能为空</string>
+    <string name="error_tag_gs_empty">格式不对</string>
+    <string name="error_network">网络连接异常,初始化失败 请检查网络！</string>
+    <string name="logining">程序在后台执行, 请查看日志！</string>
+    <string name="setting_su">设置成功</string>
 </resources>

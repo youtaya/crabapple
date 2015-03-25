@@ -1,0 +1,77 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/Global_Match"
+    android:orientation="vertical" >
+    
+    <LinearLayout 
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:layout_marginBottom="4dp"
+		android:orientation="horizontal">
+		<LinearLayout
+		    android:layout_width="wrap_content"
+		    android:layout_height="match_parent"
+		    android:layout_weight="1"
+		    android:orientation="vertical">
+		    <ImageView
+		        android:id="@+id/from_contact"
+		        style="@style/ImageView_XLarge"
+		        android:layout_gravity="center"
+		        android:layout_marginLeft="8dp"
+		        android:layout_marginRight="8dp"
+		        android:src="@drawable/add_friend_icon">
+		    </ImageView>
+		    <TextView 
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content"
+		        android:gravity="center"
+		        android:text="@string/from_contact"/>
+		</LinearLayout>
+		<LinearLayout
+		    android:layout_width="wrap_content"
+		    android:layout_height="match_parent"
+		    android:layout_weight="1"
+		    android:orientation="vertical">
+		    <ImageView
+		        android:id="@+id/from_internet"
+		        style="@style/ImageView_XLarge"
+		        android:layout_gravity="center"
+				android:layout_marginLeft="8dp"
+		        android:layout_marginRight="8dp"
+		        android:src="@drawable/add_friend_icon">
+		    </ImageView>
+		    <TextView 
+				android:layout_width="match_parent"
+		        android:layout_height="wrap_content"
+		        android:gravity="center"
+		        android:text="@string/from_internet"/>
+		</LinearLayout>		
+	</LinearLayout>
+	 
+    <LinearLayout 
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:background="@color/grey">
+		<TextView
+			style="@style/Global_Match"
+			android:layout_marginTop="5dp"
+			android:layout_marginBottom="5dp"
+			android:layout_marginLeft="6dp"
+			android:text="@string/new_friend"
+			android:textColor="@color/white"
+			android:textSize="18sp"/>        
+    </LinearLayout>
+
+	 
+    <FrameLayout
+        android:id="@+id/new_friend_list_layout"
+        android:layout_width="match_parent"
+        android:layout_weight="1"
+        android:layout_height="0dp" >
+        <ListView
+            android:id="@+id/new_friend_list"
+			android:layout_width="fill_parent"
+	        android:layout_height="fill_parent"
+            android:divider="@drawable/dis_behind_side" />
+    </FrameLayout>
+    
+</LinearLayout>

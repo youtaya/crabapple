@@ -12,15 +12,15 @@ import android.widget.TextView;
 
 import com.talk.demo.R;
 import com.talk.demo.persistence.DBManager;
-import com.talk.demo.persistence.RecordCache;
 import com.talk.demo.persistence.TimeRecord;
+import com.talk.demo.time.TimeCache;
 import com.talk.demo.util.TalkUtil;
 
 public class ShareTalkActivity extends Activity {
 	private static String TAG = "ShareTalkActivity";
     private String create_time;
     private String link_name;
-    private RecordCache talk_cache;
+    private TimeCache talk_cache;
     private TextView link_tv;
     private TextView time_tv;
     private TextView tv;
@@ -72,8 +72,8 @@ public class ShareTalkActivity extends Activity {
 				if(comment.length() > 0) {
 				     
 					TimeRecord tr = new TimeRecord(comment);  
-					tr.setContentType(TalkUtil.MEDIA_TYPE_TEXT);
-					mgr.add(tr);
+					tr.getTimeRecord().setContentType(TalkUtil.MEDIA_TYPE_TEXT);
+					mgr.addTime(tr);
 			    	share_comment.setText("");
 				}
 			}

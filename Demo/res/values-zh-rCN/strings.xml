@@ -7,7 +7,10 @@
         &#160; &#160; &#160; &#160; --蔡琴\n\n</string>
     <string name="old_time">何当共剪西窗烛\n
 		却话巴山夜雨时\n&#160; &#160;&#160; &#160;  
-        &#160; &#160; &#160; &#160; --李商隐\n\n</string> 
+        &#160; &#160; &#160; &#160; --李商隐\n\n</string>
+    <string name="inti_channel">无为在歧路\n
+		儿女共沾巾\n&#160; &#160;&#160; &#160;  
+        &#160;--王勃\n\n</string>            
     <string name="long_letter">三人行必有我师\n
         &#160; &#160;&#160; &#160; &#160; &#160;
         &#160; &#160;&#160; &#160; --孔子\n\n</string>                
@@ -17,7 +20,7 @@
     <string name="title_section0">日记</string>
     <string name="title_section1">时光</string>
     <string name="title_section2">对话</string>
-    <string name="title_section3">记录</string>
+    <string name="title_section3">通讯录</string>
     <string name="fast_record">&#160; 快速记录...</string>
     <string name="fast_comment">&#160; 添加评论...</string>
     <string name="take_photo">拍照</string>
@@ -39,21 +42,28 @@
     <string name="send">发送</string>
     <string name="setting_date">设定幸运日期，幸运日会将往事时
         光全部呈现\n如跳过设定，默认为当前日期\n可以在设定菜单中重新设置幸运日期</string>
-	<!-- Do not translate. Format of the timer that shows how much has been recorded so far -->
-    <string name="timer_format" translatable="false"><xliff:g id="format">%02d:%02d</xliff:g></string>
     <string name="bluestone">谁会看到这段时光?\n</string>
     <string name="user">我自己</string>
     <string name="user_name">用户名</string>
     <string name="luck_day">幸运日</string>
+    <string name="new_friend">新的朋友</string>
     <string name="friend">朋友们</string>
     <string name="add_friend">查找好友</string>
+    <string name="from_contact">添加手机联系人</string>
+    <string name="from_internet">添加网络好友</string>
     <string name="store">商店</string>
     <string name="setting">设置</string>
 	<string name="logout">注销</string>   
 	<string name="add">添加</string>
 	<string name="save">保存</string>
 	<string name="tag_name">标签名字</string>
+	<string name="add_intimate">添加好友</string>
 	<string name="input_tag">输入标签名称，例如太阳 月亮 星星 等等</string>
+	<string name="press">关系/印象标签</string>
+	<string name="channel">频道更新</string>
+	<string name="step_some">我踩</string>
+	<string name="say_some">我写</string>
+	<string name="save_publish">保存并发表</string>
 	
     <string name="share_dialog_send_method">请选择</string>
     <string name="share_dialog_send_to_me">发送给我</string>

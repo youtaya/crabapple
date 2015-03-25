@@ -17,8 +17,7 @@
 
     <ImageView
         android:id="@+id/qcb"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        style="@style/Global_Wrap"
         android:layout_weight="1"
         android:layout_alignParentLeft="true"
         android:layout_marginBottom="3dip"
@@ -26,8 +25,7 @@
 
     <TextView
         android:id="@+id/name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        style="@style/Global_Wrap"
         android:layout_weight="1"
         android:layout_centerVertical="true"
         android:layout_marginLeft="8dip"
@@ -36,8 +34,7 @@
 
     <TextView
         android:id="@+id/number"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        style="@style/Global_Wrap"
         android:layout_weight="1"
 		android:layout_centerVertical="true"
 		android:layout_marginLeft="8dip"
@@ -46,8 +43,7 @@
     
 	<ImageView
         android:id="@+id/choose"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        style="@style/Global_Wrap"
         android:layout_weight="1"
         android:layout_marginRight="8dip"
         android:layout_marginBottom="3dip"

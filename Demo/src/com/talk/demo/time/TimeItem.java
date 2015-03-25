@@ -14,7 +14,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.talk.demo.R;
-import com.talk.demo.persistence.RecordCache;
 import com.talk.demo.util.TalkUtil;
 
 
@@ -29,13 +28,13 @@ public class TimeItem extends Fragment {
     //private WebView wvView;
     private TextView tvTime;
     
-    static TimeItem newInstance(RecordCache content) {
+    static TimeItem newInstance(TimeCache content) {
         TimeItem newFragment = new TimeItem(content);
         return newFragment;
 
     }
     
-    public TimeItem(RecordCache content) {
+    public TimeItem(TimeCache content) {
         valueContent = content.getContent();
         creatTime = content.getCreateTime();
         media_type = content.getMediaType();

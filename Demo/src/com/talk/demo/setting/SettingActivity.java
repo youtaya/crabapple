@@ -21,7 +21,7 @@ import br.com.dina.ui.widget.UITableView.ClickListener;
 
 import com.talk.demo.R;
 import com.talk.demo.account.AccountConstants;
-import com.talk.demo.account.AppMainActivity;
+import com.talk.demo.account.AppEnterActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -221,7 +221,7 @@ public class SettingActivity extends Activity {
                 break;
             case 2:
             	removeAccount();
-            	callOtherActivity(AppMainActivity.class);
+            	callOtherActivity(AppEnterActivity.class);
             	break;
             }
         }

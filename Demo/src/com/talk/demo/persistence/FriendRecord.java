@@ -1,48 +1,48 @@
 package com.talk.demo.persistence;
 
-import com.talk.demo.util.RawFriend;
+import android.database.Cursor;
 
-public class FriendRecord {
-    public int _id;
-    public int server_id;
-    public String userName;
-    public String handle;
-    public String phoneMobile;
-    public String avatar;
-    public long sync_time;
- 	/*
- 	 * deleted flag :
- 	 * default : 0 mean don't delete, other: 1 mean need to delete
- 	 */
-    public int deleted = 0; 
- 	/*
- 	 * dirty flag :
- 	 * default : 1 mean dirty and need to sync, other: 0 mean not need sync
- 	 */
-    public int dirty = 1;
+import com.talk.demo.types.Friend;
+
+import java.lang.reflect.Field;
+
+public class FriendRecord extends CommonRecord {
+    private Friend friend;
+    private Field[] declaredFields;
     
     public FriendRecord() {
+    	friend = new Friend();
     }
     
-    public FriendRecord(RawFriend rf) {
-        _id = (int)rf.getRawFriendId();
-        server_id = (int)rf.getServerFriendId();
-        userName = rf.getUserName();
-        handle = rf.getHandle();
-        phoneMobile = rf.getPhoneMobile();
-        avatar = rf.getAvatar();
-        sync_time = rf.getSyncState();
+    public Friend getFriend() {
+    	return friend;
     }
+    
+    public FriendRecord(Friend f) {
+    	friend = f;
+    }
+  
     public FriendRecord(String v1) {
-        userName = v1;
+    	friend = new Friend();
+        friend.setUsername(v1);
        
     }
 
-    public void setUserName(String v) {
-        userName = v;
-    }
-	    
-    public String getUserName() {
-        return userName;
-    }
+   
+	@Override
+	public int getNumItems() {
+		declaredFields = friend.getClass().getDeclaredFields();
+	    return declaredFields.length-1;
+	}
+
+	@Override
+	public void getObjectItems(Object[] obj) {
+	    friend.getObjectItems(obj);
+	}
+
+	@Override
+	public void dumpRecord(Cursor c) {
+	    friend.dumpRecord(c);
+		
+	}
 }

@@ -6,8 +6,12 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.talk.demo.persistence.DBManager;
-import com.talk.demo.persistence.RecordCache;
+import com.talk.demo.persistence.DialogRecord;
 import com.talk.demo.persistence.TimeRecord;
+import com.talk.demo.talk.DialogCache;
+import com.talk.demo.talk.DialogItem;
+import com.talk.demo.talk.TalkViewItem;
+import com.talk.demo.time.TimeCache;
 import com.talk.demo.time.TimeViewItem;
 import com.talk.demo.time.ViewAsItem;
 import com.talk.demo.util.AccountUtils;
@@ -17,71 +21,115 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 
 public class RecordManager {
 	private static String TAG = "RecordManager";
 	private List<TimeRecord> trlist;
+	private List<DialogRecord> drlist;
 	private DBManager dbMgr;
 	private Context context;
+	private String ownUser;
+	
 	public RecordManager(DBManager mgr, Context ctx) {
 		trlist = new ArrayList<TimeRecord>();
+		drlist = new ArrayList<DialogRecord>();
 		dbMgr = mgr;
 		context = ctx;
+		
+        Account accout = AccountUtils.getPasswordAccessibleAccount(context);
+        if (accout != null && !TextUtils.isEmpty(accout.name)) {
+        	Log.d(TAG,"account name: "+accout.name);
+        	ownUser = accout.name;
+        }
 	}
 
-	public ArrayList<Map<String, String>> initDataListTalk(ArrayList<RecordCache> record_cache,
-	        boolean isStore) {
-		ArrayList<Map<String, String>> time_record = new ArrayList<Map<String, String>>();
-		if (!trlist.isEmpty()) {
-			trlist.clear();
-		}
-		Log.d(TAG, "init data list");
-		
-		if(isStore) { 
-		    trlist = dbMgr.query();
-		} else {
-            Account accout = AccountUtils.getPasswordAccessibleAccount(context);
-            if (accout != null && !TextUtils.isEmpty(accout.name)) {
-            	Log.d(TAG,"ccount name: "+accout.name);
-            }
-            
-    		trlist = dbMgr.queryFromOthers(accout.name);
-		}
-
-		if (!time_record.isEmpty()) {
-			time_record.clear();
+	private boolean exsitRoom(List<String> room, String link) {
+		if(room.isEmpty()) {
+			return false;
 		}
 		
-		if(!record_cache.isEmpty()) {
-			record_cache.clear();
+		for(String str: room) {
+			if(str.equalsIgnoreCase(link)) {
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
+	private String getTalkObject(String sender, String link) {
+
+        String result = new String();
+        if(ownUser.equalsIgnoreCase(sender)) {
+        	result = link;
+        } else {
+        	result = sender;
+        }
+        Log.d(TAG,"talk object : "+result);
+        return result;
+	}
+	
+	public ArrayList<TalkViewItem> initDataListTalk(HashMap<String, ArrayList<DialogCache>> dialog_cache) {
+		ArrayList<TalkViewItem> dialog_record = new ArrayList<TalkViewItem>();
+		if (!drlist.isEmpty()) {
+			drlist.clear();
+		}
+		Log.d(TAG, "init talk list");
+		
+	    drlist = dbMgr.queryDialog();
+
+		if (!dialog_record.isEmpty()) {
+		    dialog_record.clear();
+		}
+		
+		if(!dialog_cache.isEmpty()) {
+			dialog_cache.clear();
 		}
 
-		for (TimeRecord tr : trlist) {
-			HashMap<String, String> map = new HashMap<String, String>();
-			RecordCache rc = new RecordCache();
-			if (tr.content_type == TalkUtil.MEDIA_TYPE_PHOTO)
-				map.put("content", "惊鸿一瞥");
-			else if (tr.content_type == TalkUtil.MEDIA_TYPE_AUDIO)
-				map.put("content", "口若兰花");
-			else
-				map.put("content", tr.content);
+		List<String> roomSet = new LinkedList<String>();
+		List<DialogRecord> roomlist = new ArrayList<DialogRecord>();
+		
+		for (DialogRecord dr : drlist) {
+			String talkObj = getTalkObject(dr.getPrvDialog().getSender(), dr.getPrvDialog().getLink());
+			if(!exsitRoom(roomSet, talkObj)) {
+				roomSet.add(talkObj);
+				
+				TalkViewItem tvi = new TalkViewItem();
+				
+				roomlist = dbMgr.queryDialogTalkPeople(talkObj);
+				
+				ArrayList<DialogCache> cache = new ArrayList<DialogCache>();
+				ArrayList<DialogItem> dItems = new ArrayList<DialogItem>();
+				
+				tvi.setTalkName(talkObj);
+				
+				for(DialogRecord r: roomlist) {
+					DialogItem di = new DialogItem(r.getPrvDialog()._id, r.getPrvDialog().sender, r.getPrvDialog().link, 
+							r.getPrvDialog().calc_date, r.getPrvDialog().create_time, r.getPrvDialog().content, r.getPrvDialog().content_type);
 
-			rc.setId(tr._id);
-			rc.setContent(tr.content);
-			map.put("calc_date", tr.calc_date);
-			rc.setCreateDate(tr.calc_date);
-			map.put("create_time", tr.create_time);
-			map.put("send_interval_time", String.valueOf(tr.send_interval_time));
-			map.put("send_done_time", tr.send_done_time);
-			map.put("link", tr.link);
-			rc.setCreateTime(tr.create_time);
-			rc.setMediaType(tr.content_type);
-			record_cache.add(rc);
-			time_record.add(map);
+					di.setIntervalTime(r.getPrvDialog().send_interval_time);
+					di.setDoneTime(r.getPrvDialog().send_done_time);
+					
+					DialogCache dc = new DialogCache();
+					dc.setId(r.getPrvDialog()._id);
+					dc.setSender(r.getPrvDialog().sender);
+					dc.setLink(r.getPrvDialog().link);
+					dc.setContent(r.getPrvDialog().content);
+					dc.setCreateDate(r.getPrvDialog().calc_date);
+					dc.setCreateTime(r.getPrvDialog().create_time);
+					dc.setMediaType(r.getPrvDialog().content_type);
+					
+					dItems.add(di);
+					cache.add(dc);
+				}
+				
+				tvi.setListViewItem(dItems);
+				dialog_cache.put(talkObj, cache);
+				dialog_record.add(tvi);
+			}
 		}
 
-		return time_record;
+		return dialog_record;
 	}
 
 	private boolean exsitDateItem(List<String> list, String date) {
@@ -124,7 +172,8 @@ public class RecordManager {
 		Log.d(TAG, "convert to : "+Integer.parseInt(temp[1]));
 		return month12_zh[Integer.parseInt(temp[1])-1]+" "+temp[0];
 	}
-	public ArrayList<TimeViewItem> initDataListTime(HashMap<String, ArrayList<RecordCache>> record_cache, boolean isLuckDay) {
+	public ArrayList<TimeViewItem> initDataListTime(HashMap<String, ArrayList<TimeCache>> record_cache, 
+			boolean isLuckDay) {
 		ArrayList<TimeViewItem> time_records = new ArrayList<TimeViewItem>();
 		if (!trlist.isEmpty()) {
 			trlist.clear();
@@ -132,9 +181,9 @@ public class RecordManager {
 		Log.d(TAG, "init data list");
 		
 		if (true) {
-			trlist = dbMgr.query();
+			trlist = dbMgr.queryTime();
 		} else
-			trlist = dbMgr.queryWithMultipleParams(TalkUtil.conditonDates());
+			trlist = dbMgr.queryTimeWithMultipleParams(TalkUtil.conditonDates());
 
 		if (!time_records.isEmpty()) {
 			time_records.clear();
@@ -152,7 +201,7 @@ public class RecordManager {
 			
 			TimeRecord tr = trlist.get(i);
 			
-			String mYearMonth = tr.calc_date.substring(0,7);
+			String mYearMonth = tr.getTimeRecord().calc_date.substring(0,7);
 			
 			if(!exsitDateItem(ourDateSet, mYearMonth)) {
 				ourDateSet.add(mYearMonth);
@@ -163,37 +212,45 @@ public class RecordManager {
 				time_records.add(tvi_head);
 			}
 			
-			if(tr.tag != null && !exsitTag(ourTagSet, tr.tag)) {
-				ourTagSet.add(tr.tag);
-				tvi.setType(2);
-				Log.d(TAG, "tag is: "+tr.tag);
-				
-				ArrayList<RecordCache> listCache = new ArrayList<RecordCache>();
-				ArrayList<ViewAsItem> listViewAsItem = new ArrayList<ViewAsItem>();
-				
-				tvi.setTagTitle(tr.tag);
-				tag_records = dbMgr.queryTag(tr.tag);
-				for(TimeRecord item : tag_records) {
-					RecordCache rc = new RecordCache();
-					ViewAsItem vi = new ViewAsItem(item._id, item.calc_date,item.create_time,item.content,item.content_type,item.photo);
-					rc.setId(item._id);
-					rc.setContent(item.content);
-					rc.setCreateDate(item.calc_date);
-					rc.setCreateTime(item.create_time);
-					rc.setMediaType(item.content_type);
-					rc.setPhotoPath(item.photo);
+			if(tr.getTimeRecord().tag != null && !tr.getTimeRecord().tag.isEmpty()) {
+				if(!exsitTag(ourTagSet, tr.getTimeRecord().tag)) {
+					ourTagSet.add(tr.getTimeRecord().tag);
+					tvi.setType(2);
+					Log.d(TAG, "tag is: "+tr.getTimeRecord().tag);
 					
-					listCache.add(rc);
-					listViewAsItem.add(vi);
+					ArrayList<TimeCache> listCache = new ArrayList<TimeCache>();
+					ArrayList<ViewAsItem> listViewAsItem = new ArrayList<ViewAsItem>();
+					
+					tvi.setTagTitle(tr.getTimeRecord().tag);
+					tag_records = dbMgr.queryTimeTag(tr.getTimeRecord().tag);
+					for(TimeRecord item : tag_records) {
+						TimeCache rc = new TimeCache();
+						ViewAsItem vi = new ViewAsItem(item.getTimeRecord()._id, item.getTimeRecord().calc_date,item.getTimeRecord().create_time,
+								item.getTimeRecord().content,item.getTimeRecord().content_type,item.getTimeRecord().photo);
+						vi.setTitle(item.getTimeRecord().title);
+						
+						rc.setId(item.getTimeRecord()._id);
+						rc.setContent(item.getTimeRecord().content);
+						rc.setCreateDate(item.getTimeRecord().calc_date);
+						rc.setCreateTime(item.getTimeRecord().create_time);
+						rc.setMediaType(item.getTimeRecord().content_type);
+						rc.setPhotoPath(item.getTimeRecord().photo);
+						
+						listCache.add(rc);
+						listViewAsItem.add(vi);
+					}
+					
+					record_cache.put(tr.getTimeRecord().tag, listCache);
+					tvi.setListViewItem(listViewAsItem);
+					time_records.add(tvi);
 				}
-				
-				record_cache.put(tr.tag, listCache);
-				tvi.setListViewItem(listViewAsItem);
-				time_records.add(tvi);
 				continue;
 			}
 			tvi.setType(1);
-			ViewAsItem vai = new ViewAsItem(tr._id, tr.calc_date,tr.create_time,tr.content,tr.content_type,tr.photo);
+			ViewAsItem vai = new ViewAsItem(tr.getTimeRecord()._id, tr.getTimeRecord().calc_date,
+					tr.getTimeRecord().create_time,tr.getTimeRecord().content,tr.getTimeRecord().content_type,tr.getTimeRecord().photo);
+			vai.setTitle(tr.getTimeRecord().title);
+			
 			tvi.setViewItem(vai);
 			time_records.add(tvi);
 
@@ -202,7 +259,51 @@ public class RecordManager {
 		return time_records;
 	}
 	
+	public ArrayList<TimeViewItem> initStoreListTime(ArrayList<TimeCache> record_cache) {
+		ArrayList<TimeViewItem> time_records = new ArrayList<TimeViewItem>();
+		if (!trlist.isEmpty()) {
+			trlist.clear();
+		}
+		Log.d(TAG, "init data list");
+		
+		trlist = dbMgr.queryTime();
+
+		if (!time_records.isEmpty()) {
+			time_records.clear();
+		}
+		
+		if(!record_cache.isEmpty()) {
+			record_cache.clear();
+		}
+		
+		for (int i = 0; i< trlist.size(); i ++) {
+			
+			TimeRecord tr = trlist.get(i);
+			TimeViewItem tvi = new TimeViewItem();
+			TimeCache rc = new TimeCache();
+			ViewAsItem vi = new ViewAsItem(tr.getTimeRecord()._id, tr.getTimeRecord().calc_date,tr.getTimeRecord().create_time,
+					tr.getTimeRecord().content,tr.getTimeRecord().content_type,tr.getTimeRecord().photo);
+			rc.setId(tr.getTimeRecord()._id);
+			rc.setContent(tr.getTimeRecord().content);
+			rc.setCreateDate(tr.getTimeRecord().calc_date);
+			rc.setCreateTime(tr.getTimeRecord().create_time);
+			rc.setMediaType(tr.getTimeRecord().content_type);
+			rc.setPhotoPath(tr.getTimeRecord().photo);
+			
+			record_cache.add(rc);
+			tvi.setViewItem(vi);
+			time_records.add(tvi);
+
+		}
+
+		return time_records;
+	}
+	
 	public void addRecord(TimeRecord tr) {
-		dbMgr.add(tr);
+		dbMgr.addTime(tr);
+	}
+	
+	public void addDialog(DialogRecord dr) {
+		dbMgr.addDialog(dr);
 	}
 }

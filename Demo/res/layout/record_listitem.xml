@@ -10,8 +10,7 @@
 
     <ImageView
         android:id="@+id/time_pic"
-        android:layout_width="72dip"
-        android:layout_height="72dip"
+        style="@style/ImageView_XLarge"
         android:layout_marginLeft="12dp"
         android:layout_marginTop="3dp"
         android:adjustViewBounds="true"

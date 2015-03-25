@@ -61,7 +61,7 @@ public class CloudKite implements Runnable {
         try {
             Date recordDate = formatter.parse(done_time);
             long diff = recordDate.getTime() - date.getTime();
-            if (diff < 0) {
+            if (diff < 0 || diff == 0) {
                 result = 100;
                 return result;
             }

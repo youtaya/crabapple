@@ -1,0 +1,19 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/Global_Match" 
+    android:background="@color/grey"
+    android:orientation="vertical">
+
+    <ImageView 
+        android:id="@+id/ment_item_image"
+		style="@style/Global_Wrap"
+        android:layout_gravity="center" 
+        android:src="@drawable/toolbar_photo_active"/>
+    <TextView
+        android:id="@+id/ment_item_content"
+        style="@style/Global_Wrap"
+        android:layout_gravity="center"
+        android:textColor="@color/white"
+        android:text="Test" />
+
+</LinearLayout>

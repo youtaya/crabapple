@@ -1,6 +1,5 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    style="@style/Global_Match"
     android:orientation="vertical" >
  
     <LinearLayout
@@ -42,16 +41,14 @@
   		    android:layout_height="wrap_content" >
   		   	<ImageView
 	            android:id="@+id/iv_user_image"
-	            android:layout_width="50dp"
-	            android:layout_height="50dp"
+	            style="@style/ImageView_Medium"
 	            android:layout_alignParentRight="true"
 	            android:layout_alignParentTop="true"
 	            android:background="@drawable/tab_main_nav_me_girl_off"
 	            android:focusable="false" />
 	        <TextView
 	            android:id="@+id/link_name"
-	            android:layout_width="wrap_content"
-	            android:layout_height="wrap_content"
+	            style="@style/Global_Wrap"
 	            android:layout_marginRight="5dp"
 	            android:layout_toLeftOf="@+id/iv_user_image"
 	            android:clickable="true"
@@ -61,8 +58,7 @@
 	            android:textSize="18sp" />  		   	
   		   	<TextView
 	        	android:id="@+id/create_time"
-	            android:layout_width="wrap_content"
-	            android:layout_height="wrap_content"
+	            style="@style/Global_Wrap"
 	            android:layout_toLeftOf="@+id/iv_user_image"
 	            android:layout_below="@+id/link_name"
 	            android:paddingTop="2dp"
@@ -90,8 +86,7 @@
 	        android:hint="@string/fast_comment" />
 	    <ImageView 
 	        android:id="@+id/share_send"
-			android:layout_width="wrap_content"
-	        android:layout_height="wrap_content" 
+			style="@style/Global_Wrap" 
 	        android:background ="@drawable/button_rounded_background"  
 	        android:src="@drawable/ic_send_btn_disabled" />
     </LinearLayout>

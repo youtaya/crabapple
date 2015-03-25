@@ -18,32 +18,33 @@ import android.renderscript.ScriptIntrinsicBlur;
 import android.text.TextUtils;
 import android.text.format.DateFormat;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewTreeObserver;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.faizmalkani.floatingactionbutton.FloatingActionButton;
 import com.talk.demo.R;
 import com.talk.demo.core.RecordManager;
 import com.talk.demo.persistence.DBManager;
+import com.talk.demo.persistence.DialogRecord;
 import com.talk.demo.persistence.TimeRecord;
 import com.talk.demo.prewrite.PreWrite;
+import com.talk.demo.time.DateInfo;
+import com.talk.demo.types.PrvDialog;
 import com.talk.demo.util.AccountUtils;
 import com.talk.demo.util.AlarmManagerUtil;
 import com.talk.demo.util.NetworkUtilities;
-import com.talk.demo.util.RawRecord;
 import com.talk.demo.util.TalkUtil;
 
 import org.apache.http.ParseException;
-import org.json.JSONException;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -55,17 +56,25 @@ public class DailyEditActivity extends Activity {
 	private TextView tv, head;
 	private ImageView content_bg;
 	private ImageView add_photo;
+	private FloatingActionButton btn_accept;
 	
 	private String fileName = null;
 	private DBManager mgr;
 	private RecordManager rMgr;
 	private String friend = null;
 	private TimeRecord tr = null;
+	private DialogRecord dr = null;
 	
+	private String ownUser;
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
+		/*set it to be no title*/ 
+		requestWindowFeature(Window.FEATURE_NO_TITLE); 
+		/*set it to be full screen*/ 
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,    
+        WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        
 		setContentView(R.layout.activity_dailyedit);
 		Bundle bundle = getIntent().getExtras();
 		if(bundle != null)
@@ -75,17 +84,20 @@ public class DailyEditActivity extends Activity {
 		tv = (TextView) findViewById(R.id.daily_title);
 		head = (TextView) findViewById(R.id.daily_head);
 		PreWrite pw = new PreWrite(this);
+		// when need to change week day, am/pm
 		String when = pw.getWhen();
+		DateInfo dateInfo = new DateInfo(when);
+		dateInfo.parseCreateTime();
+		String current = dateInfo.getTimeHead();
 		String where = pw.getWhere();
 		
-		head.setText(when+"\n"+where);
+		head.setText(current+"\n"+where);
 		if(pre_content != null) {
 			tv.setVisibility(View.VISIBLE);
 			tv.setText(pre_content);
 		}
 		content_bg = (ImageView) findViewById(R.id.content_bg);
 		add_photo = (ImageView) findViewById(R.id.add_photo);
-		
 		
 		add_photo.setOnClickListener(new OnClickListener() {
 
@@ -110,9 +122,25 @@ public class DailyEditActivity extends Activity {
 			}
 			
 		});
+		
+		btn_accept = (FloatingActionButton) findViewById(R.id.btn_accept);
+		btn_accept.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				send_dialog();
+			}
+			
+		});
 
 		mgr = new DBManager(this);
 		rMgr = new RecordManager(mgr, this);
+		
+        Account accout = AccountUtils.getPasswordAccessibleAccount(this);
+        if (accout != null && !TextUtils.isEmpty(accout.name)) {
+        	Log.d(TAG,"ccount name: "+accout.name);
+        	ownUser = accout.name;
+        }
 		/*
 		new Thread(new Runnable() {
 
@@ -175,32 +203,16 @@ public class DailyEditActivity extends Activity {
 		rs.destroy();
 	}
 
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.confirm_actions, menu);
-		return true;
-	}
-
-	private String shareToFriend(TimeRecord time, String name) {
+	private String shareToFriend(DialogRecord dialog, String name) {
 		String result = "ok";
-        Account accout = AccountUtils.getPasswordAccessibleAccount(this);
-        if (accout != null && !TextUtils.isEmpty(accout.name)) {
-        	Log.d(TAG,"ccount name: "+accout.name);
-        }
+
         //TODO 
-		RawRecord raw = RawRecord.create(accout.name, friend, "test", time.content,
-				time.calc_date, time.create_time, time.content_type, null,
-				null, null, false, 11, 12, -1, true);
+		PrvDialog raw = PrvDialog.create(ownUser, ownUser, friend, friend, dialog.getPrvDialog().getContent(),
+				dialog.getPrvDialog().getCreateDate(), dialog.getPrvDialog().getCreateTime(), dialog.getPrvDialog().getContentType(), null,
+				null, 0, 11, 12, -1, 1);
 		try {
-			NetworkUtilities.shareRecord(raw, accout.name, name);
+			NetworkUtilities.shareRecord(raw, ownUser, name);
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (JSONException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -229,6 +241,7 @@ public class DailyEditActivity extends Activity {
 		}
 	}
 	
+	
 	private void confirmDone() {
 		// save to db
 		String content = edit_content.getText().toString();
@@ -237,13 +250,19 @@ public class DailyEditActivity extends Activity {
 			tr = new TimeRecord(content);
 			if(fileName != null) {
 				//tr = new TimeRecord("/sdcard/Demo/"+fileName);
-				tr.setPhoto(fileName);
+				tr.getTimeRecord().setPhoto(fileName);
 				new SyncPhotoTask().execute();
-				tr.setContentType(TalkUtil.MEDIA_TYPE_PHOTO_TEXT);
+				tr.getTimeRecord().setContentType(TalkUtil.MEDIA_TYPE_PHOTO_TEXT);
 			} else {
-				tr.setContentType(TalkUtil.MEDIA_TYPE_TEXT);
+				tr.getTimeRecord().setContentType(TalkUtil.MEDIA_TYPE_TEXT);
 			}
 			
+			if(pre_content != null) {
+				tr.getTimeRecord().setTitle(pre_content);
+			}
+			tr.getTimeRecord().setHandle(ownUser);
+			tr.getTimeRecord().setDeleted(0);
+			tr.getTimeRecord().setDirty(1);
 			rMgr.addRecord(tr);
 		}
 
@@ -260,18 +279,20 @@ public class DailyEditActivity extends Activity {
         String content = edit_content.getText().toString();
         // Do nothing if content is empty
         if (content.length() > 0) {
-            tr = new TimeRecord(content);
+            dr = new DialogRecord(content);
+            
             if(fileName != null) {
                 //tr = new TimeRecord("/sdcard/Demo/"+fileName);
-                tr.setPhoto(fileName);
+                dr.getPrvDialog().setPhoto(fileName);
                 new SyncPhotoTask().execute();
-                tr.setContentType(TalkUtil.MEDIA_TYPE_PHOTO_TEXT);
+                dr.getPrvDialog().setContentType(TalkUtil.MEDIA_TYPE_PHOTO_TEXT);
             } else {
-                tr.setContentType(TalkUtil.MEDIA_TYPE_TEXT);
+                dr.getPrvDialog().setContentType(TalkUtil.MEDIA_TYPE_TEXT);
             }
+            		
             //TODO: add msg_interval_time and msg_done_time
  
-            tr.setSendInterval(wait_x_time);
+            dr.getPrvDialog().setSendInterval(wait_x_time);
             //current+interval
             Calendar calendar = Calendar.getInstance();
 
@@ -282,11 +303,13 @@ public class DailyEditActivity extends Activity {
             String done_time = DateFormat.format("yyyyMMddHHmmss", calendar.getTime()).toString();
             String test_time = formatter.format(date);
             Log.d(TAG , "done time "+done_time+" test time "+test_time);
-            tr.setSendDoneTime(done_time);
-            
+            dr.getPrvDialog().setSendDoneTime(done_time);
+
+            // add sender object
+            dr.getPrvDialog().setSender(ownUser);
             // save link object
-            tr.setLink(target);
-            rMgr.addRecord(tr);
+            dr.getPrvDialog().setLink(target);
+            rMgr.addDialog(dr);
         }
 		//TODO: start Alarm Manager to send message after wait time
         AlarmManagerUtil.sendUpdateBroadcast(this, wait_x_time*1000);
@@ -310,15 +333,21 @@ public class DailyEditActivity extends Activity {
 
             if (fileName != null) {
                 // tr = new TimeRecord("/sdcard/Demo/"+fileName);
-                tr.setPhoto(fileName);
+                tr.getTimeRecord().setPhoto(fileName);
                 new SyncPhotoTask().execute();
-                tr.setContentType(TalkUtil.MEDIA_TYPE_PHOTO_TEXT);
+                tr.getTimeRecord().setContentType(TalkUtil.MEDIA_TYPE_PHOTO_TEXT);
             } else {
-                tr.setContentType(TalkUtil.MEDIA_TYPE_TEXT);
+                tr.getTimeRecord().setContentType(TalkUtil.MEDIA_TYPE_TEXT);
             }
             
+			if(pre_content != null) {
+				tr.getTimeRecord().setTitle(pre_content);
+			}
+			
             // save tag object
-            tr.setTag(tag);
+            tr.getTimeRecord().setTag(tag);
+			tr.getTimeRecord().setDeleted(0);
+			tr.getTimeRecord().setDirty(1);
             rMgr.addRecord(tr);
         }
         //startActivity(new Intent(this, TagActivity.class));
@@ -339,7 +368,7 @@ public class DailyEditActivity extends Activity {
 	private class ShareRecordTask extends AsyncTask<Void, Void, String> {
 		@Override
 		protected String doInBackground(Void... params) {
-			return shareToFriend(tr, friend);
+			return shareToFriend(dr, friend);
 		}
 
 		@Override
@@ -351,19 +380,6 @@ public class DailyEditActivity extends Activity {
 		}
 	}
 
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-		case R.id.action_confirm:
-			//confirmDone();
-		    send_dialog();
-			return true;
-		default:
-			return super.onOptionsItemSelected(item);
-		}
-	}
-	
-   
     private void startPhotoZoom(Uri uri) {
         Intent intent = new Intent("com.android.camera.action.CROP");
         intent.setDataAndType(uri, "image/*");

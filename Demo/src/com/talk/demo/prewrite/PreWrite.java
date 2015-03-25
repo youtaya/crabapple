@@ -39,7 +39,7 @@ public class PreWrite {
     }
     
     public String getWhen() {
-        SimpleDateFormat pDateFormat = new SimpleDateFormat("yyyy/MM/dd"); 
+        SimpleDateFormat pDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss:SSSS"); 
         when = pDateFormat.format(new Date());
         return when;
     }
@@ -115,10 +115,6 @@ public class PreWrite {
             }
         }
 
-        @Override
-        public void onReceivePoi(BDLocation arg0) {
-        }
-        
     }
     
     public String getWeather() {

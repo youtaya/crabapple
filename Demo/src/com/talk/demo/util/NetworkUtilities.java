@@ -16,44 +16,41 @@
 
 package com.talk.demo.util;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+
+import org.apache.http.HttpStatus;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.accounts.Account;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.talk.demo.parser.DialogParser;
+import com.talk.demo.parser.FriendParser;
+import com.talk.demo.parser.GroupParser;
+import com.talk.demo.parser.NewsParser;
+import com.talk.demo.parser.RecordParser;
+import com.talk.demo.parser.ResParser;
+import com.talk.demo.types.PrvDialog;
+import com.talk.demo.types.Friend;
+import com.talk.demo.types.Group;
+import com.talk.demo.types.News;
+import com.talk.demo.types.Record;
+import com.talk.demo.types.TalkType;
 import com.talk.demo.util.HttpRequest.HttpRequestException;
-
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.HttpStatus;
-import org.apache.http.NameValuePair;
-import org.apache.http.ParseException;
-import org.apache.http.auth.AuthenticationException;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.conn.params.ConnManagerParams;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.message.BasicNameValuePair;
-import org.apache.http.params.HttpConnectionParams;
-import org.apache.http.params.HttpParams;
-import org.apache.http.protocol.HTTP;
-import org.apache.http.util.EntityUtils;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
 
 /**
  * Provides utility methods for communicating with the server.
@@ -73,20 +70,28 @@ final public class NetworkUtilities {
     public static final String PARAM_SYNC_STATE = "syncstate";
     /** POST parameter name for the sending client-edited contact info */
     public static final String PARAM_RECORDS_DATA = "records";
-    /** Timeout (in ms) we specify for each http request */
-    public static final int HTTP_REQUEST_TIMEOUT_MS = 30 * 1000;
+    public static final String PARAM_FRIENDS_DATA = "friends";
     /** Base URL for the v2 Sample Sync Service */
-    public static final String BASE_URL = "http://114.215.208.170/";
-    //public static final String BASE_URL = "http://192.168.1.103/";
+    //public static final String BASE_URL = "http://10.4.65.41/";
+    public static final String BASE_URL = "http://192.168.1.101/";
     /** URI for authentication service */
-    public static final String AUTH_URI = BASE_URL + "account/login/";
-    public static final String SIGNUP_URI = BASE_URL + "account/signup/";
-    public static final String SYNC_NEWS_URI = BASE_URL + "news/today/";
+    public static final String AUTH_URI = BASE_URL + "users/login/";
+    public static final String SIGNUP_URI = BASE_URL + "users/signup/";
+    public static final String SEARCH_PEOPLE_URI = BASE_URL + "users/search_people/";
+    /** URI for friend service */
     public static final String RECOMMEND_FRIENDS_URI = BASE_URL + "friends/recommend";
-    public static final String SYNC_FRIENDS_URI = BASE_URL + "friends/sync/";
+    public static final String SYNC_FRIENDS_URI = BASE_URL + "friends/sync_friend/";
+    public static final String ADD_FRIENDS_URI = BASE_URL + "friends/add_friend/";
+    public static final String ACCEPT_FRIENDS_URI = BASE_URL + "friends/accept_friend/";
+    public static final String UPDATE_FRIENDS_URI = BASE_URL + "friends/update_friend/";
     /** URI for sync service */
     public static final String SYNC_RECORDS_URI = BASE_URL + "times/sync/";
-    public static final String SHARE_RECORDS_URI = BASE_URL + "times/share/";
+    public static final String VISIT_RECORDS_URI = BASE_URL + "times/visit/";
+    /** URI for dialog share */
+    public static final String SHARE_RECORDS_URI = BASE_URL + "dialogs/share/";
+    public static final String GET_DIALOGS_URI = BASE_URL + "dialogs/getdialog/";
+    /** URI for news service */
+    public static final String SYNC_NEWS_URI = BASE_URL + "news/today/";
     
     public static final String SYNC_PHOTO_URI = BASE_URL + "times/photo/";
     public static final String DOWNLOAD_PHOTO_URI = BASE_URL + "times/photoView/";
@@ -94,116 +99,117 @@ final public class NetworkUtilities {
     private NetworkUtilities() {
     }
 
-    /**
-     * Configures the httpClient to connect to the URL provided.
-     */
-    public static HttpClient getHttpClient() {
-        HttpClient httpClient = new DefaultHttpClient();
-        final HttpParams params = httpClient.getParams();
-        HttpConnectionParams.setConnectionTimeout(params, HTTP_REQUEST_TIMEOUT_MS);
-        HttpConnectionParams.setSoTimeout(params, HTTP_REQUEST_TIMEOUT_MS);
-        ConnManagerParams.setTimeout(params, HTTP_REQUEST_TIMEOUT_MS);
-        return httpClient;
+    public static HttpRequest createGet(String url) {
+        HttpRequest request = HttpRequest.get(url);
+        request.followRedirects(false);
+        
+        return request;
     }
-
-    /**
-     * Connects to the SampleSync test server, authenticates the provided
-     * username and password.
-     *
-     * @param username The server account username
-     * @param password The server account password
-     * @return String The authentication token returned by the server (or null)
-     */
-    /*
-    public static String authenticate(String username, String password) {
-
-        final HttpResponse resp;
-        final ArrayList<NameValuePair> params = new ArrayList<NameValuePair>();
-        params.add(new BasicNameValuePair(PARAM_USERNAME, username));
-        params.add(new BasicNameValuePair(PARAM_PASSWORD, password));
-        final HttpEntity entity;
-        try {
-            entity = new UrlEncodedFormEntity(params);
-        } catch (final UnsupportedEncodingException e) {
-            // this should never happen.
-            throw new IllegalStateException(e);
-        }
-        Log.i(TAG, "Authenticating to: " + AUTH_URI);
-        final HttpPost post = new HttpPost(AUTH_URI);
-        post.addHeader(entity.getContentType());
-        post.setEntity(entity);
-        try {
-            resp = getHttpClient().execute(post);
-            String authToken = null;
-            if (resp.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
-                InputStream istream = (resp.getEntity() != null) ? resp.getEntity().getContent()
-                        : null;
-                if (istream != null) {
-                    BufferedReader ireader = new BufferedReader(new InputStreamReader(istream));
-                    authToken = ireader.readLine().trim();
-                }
-            }
-            if ((authToken != null) && (authToken.length() > 0)) {
-                Log.v(TAG, "Successful authentication");
-                return authToken;
-            } else {
-                Log.e(TAG, "Error authenticating" + resp.getStatusLine());
-                return null;
-            }
-        } catch (final IOException e) {
-            Log.e(TAG, "IOException when getting authtoken", e);
-            return null;
-        } finally {
-            Log.v(TAG, "getAuthtoken completing");
-        }
+    
+    public static HttpRequest createPost(String url, Map<String, String> formData) {
+        HttpRequest request = HttpRequest.post(url);
+        Map<String, String> headers = new HashMap<String, String>();
+        headers.put("Content-Type", "text/html");
+        request.headers(headers);
+        Log.d(TAG, "request: "+formData.toString());
+        request.form(formData);
+        
+        return request;
     }
-    */
+    
+    public static TalkType doHttpRequest(HttpRequest request, ResParser<? extends TalkType> parser) 
+    		throws JSONException {
+    	try {
+	        int statusCode = request.code();
+	        switch (statusCode) {
+	        case 200:
+	        	String response = request.body();
+	        	Log.d(TAG, "respone: " + response.toString());
+	        	return consume(parser, response);
+	        case 400:
+	        	Log.d(TAG, "HTTP Code: 400");
+	        	break;
+	        case 401:
+	        	Log.d(TAG, "HTTP Code: 400");
+	        	break;  
+	        case 404:
+	        	Log.d(TAG, "HTTP Code: 404");
+	        	break;     
+	        case 500:
+	        	Log.d(TAG, "HTTP Code: 500");
+	        	break;     
+	        default:
+	        	Log.d(TAG, "Default case");
+	        	break;     
+	        }
+    	} catch (HttpRequestException ex) {
+    		Log.d(TAG, "http request error: "+ex.getMessage());
+    	}
+        
+        return null;
+
+    }
+    
+    public static TalkType consume(ResParser<? extends TalkType> parser, String content)
+    		throws JSONException {
+        try {
+        	JSONObject json = new JSONObject(content);
+        	Log.d(TAG, "response json : "+json.toString());
+        	Iterator<String> it = (Iterator<String>)json.keys();
+        	
+        	if(it.hasNext()) {
+        		String key = (String)it.next();
+        		if(key.equals("error")) {
+        			Log.d(TAG, "error is: "+json.getString(key));
+        		} else {
+        			Object obj = json.get(key);
+        			
+        			if(obj instanceof JSONArray) {
+        				return parser.parse((JSONArray)obj);
+        			} else {
+        				return parser.parse(json);
+        			}
+        		}
+        	} else {
+        		throw new JSONException("Error parsing JSON response, object had no single child key.");
+        	}
+        } catch (JSONException ex) {
+        	throw new JSONException("Error parsing JSON response: "+ ex.getMessage());
+        }
+        
+        return null; 	
+    }
+    
+    public static Friend addFriend(String username, String friend)
+    		throws HttpRequestException, JSONException {
+        HttpRequest request = createPost(ADD_FRIENDS_URI, PackedFormData.addFriend(username, friend));
+        return (Friend)doHttpRequest(request,new FriendParser());
+    }
+    
+    public static Friend acceptFriend(String username, boolean response, String friend)
+    		throws HttpRequestException, JSONException {
+        HttpRequest request = createPost(ACCEPT_FRIENDS_URI, PackedFormData.acceptFriend(username, response, friend));
+        return (Friend)doHttpRequest(request,new FriendParser());
+    }
+    
+    public static Friend updateFriend(String username, String comment, String description, String friend)
+    		throws HttpRequestException, JSONException {
+        HttpRequest request = createPost(UPDATE_FRIENDS_URI, PackedFormData.updateFriend(username, comment, description, friend));
+        return (Friend)doHttpRequest(request,new FriendParser());
+    }
     
     public static String signup(String username, String email, String password) {
-    	String authToken = null;
-		String csrfToken2 = null;
-		try {
-			HttpURLConnection conn = HttpRequest.get(SIGNUP_URI)
-					.getConnection();
-			//ToDo: cookie header may be null, should fix it.
-			List<String> cookieHeader = conn.getHeaderFields().get("Set-Cookie");
-            for(String resItem : cookieHeader) {
-            	Log.d(TAG, "cookie session: " + resItem);
-                if(resItem.contains("sessionid")) {
-                	authToken = resItem.split(";")[0];
-                    Log.d(TAG, "session :" + authToken);
-                }
-                
-                if(resItem.contains("csrftoken")) {
-                    csrfToken2 = resItem.split(";")[0];
-                    Log.d(TAG, "csrf token :" + csrfToken2);
-                }
-                
-            }
-			Log.d(TAG, "cookie: " + cookieHeader);
-
-			String csrfToken = csrfToken2;
-			Log.d(TAG, "csrf token : " + csrfToken);
-
+        
+    	try {
 			HttpRequest request = HttpRequest.post(SIGNUP_URI);
-			String name = username;
-			String mail = email;
-			String passwd = password;
-			Map<String, String> data = new HashMap<String, String>();
-			data.put("username", name);
-			data.put("email", mail);
-			data.put("password", passwd);
-			data.put("password_confirm",passwd);
-			data.put("csrfmiddlewaretoken", csrfToken.substring(10));
-			Log.d(TAG, "name: " + username + " passwd: " + password);
 			// X-CSRFToken
 			Map<String, String> headers = new HashMap<String, String>();
 			headers.put("Content-Type", "text/html");
-			headers.put("Cookie", csrfToken);
-			Log.d(TAG, "our cookie: " + csrfToken);
+			//headers.put("Cookie", csrfToken);
+			//Log.d(TAG, "our cookie: " + csrfToken);
 			request.headers(headers);
 			//request.followRedirects(false);
-			HttpRequest conn4Session = request.form(data);
+			HttpRequest conn4Session = request.form(PackedFormData.signup(username, email, password));
 			conn4Session.code();
 			HttpURLConnection sessionConnection = conn4Session.getConnection();
 			try {
@@ -227,66 +233,21 @@ final public class NetworkUtilities {
 	}
     
     public static String authenticate(String username, String password) {
-		String authToken = null;
-		String csrfToken2 = null;
 		try {
-			HttpURLConnection conn = HttpRequest.get(AUTH_URI)
-					.getConnection();
-			//ToDo: cookie header may be null, should fix it.
-			List<String> temp  = conn.getHeaderFields().get("Set-Cookie");
-			String cookieHeader = null;
-			String csrfToken = null;
-			if (null !=temp && !temp.isEmpty()) {
-				cookieHeader = temp.get(0);
-			
-				Log.d(TAG, "cookie: " + cookieHeader);
-
-				csrfToken = cookieHeader.split(";")[0];
-				Log.d(TAG, "csrf token : " + csrfToken);
-			}
-
 			HttpRequest request = HttpRequest.post(AUTH_URI);
-			String name = username;
-			String passwd = password;
-			Map<String, String> data = new HashMap<String, String>();
-			data.put("username", name);
-			data.put("password", passwd);
-			if(csrfToken != null)
-				data.put("csrfmiddlewaretoken", csrfToken.substring(10));
-			Log.d(TAG, "name: " + username + " passwd: " + password);
-			// X-CSRFToken
+			
 			Map<String, String> headers = new HashMap<String, String>();
 			headers.put("Content-Type", "text/html");
-			if(csrfToken != null)
-				headers.put("Cookie", csrfToken);
 
 			request.headers(headers);
 			request.followRedirects(false);
-			HttpRequest conn4Session = request.form(data);
+			HttpRequest conn4Session = request.form(PackedFormData.login(username, password));
 			conn4Session.code();
 			HttpURLConnection sessionConnection = conn4Session.getConnection();
 			try {
 				int result = sessionConnection.getResponseCode();
 				Log.e(TAG, "get response code : "+result);
-                List<String> responseList = sessionConnection.getHeaderFields().get("Set-Cookie");
-                
-                if(null != responseList) {
-	                for(String resItem : responseList) {
-	                	Log.d(TAG, "cookie session: " + resItem);
-	                    if(resItem.contains("sessionid")) {
-	                    	authToken = resItem.split(";")[0];
-	                        Log.d(TAG, "session :" + authToken);
-	                        NetData.setSessionId(authToken);
-	                    }
-	                    
-	                    if(resItem.contains("csrftoken")) {
-	                        csrfToken2 = resItem.split(";")[0];
-	                        Log.d(TAG, "csrf token :" + csrfToken2);
-	                        NetData.setCsrfToken(csrfToken2);
-	                    }
-	                    
-	                }
-                }
+	
                 
             } catch (IOException e) {
                 // TODO Auto-generated catch block
@@ -300,40 +261,14 @@ final public class NetworkUtilities {
             Log.v(TAG, "getAuthtoken completing");
         }
 		
-        if ((authToken != null) && (authToken.length() > 0)) {
-            Log.v(TAG, "Successful authentication");
-            return authToken+";"+csrfToken2;
-        } else {
-            Log.e(TAG, "Error authenticating");
-            return null;
-        }
+		return "ok";
 		
 	}
     
-    public static List<String> syncNews() throws JSONException {
-        List<String> mItems = new LinkedList<String>();
-        try {
-            
-            HttpRequest request = HttpRequest.get(SYNC_NEWS_URI);
-            request.followRedirects(false);
-            String response = request.body();
-            int result = request.code();
-            Log.d(TAG,"Response was: " + response);
-            final JSONArray serverNews = new JSONArray(response);
-            Log.d(TAG, response);
-            for (int i = 0; i < serverNews.length(); i++) {
-                String test = serverNews.getJSONObject(i).getString("news");
-                if (test != null) {
-                    mItems.add(test);
-                }
-            }
-            
-            
-        } catch (HttpRequestException exception) {
-            Log.d(TAG, "exception : " + exception.toString());
-        }
-
-        return mItems;
+    @SuppressWarnings("unchecked")
+	public static Group<News> todayNews() throws JSONException, HttpRequestException {
+        HttpRequest request = createGet(SYNC_NEWS_URI);
+        return (Group<News>)doHttpRequest(request,new GroupParser(new NewsParser()));
     }
     
     public static List<String> recommendFriends() throws JSONException {
@@ -362,47 +297,37 @@ final public class NetworkUtilities {
         return mItems;
     }
     
-    public static void shareRecord(RawRecord raw, String oring, String target) 
-            throws JSONException, ParseException, IOException {
-        HttpURLConnection conn = HttpRequest.get(AUTH_URI)
-                .getConnection();
 
-        /*
-         * cookieHeader may be null cause NullPointerException
-         * ToDo: write the whole code completely
-         */
-		List<String> temp  = conn.getHeaderFields().get("Set-Cookie");
-		String cookieHeader = null;
-		String csrfToken = null;
-		if (null !=temp && !temp.isEmpty()) {
-			cookieHeader = temp.get(0);
-		
-			Log.d(TAG, "cookie: " + cookieHeader);
-
-			csrfToken = cookieHeader.split(";")[0];
-			Log.d(TAG, "csrf token : " + csrfToken);
-		}
-
-        JSONObject jsonRecord = raw.toJSONObject();
-        // Prepare our POST data
-        final ArrayList<NameValuePair> params = new ArrayList<NameValuePair>();
-        params.add(new BasicNameValuePair(PARAM_USERNAME, oring));
-        params.add(new BasicNameValuePair("records", jsonRecord.toString()));
-        params.add(new BasicNameValuePair("target", target));
-        if(csrfToken != null)
-        	params.add(new BasicNameValuePair("csrfmiddlewaretoken", csrfToken.substring(10)));
-        HttpEntity entity = new UrlEncodedFormEntity(params, HTTP.UTF_8);
-        final HttpPost post = new HttpPost(SHARE_RECORDS_URI);
-        post.addHeader(entity.getContentType());
-        if(csrfToken != null)
-        	post.addHeader("Cookie", csrfToken);
-        post.setEntity(entity);
-        final HttpResponse resp = getHttpClient().execute(post);
-        final String response = EntityUtils.toString(resp.getEntity());
-        if (resp.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
-            Log.d(TAG, "finish!!");
-        } 
+    public static void shareRecord(PrvDialog raw, String oring, String target) {
+    	
+    	try {
+    		HttpRequest request = HttpRequest.post(SHARE_RECORDS_URI);
+    		request.followRedirects(false);
+    		request.form(PackedFormData.shareRecord(raw, oring, target));
+    		request.getConnection();
+    		int code = request.code();
+    		if(code == HttpStatus.SC_OK) {
+    			Log.d(TAG, "finish!!");
+    		}
+    	} catch (HttpRequestException exception) {
+    		Log.d(TAG, "exception : "+ exception.toString());
+    	}
+        
     }
+    
+    public static PrvDialog getDialog_v2(String username, int id)
+            throws HttpRequestException, JSONException {
+        HttpRequest request = createPost(ADD_FRIENDS_URI, PackedFormData.getDialog(username, id));
+        return (PrvDialog)doHttpRequest(request,new DialogParser());
+    }
+        
+
+    @SuppressWarnings("unchecked")
+    public static Group<Record> updateChannel_v2(String friend, String last_date) throws JSONException, HttpRequestException {
+        HttpRequest request = createPost(VISIT_RECORDS_URI, PackedFormData.packedUpdateChannel(friend, last_date));
+        return (Group<Record>)doHttpRequest(request,new GroupParser(new RecordParser()));
+    }
+    
     /**
      * Perform 2-way sync with the server-side contacts. We send a request that
      * includes all the locally-dirty contacts so that the server can process
@@ -415,158 +340,26 @@ final public class NetworkUtilities {
      * @param serverSyncState A token returned from the server on the last sync
      * @param dirtyContacts A list of the contacts to send to the server
      * @return A list of contacts that we need to update locally
-     */
-    public static List<RawRecord> syncRecords(
-            Account account, String authtoken, long serverSyncState, List<RawRecord> dirtyRecords)
-            throws JSONException, ParseException, IOException, AuthenticationException {
-        // Convert our list of User objects into a list of JSONObject
-        List<JSONObject> jsonRecords = new ArrayList<JSONObject>();
-        for (RawRecord rawRecord : dirtyRecords) {
-        	jsonRecords.add(rawRecord.toJSONObject());
-        }
-
-        // Create a special JSONArray of our JSON contacts
-        JSONArray buffer = new JSONArray(jsonRecords);
-
-        // Create an array that will hold the server-side records
-        // that have been changed (returned by the server).
-        final ArrayList<RawRecord> serverDirtyList = new ArrayList<RawRecord>();
-
-        // Prepare our POST data
-        final ArrayList<NameValuePair> params = new ArrayList<NameValuePair>();
-        params.add(new BasicNameValuePair(PARAM_USERNAME, account.name));
-        //params.add(new BasicNameValuePair(PARAM_AUTH_TOKEN, authtoken));
-        params.add(new BasicNameValuePair(PARAM_RECORDS_DATA, buffer.toString()));
-        String tempBuffer = null;
-        if(authtoken.split(";").length > 1) {
-        	tempBuffer = authtoken.split(";")[1];
-        }
-        if(tempBuffer.length() > 10) {
-        	params.add(new BasicNameValuePair("csrfmiddlewaretoken", tempBuffer.substring(10)));
-        }
-        Log.d(TAG, "auth toke: "+authtoken);
-        
-        if (serverSyncState > 0) {
-            params.add(new BasicNameValuePair(PARAM_SYNC_STATE, Long.toString(serverSyncState)));
-        }
-        Log.i(TAG, params.toString());
-        HttpEntity entity = new UrlEncodedFormEntity(params, HTTP.UTF_8);
-
-        // Send the updated friends data to the server
-        Log.i(TAG, "Syncing to: " + SYNC_RECORDS_URI);
-        final HttpPost post = new HttpPost(SYNC_RECORDS_URI);
-        post.addHeader(entity.getContentType());
-        post.addHeader("Cookie", authtoken);
-        post.setEntity(entity);
-        final HttpResponse resp = getHttpClient().execute(post);
-        final String response = EntityUtils.toString(resp.getEntity());
-        if (resp.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
-            // Our request to the server was successful - so we assume
-            // that they accepted all the changes we sent up, and
-            // that the response includes the contacts that we need
-            // to update on our side...
-            final JSONArray serverRecords = new JSONArray(response);
-            Log.d(TAG, serverRecords.toString());
-            for (int i = 0; i < serverRecords.length(); i++) {
-            	RawRecord rawRecord = RawRecord.valueOf(serverRecords.getJSONObject(i));
-                if (rawRecord != null) {
-                    serverDirtyList.add(rawRecord);
-                }
-            }
-        } else {
-            if (resp.getStatusLine().getStatusCode() == HttpStatus.SC_UNAUTHORIZED) {
-                Log.e(TAG, "Authentication exception in sending dirty contacts");
-                throw new AuthenticationException();
-            } else {
-                Log.e(TAG, "Server error in sending dirty contacts: " + resp.getStatusLine());
-                throw new IOException();
-            }
-        }
-
-        return serverDirtyList;
+     */   
+    @SuppressWarnings("unchecked")
+    public static Group<Record> syncRecords_v2(
+            Account account, String authtoken, long serverSyncState, List<Record> dirtyRecords) throws JSONException, HttpRequestException {
+        HttpRequest request = createPost(SYNC_RECORDS_URI, 
+                PackedFormData.syncRecords(account, authtoken, serverSyncState, dirtyRecords));
+        return (Group<Record>)doHttpRequest(request,new GroupParser(new RecordParser()));
     }
-
-    public static List<RawFriend> syncFriends(
-            Account account, String authtoken, long serverSyncState, List<RawFriend> dirtyFriends)
-            throws JSONException, ParseException, IOException, AuthenticationException {
-        // Convert our list of User objects into a list of JSONObject
-        List<JSONObject> jsonRecords = new ArrayList<JSONObject>();
-        for (RawFriend rawFriend : dirtyFriends) {
-            jsonRecords.add(rawFriend.toJSONObject());
-        }
-
-        // Create a special JSONArray of our JSON contacts
-        JSONArray buffer = new JSONArray(jsonRecords);
-
-        // Create an array that will hold the server-side records
-        // that have been changed (returned by the server).
-        final ArrayList<RawFriend> serverDirtyList = new ArrayList<RawFriend>();
-
-        // Prepare our POST data
-        final ArrayList<NameValuePair> params = new ArrayList<NameValuePair>();
-        params.add(new BasicNameValuePair(PARAM_USERNAME, account.name));
-        //params.add(new BasicNameValuePair(PARAM_AUTH_TOKEN, authtoken));
-        params.add(new BasicNameValuePair(PARAM_RECORDS_DATA, buffer.toString()));
-        String tempBuffer = null;
-        if(authtoken.split(";").length > 1) {
-        	tempBuffer = authtoken.split(";")[1];
-        }
-        if(tempBuffer.length() > 10) {
-        	params.add(new BasicNameValuePair("csrfmiddlewaretoken", tempBuffer.substring(10)));
-        }
-        Log.d(TAG, "auth toke: "+authtoken);
-        
-        if (serverSyncState > 0) {
-            params.add(new BasicNameValuePair(PARAM_SYNC_STATE, Long.toString(serverSyncState)));
-        }
-        Log.i(TAG, params.toString());
-        HttpEntity entity = new UrlEncodedFormEntity(params, HTTP.UTF_8);
-
-        // Send the updated friends data to the server
-        Log.i(TAG, "Syncing to: " + SYNC_FRIENDS_URI);
-        final HttpPost post = new HttpPost(SYNC_FRIENDS_URI);
-        post.addHeader(entity.getContentType());
-        post.addHeader("Cookie", authtoken);
-        post.setEntity(entity);
-        final HttpResponse resp = getHttpClient().execute(post);
-        final String response = EntityUtils.toString(resp.getEntity());
-        if (resp.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
-            // Our request to the server was successful - so we assume
-            // that they accepted all the changes we sent up, and
-            // that the response includes the contacts that we need
-            // to update on our side...
-            final JSONArray serverRecords = new JSONArray(response);
-            Log.d(TAG, serverRecords.toString());
-            for (int i = 0; i < serverRecords.length(); i++) {
-                RawFriend rawRecord = RawFriend.valueOf(serverRecords.getJSONObject(i));
-                if (rawRecord != null) {
-                    serverDirtyList.add(rawRecord);
-                }
-            }
-        } else {
-            if (resp.getStatusLine().getStatusCode() == HttpStatus.SC_UNAUTHORIZED) {
-                Log.e(TAG, "Authentication exception in sending dirty contacts");
-                throw new AuthenticationException();
-            } else {
-                Log.e(TAG, "Server error in sending dirty friends: " + resp.getStatusLine());
-                throw new IOException();
-            }
-        }
-
-        return serverDirtyList;
+    
+    @SuppressWarnings("unchecked")
+    public static Group<Friend> syncFriends_v2(
+            Account account, String authtoken, long serverSyncState, List<Friend> dirtyFriends) throws JSONException, HttpRequestException {
+        HttpRequest request = createPost(SYNC_FRIENDS_URI, 
+                PackedFormData.syncFriends(account, authtoken, serverSyncState, dirtyFriends));
+        return (Group<Friend>)doHttpRequest(request,new GroupParser(new FriendParser()));
     }
     
     public static void syncPhoto(String imagePath) {
     	
     	Log.d(TAG,"Sync photo to Server");
-    	/*
-    	HttpRequest request = HttpRequest.post(SYNC_PHOTO_URI);
-    	request.part("body", "Making a multipart request");
-    	request.part("image", new File(imagePath));
-    	
-    	if (request.ok())
-    	  Log.d(TAG,"Status was updated");
-    	*/
     	
 		String fileKey = "image";
 		UploadUtil uploadUtil = UploadUtil.getInstance();;

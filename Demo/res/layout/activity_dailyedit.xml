@@ -1,17 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    style="@style/Global_Match" 
+    android:orientation="vertical" >
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        style="@style/Global_Match"
         android:background="@color/yellow"
         android:orientation="vertical" >
+
         <ImageView
             android:id="@+id/content_bg"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            style="@style/Global_Match"
             android:scaleType="fitXY"
             android:src="@drawable/bg_feed_quesition" />
     </LinearLayout>
@@ -27,16 +28,17 @@
         <TextView
             android:id="@+id/daily_title"
             android:layout_width="match_parent"
-            android:layout_height="55dp"
+            android:layout_height="wrap_content"
             android:layout_marginLeft="30dp"
             android:layout_marginRight="30dp"
+            android:background="@color/pink"
             android:gravity="center"
-            android:textSize="20sp"
-            android:visibility="invisible"
+            android:maxLines="5"
             android:textColor="@color/azure"
-            android:background="@color/pink" />
+            android:textSize="20sp"
+            android:visibility="invisible" />
     </LinearLayout>
-    
+
     <LinearLayout
         android:id="@+id/head"
         android:layout_width="match_parent"
@@ -48,65 +50,84 @@
         <TextView
             android:id="@+id/daily_head"
             android:layout_width="match_parent"
-            android:layout_height="55dp"
+            android:layout_height="wrap_content"
             android:layout_marginLeft="45dp"
             android:layout_marginRight="45dp"
+            android:background="@color/paleturquoise"
             android:gravity="center"
-            android:textSize="20sp"
+            android:text="daily head"
             android:textColor="@color/azure"
-            android:background="@color/paleturquoise" />
-    </LinearLayout>
-    
-    <LinearLayout
-        android:id="@+id/add_media"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
-        android:orientation="vertical" >
-
-        <ImageView
-            android:id="@+id/add_photo"
-            android:layout_width="52dp"
-            android:layout_height="52dp"
-            android:layout_marginBottom="30dp"
-            android:src="@drawable/btn_newpic_normal" />
+            android:textSize="18sp" />
     </LinearLayout>
 
-    <ScrollView
-        android:id="@+id/content"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/add_media"
-        android:layout_below="@+id/head"
-        android:layout_centerInParent="true"
-        android:layout_marginBottom="10dp"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
-        android:layout_marginTop="10dp" >
+        android:layout_height="wrap_content" 
+        android:layout_alignParentBottom="true" >
+
+        <ScrollView
+            android:id="@+id/content"
+            style="@style/ScrollView_Wrap" >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+				android:layout_marginBottom="16dp"
+				android:layout_marginLeft="45dp"
+				android:layout_marginRight="45dp"
+				android:layout_marginTop="10dp" 
+                android:orientation="vertical" >
+
+                <EditText
+                    android:id="@+id/edit_content"
+                    android:layout_width="240dp"
+                    android:layout_height="0dp"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:gravity="center"
+                    android:hint="留下这段时光"
+                    android:inputType="textMultiLine|textAutoComplete"
+                    android:minLines="14"
+                    android:scrollbars="horizontal"
+                    android:textScaleX="1.5"
+                    android:textSize="16sp"
+                    android:typeface="monospace" />
+            </LinearLayout>
+        </ScrollView>
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:id="@+id/add_media"
+            style="@style/Global_Wrap"
+            android:layout_alignBottom="@+id/content"
+            android:layout_alignParentLeft="true"
             android:orientation="vertical" >
 
-            <EditText
-                android:id="@+id/edit_content"
-                android:layout_width="240dp"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:textScaleX="1.5"
-                android:inputType="textMultiLine|textAutoComplete"
-                android:background="@null"
-                android:layout_gravity="center"
-                android:textSize="16sp"
-                android:minLines="14"
-                android:typeface="monospace"
-                android:scrollbars="horizontal"
-                android:gravity="bottom"
-                android:hint="留下这段时光" />
+            <ImageView
+                android:id="@+id/add_photo"
+                style="@style/ImageView_XLarge"
+                android:layout_marginBottom="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:src="@drawable/btn_newpic_normal" />
         </LinearLayout>
-    </ScrollView>
+
+        <LinearLayout
+            style="@style/Global_Wrap"
+            android:layout_alignBottom="@+id/content"
+            android:layout_alignParentRight="true" >
+
+            <com.faizmalkani.floatingactionbutton.FloatingActionButton
+                android:id="@+id/btn_accept"
+                style="@style/ImageView_XLarge"
+                android:layout_gravity="bottom|end"
+                android:layout_marginBottom="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginRight="16dp"
+                android:onClick="fabClicked"
+                app:drawable="@drawable/ic_navigation_accept"
+                app:color="@color/holo_red_light" />
+        </LinearLayout>
+    </RelativeLayout>
 
 </RelativeLayout>

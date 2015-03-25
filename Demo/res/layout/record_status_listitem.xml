@@ -31,16 +31,14 @@
     
     <ImageButton
         android:id="@+id/status"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        style="@style/Global_Wrap"
         android:layout_toRightOf="@+id/record_ll"
         android:layout_marginLeft="15dip"
         android:focusable="false" />
     
 	<ImageView
         android:id="@+id/send_knows"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        style="@style/Global_Wrap"
         android:layout_toRightOf="@+id/status"
         android:layout_marginLeft="15dip"
         android:focusable="false" />

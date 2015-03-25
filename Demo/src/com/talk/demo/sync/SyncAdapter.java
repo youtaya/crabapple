@@ -14,12 +14,13 @@ import android.util.Log;
 
 import com.talk.demo.account.AccountConstants;
 import com.talk.demo.persistence.DBManager;
+import com.talk.demo.types.Friend;
+import com.talk.demo.types.Group;
+import com.talk.demo.types.Record;
+import com.talk.demo.util.HttpRequest.HttpRequestException;
 import com.talk.demo.util.NetworkUtilities;
-import com.talk.demo.util.RawFriend;
-import com.talk.demo.util.RawRecord;
 
 import org.apache.http.ParseException;
-import org.apache.http.auth.AuthenticationException;
 import org.json.JSONException;
 
 import java.io.IOException;
@@ -52,8 +53,8 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter  {
 			ContentProviderClient provider, SyncResult syncResult) {
 		Log.d(TAG, "onPerformSync");
 		try {
-			List<RawRecord> dirtyRecords;
-	        List<RawRecord> updatedRecords;
+			List<Record> dirtyRecords;
+	        Group<Record> updatedRecords;
 	        // see if we already have a sync-state attached to this account. By handing
 	        // This value to the server, we can just get the contacts that have
 	        // been updated on the server-side since our last sync-up
@@ -67,15 +68,18 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter  {
 	        DBManager db = new DBManager(mContext);
 	        dirtyRecords = SyncCompaign.getDirtyRecords(db);
 	        Log.d(TAG, "sync record start");
-			updatedRecords = NetworkUtilities.syncRecords(account, authtoken, lastSyncMarker, dirtyRecords);
-			SyncCompaign.updateRecords(db, updatedRecords);
+			updatedRecords = NetworkUtilities.syncRecords_v2(account, authtoken, lastSyncMarker, dirtyRecords);
+			long newSyncState = SyncCompaign.updateRecords(db, updatedRecords, lastSyncMarker);
 			
 			Log.d(TAG, "sync friend start");
-			List<RawFriend> dirtyFriends;
-			List<RawFriend> updatedFriends;
+			List<Friend> dirtyFriends;
+			Group<Friend> updatedFriends;
 			dirtyFriends = SyncCompaign2.getDirtyFriends(db);
-			updatedFriends = NetworkUtilities.syncFriends(account, authtoken, lastSyncMarker, dirtyFriends);
+				
+			updatedFriends = NetworkUtilities.syncFriends_v2(account, authtoken, lastSyncMarker, dirtyFriends);
 			SyncCompaign2.updateFriends(db, updatedFriends);
+			
+			setServerSyncMarker(account, newSyncState);
 			
 		} catch (final AuthenticatorException e) {
             Log.e(TAG, "AuthenticatorException", e);
@@ -85,16 +89,16 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter  {
         } catch (final IOException e) {
             Log.e(TAG, "IOException", e);
             syncResult.stats.numIoExceptions++;
-        } catch (final AuthenticationException e) {
-            Log.e(TAG, "AuthenticationException", e);
-            syncResult.stats.numAuthExceptions++;
         } catch (final ParseException e) {
             Log.e(TAG, "ParseException", e);
             syncResult.stats.numParseExceptions++;
-        } catch (final JSONException e) {
-            Log.e(TAG, "JSONException", e);
-            syncResult.stats.numParseExceptions++;
-        }
+        } catch (HttpRequestException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (JSONException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 	}
 	
     /**

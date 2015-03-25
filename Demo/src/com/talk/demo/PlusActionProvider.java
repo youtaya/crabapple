@@ -8,7 +8,7 @@ import android.view.MenuItem.OnMenuItemClickListener;
 import android.view.SubMenu;
 import android.view.View;
 
-import com.talk.demo.setting.IntimateActivity;
+import com.talk.demo.intimate.FindDSourceFriendsActivity;
 import com.talk.demo.setting.UserActivity;
 
 public class PlusActionProvider extends ActionProvider {
@@ -37,12 +37,12 @@ public class PlusActionProvider extends ActionProvider {
 						return true;
 					}
 				});
-		subMenu.add(context.getString(R.string.friend))
+		subMenu.add(context.getString(R.string.add_intimate))
 				.setIcon(R.drawable.ic_popup_reminder)
 				.setOnMenuItemClickListener(new OnMenuItemClickListener() {
 					@Override
 					public boolean onMenuItemClick(MenuItem item) {
-					    callOtherActivity(IntimateActivity.class);
+					    callOtherActivity(FindDSourceFriendsActivity.class);
 						return false;
 					}
 				});

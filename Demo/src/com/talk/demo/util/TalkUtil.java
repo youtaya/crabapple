@@ -2,6 +2,7 @@ package com.talk.demo.util;
 
 import android.graphics.Bitmap;
 import android.os.Environment;
+import android.util.Log;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -10,6 +11,8 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class TalkUtil {
+	
+	private static final String TAG = "TalkUtil";
 	
 	public static final int REQUEST_IMAGE_CAPTURE = 1;
 	public static final int REQUEST_IMAGE_CAPTURE_CROP = 2;
@@ -107,4 +110,75 @@ public class TalkUtil {
         Date date = new Date();
         return dateFormat.format(date);
     }
+    
+	public static boolean isSendDone(String done_time) {
+		boolean result = false;
+        
+        Calendar calendar = Calendar.getInstance();
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
+        Date date = new Date();
+        try {
+            Date recordDate = formatter.parse(done_time);
+            long diff =  date.getTime() - recordDate.getTime();
+            if (diff > 0 || diff == 0) {
+                result = true;
+            }
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+        return result;
+        
+	}
+	
+	   public static boolean isOutDate(String expire_time) {
+	        boolean result = false;
+	        
+	        Calendar calendar = Calendar.getInstance();
+	        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+	        Date date = new Date();
+	        try {
+	            Date recordDate = formatter.parse(expire_time);
+	            long diff =  date.getTime() - recordDate.getTime();
+	            if (diff > 0 || diff == 0) {
+	                result = true;
+	            }
+	            
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	        }
+	        
+	        return result;
+	        
+	    }
+	   
+	   public static int isThisDate(String today) {
+	        int result = 0;
+	        
+	        Calendar calendar = Calendar.getInstance();
+	        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss:SSSS");
+	        Date date = new Date();
+	        try {
+	            Date recordDate = formatter.parse(today);
+	            long diff =  date.getTime() - recordDate.getTime();
+	            //int seconds = (int) (diff / 1000) % 60 ;
+	            int minutes = (int) ((diff / (1000*60)) % 60);
+	            int hours   = (int) ((diff / (1000*60*60)) % 24);
+	            
+	            if (hours > 12) {
+	            	Log.e(TAG, "nothing change!");
+	            } else if (minutes > 5) {
+	                result = 2;
+	            } else {
+	            	result = 1;
+	            }
+	            
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	        }
+	        
+	        return result;
+	        
+	    }	   
 }

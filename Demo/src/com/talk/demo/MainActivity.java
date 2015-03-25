@@ -1,28 +1,51 @@
 
 package com.talk.demo;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.LinkedHashSet;
+import java.util.Locale;
+import java.util.Set;
+
+import org.apache.http.ParseException;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import android.accounts.Account;
 import android.app.ActionBar;
 import android.app.FragmentTransaction;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.ViewConfiguration;
 import android.widget.Toast;
+import cn.jpush.android.api.JPushInterface;
+import cn.jpush.android.api.TagAliasCallback;
 
 import com.talk.demo.core.RecordManager;
+import com.talk.demo.jpush.JPushUtil;
 import com.talk.demo.persistence.DBManager;
+import com.talk.demo.persistence.DialogRecord;
 import com.talk.demo.prewrite.PreWrite;
-
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.Locale;
+import com.talk.demo.types.PrvDialog;
+import com.talk.demo.util.AccountUtils;
+import com.talk.demo.util.HttpRequest.HttpRequestException;
+import com.talk.demo.util.NetworkUtilities;
 
 public class MainActivity extends FragmentActivity implements ActionBar.TabListener {
 
@@ -33,6 +56,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
     private DailyFragment guideFragment;
     private TimeFragment timeFragment;
     private TalkFragment talkFragment;
+    private PeopleFragment peopleFragment;
     private ArrayList<Fragment> fragmentList;
     
     /**
@@ -50,10 +74,30 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
      */
     ViewPager mViewPager;
     
+    /**
+     * Receiver: for receive custom message frome jpush server
+     */
+    private MessageReceiver mMessageReceiver;
+    
+    public static final String MESSAGE_RECEIVED_ACTION = "com.talk.demo.MESSAGE_RECEIVED_ACTION";
+    public static final String KEY_TITLE = "title";
+    public static final String KEY_MESSAGE = "message";
+    public static final String KEY_EXTRAS = "extras";
+    public static final int MSG_SET_TAGS = 1002;
+    public static boolean isForeground = false;
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        
+        // set tags for push service
+        Account existing = AccountUtils.getPasswordAccessibleAccount(this);
+        if (existing != null && !TextUtils.isEmpty(existing.name)) {
+            setTag(existing.name);
+        }
+        // used for receive msg
+        registerMessageReceiver();
         
         getOverflowMenu();
         // Set up the action bar.
@@ -67,14 +111,17 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 
         fragmentList = new ArrayList<Fragment>();
         //add guide fragment
-        guideFragment = new DailyFragment(recordManager, pw);
+        guideFragment = new DailyFragment(recordManager);
         fragmentList.add(guideFragment);
         //add time fragment
         timeFragment = new TimeFragment(recordManager);
         fragmentList.add(timeFragment);
         //add talk fragment
-        talkFragment = new TalkFragment(recordManager);
-        fragmentList.add(talkFragment);        
+        talkFragment = new TalkFragment(recordManager, this);
+        fragmentList.add(talkFragment);
+        //add people fragment
+        peopleFragment = new PeopleFragment(this);
+        fragmentList.add(peopleFragment);
         
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager(),fragmentList);
 
@@ -105,6 +152,139 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         }
     }
 
+    public void registerMessageReceiver() {
+        mMessageReceiver = new MessageReceiver();
+        IntentFilter filter = new IntentFilter();
+        filter.setPriority(IntentFilter.SYSTEM_HIGH_PRIORITY);
+        filter.addAction(MESSAGE_RECEIVED_ACTION);
+        registerReceiver(mMessageReceiver, filter);
+    }
+    
+    public class MessageReceiver extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+           
+			if (MESSAGE_RECEIVED_ACTION.equals(intent.getAction())) {
+				String message = intent.getStringExtra(KEY_MESSAGE);
+				String extras = intent.getStringExtra(KEY_EXTRAS);
+				Log.d(TAG, "message:" + message + " extras: " + extras);
+				switch (Integer.valueOf(message)) {
+				case 1001:
+					try {
+						JSONObject jsonDialog = new JSONObject(extras);
+						String user = jsonDialog.getString("username");
+						String id = jsonDialog.getString("id");
+						new GetDialogTask().execute(user, id);
+					} catch (JSONException e) {
+						Log.d(TAG, "JSON error: "+ e.getMessage());
+					}
+					break;
+
+				case 1002:
+					try {
+						JSONObject jsonFriend = new JSONObject(extras);
+						String fromUser = jsonFriend.getString("username");
+					} catch (JSONException e) {
+						Log.d(TAG, "JSON error: "+ e.getMessage());
+					}
+					break;
+				}
+
+			}
+
+		}
+    }
+    
+    private PrvDialog updateDialog(String user, int id) {
+    	
+		try {
+	        PrvDialog dialog = NetworkUtilities.getDialog_v2(user, id);
+	        return dialog;
+		} catch (ParseException e) {
+			e.printStackTrace();
+		} catch (HttpRequestException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return null;
+    }
+    private class GetDialogTask extends AsyncTask<String, String, PrvDialog> {
+        @Override
+		protected PrvDialog doInBackground(String... params) {
+            // Simulates a background job.
+        	PrvDialog raw = updateDialog(params[0], Integer.valueOf(params[1]));
+        	return raw;
+            
+		}
+        
+        @Override
+        protected void onPostExecute(PrvDialog result) {
+        	if( null == result) {
+        		Log.d(TAG, "dialog item is null!");
+        		return;
+        	}
+        	
+	        DialogRecord record = new DialogRecord(result);
+	        mgr.addDialog(record);
+        }
+		
+    }
+      
+    private void setTag(String tag) {
+        Set<String> tagSet = new LinkedHashSet<String>();
+        if(!JPushUtil.isValidTagAndAlias(tag)) {
+            Toast.makeText(this, R.string.error_tag_gs_empty, Toast.LENGTH_SHORT).show();
+            return;
+        }
+        tagSet.add(tag);
+        
+        mHandler.sendMessage(mHandler.obtainMessage(MSG_SET_TAGS, tagSet));
+        
+    }
+    
+    public Handler mHandler = new Handler() {
+        public void handleMessage(Message msg) {
+            switch(msg.what) {
+                case MSG_SET_TAGS:
+                    Log.d(TAG, "Set tags in hanlder");
+                    JPushInterface.setAliasAndTags(MainActivity.this, null, (Set<String>)msg.obj, mTagsCallback);
+                    break;
+            }
+        }
+    };
+    
+    private final TagAliasCallback mTagsCallback = new TagAliasCallback() {
+        @Override
+        public void gotResult(int code, String alias, Set<String> tags) {
+            String logs;
+            switch(code) {
+                case 0:
+                    logs = "Set tag and alias success";
+                    Log.d(TAG, logs);
+                    break;
+                case 6002:
+                    logs = "Failed to set alias and tags due to timeout, Try again after 60s.";
+                    Log.d(TAG, logs);
+                    if(JPushUtil.isConnected(MainActivity.this)) {
+                        mHandler.sendMessageDelayed(mHandler.obtainMessage(MSG_SET_TAGS, tags), 1000*60);
+                    } else {
+                        Log.d(TAG, "No network");
+                    }
+                    break;
+                default:
+                    logs = "Failed with errorcode = "+code;
+                    Log.d(TAG, logs);
+            }
+            
+            JPushUtil.showToast(logs, MainActivity.this);
+        }
+    };
+    
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         setMenuIconEnable(menu,true);
@@ -182,7 +362,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
             // getItem is called to instantiate the fragment for the given page.
             // Return a DummySectionFragment (defined as a static inner class
             // below) with the page number as its lone argument.
-            Log.d(TAG, "getItem");
+            //Log.d(TAG, "getItem");
             return flist.get(position);
         }
         
@@ -207,21 +387,35 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
                     return getString(R.string.title_section1).toUpperCase(l);
                 case 2:
                     return getString(R.string.title_section2).toUpperCase(l);
-                /*
                 case 3:
                     return getString(R.string.title_section3).toUpperCase(l);
-                */
             }
             return null;
         }
     }
     
+    @Override
+    public void onResume() {
+        isForeground = true;
+    	super.onResume();
+    	JPushInterface.onResume(this);
+    }
+    
+    @Override
+    public void onPause() {
+        isForeground = false;
+    	super.onPause();
+    	JPushInterface.onPause(this);
+    }
    
     @Override
     public void onDestroy() {  
         super.onDestroy();  
         Log.d(TAG, "onDestroy");
         //mgr.closeDB();  
+        
+        if(mMessageReceiver != null)
+            unregisterReceiver(mMessageReceiver);
     }
 
     long waitTime = 2000;

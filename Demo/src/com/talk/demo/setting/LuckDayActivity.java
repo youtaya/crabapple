@@ -5,31 +5,25 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
+import android.view.View.OnClickListener;
 import android.widget.TextView;
 
 import com.talk.demo.MainActivity;
 import com.talk.demo.R;
+import com.talk.demo.datepicker.DatePickerFragment;
 
 import java.util.Calendar;
-
-import kankan.wheel.widget.OnWheelChangedListener;
-import kankan.wheel.widget.WheelView;
-import kankan.wheel.widget.adapters.ArrayWheelAdapter;
-import kankan.wheel.widget.adapters.NumericWheelAdapter;
 
 
 public class LuckDayActivity extends Activity {
     private static String TAG = "LuckDayActivity";
     private TextView tv;
-    private WheelView month;
-    private WheelView day;
+    private TextView date;
     private int actualMonth, actualDay;
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -38,39 +32,29 @@ public class LuckDayActivity extends Activity {
         setContentView(R.layout.activity_luckday);
 
         tv = (TextView)findViewById(R.id.setting_date);
-        Calendar calendar = Calendar.getInstance();
-
-        month = (WheelView) findViewById(R.id.month);
-        day = (WheelView) findViewById(R.id.day);
-        /*
-        SharedPreferences sPreferences = getSharedPreferences("luck_day", Context.MODE_PRIVATE);
-        int setMonth = sPreferences.getInt("Month", 0);
-        int setDay = sPreferences.getInt("Day", 0);
-        tv.setText("Month: "+setMonth+" Day: "+setDay);
-        */
-        OnWheelChangedListener listener = new OnWheelChangedListener() {
-            @Override
-            public void onChanged(WheelView wheel, int oldValue, int newValue) {
-                updateDays(month, day);
-                actualMonth = month.getCurrentItem() + 1;
-                actualDay = day.getCurrentItem() + 1;
-                tv.setText("Month: "+actualMonth+" Day: "+actualDay);
-            }
-        };
-
-        // month
-        int curMonth = calendar.get(Calendar.MONTH);
-        String months[] = new String[] {"January", "February", "March", "April", "May",
-                "June", "July", "August", "September", "October", "November", "December"};
-        month.setViewAdapter(new DateArrayAdapter(this, months, curMonth));
-        month.setCurrentItem(curMonth);
-        month.addChangingListener(listener);
         
-        day.setCurrentItem(calendar.get(Calendar.DAY_OF_MONTH) - 1);
-        day.addChangingListener(listener);
-        //day
-        updateDays(month, day);
+        date = (TextView) findViewById(R.id.date);
+        date.setOnClickListener(new OnClickListener() {
 
+			@Override
+			public void onClick(View v) {
+				showDateDialog(v);
+			}
+        	
+        });
+
+    }
+    
+    public void showDateDialog(View v) {
+    	DatePickerFragment newFragment = new DatePickerFragment();
+        newFragment.show(getFragmentManager(), "datePicker");
+    }
+    
+    public void setDate(int year, int month, int day) {
+        Log.d(TAG, "Chosen Date: "+year+month+day);
+        actualMonth = month;
+        actualDay = day;
+        date.setText("set Date : Month/"+actualMonth+" Day/"+actualDay);
     }
     
     @Override
@@ -114,84 +98,5 @@ public class LuckDayActivity extends Activity {
                 return super.onOptionsItemSelected(item);
         }
     }
-    /**
-     * Updates day wheel. Sets max days according to selected month and year
-     */
-    void updateDays(WheelView month, WheelView day) {
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.MONTH, month.getCurrentItem());
 
-        int maxDays = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
-        day.setViewAdapter(new DateNumericAdapter(this, 1, maxDays, calendar.get(Calendar.DAY_OF_MONTH) - 1));
-        int curDay = Math.min(maxDays, day.getCurrentItem() + 1);
-        day.setCurrentItem(curDay - 1, true);
-    }
-
-    /**
-     * Adapter for numeric wheels. Highlights the current value.
-     */
-    private class DateNumericAdapter extends NumericWheelAdapter {
-        // Index of current item
-        int currentItem;
-        // Index of item to be highlighted
-        int currentValue;
-
-        /**
-         * Constructor
-         */
-        public DateNumericAdapter(Context context, int minValue, int maxValue, int current) {
-            super(context, minValue, maxValue);
-            this.currentValue = current;
-            setTextSize(16);
-        }
-
-        @Override
-        protected void configureTextView(TextView view) {
-            super.configureTextView(view);
-            if (currentItem == currentValue) {
-                view.setTextColor(0xFF0000F0);
-            }
-            view.setTypeface(Typeface.SANS_SERIF);
-        }
-
-        @Override
-        public View getItem(int index, View cachedView, ViewGroup parent) {
-            currentItem = index;
-            return super.getItem(index, cachedView, parent);
-        }
-    }
-
-    /**
-     * Adapter for string based wheel. Highlights the current value.
-     */
-    private class DateArrayAdapter extends ArrayWheelAdapter<String> {
-        // Index of current item
-        int currentItem;
-        // Index of item to be highlighted
-        int currentValue;
-
-        /**
-         * Constructor
-         */
-        public DateArrayAdapter(Context context, String[] items, int current) {
-            super(context, items);
-            this.currentValue = current;
-            setTextSize(26);
-        }
-
-        @Override
-        protected void configureTextView(TextView view) {
-            super.configureTextView(view);
-            if (currentItem == currentValue) {
-                view.setTextColor(0xFF0000F0);
-            }
-            view.setTypeface(Typeface.SANS_SERIF);
-        }
-
-        @Override
-        public View getItem(int index, View cachedView, ViewGroup parent) {
-            currentItem = index;
-            return super.getItem(index, cachedView, parent);
-        }
-    }
 }

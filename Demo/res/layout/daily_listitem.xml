@@ -1,20 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    style="@style/Global_Match" >
     
  	<ImageView
 	    android:id="@+id/pre_image" 
-		android:layout_width="match_parent"
-        android:layout_height="match_parent"
+		style="@style/Global_Match"
 		android:layout_alignParentTop="true"
         android:layout_centerInParent="true"
         android:background="@color/peachpuff"/> 
         
 	<TextView
         android:id="@+id/pre_content"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        style="@style/Global_Match"
         android:paddingLeft="4dp"
         android:paddingRight="4dp"
         android:layout_centerVertical="true"
@@ -26,16 +23,14 @@
         android:textSize="33sp" />
 	<ImageView
 	    android:id="@+id/feed_like" 
-		android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+		style="@style/Global_Wrap"
         android:layout_marginLeft="14dip"
         android:layout_marginBottom="24dip"
         android:layout_alignParentBottom="true"
         android:src="@drawable/ic_feed_like_zero_white" /> 
 	<ImageView
 	    android:id="@+id/feed_comment" 
-		android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+		style="@style/Global_Wrap"
         android:layout_marginLeft="14dip"
         android:layout_marginBottom="24dip"
         android:layout_alignParentBottom="true"

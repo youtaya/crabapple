@@ -6,8 +6,7 @@
 
     <LinearLayout
         android:id="@+id/back"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        style="@style/Global_Match"
         android:background="#ffcccccc"
         android:gravity="center|right" >
         <Button
@@ -23,13 +22,11 @@
 
     <LinearLayout
         android:id="@+id/front"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        style="@style/Global_Match"
         android:background="#ffffffff" >
         <TextView
             android:id="@+id/text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            style="@style/Global_Wrap"
             android:layout_marginLeft="10dp"
             android:textSize="25sp"
             android:gravity="center_vertical"

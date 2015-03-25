@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/Global_Match"
+    android:background="@color/crowcyan"
+    android:orientation="vertical" >
+
+	<LinearLayout
+		style="@style/Global_Wrap"
+		android:layout_alignParentBottom="true"
+		android:layout_alignParentRight="true" 
+		android:paddingRight="16dp"
+		android:paddingBottom="16dp"
+		android:orientation="vertical">
+		<TextView
+			android:id="@+id/item_sign"
+			style="@style/Global_Wrap"
+			android:gravity="center"
+			android:paddingLeft="6dp"
+			android:paddingRight="6dp"
+			android:paddingTop="6dp"
+			android:paddingBottom="6dp"
+			android:textColor="@color/pager_title_background_top_end"
+			android:background="@drawable/textview_border"
+			android:textSize="18.0dip" />
+		<TextView
+			android:id="@+id/item_time"
+			style="@style/Global_Wrap"
+			android:gravity="center"
+			android:paddingLeft="6dp"
+			android:paddingRight="6dp"
+			android:paddingTop="6dp"
+			android:paddingBottom="6dp"
+			android:textColor="@color/pager_title_background_top_end"
+			android:background="@drawable/textview_border"
+			android:textSize="18.0dip" />
+	</LinearLayout>
+	
+	<LinearLayout
+		style="@style/Global_Match">
+	
+		<FrameLayout
+			android:layout_width="match_parent"
+			android:layout_height="fill_parent"
+			android:fillViewport="true"
+			android:focusable="true"  
+			android:focusableInTouchMode="true"
+			android:orientation="vertical" >
+
+			<ImageView
+			    android:id="@+id/item_bg"
+			    android:layout_width="match_parent"
+			    android:layout_height="fill_parent"
+			    android:scaleType="fitXY" />
+	        
+			<TextView
+			    android:id="@+id/item_content"
+			    android:layout_width="match_parent"
+			    android:layout_height="fill_parent"
+			    android:layout_centerInParent="true"
+			    android:background="@null"
+			    android:gravity="center"
+			    android:textStyle="bold"
+			    android:textSize="32sp"
+			    android:textColor="@color/moonwhite" />
+
+		</FrameLayout>
+	</LinearLayout>
+	   
+</RelativeLayout>

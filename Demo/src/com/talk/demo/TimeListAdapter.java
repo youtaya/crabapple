@@ -27,8 +27,8 @@ import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
-import com.talk.demo.persistence.RecordCache;
 import com.talk.demo.time.DateInfo;
+import com.talk.demo.time.TimeCache;
 import com.talk.demo.time.TimeAllItem;
 import com.talk.demo.time.TimeViewItem;
 import com.talk.demo.time.ViewAsItem;
@@ -45,7 +45,7 @@ public class TimeListAdapter extends BaseAdapter {
     private ViewHolder holder;
     private ViewTagHolder mTagHolder;
     private ViewHeaderHolder mHeaderHolder;
-    private HashMap<String, ArrayList<RecordCache>> record_cache;
+    private HashMap<String, ArrayList<TimeCache>> record_cache;
     protected ImageLoader imageLoader = ImageLoader.getInstance();
     protected DisplayImageOptions options;
     private ImageLoadingListener animateFirstListener = new AnimateFirstDisplayListener();
@@ -54,7 +54,7 @@ public class TimeListAdapter extends BaseAdapter {
     private static final int TYPE_ITEM = 1;
     private static final int TYPE_TAG_ITEM = 2; 
     
-    public TimeListAdapter(Context context, ArrayList<TimeViewItem> data, HashMap<String, ArrayList<RecordCache>> recordCache) {
+    public TimeListAdapter(Context context, ArrayList<TimeViewItem> data, HashMap<String, ArrayList<TimeCache>> recordCache) {
     	this.context = context;
     	this.values = data;
     	this.record_cache = recordCache;
@@ -103,6 +103,14 @@ public class TimeListAdapter extends BaseAdapter {
         	holder.create_week.setText(mDateInfo.getWeekInfo());
         	int media_type = view_item.getContentType();
         	final String itemContent = view_item.getContent();
+        	final String title = view_item.getTitle();
+        	String preContent = null;
+        	if(title != null) {
+        		preContent = title.concat("\n\n"+itemContent);
+        	} else {
+        		preContent = itemContent;
+        	}
+        	final String lastContent = preContent;
         	if(2 == media_type || 4 == media_type) {
         		Uri uri = null;
         		if(null != view_item.getPhoto()) {
@@ -126,7 +134,7 @@ public class TimeListAdapter extends BaseAdapter {
     		        mBundle.putInt("item_id", item_id);
     		        mBundle.putString("createdate", createDate);
     		        mBundle.putString("createtime", createTime);
-    		        mBundle.putString("content", itemContent);
+    		        mBundle.putString("content", lastContent);
     		        mIntent.putExtras(mBundle);
     		        context.startActivity(mIntent);
                 }
