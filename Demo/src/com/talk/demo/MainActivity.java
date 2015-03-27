@@ -173,10 +173,11 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 				case 1001:
 					try {
 						JSONObject jsonDialog = new JSONObject(extras);
-						String user = jsonDialog.getString("username");
+						String sender = jsonDialog.getString("sender");
+						String receiver = jsonDialog.getString("linker");
 						String id = jsonDialog.getString("id");
-						Log.d(TAG, "user: "+user+" id: "+id);
-						new GetDialogTask().execute(user, id);
+						Log.d(TAG, "send user: "+sender+" and receiver: "+receiver+" id: "+id);
+						new GetDialogTask().execute(receiver, id);
 					} catch (JSONException e) {
 						Log.d(TAG, "JSON error: "+ e.getMessage());
 					}

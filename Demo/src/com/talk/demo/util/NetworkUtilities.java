@@ -73,7 +73,7 @@ final public class NetworkUtilities {
     public static final String PARAM_FRIENDS_DATA = "friends";
     /** Base URL for the v2 Sample Sync Service */
     //public static final String BASE_URL = "http://10.4.65.41/";
-    public static final String BASE_URL = "http://192.168.1.101/";
+    public static final String BASE_URL = "http://192.168.1.102/";
     /** URI for authentication service */
     public static final String AUTH_URI = BASE_URL + "users/login/";
     public static final String SIGNUP_URI = BASE_URL + "users/signup/";
@@ -317,7 +317,7 @@ final public class NetworkUtilities {
     
     public static PrvDialog getDialog_v2(String username, int id)
             throws HttpRequestException, JSONException {
-        HttpRequest request = createPost(ADD_FRIENDS_URI, PackedFormData.getDialog(username, id));
+        HttpRequest request = createPost(GET_DIALOGS_URI, PackedFormData.getDialog(username, id));
         return (PrvDialog)doHttpRequest(request,new DialogParser());
     }
         

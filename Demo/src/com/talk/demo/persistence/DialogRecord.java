@@ -15,26 +15,20 @@ public class DialogRecord extends CommonRecord {
     private Field[] declaredFields;
     
     public DialogRecord() {
-        init();
+    	dialogData = new PrvDialog();
     }
 
-    private void init() {
-        dialogData = new PrvDialog();     
-        
-        Class c = dialogData.getClass();     
-         
-        declaredFields = c.getDeclaredFields();
-    }
     public PrvDialog getPrvDialog() {
     	return dialogData;
     }
     
     public DialogRecord(PrvDialog pd) {
-        init();
+    	dialogData = new PrvDialog();
         dialogData = pd;
     }
     
     public DialogRecord(TimeCache rc) {
+    	dialogData = new PrvDialog();
     	dialogData.setDataId(rc.getId());
     	dialogData.setContent(rc.getContent());
     	dialogData.setCreateDate(rc.getCreateDate());
@@ -43,19 +37,21 @@ public class DialogRecord extends CommonRecord {
     }
     
     public DialogRecord(String v1) {
-        init();
+    	dialogData = new PrvDialog();
     	dialogData.setContent(v1);
         dialogData.setCreateDate(handledDate());
         dialogData.setCreateTime(handledTime());
     }
     
     public DialogRecord(String v1, String date) {
+    	dialogData = new PrvDialog();
     	dialogData.setContent(v1);
         dialogData.setCreateDate(date);
         dialogData.setCreateTime(handledTime());
     }
     
     public DialogRecord(String v1, Date date) {
+    	dialogData = new PrvDialog();
     	dialogData.setContent(v1);
         dialogData.setCreateDate(handledDate(date));
         dialogData.setCreateTime(handledTime(date));
@@ -85,6 +81,7 @@ public class DialogRecord extends CommonRecord {
 
 	@Override
 	public int getNumItems() {
+		declaredFields = dialogData.getClass().getDeclaredFields();
 		return declaredFields.length-1;
 	}
 

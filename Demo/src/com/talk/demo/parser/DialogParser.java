@@ -26,6 +26,12 @@ public class DialogParser extends AbstractResParser<PrvDialog> {
         
         if (json.has("room")) {
             obj.setRoomName(json.getString("room"));
+        }
+        if (json.has("sender")) {
+            obj.setSender(json.getString("sender"));
+        } 
+        if (json.has("link")) {
+            obj.setLink(json.getString("link"));
         } 
         if (json.has("content")) {
             obj.setContent(json.getString("content"));
