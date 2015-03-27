@@ -34,13 +34,13 @@ public class DialogParser extends AbstractResParser<PrvDialog> {
             obj.setCreateDate(json.getString("date"));
         }
         if (json.has("time")) {
-            /*
+            String createTime = json.getString("time");
+            
             if(createTime.length() > 24) {
-                String temp = createTime.substring(0, 24);
-                createTime = temp;
+                obj.setCreateTime(createTime.substring(0, 24));
+            } else {
+                obj.setCreateTime(createTime);
             }
-            */
-        	obj.setCreateTime(json.getString("time"));
         }
         if (json.has("ctx")) {
             obj.setContentType(json.getInt("ctx"));
