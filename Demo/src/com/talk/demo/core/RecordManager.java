@@ -104,8 +104,7 @@ public class RecordManager {
 				tvi.setTalkName(talkObj);
 				
 				for(DialogRecord r: roomlist) {
-					DialogItem di = new DialogItem(r.getPrvDialog()._id, r.getPrvDialog().sender, r.getPrvDialog().link, 
-							r.getPrvDialog().calc_date, r.getPrvDialog().create_time, r.getPrvDialog().content, r.getPrvDialog().content_type);
+					DialogItem di = new DialogItem(r.getPrvDialog());
 
 					di.setIntervalTime(r.getPrvDialog().send_interval_time);
 					di.setDoneTime(r.getPrvDialog().send_done_time);
@@ -225,8 +224,7 @@ public class RecordManager {
 					tag_records = dbMgr.queryTimeTag(tr.getTimeRecord().tag);
 					for(TimeRecord item : tag_records) {
 						TimeCache rc = new TimeCache();
-						ViewAsItem vi = new ViewAsItem(item.getTimeRecord()._id, item.getTimeRecord().calc_date,item.getTimeRecord().create_time,
-								item.getTimeRecord().content,item.getTimeRecord().content_type,item.getTimeRecord().photo);
+						ViewAsItem vi = new ViewAsItem(item.getTimeRecord());
 						vi.setTitle(item.getTimeRecord().title);
 						
 						rc.setId(item.getTimeRecord()._id);
@@ -247,8 +245,7 @@ public class RecordManager {
 				continue;
 			}
 			tvi.setType(1);
-			ViewAsItem vai = new ViewAsItem(tr.getTimeRecord()._id, tr.getTimeRecord().calc_date,
-					tr.getTimeRecord().create_time,tr.getTimeRecord().content,tr.getTimeRecord().content_type,tr.getTimeRecord().photo);
+			ViewAsItem vai = new ViewAsItem(tr.getTimeRecord());
 			vai.setTitle(tr.getTimeRecord().title);
 			
 			tvi.setViewItem(vai);
@@ -281,8 +278,7 @@ public class RecordManager {
 			TimeRecord tr = trlist.get(i);
 			TimeViewItem tvi = new TimeViewItem();
 			TimeCache rc = new TimeCache();
-			ViewAsItem vi = new ViewAsItem(tr.getTimeRecord()._id, tr.getTimeRecord().calc_date,tr.getTimeRecord().create_time,
-					tr.getTimeRecord().content,tr.getTimeRecord().content_type,tr.getTimeRecord().photo);
+			ViewAsItem vi = new ViewAsItem(tr.getTimeRecord());
 			rc.setId(tr.getTimeRecord()._id);
 			rc.setContent(tr.getTimeRecord().content);
 			rc.setCreateDate(tr.getTimeRecord().calc_date);

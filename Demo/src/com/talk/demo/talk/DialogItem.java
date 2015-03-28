@@ -1,5 +1,7 @@
 package com.talk.demo.talk;
 
+import com.talk.demo.types.PrvDialog;
+
 public class DialogItem {
     private int item_id;
     private String mSender;
@@ -13,6 +15,18 @@ public class DialogItem {
 	private String mPhoto;
 	
 	public DialogItem() {
+		
+	}
+	
+	public DialogItem(PrvDialog dialog) {
+	    item_id = dialog.getDataId();
+	    mSender = dialog.getSender();
+	    mLink = dialog.getLink();
+		mCreateDate = dialog.getCreateDate();
+		mCreateTime = dialog.getCreateTime();
+		mContent = dialog.getContent();
+		mContentType = dialog.getContentType();
+		mPhoto = dialog.getPhoto();
 		
 	}
 	public DialogItem(int id, String sender, String link, 

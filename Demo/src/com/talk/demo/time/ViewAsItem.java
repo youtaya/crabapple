@@ -1,5 +1,7 @@
 package com.talk.demo.time;
 
+import com.talk.demo.types.Record;
+
 public class ViewAsItem {
     private int item_id;
 	private String mCreateDate;
@@ -12,6 +14,16 @@ public class ViewAsItem {
 	public ViewAsItem() {
 		
 	}
+	
+	public ViewAsItem(Record rc) {
+	    item_id = rc.getDataId();
+		mCreateDate = rc.getCreateDate();
+		mCreateTime = rc.getCreateTime();
+		mContent = rc.getContent();
+		mContentType = rc.getContentType();
+		mPhoto = rc.getPhoto();
+	}
+	
 	public ViewAsItem(int id, String cd, String ct, String c, int contt) {
 	    item_id = id;
 		mCreateDate = cd;
