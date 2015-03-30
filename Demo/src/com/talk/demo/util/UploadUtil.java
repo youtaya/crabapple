@@ -71,13 +71,13 @@ public class UploadUtil {
 	 * @param RequestURL
 	 *            请求的URL
 	 */
-	public void uploadFile(String filePath, String fileKey, String RequestURL) {
+	public void uploadFile(String filePath, String userName, String fileKey, String RequestURL) {
 		if (filePath == null) {
 			return;
 		}
 		try {
 			File file = new File(filePath);
-			uploadFile(file, fileKey, RequestURL);
+			uploadFile(file, userName, fileKey, RequestURL);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return;
@@ -94,7 +94,7 @@ public class UploadUtil {
 	 * @param RequestURL
 	 *            请求的URL
 	 */
-	public void uploadFile(final File file, final String fileKey,
+	public void uploadFile(final File file, final String userName, final String fileKey,
 			final String RequestURL) {
 		if (file == null || (!file.exists())) {
 			return;
@@ -106,13 +106,13 @@ public class UploadUtil {
 		new Thread(new Runnable() { // 开启线程上传文件
 					@Override
 					public void run() {
-						toUploadFile(file, fileKey, RequestURL);
+						toUploadFile(file, userName, fileKey, RequestURL);
 					}
 				}).start();
 
 	}
-
-	private void toUploadFile(File file, String fileKey, String RequestURL) {
+	
+	private void toUploadFile(File file, String userName, String fileKey, String RequestURL) {
 		String result = null;
 		requestTime = 0;
 
@@ -134,6 +134,7 @@ public class UploadUtil {
 					"Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1)");
 			conn.setRequestProperty("Content-Type", CONTENT_TYPE + ";boundary="
 					+ BOUNDARY);
+			
 			// conn.setRequestProperty("Content-Type",
 			// "application/x-www-form-urlencoded");
 
@@ -151,8 +152,11 @@ public class UploadUtil {
 			sb.append(PREFIX).append(BOUNDARY).append(LINE_END);
 			sb.append("Content-Disposition:form-data; name=\"" + fileKey
 					+ "\"; filename=\"" + file.getName() + "\"" + LINE_END);
-			sb.append("Content-Type:image/pjpeg" + LINE_END); // 这里配置的Content-type很重要的
-																// ，用于服务器端辨别文件的类型的
+			/**
+			 * 这里配置的Content-type很重要的，用于服务器端辨别文件的类型的
+			 */
+			sb.append("Content-Type:image/pjpeg" + LINE_END); 
+			
 			sb.append(LINE_END);
 			params = sb.toString();
 			sb = null;

@@ -17,6 +17,7 @@
 package com.talk.demo.util;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
@@ -360,14 +361,20 @@ final public class NetworkUtilities {
         return (Group<Friend>)doHttpRequest(request,new GroupParser(new FriendParser()));
     }
   
-    public static void addAvatar(String imagePath) {
+    public static void addAvatar(String imagePath, String userName) {
         
         Log.d(TAG,"Sync photo to Server :"+imagePath);
-        
+        /*
         String fileKey = "image";
         UploadUtil uploadUtil = UploadUtil.getInstance();;
         
-        uploadUtil.uploadFile(imagePath,fileKey, ADD_AVATAR_URI);
+        uploadUtil.uploadFile(imagePath, userName, fileKey, ADD_AVATAR_URI);
+        */
+        HttpRequest request = HttpRequest.post(ADD_AVATAR_URI);
+        //request.part("username", userName);
+        request.part("image", userName, new File(imagePath));
+        if (request.ok())
+          System.out.println("Status was updated");
     }
     
     public static void uploadPhoto(String imagePath) {
@@ -377,7 +384,7 @@ final public class NetworkUtilities {
 		String fileKey = "image";
 		UploadUtil uploadUtil = UploadUtil.getInstance();;
 		
-		uploadUtil.uploadFile(imagePath,fileKey, UPLOAD_PHOTO_URI);
+		uploadUtil.uploadFile(imagePath, "", fileKey, UPLOAD_PHOTO_URI);
 	}
 
     public static void downloadPhoto(final String photoName) {

@@ -105,7 +105,7 @@ public class TalkUtil {
         } catch(Exception e) {
             e.printStackTrace();
         }
-        imagePath = imagePath.concat(fileName);
+        imagePath = imagePath.concat("/"+fileName);
         Log.d(TAG, "return path: "+imagePath);
         return imagePath;
     }
