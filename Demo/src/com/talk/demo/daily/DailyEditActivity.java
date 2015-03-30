@@ -222,7 +222,7 @@ public class DailyEditActivity extends Activity {
 	}
 
 	private void uploadPhotoServer(String file) {
-		NetworkUtilities.syncPhoto(file);
+		NetworkUtilities.uploadPhoto(file);
 	}
 	
 	private class SyncPhotoTask extends AsyncTask<Void, Void, Integer> {

@@ -84,12 +84,14 @@ public class TalkUtil {
 		 return dateFormat.format(new Date());
 	}
 	
-    public static void createDirAndSaveFile(Bitmap imageToSave, String fileName) {
+    public static String createDirAndSaveFile(Bitmap imageToSave, String fileName) {
+        
         File directory = new File(Environment.getExternalStorageDirectory() + "/Demo");
         if(!directory.exists()) {
         	directory = new File("/sdcard/Demo/");
         	directory.mkdirs();
         }
+        String imagePath = directory.getAbsolutePath();
         
         File file = new File(directory, fileName);
         if(file.exists())
@@ -103,6 +105,9 @@ public class TalkUtil {
         } catch(Exception e) {
             e.printStackTrace();
         }
+        imagePath = imagePath.concat(fileName);
+        Log.d(TAG, "return path: "+imagePath);
+        return imagePath;
     }
     
     public static String getTimeAsFileName() {

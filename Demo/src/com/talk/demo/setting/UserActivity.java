@@ -18,6 +18,7 @@ import android.widget.TextView;
 
 import com.talk.demo.R;
 import com.talk.demo.util.AccountUtils;
+import com.talk.demo.util.NetworkUtilities;
 import com.talk.demo.util.TalkUtil;
 
 import net.sectorsieteg.avatars.AvatarDrawableFactory;
@@ -122,6 +123,8 @@ public class UserActivity extends Activity {
             case TalkUtil.REQUEST_SELECT_AVATAR:
                 if (resultCode == RESULT_OK) {
                 	Bitmap imageBitmap = getBitmapFromURI(uri);
+                	String resultPath = TalkUtil.createDirAndSaveFile(imageBitmap, account_name+"_avatar");
+                	NetworkUtilities.addAvatar(resultPath);
                     //TODO: upload to server
                     AvatarDrawableFactory avatarDrawableFactory = new AvatarDrawableFactory(getResources());
                     Drawable roundedAvatarDrawable = avatarDrawableFactory.getRoundedAvatarDrawable(imageBitmap);

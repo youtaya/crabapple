@@ -93,8 +93,11 @@ final public class NetworkUtilities {
     /** URI for news service */
     public static final String SYNC_NEWS_URI = BASE_URL + "news/today/";
     
-    public static final String SYNC_PHOTO_URI = BASE_URL + "times/photo/";
+    public static final String UPLOAD_PHOTO_URI = BASE_URL + "times/photo/";
     public static final String DOWNLOAD_PHOTO_URI = BASE_URL + "times/photoView/";
+    
+    public static final String ADD_AVATAR_URI = BASE_URL + "users/add_avatar/";
+    public static final String GET_AVATAR_URI = BASE_URL + "users/get_avatar/";
     
     private NetworkUtilities() {
     }
@@ -356,15 +359,25 @@ final public class NetworkUtilities {
                 PackedFormData.syncFriends(account, authtoken, serverSyncState, dirtyFriends));
         return (Group<Friend>)doHttpRequest(request,new GroupParser(new FriendParser()));
     }
+  
+    public static void addAvatar(String imagePath) {
+        
+        Log.d(TAG,"Sync photo to Server :"+imagePath);
+        
+        String fileKey = "image";
+        UploadUtil uploadUtil = UploadUtil.getInstance();;
+        
+        uploadUtil.uploadFile(imagePath,fileKey, ADD_AVATAR_URI);
+    }
     
-    public static void syncPhoto(String imagePath) {
+    public static void uploadPhoto(String imagePath) {
     	
-    	Log.d(TAG,"Sync photo to Server");
+    	Log.d(TAG,"Sync photo to Server :"+imagePath);
     	
 		String fileKey = "image";
 		UploadUtil uploadUtil = UploadUtil.getInstance();;
 		
-		uploadUtil.uploadFile(imagePath,fileKey, SYNC_PHOTO_URI);
+		uploadUtil.uploadFile(imagePath,fileKey, UPLOAD_PHOTO_URI);
 	}
 
     public static void downloadPhoto(final String photoName) {
