@@ -123,7 +123,7 @@ public class UserActivity extends Activity {
             case TalkUtil.REQUEST_SELECT_AVATAR:
                 if (resultCode == RESULT_OK) {
                 	Bitmap imageBitmap = getBitmapFromURI(uri);
-                    //TODO: upload to server
+
                     AvatarDrawableFactory avatarDrawableFactory = new AvatarDrawableFactory(getResources());
                     Drawable roundedAvatarDrawable = avatarDrawableFactory.getRoundedAvatarDrawable(imageBitmap);
                     user_avatar.setImageDrawable(roundedAvatarDrawable);

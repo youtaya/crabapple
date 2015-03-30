@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -13,6 +14,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 
 import com.talk.demo.R;
+import com.talk.demo.util.NetworkUtilities;
 import com.talk.demo.util.TalkUtil;
 
 import java.io.File;
@@ -89,6 +91,26 @@ public class SelectAvatarActivity extends Activity implements OnClickListener{
         startActivityForResult(intent, TalkUtil.REQUEST_PHOTO_CROPPER);
     }
     
+	private void uploadAvatarServer(String path) {
+		NetworkUtilities.addAvatar(path, account_name);
+	}
+	
+	private class syncAvatarTask extends AsyncTask<String, Void, Integer> {
+		@Override
+		protected Integer doInBackground(String... params) {
+			uploadAvatarServer(params[0]);
+			return null;
+		}
+		
+		@Override
+		protected void onPostExecute(Integer e) {
+		}
+
+		@Override
+		protected void onCancelled() {
+		}
+	}
+	
     @Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
         Log.d(TAG, "got the return :"+requestCode+" :"+resultCode);
@@ -127,7 +149,9 @@ public class SelectAvatarActivity extends Activity implements OnClickListener{
     		            if (bundle != null) {
     		            	Bitmap imageBitmap = bundle.getParcelable("data");
     	                    String fileName = account_name;
-    	                    TalkUtil.createDirAndSaveFile(imageBitmap, fileName);
+    	                    String resultPath = TalkUtil.createDirAndSaveFile(imageBitmap, fileName);
+    	                    
+    	                    new syncAvatarTask().execute(resultPath);
     	                    
     	                    Intent resIntent = new Intent();
     	                    setResult(RESULT_OK, resIntent);
