@@ -364,15 +364,9 @@ final public class NetworkUtilities {
     public static void addAvatar(String imagePath, String userName) {
         
         Log.d(TAG,"Sync photo to Server :"+imagePath);
-        /*
-        String fileKey = "image";
-        UploadUtil uploadUtil = UploadUtil.getInstance();;
-        
-        uploadUtil.uploadFile(imagePath, userName, fileKey, ADD_AVATAR_URI);
-        */
         HttpRequest request = HttpRequest.post(ADD_AVATAR_URI);
-        //request.part("username", userName);
         request.part("image", userName, new File(imagePath));
+        request.part("username", userName);
         if (request.ok())
           System.out.println("Status was updated");
     }
