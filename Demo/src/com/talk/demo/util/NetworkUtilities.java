@@ -387,10 +387,10 @@ final public class NetworkUtilities {
 		uploadUtil.uploadFile(imagePath, "", fileKey, UPLOAD_PHOTO_URI);
 	}
 
-    public static void downloadPhoto(final String photoName) {
+    public static Bitmap downloadPhoto(final String photoName) {
         // If there is no photo, we're done
         if (TextUtils.isEmpty(photoName)) {
-            return;
+            return null;
         }
 
         try {
@@ -409,6 +409,8 @@ final public class NetworkUtilities {
                 TalkUtil.createDirAndSaveFile(photo, photoName);
                 // On pre-Honeycomb systems, it's important to call recycle on bitmaps
                 photo.recycle();
+                
+                return photo;
             } finally {
                 connection.disconnect();
             }
@@ -420,6 +422,8 @@ final public class NetworkUtilities {
             // end of the world. We'll try to get it next time we sync.
             Log.e(TAG, "Failed to download user avatar: " + DOWNLOAD_PHOTO_URI);
         }
+        
+        return null;
     }
     /**
      * Download the avatar image from the server.

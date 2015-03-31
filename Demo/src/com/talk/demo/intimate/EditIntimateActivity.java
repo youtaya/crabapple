@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.talk.demo.R;
+import com.talk.demo.util.NetworkUtilities;
 
 import net.sectorsieteg.avatars.AvatarDrawableFactory;
 
@@ -45,7 +46,10 @@ public class EditIntimateActivity extends Activity {
         
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inMutable = false;
-        Bitmap avatar = BitmapFactory.decodeResource(this.getResources(), R.drawable.avatar, options);
+        Bitmap avatar = NetworkUtilities.downloadPhoto(friend_name);
+        if(null == avatar) {
+            avatar = BitmapFactory.decodeResource(this.getResources(), R.drawable.avatar, options);
+        }
 
         AvatarDrawableFactory avatarDrawableFactory = new AvatarDrawableFactory(this.getResources());
         Drawable roundedAvatarDrawable = avatarDrawableFactory.getRoundedAvatarDrawable(avatar);
