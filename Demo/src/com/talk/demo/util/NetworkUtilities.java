@@ -363,7 +363,7 @@ final public class NetworkUtilities {
   
     public static void addAvatar(String imagePath, String userName) {
         
-        Log.d(TAG,"Sync photo to Server :"+imagePath);
+        Log.d(TAG,"add photo to Server :"+imagePath);
         HttpRequest request = HttpRequest.post(ADD_AVATAR_URI);
         request.part("image", userName, new File(imagePath));
         request.part("username", userName);
@@ -375,10 +375,11 @@ final public class NetworkUtilities {
     	
     	Log.d(TAG,"Sync photo to Server :"+imagePath);
     	
-		String fileKey = "image";
-		UploadUtil uploadUtil = UploadUtil.getInstance();;
+        HttpRequest request = HttpRequest.post(UPLOAD_PHOTO_URI);
+        request.part("image", new File(imagePath));
+        if (request.ok())
+          System.out.println("Status was updated");
 		
-		uploadUtil.uploadFile(imagePath, "", fileKey, UPLOAD_PHOTO_URI);
 	}
 
     public static Bitmap downloadPhoto(final String photoName) {
@@ -417,6 +418,7 @@ final public class NetworkUtilities {
         
         return photo;
     }
+    
     /**
      * Download the avatar image from the server.
      *
