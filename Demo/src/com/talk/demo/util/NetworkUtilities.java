@@ -382,6 +382,8 @@ final public class NetworkUtilities {
 	}
 
     public static Bitmap downloadPhoto(final String photoName) {
+    	
+    	Bitmap photo = null;
         // If there is no photo, we're done
         if (TextUtils.isEmpty(photoName)) {
             return null;
@@ -396,15 +398,11 @@ final public class NetworkUtilities {
             connection.connect();
             try {
                 final BitmapFactory.Options options = new BitmapFactory.Options();
-                final Bitmap photo = BitmapFactory.decodeStream(connection.getInputStream(),
-                        null, options);
+                photo = BitmapFactory.decodeStream(connection.getInputStream(), null, options);
 
                 Log.d(TAG, "file name : "+photoName);
                 TalkUtil.createDirAndSaveFile(photo, photoName);
-                // On pre-Honeycomb systems, it's important to call recycle on bitmaps
-                photo.recycle();
                 
-                return photo;
             } finally {
                 connection.disconnect();
             }
@@ -417,7 +415,7 @@ final public class NetworkUtilities {
             Log.e(TAG, "Failed to download user avatar: " + DOWNLOAD_PHOTO_URI);
         }
         
-        return null;
+        return photo;
     }
     /**
      * Download the avatar image from the server.

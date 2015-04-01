@@ -45,8 +45,6 @@ public class EditIntimateActivity extends Activity {
 
         ivAvatar = (ImageView) findViewById(R.id.friend_avatar);
         
-        BitmapFactory.Options options = new BitmapFactory.Options();
-        options.inMutable = false;
         //update avatar of friend
         new DownAvatarTask().execute(friend_name);
         
@@ -117,11 +115,14 @@ public class EditIntimateActivity extends Activity {
 
         @Override
         protected void onPostExecute(Bitmap avatar) {
+            BitmapFactory.Options options = new BitmapFactory.Options();
+            options.inMutable = false;
             if(null == avatar) {
-                avatar = BitmapFactory.decodeResource(this.getResources(), R.drawable.avatar, options);
+            	Log.d(TAG, "avatar do not get from server!");
+                avatar = BitmapFactory.decodeResource(EditIntimateActivity.this.getResources(), R.drawable.avatar, options);
             }
             
-            AvatarDrawableFactory avatarDrawableFactory = new AvatarDrawableFactory(this.getResources());
+            AvatarDrawableFactory avatarDrawableFactory = new AvatarDrawableFactory(EditIntimateActivity.this.getResources());
             Drawable roundedAvatarDrawable = avatarDrawableFactory.getRoundedAvatarDrawable(avatar);
             ivAvatar.setImageDrawable(roundedAvatarDrawable);
         }
