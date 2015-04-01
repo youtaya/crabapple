@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -46,14 +47,8 @@ public class EditIntimateActivity extends Activity {
         
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inMutable = false;
-        Bitmap avatar = NetworkUtilities.downloadPhoto(friend_name);
-        if(null == avatar) {
-            avatar = BitmapFactory.decodeResource(this.getResources(), R.drawable.avatar, options);
-        }
-
-        AvatarDrawableFactory avatarDrawableFactory = new AvatarDrawableFactory(this.getResources());
-        Drawable roundedAvatarDrawable = avatarDrawableFactory.getRoundedAvatarDrawable(avatar);
-        ivAvatar.setImageDrawable(roundedAvatarDrawable);
+        //update avatar of friend
+        new DownAvatarTask().execute(friend_name);
         
         tvLinkageTo = (TextView) findViewById(R.id.linkage_from);
         tvNumberTo = (TextView) findViewById(R.id.number_to);
@@ -109,5 +104,31 @@ public class EditIntimateActivity extends Activity {
 			break;
 		}
 	}
+	
+    private Bitmap downAvatarServer(String fileName) {
+        return NetworkUtilities.downloadPhoto(fileName);
+    }
+    
+    private class DownAvatarTask extends AsyncTask<String, Void, Bitmap> {
+        @Override
+        protected Bitmap doInBackground(String... params) {
+            return downAvatarServer(params[0]);
+        }
+
+        @Override
+        protected void onPostExecute(Bitmap avatar) {
+            if(null == avatar) {
+                avatar = BitmapFactory.decodeResource(this.getResources(), R.drawable.avatar, options);
+            }
+            
+            AvatarDrawableFactory avatarDrawableFactory = new AvatarDrawableFactory(this.getResources());
+            Drawable roundedAvatarDrawable = avatarDrawableFactory.getRoundedAvatarDrawable(avatar);
+            ivAvatar.setImageDrawable(roundedAvatarDrawable);
+        }
+
+        @Override
+        protected void onCancelled() {
+        }
+    }	
     
 }
