@@ -110,7 +110,7 @@ public class EditIntimateActivity extends Activity {
     
     private class DownAvatarTask extends AsyncTask<String, Void, String> {
         @Override
-        protected Bitmap doInBackground(String... params) {
+        protected String doInBackground(String... params) {
             return downAvatarServer(params[0]);
         }
 

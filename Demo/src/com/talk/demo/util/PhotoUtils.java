@@ -1,12 +1,20 @@
 package com.talk.demo.util;
 
 import android.content.Context;
-import android.graphics.*;
+import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Matrix;
+import android.graphics.Paint;
 import android.graphics.PorterDuff.Mode;
+import android.graphics.PorterDuffXfermode;
+import android.graphics.Rect;
+import android.graphics.RectF;
 import android.media.ExifInterface;
 import android.media.ThumbnailUtils;
 import android.widget.ImageView;
+
 import com.nostra13.universalimageloader.cache.disc.impl.UnlimitedDiscCache;
 import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
@@ -14,6 +22,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
+import com.talk.demo.R;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -27,7 +36,6 @@ public class PhotoUtils {
       .showImageForEmptyUri(R.drawable.default_user_avatar)
       .showImageOnFail(R.drawable.default_user_avatar)
       .cacheInMemory(true)
-      .cacheOnDisc(true)
       .considerExifParams(true)
       .imageScaleType(ImageScaleType.EXACTLY)
       .bitmapConfig(Config.RGB_565)

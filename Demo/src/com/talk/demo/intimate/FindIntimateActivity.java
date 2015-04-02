@@ -12,6 +12,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
 import com.talk.demo.R;
+import com.talk.demo.types.Friend;
 import com.talk.demo.util.AccountUtils;
 import com.talk.demo.util.NetworkUtilities;
 
@@ -59,12 +60,12 @@ public class FindIntimateActivity extends Activity {
         view.setAdapter(adapter);
     }
     
-	private class loadFriendList extends AsyncTask<Void, Void, List<String>> {
-		private List<String> getFriendList;
-		protected List<String> doInBackground(Void... params) {
+	private class loadFriendList extends AsyncTask<Void, Void, List<Friend>> {
+		private List<Friend> getFriendList;
+		protected List<Friend> doInBackground(Void... params) {
 			try {
-				getFriendList = new ArrayList<String>();
-				getFriendList = NetworkUtilities.recommendFriends();
+				getFriendList = new ArrayList<Friend>();
+				getFriendList = NetworkUtilities.newFriends();
 			} catch (JSONException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -72,15 +73,15 @@ public class FindIntimateActivity extends Activity {
 			return getFriendList;
 		}
 
-		protected void onPostExecute(List<String> result) {
-			for(String name: getFriendList) {
+		protected void onPostExecute(List<Friend> result) {
+			for(Friend friend: getFriendList) {
 				//not need to contain our user name
-				if(ourName.equals(name)) {
+				if(ourName.equals(friend.getUserName())) {
 					continue;
 				}
 				HashMap<String, Object> map = new HashMap<String, Object>();
 				map.put("avatar", R.drawable.avatar);
-				map.put("friend_name", name);
+				map.put("friend_name", friend.getUserName());
 				map.put("add", R.drawable.ofm_add_icon);
 				friends.add(map);
 			}
