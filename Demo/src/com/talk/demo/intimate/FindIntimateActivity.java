@@ -74,18 +74,20 @@ public class FindIntimateActivity extends Activity {
 		}
 
 		protected void onPostExecute(List<Friend> result) {
-			for(Friend friend: getFriendList) {
-				//not need to contain our user name
-				if(ourName.equals(friend.getUserName())) {
-					continue;
+			if(null != result) {
+				for(Friend friend: getFriendList) {
+					//not need to contain our user name
+					if(ourName.equals(friend.getUserName())) {
+						continue;
+					}
+					HashMap<String, Object> map = new HashMap<String, Object>();
+					map.put("avatar", R.drawable.avatar);
+					map.put("friend_name", friend.getUserName());
+					map.put("add", R.drawable.ofm_add_icon);
+					friends.add(map);
 				}
-				HashMap<String, Object> map = new HashMap<String, Object>();
-				map.put("avatar", R.drawable.avatar);
-				map.put("friend_name", friend.getUserName());
-				map.put("add", R.drawable.ofm_add_icon);
-				friends.add(map);
+				initData();
 			}
-			initData();
 		}
 
 	}
