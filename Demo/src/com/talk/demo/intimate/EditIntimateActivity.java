@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.talk.demo.R;
 import com.talk.demo.util.NetworkUtilities;
+import com.talk.demo.util.PhotoUtils;
 
 import net.sectorsieteg.avatars.AvatarDrawableFactory;
 
@@ -103,28 +104,31 @@ public class EditIntimateActivity extends Activity {
 		}
 	}
 	
-    private Bitmap downAvatarServer(String fileName) {
+    private String downAvatarServer(String fileName) {
         return NetworkUtilities.downloadPhoto(fileName);
     }
     
-    private class DownAvatarTask extends AsyncTask<String, Void, Bitmap> {
+    private class DownAvatarTask extends AsyncTask<String, Void, String> {
         @Override
         protected Bitmap doInBackground(String... params) {
             return downAvatarServer(params[0]);
         }
 
         @Override
-        protected void onPostExecute(Bitmap avatar) {
+        protected void onPostExecute(String filePath) {
             BitmapFactory.Options options = new BitmapFactory.Options();
             options.inMutable = false;
+            Bitmap avatar = PhotoUtils.getImageThumbnail(filePath, 50, 50);
             if(null == avatar) {
             	Log.d(TAG, "avatar do not get from server!");
                 avatar = BitmapFactory.decodeResource(EditIntimateActivity.this.getResources(), R.drawable.avatar, options);
             }
             
             AvatarDrawableFactory avatarDrawableFactory = new AvatarDrawableFactory(EditIntimateActivity.this.getResources());
+            
             Drawable roundedAvatarDrawable = avatarDrawableFactory.getRoundedAvatarDrawable(avatar);
             ivAvatar.setImageDrawable(roundedAvatarDrawable);
+            
         }
 
         @Override

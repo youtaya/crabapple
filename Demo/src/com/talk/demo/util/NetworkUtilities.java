@@ -274,7 +274,14 @@ final public class NetworkUtilities {
         HttpRequest request = createGet(SYNC_NEWS_URI);
         return (Group<News>)doHttpRequest(request,new GroupParser(new NewsParser()));
     }
+
+    @SuppressWarnings("unchecked")
+    public static Group<Friend> newFriends() throws JSONException, HttpRequestException {
+        HttpRequest request = createGet(RECOMMEND_FRIENDS_URI);
+        return (Group<Friend>)doHttpRequest(request,new GroupParser(new FriendParser()));
+    }
     
+    /*
     public static List<String> recommendFriends() throws JSONException {
         List<String> mItems = new LinkedList<String>();
         try {
@@ -300,7 +307,7 @@ final public class NetworkUtilities {
 
         return mItems;
     }
-    
+    */
 
     public static void shareRecord(PrvDialog raw, String oring, String target) {
     	
@@ -382,9 +389,9 @@ final public class NetworkUtilities {
 		
 	}
 
-    public static Bitmap downloadPhoto(final String photoName) {
+    public static String downloadPhoto(final String photoName) {
     	
-    	Bitmap photo = null;
+        String photoPath = null;
         // If there is no photo, we're done
         if (TextUtils.isEmpty(photoName)) {
             return null;
@@ -399,10 +406,10 @@ final public class NetworkUtilities {
             connection.connect();
             try {
                 final BitmapFactory.Options options = new BitmapFactory.Options();
-                photo = BitmapFactory.decodeStream(connection.getInputStream(), null, options);
+                final Bitmap photo = BitmapFactory.decodeStream(connection.getInputStream(), null, options);
 
                 Log.d(TAG, "file name : "+photoName);
-                TalkUtil.createDirAndSaveFile(photo, photoName);
+                photoPath = TalkUtil.createDirAndSaveFile(photo, photoName);
                 
             } finally {
                 connection.disconnect();
@@ -416,7 +423,7 @@ final public class NetworkUtilities {
             Log.e(TAG, "Failed to download user avatar: " + DOWNLOAD_PHOTO_URI);
         }
         
-        return photo;
+        return photoPath;
     }
     
     /**
