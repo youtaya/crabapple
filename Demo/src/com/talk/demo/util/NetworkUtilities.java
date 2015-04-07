@@ -80,7 +80,7 @@ final public class NetworkUtilities {
     public static final String SIGNUP_URI = BASE_URL + "users/signup/";
     public static final String SEARCH_PEOPLE_URI = BASE_URL + "users/search_people/";
     /** URI for friend service */
-    public static final String RECOMMEND_FRIENDS_URI = BASE_URL + "friends/recommend";
+    public static final String RECOMMEND_FRIENDS_URI = BASE_URL + "friends/recommend/";
     public static final String SYNC_FRIENDS_URI = BASE_URL + "friends/sync_friend/";
     public static final String ADD_FRIENDS_URI = BASE_URL + "friends/add_friend/";
     public static final String ACCEPT_FRIENDS_URI = BASE_URL + "friends/accept_friend/";
@@ -281,34 +281,6 @@ final public class NetworkUtilities {
         return (Group<Friend>)doHttpRequest(request,new GroupParser(new FriendParser()));
     }
     
-    /*
-    public static List<String> recommendFriends() throws JSONException {
-        List<String> mItems = new LinkedList<String>();
-        try {
-            
-            HttpRequest request = HttpRequest.get(RECOMMEND_FRIENDS_URI);
-            //request.followRedirects(false);
-            String response = request.body();
-            int result = request.code();
-            Log.d(TAG,"Response was: " + response);
-            final JSONArray serverFriends = new JSONArray(response);
-            Log.d(TAG, response);
-            for (int i = 0; i < serverFriends.length(); i++) {
-                String test = serverFriends.getJSONObject(i).getString("friends");
-                if (test != null) {
-                    mItems.add(test);
-                }
-            }
-            
-            
-        } catch (HttpRequestException exception) {
-            Log.d(TAG, "exception : " + exception.toString());
-        }
-
-        return mItems;
-    }
-    */
-
     public static void shareRecord(PrvDialog raw, String oring, String target) {
     	
     	try {
