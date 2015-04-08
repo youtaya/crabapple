@@ -1,9 +1,11 @@
 package com.talk.demo.intimate;
 
+import android.accounts.Account;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
+import android.os.AsyncTask;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -15,8 +17,15 @@ import android.widget.TextView;
 import com.talk.demo.R;
 import com.talk.demo.persistence.DBManager;
 import com.talk.demo.persistence.FriendRecord;
+import com.talk.demo.types.Friend;
+import com.talk.demo.util.HttpRequest.HttpRequestException;
+import com.talk.demo.util.AccountUtils;
+import com.talk.demo.util.NetworkUtilities;
+import com.talk.demo.util.PhotoUtils;
 
 import net.sectorsieteg.avatars.AvatarDrawableFactory;
+
+import org.json.JSONException;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -37,6 +46,7 @@ public class FindIntimateListAdapter extends BaseAdapter {
     private ViewHolder holder;
     
     private DBManager mgr;
+    private String current_user;
     
     public FindIntimateListAdapter(Context c, ArrayList<HashMap<String, Object>> intimateList, int resource,
             String[] from, int[] to) {
@@ -48,6 +58,8 @@ public class FindIntimateListAdapter extends BaseAdapter {
         System.arraycopy(from, 0, keyString, 0, from.length);
         System.arraycopy(to, 0, valueViewID, 0, to.length);
         mgr = new DBManager(mContext);
+        Account account = AccountUtils.getPasswordAccessibleAccount(mContext);
+        current_user = account.name;
     }
     
     @Override
@@ -109,6 +121,7 @@ public class FindIntimateListAdapter extends BaseAdapter {
     }
 
     //TODO: should contain more info about friend
+    /*
     private void addFriendLocal(HashMap<String, Object> map) {
     	String name = (String) map.get(keyString[1]);
     	//check whether have saved
@@ -122,6 +135,41 @@ public class FindIntimateListAdapter extends BaseAdapter {
     	FriendRecord fr = new FriendRecord(name);
     	mgr.addFriend(fr);
     }
+    */
+    
+    private void addFriendLocal(HashMap<String, Object> map) {
+    	String name = (String) map.get(keyString[1]);
+    	new addFriendTask().execute(current_user, name);
+    }
+    private class addFriendTask extends AsyncTask<String, String, Friend> {
+        @Override
+        protected Friend doInBackground(String... params) {
+        	Friend friend = null;
+            try {
+            	friend = NetworkUtilities.addFriend(params[0], params[1]);
+			} catch (HttpRequestException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+            
+            return friend;
+        }
+
+        @Override
+        protected void onPostExecute(Friend friend) {
+            if(friend != null) {
+            	FriendRecord fr = new FriendRecord(friend);
+            	mgr.addFriend(fr);
+            }
+        }
+
+        @Override
+        protected void onCancelled() {
+        }
+    }	
     
     class lvButtonListener implements OnClickListener {
         private int position;

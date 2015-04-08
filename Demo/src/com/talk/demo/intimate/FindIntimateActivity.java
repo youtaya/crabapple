@@ -13,7 +13,6 @@ import android.widget.ListView;
 
 import com.talk.demo.R;
 import com.talk.demo.types.Candidate;
-import com.talk.demo.types.Friend;
 import com.talk.demo.util.AccountUtils;
 import com.talk.demo.util.NetworkUtilities;
 
