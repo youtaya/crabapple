@@ -138,11 +138,11 @@ public class Friend implements TalkType {
     public JSONObject toJSONObject() {
         JSONObject json = new JSONObject();
         try {
-            if (!TextUtils.isEmpty(userName)) {
-                json.put("u", userName);
-            }
             if (!TextUtils.isEmpty(handle)) {
                 json.put("h", handle);
+            }
+            if (!TextUtils.isEmpty(userName)) {
+                json.put("f", userName);
             }
             if (!TextUtils.isEmpty(phoneMobile)) {
                 json.put("p", phoneMobile);

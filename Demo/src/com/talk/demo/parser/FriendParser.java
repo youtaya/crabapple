@@ -24,8 +24,8 @@ public class FriendParser extends AbstractResParser<Friend> {
             obj.setSyncState(json.getInt("x"));
         } 
         
-        if (json.has("u")) {
-            obj.setUsername(json.getString("u"));
+        if (json.has("f")) {
+            obj.setUsername(json.getString("f"));
         } 
         if (json.has("p")) {
             obj.setPhoneMobile(json.getString("p"));
