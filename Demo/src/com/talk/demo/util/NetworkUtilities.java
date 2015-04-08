@@ -39,12 +39,14 @@ import android.graphics.BitmapFactory;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.talk.demo.parser.CandidateParser;
 import com.talk.demo.parser.DialogParser;
 import com.talk.demo.parser.FriendParser;
 import com.talk.demo.parser.GroupParser;
 import com.talk.demo.parser.NewsParser;
 import com.talk.demo.parser.RecordParser;
 import com.talk.demo.parser.ResParser;
+import com.talk.demo.types.Candidate;
 import com.talk.demo.types.PrvDialog;
 import com.talk.demo.types.Friend;
 import com.talk.demo.types.Group;
@@ -276,9 +278,9 @@ final public class NetworkUtilities {
     }
 
     @SuppressWarnings("unchecked")
-    public static Group<Friend> newFriends() throws JSONException, HttpRequestException {
+    public static Group<Candidate> newFriends() throws JSONException, HttpRequestException {
         HttpRequest request = createGet(RECOMMEND_FRIENDS_URI);
-        return (Group<Friend>)doHttpRequest(request,new GroupParser(new FriendParser()));
+        return (Group<Candidate>)doHttpRequest(request,new GroupParser(new CandidateParser()));
     }
     
     public static void shareRecord(PrvDialog raw, String oring, String target) {
