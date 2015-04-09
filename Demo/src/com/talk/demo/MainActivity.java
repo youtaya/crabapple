@@ -184,6 +184,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 					break;
 
 				case 1002:
+				    //people want add me
 					try {
 						JSONObject jsonFriend = new JSONObject(extras);
 						String fromUser = jsonFriend.getString("username");
@@ -191,6 +192,16 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 						Log.d(TAG, "JSON error: "+ e.getMessage());
 					}
 					break;
+					
+               case 1003:
+                   //whether have permission to add friend
+                    try {
+                        JSONObject jsonFriend = new JSONObject(extras);
+                        String fromUser = jsonFriend.getString("username");
+                    } catch (JSONException e) {
+                        Log.d(TAG, "JSON error: "+ e.getMessage());
+                    }
+                    break;
 				}
 
 			}

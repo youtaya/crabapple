@@ -23,7 +23,9 @@ public class FriendParser extends AbstractResParser<Friend> {
         if (json.has("x")) {
             obj.setSyncState(json.getInt("x"));
         } 
-        
+        if (json.has("d")) {
+            obj.setDeleted(json.getInt("d"));
+        }     
         if (json.has("f")) {
             obj.setUsername(json.getString("f"));
         } 
@@ -33,8 +35,8 @@ public class FriendParser extends AbstractResParser<Friend> {
         if (json.has("a")) {
             obj.setAvatar(json.getString("a"));
         }
-        if (json.has("d")) {
-        	obj.setDescription(json.getString("d"));
+        if (json.has("des")) {
+        	obj.setDescription(json.getString("des"));
         }
         
         return obj;

@@ -104,6 +104,10 @@ public class Friend implements TalkType {
         return dirty;
     }
     
+    public void setDeleted(int v) {
+        deleted = v;
+    }   
+    
     public int getDeleted() {
     	return deleted;
     }
@@ -151,7 +155,7 @@ public class Friend implements TalkType {
                 json.put("a", avatar);
             } 
             if (!TextUtils.isEmpty(description)) {
-                json.put("d", description);
+                json.put("des", description);
             }                  
             if (server_id > 0) {
                 json.put("sid", server_id);
@@ -160,7 +164,7 @@ public class Friend implements TalkType {
                 json.put("cid", _id);
             }
             if (deleted != -1) {
-                json.put("del", deleted);
+                json.put("d", deleted);
             }
             if (dirty != -1) {
                 json.put("dirty", dirty);

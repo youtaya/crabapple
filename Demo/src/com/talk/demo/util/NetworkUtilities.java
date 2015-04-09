@@ -45,12 +45,14 @@ import com.talk.demo.parser.GroupParser;
 import com.talk.demo.parser.NewsParser;
 import com.talk.demo.parser.RecordParser;
 import com.talk.demo.parser.ResParser;
+import com.talk.demo.parser.ResponseParser;
 import com.talk.demo.types.Candidate;
 import com.talk.demo.types.PrvDialog;
 import com.talk.demo.types.Friend;
 import com.talk.demo.types.Group;
 import com.talk.demo.types.News;
 import com.talk.demo.types.Record;
+import com.talk.demo.types.Response;
 import com.talk.demo.types.TalkType;
 import com.talk.demo.util.HttpRequest.HttpRequestException;
 
@@ -185,16 +187,16 @@ final public class NetworkUtilities {
         return null; 	
     }
     
-    public static Friend addFriend(String username, String friend)
+    public static Response addFriend(String username, String friend)
     		throws HttpRequestException, JSONException {
         HttpRequest request = createPost(ADD_FRIENDS_URI, PackedFormData.addFriend(username, friend));
-        return (Friend)doHttpRequest(request,new FriendParser());
+        return (Response)doHttpRequest(request,new ResponseParser());
     }
     
-    public static Friend acceptFriend(String username, boolean response, String friend)
+    public static Response acceptFriend(String username, boolean response, String friend)
     		throws HttpRequestException, JSONException {
         HttpRequest request = createPost(ACCEPT_FRIENDS_URI, PackedFormData.acceptFriend(username, response, friend));
-        return (Friend)doHttpRequest(request,new FriendParser());
+        return (Response)doHttpRequest(request,new ResponseParser());
     }
     
     public static Friend updateFriend(String username, String comment, String description, String friend)

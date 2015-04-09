@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -18,8 +19,10 @@ import com.talk.demo.R;
 import com.talk.demo.persistence.DBManager;
 import com.talk.demo.persistence.FriendRecord;
 import com.talk.demo.types.Friend;
+import com.talk.demo.types.Response;
 import com.talk.demo.util.HttpRequest.HttpRequestException;
 import com.talk.demo.util.AccountUtils;
+import com.talk.demo.util.Logger;
 import com.talk.demo.util.NetworkUtilities;
 import com.talk.demo.util.PhotoUtils;
 
@@ -141,12 +144,12 @@ public class FindIntimateListAdapter extends BaseAdapter {
     	String name = (String) map.get(keyString[1]);
     	new addFriendTask().execute(current_user, name);
     }
-    private class addFriendTask extends AsyncTask<String, String, Friend> {
+    private class addFriendTask extends AsyncTask<String, String, Response> {
         @Override
-        protected Friend doInBackground(String... params) {
-        	Friend friend = null;
+        protected Response doInBackground(String... params) {
+            Response result = null;
             try {
-            	friend = NetworkUtilities.addFriend(params[0], params[1]);
+                result = NetworkUtilities.addFriend(params[0], params[1]);
 			} catch (HttpRequestException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -155,14 +158,13 @@ public class FindIntimateListAdapter extends BaseAdapter {
 				e.printStackTrace();
 			}
             
-            return friend;
+            return result;
         }
 
         @Override
-        protected void onPostExecute(Friend friend) {
-            if(friend != null) {
-            	FriendRecord fr = new FriendRecord(friend);
-            	mgr.addFriend(fr);
+        protected void onPostExecute(Response result) {
+            if(result != null) {
+                Logger.d("add friend success!");
             }
         }
 
