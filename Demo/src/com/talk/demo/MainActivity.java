@@ -184,17 +184,24 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 					break;
 
 				case 1002:
-				    //people want add me
+				    /**
+				     * people want add me
+				     * put to recommend list for user to operate
+				     */
 					try {
 						JSONObject jsonFriend = new JSONObject(extras);
-						String fromUser = jsonFriend.getString("username");
+						String friend = jsonFriend.getString("friend");
+						String avatar_url = jsonFriend.getString("avatar");
 					} catch (JSONException e) {
 						Log.d(TAG, "JSON error: "+ e.getMessage());
 					}
 					break;
 					
                case 1003:
-                   //whether have permission to add friend
+                   /**
+                    * whether have permission to add friend
+                    * ok: put friend to db; nok: reback to origin state
+                    */
                     try {
                         JSONObject jsonFriend = new JSONObject(extras);
                         String fromUser = jsonFriend.getString("username");
