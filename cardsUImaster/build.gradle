@@ -1,0 +1,16 @@
+apply plugin: 'android-library'
+
+dependencies {
+    compile project(':silkmaster')
+}
+android {
+    compileSdkVersion 21
+    buildToolsVersion '21.1.2'
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+        }
+    }
+}

@@ -1,1 +1,5 @@
-include ':Demo'
+include ':Demo', ':avatars', ':cropper', ':FloatingActionButton'
+include ':library'
+include ':androiduitableview'
+include ':cardsUImaster'
+include ':silkmaster'
