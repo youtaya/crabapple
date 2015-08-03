@@ -77,7 +77,7 @@ final public class NetworkUtilities {
     public static final String PARAM_FRIENDS_DATA = "friends";
     /** Base URL for the v2 Sample Sync Service */
     //public static final String BASE_URL = "http://10.4.65.41/";
-    public static final String BASE_URL = "http://192.168.1.102/";
+    public static final String BASE_URL = "http://192.168.1.106/";
     /** URI for authentication service */
     public static final String AUTH_URI = BASE_URL + "users/login/";
     public static final String SIGNUP_URI = BASE_URL + "users/signup/";

@@ -12,10 +12,10 @@ public class DemoApplication extends Application {
 	public void onCreate() {
 		super.onCreate();
 		// 在使用 SDK 各组间之前初始化 context 信息，传入 ApplicationContext
-		//SDKInitializer.initialize(this);
+		SDKInitializer.initialize(this);
 		
-        //JPushInterface.setDebugMode(true); 	// 设置开启日志,发布时请关闭日志
-        //JPushInterface.init(this);     		// 初始化 JPush
+        JPushInterface.setDebugMode(true); 	// 设置开启日志,发布时请关闭日志
+        JPushInterface.init(this);     		// 初始化 JPush
 	}
 
 }
